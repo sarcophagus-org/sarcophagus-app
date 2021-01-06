@@ -1,23 +1,12 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { connect, useUserSuppliedConnect } from "./web3/userSupplied";
 
 function App() {
+  const { userSupplied } = useUserSuppliedConnect()
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="w-full">
+      <button type="button" onClick={() => connect()} className="px-4 py-1 m-8 bg-gray-300 rounded" >Connect to Web3 Account</button>
     </div>
   );
 }
