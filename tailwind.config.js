@@ -42,6 +42,7 @@ module.exports = {
         sans: ['Roboto Mono'],
       },
       fontSize: {
+        '3xs': '0.5rem',
         '2xs': '0.625rem',
         sm: '0.8125rem',
       },

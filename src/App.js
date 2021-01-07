@@ -1,14 +1,17 @@
-import React from 'react'
-import { connect, useUserSuppliedConnect } from "./web3/userSupplied";
+import Header from './components/Header'
+import Body from './components/Body'
+import Footer from './components/Footer'
 
-function App() {
-  const { userSupplied } = useUserSuppliedConnect()
-
+const App = () => {
   return (
-    <div className="w-full">
-      <button type="button" onClick={() => connect()} className="px-4 py-1 m-8 bg-gray-300 rounded" >Connect to Web3 Account</button>
+    <div className="container min-h-screen flex flex-col justify-between">
+      <div>
+        <Header />
+        <Body />
+      </div>
+      <Footer />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
