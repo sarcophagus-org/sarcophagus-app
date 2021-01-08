@@ -18,7 +18,7 @@ const Settings = () => (
     </div>
     <Input type="text" height="md" placeholder="10 Sarco (Suggested)" />
     
-    <Button label="Next: Choose Archeologist" _classNames="w-full bg-white text-gray-900 mt-6 mb-4" height="lg" onClick={() => null} />
+    <Button label="Next: Choose Archaeologist" _classNames="w-full bg-white text-gray-900 mt-6 mb-4" height="lg" onClick={() => null} />
   </div>
 )
 

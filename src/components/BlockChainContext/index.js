@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { useArcheologists } from './archeologists'
+import { useArcheologists } from './archaeologists'
 import { useSarcophagusContract } from './contracts'
 let context
 
@@ -12,9 +12,10 @@ const createDataRoot = () => {
   
   return ({ children }) => {
     const sarcophagusContract = useSarcophagusContract()
-    const { archeaologists } = useArcheologists(sarcophagusContract)
+    const { archaeologists } = useArcheologists(sarcophagusContract)
+  
     const dataContext = {
-      archeaologists: archeaologists
+      archaeologists
     }
     return <Provider value={dataContext}>{children}</Provider>
   }

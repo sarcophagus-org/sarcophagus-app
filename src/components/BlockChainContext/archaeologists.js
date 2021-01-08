@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 
 const useArcheologists = (sarcophagusContract) => {
-  const [ archeologists, setArcheologists ] = useState([])
+  const [ archaeologists, setArchaeologists ] = useState([])
   const [ arcAddresses, setAddresses ] = useState(false) 
   const [ arcCount, setArcCount ] = useState(false)
   
@@ -16,8 +16,8 @@ const useArcheologists = (sarcophagusContract) => {
   },[])
 
   const getArchaeologistInfo = useCallback(async (sarcophagusContract) => {
-    const archeologists = await Promise.all(arcAddresses.map( async (address) => await sarcophagusContract.archaeologists(address) ))
-    setArcheologists(archeologists)
+    const archaeologists = await Promise.all(arcAddresses.map( async (address) => await sarcophagusContract.archaeologists(address) ))
+    setArchaeologists(archaeologists)
   },[arcAddresses])
 
   
@@ -37,8 +37,8 @@ const useArcheologists = (sarcophagusContract) => {
     if(!arcCount || !sarcophagusContract || !arcAddresses) return
     getArchaeologistInfo(sarcophagusContract) 
   },[ getArchaeologistCount, getArchaeologistIndexes, getArchaeologistInfo, arcAddresses, arcCount, sarcophagusContract ])
-
-  return { archeologists }
+  
+  return { archaeologists }
 }
 
 export {
