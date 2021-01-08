@@ -11,11 +11,11 @@ const useAddresses = chainId => {
   useEffect(() => {
     if (chainId === parseInt(process.env.REACT_APP_LOCAL_CHAINID, 10)) {
       setAddresses({
-        liquidityMining: process.env.REACT_APP_LOCAL_LIQUIDITY_MINING_ADDRESS
+        sarcophagus: process.env.REACT_APP_LOCAL_SARCOPHAGUS_ADDRESS
       })
     } else if (chainId === 5) {
       setAddresses({
-        liquidityMining: '0x94A4f22e2a5E56AEA1762d3f1c76C82C94e90E1e'
+        sarcophagus: '0x65411a12F5Ddc37b6f1f7355cd3fCe77499961aB'
       })
     }
   }, [chainId])

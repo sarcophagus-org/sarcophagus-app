@@ -1,0 +1,21 @@
+import { useEffect, useState } from 'react'
+import { useWeb3 } from '../../web3'
+import { Contract } from 'ethers'
+import { useAddresses } from '../../web3/chains'
+import Sarcophagus from '../../build/Sarcophagus.json'
+
+const useSarcophagusContract = () => {
+  const { chainId, signerOrProvider } = useWeb3()
+  const addresses = useAddresses(chainId)
+  const [sarcophagusContract, setSarcophagusContract] = useState()
+
+  useEffect(() => {
+    if (!chainId || !addresses || !signerOrProvider) return
+
+    setSarcophagusContract(new Contract(addresses.sarcophagus, Sarcophagus.abi, signerOrProvider))
+  }, [chainId, signerOrProvider, addresses])
+
+  return sarcophagusContract
+}
+
+export { useSarcophagusContract }

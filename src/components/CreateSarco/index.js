@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import MenuItem from '../layout/SideBar/MenuItem'
+import Archeologists from './Archeologists'
 import FileUpload from './FileUpload'
+import Settings from './SarcoSettings'
 
 const CreateSarco = () => {
   // Step 1 Upload File, Resurrection Time, Recipient Address
@@ -31,10 +33,10 @@ const CreateSarco = () => {
           <FileUpload file={file} />
        </MenuItem>
        <MenuItem label="Sarcophagus Settings">
-
+          <Settings />
        </MenuItem>
-       <MenuItem label="Choose Archeologist">
-
+       <MenuItem label="Pick an Archeologist">
+          <Archeologists />
        </MenuItem>
        <MenuItem label="Complete Embalming">
         {/* I'm guessing heavily relient on Smart Contract Events */}
