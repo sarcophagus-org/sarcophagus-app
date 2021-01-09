@@ -1,47 +1,77 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState } from 'react'
+import { labels } from '../../constants'
 import MenuItem from '../layout/SideBar/MenuItem'
 import Archaeologists from './Archaeologists'
-import FileUpload from './FileUpload'
-import Settings from './SarcoSettings'
+import Create from './Create'
+import Settings from './FeeSettings'
 
 const CreateSarco = () => {
-  // Step 1 Upload File, Resurrection Time, Recipient Address
   const [ step, setStep ] = useState(0)
   const [ file, setFile ] = useState(false)
-  
+
   const [ sarcoData, setSarcoData ] = useState( {
-    resurrectionTime: null,
-    recipientAddress: null,
-    bountyFees: null,
-    diggingFees: null,
+    resurrectionTime: false,
+    recipientAddress: false,
+    sarcophagusName: false,
+    bountyFees: false,
+    diggingFees: false,
     archeaologist: false,
   } )
   
-  // Step 2 Bounty and digging fees
-  // Step 3 Choose Archeaologist
-  // Step 4 Embalming Status
+  const _handleCreateSubmit = ({recipientAddress, resurrectionTime, file, sarcophagusName}, setExpanded) => {
+    if(!recipientAddress || !resurrectionTime ||  !file || !sarcophagusName) return
+    setSarcoData(sarcoData => ({...sarcoData, file: file, resurrectionTime: resurrectionTime, recipientAddress: recipientAddress, sarcophagusName: sarcophagusName}))
+    setStep(1)
+    setExpanded(false)
+  }
+
+  // const _handleFeesSumbit = () => {
+
+  // }
+
+  const _handleFileChange = (e, setFieldValue) => {
+    e.preventDefault()
+    setFieldValue("file", e.currentTarget.files[0])
+    setFile(e.currentTarget.files[0])
+  }
+
+  const DevelopmentContent = () => (
+    <div className="absolute right-0 top-0">
+      <ul>
+        <li>resurrectionTime: {!!sarcoData.resurrectionTime ? Date.UTC(sarcoData.resurrectionTime.getFullYear(), sarcoData.resurrectionTime.getMonth(), sarcoData.resurrectionTime.getDate(), sarcoData.resurrectionTime.getHours(), sarcoData.resurrectionTime.getMinutes(), sarcoData.resurrectionTime.getSeconds()) + " (Converted to UTC)" : "None"}</li>
+        <li>file: {file?.name || "None"}</li>
+        <li>recipientAddress: {sarcoData.recipientAddress || "None"}</li>
+        <li>sarcophagusName: {sarcoData.sarcophagusName || "None"}</li>
+        <li>bountyFees: {sarcoData.bountyFees || "None"}</li>
+        <li>diggingFees: {sarcoData.diggingFees || "None"}</li>
+        <li>archeaologist: {sarcoData.archeaologist || "None"}</li>
+      </ul>
+    </div>
+  )
+  
   return (
     <div className="relative"> 
       {/* Left Side */}
-    <div className="w-full bg-red">
-
-    </div>
-      {/* Side Bar Container */}
-    <div className="absolute right-0">
-      {/* Cards Create*/}
-       <MenuItem label="Create Sarcophagus" isDisabled={file && step !== 0}>
-          <FileUpload file={file} />
-       </MenuItem>
-       <MenuItem label="Sarcophagus Settings">
+      <div className=""></div>
+  
+      <div className="h-full">
+        <MenuItem label={labels.createSarco}>
+          {setExpanded => (
+            <Create fileInfo={file} handleSubmit={_handleCreateSubmit} handleFileChange={_handleFileChange} setExpanded={setExpanded}/>
+          )}
+        </MenuItem>
+        
+        <MenuItem label={labels.feeSettings} isDisabled={step >= 1 && step >= 4}>
           <Settings />
-       </MenuItem>
-       <MenuItem label="Pick an Archaeologist">
-          <Archaeologists />
-       </MenuItem>
-       <MenuItem label="Complete Embalming">
-        {/* I'm guessing heavily relient on Smart Contract Events */}
-       </MenuItem>
-    </div>
+        </MenuItem>
+        <MenuItem label={labels.pickArchaeologist} isDisabled={step !== 3}>
+            <Archaeologists />
+        </MenuItem>
+        <MenuItem label={labels.completeEmbalming} isDisabled={step !== 4}>
+          {/* I'm guessing heavily relient on Smart Contract Events */}
+        </MenuItem>
+      </div>
+      <DevelopmentContent />
   </div>
   )
 }

@@ -7,7 +7,7 @@ const heightOptions = {
   lg: '2.25rem'
 }
 
-const baseText = "w-full pl-4 placeholder:text-3xs placeholder:text-gray-400 border border-white"
+const baseText = "w-full pl-4 placeholder-text border border-white"
 const errorText = ""
 
 const TextInput = ({ type, label="", height="md", error, ...rest }) => (
@@ -19,7 +19,7 @@ const TextInput = ({ type, label="", height="md", error, ...rest }) => (
 
 const FileInput = ({ type, height="md", ...rest }) => (
   <>
-    <input type={type} name="file" id="file" className="inputfile" {...rest} />
+    <input type={type} className="inputfile" {...rest} />
     <label htmlFor="file" className="w-full" style={{height: heightOptions[height]}}>
       <span className="flex justify-center items-center h-full">Upload File</span>
     </label>

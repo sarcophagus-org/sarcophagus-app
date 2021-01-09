@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@import "react-datepicker/dist/react-datepicker.css";
 @layer base {
   /* roboto-mono-regular - latin */
   @font-face {
@@ -45,4 +45,25 @@
 .inputfile:focus + label,
 .inputfile + label:hover {
   background-color: red;
+}
+
+.date-picker-width {
+  width: 100%
+}
+
+.date-picker-width, 
+.date-picker-width > div.react-datepicker-wrapper, 
+.date-picker-width > div > div.react-datepicker__input-container
+.date-picker-width > div > div.react-datepicker__input-container input {
+   width: 100%;
+}
+
+.placeholder-text::placeholder {
+  font-size: 0.75em;
+  color: #888293;
+}
+
+html {
+  overflow: -moz-scrollbars-vertical; 
+  overflow-y: scroll;
 }

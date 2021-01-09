@@ -1,0 +1,8 @@
+import * as Yup from 'yup'
+const validationFileSchema = () => {
+  return Yup.object().shape({})
+}
+
+export {
+  validationFileSchema
+}
