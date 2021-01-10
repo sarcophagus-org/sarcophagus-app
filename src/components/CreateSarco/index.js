@@ -6,7 +6,7 @@ import Create from './Create'
 import Settings from './FeeSettings'
 
 const CreateSarco = () => {
-  const [ step, setStep ] = useState(0)
+  const [ step, setStep ] = useState(1)
   const [ file, setFile ] = useState(false)
 
   const [ sarcoData, setSarcoData ] = useState( {
@@ -36,7 +36,7 @@ const CreateSarco = () => {
   }
 
   const DevelopmentContent = () => (
-    <div className="absolute right-0 top-0">
+    <div className="absolute right-0 top-0 border border-white p-8" style={{width: '28.5rem'}}>
       <ul>
         <li>resurrectionTime: {!!sarcoData.resurrectionTime ? Date.UTC(sarcoData.resurrectionTime.getFullYear(), sarcoData.resurrectionTime.getMonth(), sarcoData.resurrectionTime.getDate(), sarcoData.resurrectionTime.getHours(), sarcoData.resurrectionTime.getMinutes(), sarcoData.resurrectionTime.getSeconds()) + " (Converted to UTC)" : "None"}</li>
         <li>file: {file?.name || "None"}</li>
@@ -56,18 +56,22 @@ const CreateSarco = () => {
   
       <div className="h-full">
         <MenuItem label={labels.createSarco}>
-          {setExpanded => (
+          {(setExpanded) => (
             <Create fileInfo={file} handleSubmit={_handleCreateSubmit} handleFileChange={_handleFileChange} setExpanded={setExpanded}/>
           )}
         </MenuItem>
-        
-        <MenuItem label={labels.feeSettings} isDisabled={step >= 1 && step >= 4}>
-          <Settings />
+        <MenuItem label={labels.feeSettings} step={step} isDisabled={step < 1 || step === 3}>
+          {(setExpanded) => (
+            <Settings />
+          )}
         </MenuItem>
         <MenuItem label={labels.pickArchaeologist} isDisabled={step !== 3}>
+          {(setExpanded) => (
             <Archaeologists />
+          )}
         </MenuItem>
         <MenuItem label={labels.completeEmbalming} isDisabled={step !== 4}>
+          {(setExpanded) => ( <></> )}
           {/* I'm guessing heavily relient on Smart Contract Events */}
         </MenuItem>
       </div>

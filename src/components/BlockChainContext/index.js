@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext } from 'react'
 import { useArcheologists } from './archaeologists'
 import { useSarcophagusContract } from './contracts'
 let context

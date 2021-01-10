@@ -1,7 +1,5 @@
 import React from 'react'
 import { useData } from '../BlockChainContext'
-import Button from '../layout/Button'
-import Input from '../layout/Input'
 import question from '../../assets/images/question.svg'
 import warning from '../../assets/images/warning.svg'
 import { truncate } from '../../utils'

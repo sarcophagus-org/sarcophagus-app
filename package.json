@@ -19,6 +19,7 @@
     "react-datepicker": "^3.3.0",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.1",
+    "react-toastify": "^6.2.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
     "web-vitals": "^0.2.4",
     "web3modal": "^1.9.2",

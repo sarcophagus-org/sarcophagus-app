@@ -2,10 +2,11 @@ import React  from 'react'
 import logo from '../assets/images/logo.png'
 import wallet from '../assets/images/wallet.svg'
 import { truncate } from '../utils'
-import { useUserSuppliedConnect, connect } from '../web3/userSupplied'
+import { useWeb3 } from '../web3'
+import { connect } from '../web3/userSupplied'
 
-const AccountDisplay = ({ account }) => {
-  const { userSupplied } = useUserSuppliedConnect()
+const AccountDisplay = () => {
+  const { account } = useWeb3()
 
   if (account) {
     return (
@@ -22,25 +23,22 @@ const AccountDisplay = ({ account }) => {
   }
 }
 
-const Top = () => {
-  const { userSupplied } = useUserSuppliedConnect()
-
-  return (
-    <div className="flex justify-between mb-16">
-      <div className="w-24 p-1">
-        <img src={logo} alt="logo" />
+const Top = () =>  (
+  <div className="flex justify-between mb-16">
+    <div className="w-24 p-1">
+      <img src={logo} alt="logo" />
+    </div>
+    <div className="flex items-center">
+      <div>
+        <img src={wallet} alt="wallet" />
       </div>
-      <div className="flex items-center">
-        <div>
-          <img src={wallet} alt="wallet" />
-        </div>
-        <div className="ml-3 text-gray-400 text-sm">
-          <AccountDisplay account={userSupplied.account} />
-        </div>
+      <div className="ml-3 text-gray-400 text-sm">
+        <AccountDisplay />
       </div>
     </div>
-  )
-}
+  </div>
+)
+
 
 const Tabs = () => {
   return (

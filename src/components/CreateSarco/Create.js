@@ -3,20 +3,11 @@ import { Formik } from 'formik'
 import DatePicker from 'react-datepicker'
 import Button from '../layout/Button'
 import Input from '../layout/Input'
-import question from '../../assets/images/question.svg'
 import { initialFileValues } from './initialValues'
 import { validationFileSchema } from './validationSchemas'
+import InfoBox from '../layout/InfoBox'
+import Title from '../layout/Title'
 
-const Title = ({ title }) => (
-  <div className="flex mt-6 mb-2">
-    <span className="mr-2">{ title }</span>
-    <img src={question} alt="" className="" />
-  </div>
-)
-
-const InfoBox = ({title}) => (
-  <div className="border border-white my-3 pl-4 text-gray-400 flex items-center text-xs" style={{ height: '1.88rem' }}>{title}</div>
-)
 
 const DatePickerButton = React.forwardRef(({value, onClick}, ref) => (
   <>

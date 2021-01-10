@@ -13,9 +13,9 @@ const createWeb3Root = () => {
   const Provider = context.Provider
 
   return ({ children }) => {
-    const { userSupplied, userSuppliedNext } = useUserSuppliedConnect()
-    const { local, localNext } = useLocalConnect(userSuppliedNext)
-    const fallback = useFallbackConnect(localNext)
+    const userSupplied = useUserSuppliedConnect()
+    const local = useLocalConnect(!!userSupplied)
+    const fallback = useFallbackConnect(!!local)
 
     const defaultName = 'Not connected'
 
@@ -28,13 +28,13 @@ const createWeb3Root = () => {
     })
 
     useEffect(() => {
-      if (userSupplied.active && userSupplied.account && supportedChains().includes(userSupplied.chainId)) {
+      if (userSupplied?.provider && userSupplied.provider.selectedAddress && supportedChains().includes(parseInt(userSupplied.provider.chainId))) {
         setWeb3({
-          name: 'User supplied provider',
-          account: userSupplied.account,
-          chainId: userSupplied.chainId,
-          provider: userSupplied.library,
-          signerOrProvider: userSupplied.library.getSigner(),
+          name: 'Injected provider',
+          account: userSupplied.provider.selectedAddress,
+          chainId: userSupplied.provider.chainId,
+          provider: userSupplied,
+          signerOrProvider: userSupplied,
         })
       } else if (local) {
         local.detectNetwork().then(network => {
