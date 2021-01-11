@@ -3,10 +3,11 @@ import { labels } from '../../constants'
 import MenuItem from '../layout/SideBar/MenuItem'
 import Archaeologists from './Archaeologists'
 import Create from './Create'
+import EmbalmingProcess from './EmbalmingProcess'
 import Settings from './FeeSettings'
 
 const CreateSarco = () => {
-  const [ step, setStep ] = useState(1)
+  const [ step, setStep ] = useState(0)
   const [ file, setFile ] = useState(false)
 
   const [ sarcoData, setSarcoData ] = useState( {
@@ -18,16 +19,32 @@ const CreateSarco = () => {
     archeaologist: false,
   } )
   
-  const _handleCreateSubmit = ({recipientAddress, resurrectionTime, file, sarcophagusName}, setExpanded) => {
+  const _handleCreateSubmit = ({recipientAddress, resurrectionTime, file, sarcophagusName}, setExpanded, setCompleted) => {
     if(!recipientAddress || !resurrectionTime ||  !file || !sarcophagusName) return
     setSarcoData(sarcoData => ({...sarcoData, file: file, resurrectionTime: resurrectionTime, recipientAddress: recipientAddress, sarcophagusName: sarcophagusName}))
     setStep(1)
     setExpanded(false)
+    setCompleted(true)
   }
 
-  // const _handleFeesSumbit = () => {
+  const _handleFeesSumbit = ({ bountyFees, diggingFees }, setExpanded, setCompleted) => {
+    if(!bountyFees || !diggingFees) return
+    setSarcoData(sarcoData => ({...sarcoData, bountyFees: bountyFees, diggingFees: diggingFees}))
+    setStep(2)
+    setExpanded(false)
+    setCompleted(true)
+  }
 
-  // }
+  const _handleSelected = (selectedArchaeologist) => {
+    if(!selectedArchaeologist) return
+    setSarcoData(sarcoData => ({...sarcoData, archeaologist: selectedArchaeologist}))
+  }
+
+  const _handleEmbalming = (setExpanded, setCompleted) => {
+    setStep(3)
+    setExpanded(false)
+    setCompleted(true)
+  }
 
   const _handleFileChange = (e, setFieldValue) => {
     e.preventDefault()
@@ -44,7 +61,7 @@ const CreateSarco = () => {
         <li>sarcophagusName: {sarcoData.sarcophagusName || "None"}</li>
         <li>bountyFees: {sarcoData.bountyFees || "None"}</li>
         <li>diggingFees: {sarcoData.diggingFees || "None"}</li>
-        <li>archeaologist: {sarcoData.archeaologist || "None"}</li>
+        <li>archeaologist: {sarcoData.archeaologist.archaeologist || "None"}</li>
       </ul>
     </div>
   )
@@ -55,24 +72,25 @@ const CreateSarco = () => {
       <div className=""></div>
   
       <div className="h-full">
-        <MenuItem label={labels.createSarco}>
-          {(setExpanded) => (
-            <Create fileInfo={file} handleSubmit={_handleCreateSubmit} handleFileChange={_handleFileChange} setExpanded={setExpanded}/>
+        <MenuItem label={labels.createSarco} isDisabled={step === 3}>
+          {(setExpanded, setCompleted) => (
+            <Create fileInfo={file} handleSubmit={_handleCreateSubmit} handleFileChange={_handleFileChange} setExpanded={setExpanded} setCompleted={setCompleted}/>
           )}
         </MenuItem>
         <MenuItem label={labels.feeSettings} step={step} isDisabled={step < 1 || step === 3}>
-          {(setExpanded) => (
-            <Settings />
+          {(setExpanded, setCompleted) => (
+            <Settings handleSubmit={_handleFeesSumbit} setExpanded={setExpanded} setCompleted={setCompleted}/>
           )}
         </MenuItem>
-        <MenuItem label={labels.pickArchaeologist} isDisabled={step !== 3}>
-          {(setExpanded) => (
-            <Archaeologists />
+        <MenuItem label={labels.pickArchaeologist} step={step} isDisabled={step < 2 || step === 3}>
+          {(setExpanded, setCompleted) => (
+            <Archaeologists handleSelected={_handleSelected} setExpanded={setExpanded} handleEmbalming={_handleEmbalming} selected={sarcoData.archeaologist.archaeologist || ""} setCompleted={setCompleted}/>
           )}
         </MenuItem>
-        <MenuItem label={labels.completeEmbalming} isDisabled={step !== 4}>
-          {(setExpanded) => ( <></> )}
-          {/* I'm guessing heavily relient on Smart Contract Events */}
+        <MenuItem label={labels.completeEmbalming} step={step} isDisabled={step !== 3}>
+          {(setExpanded) => ( 
+            <EmbalmingProcess />
+          )}
         </MenuItem>
       </div>
       <DevelopmentContent />

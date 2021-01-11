@@ -5,6 +5,12 @@ const initialFileValues = {
   resurrectionTime: "",
 }
 
+const initialFeesValues = {
+  bountyFees: "",
+  diggingFees: "",
+}
+
 export {
-  initialFileValues
+  initialFileValues,
+  initialFeesValues
 }

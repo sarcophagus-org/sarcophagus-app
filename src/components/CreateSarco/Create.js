@@ -23,28 +23,27 @@ const DatePickerComponent = (props) => (
   </div>
 )
 
-const Create = ({ fileInfo="", handleSubmit, handleFileChange, setExpanded }) => (
-  <Formik initialValues={initialFileValues} validationSchema={validationFileSchema} onSubmit={(values) => handleSubmit(values, setExpanded)}>
+const Create = ({ fileInfo="", handleSubmit, handleFileChange, setExpanded, setCompleted }) => (
+  <Formik initialValues={initialFileValues} validationSchema={validationFileSchema} onSubmit={(values) => handleSubmit(values, setExpanded, setCompleted)}>
     {({ values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue }) => (
-      <form onSubmit={ handleSubmit }>
+      <form onSubmit={ handleSubmit } className="relative w-full h-full px-4">
 
-        <div className="relative w-full h-full px-4"> 
-          <Title title="File To Upload" />
-          <InfoBox title={fileInfo.name || "File Name"}/>
-          <Input type="file" name="file" id="file" onChange={(e) => { handleFileChange(e, setFieldValue)}} />
-          
-          <Title title="Sarcophgus Name" />
-          <Input type="text" height="md" placeholder="" name="sarcophagusName" value={values.sarcophagusName} onChange={handleChange}/>
+        <Title title="File To Upload" />
+        <InfoBox title={fileInfo.name || "File Name"}/>
+        <Input type="file" name="file" id="file" onChange={(e) => { handleFileChange(e, setFieldValue)}} />
+        
+        <Title title="Sarcophgus Name" />
+        <Input type="text" height="md" placeholder="" name="sarcophagusName" value={values.sarcophagusName} onChange={handleChange}/>
 
-          <Title title="Set Resurrection Time" />
-          
-          <DatePickerComponent customInput={<DatePickerButton />} selected={values.resurrectionTime} value={new Date(values.resurrectionTime)} title={new Date(values.resurrectionTime)} onChange={(date) => {setFieldValue("resurrectionTime", date)}} dateFormat="MM/dd/yyyy hh/mm" minDate={new Date()} showTimeSelect/>
+        <Title title="Set Resurrection Time" />
+        
+        <DatePickerComponent customInput={<DatePickerButton />} selected={values.resurrectionTime} value={new Date(values.resurrectionTime)} title={new Date(values.resurrectionTime)} onChange={(date) => {setFieldValue("resurrectionTime", date)}} dateFormat="MM/dd/yyyy hh/mm" minDate={new Date()} showTimeSelect/>
 
-          <Title title="Recipient Address" />
-          <Input name="recipientAddress" value={values.recipientAddress} onChange={handleChange} type="text" height="md" placeholder="0x........00000" />
+        <Title title="Recipient Address" />
+        <Input name="recipientAddress" value={values.recipientAddress} onChange={handleChange} type="text" height="md" placeholder="0x........00000" />
 
-          <Button label="Next: Settings" _classNames="w-full bg-white text-gray-900 mt-6 mb-4" height="lg" type="submit" />
-        </div>
+        <Button label="Next: Settings" _classNames="w-full bg-white text-gray-900 mt-6 mb-4" height="lg" type="submit" />
+
       </form>
       )}
   </Formik>

@@ -5,19 +5,35 @@ const useArcheologists = (sarcophagusContract) => {
   const [ arcAddresses, setAddresses ] = useState(false) 
   const [ arcCount, setArcCount ] = useState(false)
   
-  const getArchaeologistCount = useCallback( async (sarcophagusContract) => {const count = await sarcophagusContract.archaeologistCount(); setArcCount(count)}, [])
-  const getArchaeologistIndexes = useCallback( async (sarcophagusContract, count) => {
-    const arcAddresses = []
-    for(let i = 0; i <= count - 1; i++) {
-      const address = await sarcophagusContract.archaeologistAddresses(i)
-      arcAddresses.push(address)
+  const getArchaeologistCount = useCallback( async (sarcophagusContract) => {
+    try {
+      const count = await sarcophagusContract.archaeologistCount() 
+      setArcCount(count)
+    } catch (error) {
+      console.error(error)
     }
-    await setAddresses(arcAddresses)
+  }, [])
+
+  const getArchaeologistIndexes = useCallback( async (sarcophagusContract, count) => {
+    try {
+      const arcAddresses = []
+      for(let i = 0; i <= count - 1; i++) {
+        const address = await sarcophagusContract.archaeologistAddresses(i)
+        arcAddresses.push(address)
+      }
+      await setAddresses(arcAddresses)
+    } catch (error) {
+      console.error(error)
+    }
   },[])
 
   const getArchaeologistInfo = useCallback(async (sarcophagusContract) => {
-    const archaeologists = await Promise.all(arcAddresses.map( async (address) => await sarcophagusContract.archaeologists(address) ))
-    setArchaeologists(archaeologists)
+    try {
+      const archaeologists = await Promise.all(arcAddresses.map( async (address) => await sarcophagusContract.archaeologists(address) ))
+      setArchaeologists(archaeologists)
+    } catch (error) {
+      console.error(error)
+    }
   },[arcAddresses])
 
   
