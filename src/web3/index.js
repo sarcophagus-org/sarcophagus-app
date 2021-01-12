@@ -34,7 +34,7 @@ const createWeb3Root = () => {
           account: userSupplied.provider.selectedAddress,
           chainId: userSupplied.provider.chainId,
           provider: userSupplied,
-          signerOrProvider: userSupplied,
+          signerOrProvider: userSupplied.getSigner(),
         })
       } else if (local) {
         local.detectNetwork().then(network => {

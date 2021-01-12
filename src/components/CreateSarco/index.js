@@ -1,5 +1,8 @@
+import { BigNumber } from 'ethers'
 import React, { useState } from 'react'
 import { labels } from '../../constants'
+import { getBountyFees } from '../../utils/bigNumbers'
+import { useData } from '../BlockChainContext'
 import MenuItem from '../layout/SideBar/MenuItem'
 import Archaeologists from './Archaeologists'
 import Create from './Create'
@@ -8,9 +11,12 @@ import Settings from './FeeSettings'
 
 const CreateSarco = () => {
   const [ step, setStep ] = useState(0)
+  const [ txReceipt, setTxReceipt ] = useState(BigNumber.from(0))
   const [ file, setFile ] = useState(false)
+  const { sarcophagusTokenContract } = useData()
 
   const [ sarcoData, setSarcoData ] = useState( {
+    file: false,
     resurrectionTime: false,
     recipientAddress: false,
     sarcophagusName: false,
@@ -18,7 +24,6 @@ const CreateSarco = () => {
     diggingFees: false,
     archeaologist: false,
   } )
-  
   const _handleCreateSubmit = ({recipientAddress, resurrectionTime, file, sarcophagusName}, setExpanded, setCompleted) => {
     if(!recipientAddress || !resurrectionTime ||  !file || !sarcophagusName) return
     setSarcoData(sarcoData => ({...sarcoData, file: file, resurrectionTime: resurrectionTime, recipientAddress: recipientAddress, sarcophagusName: sarcophagusName}))
@@ -40,10 +45,15 @@ const CreateSarco = () => {
     setSarcoData(sarcoData => ({...sarcoData, archeaologist: selectedArchaeologist}))
   }
 
-  const _handleEmbalming = (setExpanded, setCompleted) => {
-    setStep(3)
-    setExpanded(false)
-    setCompleted(true)
+  const _handleEmbalming = async (setExpanded, setCompleted) => {
+      const res = await sarcophagusTokenContract.approve(sarcophagusTokenContract?.address, getBountyFees(sarcoData.archeaologist, file, true))
+      if(res) {
+        setStep(3)
+        setExpanded(false)
+        setCompleted(true)
+        setTxReceipt(txReceipt)
+        // createSarcophagus(sarcoData, txReceipt)
+      }
   }
 
   const _handleFileChange = (e, setFieldValue) => {
@@ -84,7 +94,7 @@ const CreateSarco = () => {
         </MenuItem>
         <MenuItem label={labels.pickArchaeologist} step={step} isDisabled={step < 2 || step === 3}>
           {(setExpanded, setCompleted) => (
-            <Archaeologists handleSelected={_handleSelected} setExpanded={setExpanded} handleEmbalming={_handleEmbalming} selected={sarcoData.archeaologist.archaeologist || ""} setCompleted={setCompleted}/>
+            <Archaeologists fees={{bountyFees: sarcoData.bountyFees, diggingFees: sarcoData.diggingFees}} handleSelected={_handleSelected} file={file} setExpanded={setExpanded} handleEmbalming={_handleEmbalming} selected={sarcoData.archeaologist.archaeologist || ""} setCompleted={setCompleted}/>
           )}
         </MenuItem>
         <MenuItem label={labels.completeEmbalming} step={step} isDisabled={step !== 3}>
