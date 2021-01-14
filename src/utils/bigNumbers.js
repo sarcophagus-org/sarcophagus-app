@@ -21,5 +21,6 @@ const getBountyFees = (archaeologist, file, bigNumber=false) => {
 
 export {
   getBountyFees,
-  getDecimalNumber
+  getDecimalNumber,
+  makeNumeral
 }

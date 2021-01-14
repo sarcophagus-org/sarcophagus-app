@@ -10,14 +10,14 @@ import { sarcophagusInitialValues } from '../../constants'
 
 const CreateSarco = () => {
   const [ step, setStep ] = useState(0)
-  const { file, setFile, setrecipientAddress, setArchaeologistAddress, encryptedFile, assetDoubleHash } = useFileEncryption()
+  const { file, setFile, setrecipientAddress, setArchaeologistAddress, encryptedBlob, assetDoubleHash } = useFileEncryption()
 
   const [ sarcoData, setSarcoData ] = useState(sarcophagusInitialValues)
 
   useEffect(() => {
-    if(!encryptedFile) return
-    setSarcoData(sarcoData => ({...sarcoData, file: encryptedFile}))
-  },[encryptedFile])
+    if(!assetDoubleHash) return
+    setSarcoData(sarcoData => ({...sarcoData, assetDoubleHash: assetDoubleHash}))
+  },[assetDoubleHash])
 
   const _handleCreateSubmit = ({recipientAddress, resurrectionTime, sarcophagusName}, setExpanded, setCompleted) => {
     if(!recipientAddress || !resurrectionTime || !file || !sarcophagusName) return
@@ -43,6 +43,7 @@ const CreateSarco = () => {
   }
 
   const _handleEmbalming = async (setExpanded, setCompleted) => {
+    console.log(encryptedBlob)
     return
   }
   const _handleFileChange = (e, setFieldValue) => {
@@ -52,7 +53,7 @@ const CreateSarco = () => {
   }
   
   return (
-    <div className="relative"> 
+    <div className="relative grid grid-cols-2"> 
       <div className="">
         {/* Content */}
       </div>
@@ -75,7 +76,7 @@ const CreateSarco = () => {
         </MenuItem>
         <MenuItem label={labels.completeEmbalming} step={step} isDisabled={step !== 3}>
           {(setExpanded) => ( 
-            <EmbalmingProcess />
+            <EmbalmingProcess handleEmbalming={_handleEmbalming} />
           )}
         </MenuItem>
       </div>

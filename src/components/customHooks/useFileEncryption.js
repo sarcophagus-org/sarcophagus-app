@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { encrypt, decrypt, PrivateKey, PublicKey } from 'eciesjs'
+import { encrypt } from 'eciesjs'
 import { utils } from 'ethers'
 
 const useFileEncryption = () => {
@@ -8,7 +8,7 @@ const useFileEncryption = () => {
   const [ fileByteArray, setFileByteArrayArray ] = useState(false)
   const [ fileEncryptedRecipient, setFileEncryptedRecipient ] = useState(false)
   const [ archaeologistAddress, setArchaeologistAddress] = useState(false)
-  const [ encryptedFile, setEncryptedFile ] = useState(false)
+  const [ encryptedBlob, setEncryptedBlob ] = useState(false)
   const [ assetDoubleHash, setAssetDoubleHash ] = useState(false)
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const useFileEncryption = () => {
     try {
       const encrypted = encrypt(archaeologistAddress, fileEncryptedRecipient)
       const blob = new Blob([encrypted], {type: file.type})
-      setEncryptedFile(encrypted)
+      setEncryptedBlob(blob)
     } catch (e) {
       console.error(e)
     }
@@ -55,7 +55,7 @@ const useFileEncryption = () => {
     setFile,
     setrecipientAddress,
     setArchaeologistAddress,
-    encryptedFile,
+    encryptedBlob,
     assetDoubleHash
   }
 }
