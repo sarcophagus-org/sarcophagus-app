@@ -39,7 +39,7 @@ const Create = ({ fileInfo="", handleSubmit, handleFileChange, setExpanded, setC
         <DatePickerComponent customInput={<DatePickerButton />} selected={values.resurrectionTime} value={new Date(values.resurrectionTime)} title={new Date(values.resurrectionTime)} onChange={(date) => {setFieldValue("resurrectionTime", date)}} dateFormat="MM/dd/yyyy hh/mm" minDate={new Date()} showTimeSelect/>
 
         <Title title="Recipient Address" />
-        <Input name="recipientAddress" value={values.recipientAddress} onChange={handleChange} type="text" height="md" placeholder="0x........00000" />
+        <Input name="recipientPublicKey" value={values.recipientPublicKey} onChange={handleChange} type="text" height="md" placeholder="0x........00000" />
 
         <Button label="Next: Settings" _classNames="w-full bg-white text-gray-900 mt-6 mb-4" height="lg" type="submit" />
 

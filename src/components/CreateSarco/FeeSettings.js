@@ -12,10 +12,10 @@ const Settings = ({handleSubmit, setExpanded, setCompleted}) => (
       <form onSubmit={ handleSubmit } className="relative w-full h-full px-4">
 
         <Title title="Bounty Fees" />
-        <Input type="text" name="bountyFees" value={values.bountyFees} onChange={handleChange} height="md" placeholder="100 Sarco (Suggested)" />
+        <Input type="text" name="bounty" value={values.bounty} onChange={handleChange} height="md" placeholder="100 Sarco (Suggested)" />
 
         <Title title="Digging Fees" /> 
-        <Input type="text" name="diggingFees" value={values.diggingFees} onChange={handleChange} height="md" placeholder="10 Sarco (Suggested)" />
+        <Input type="text" name="diggingFee" value={values.diggingFee} onChange={handleChange} height="md" placeholder="10 Sarco (Suggested)" />
         
         <Button label="Next: Choose Archaeologist" _classNames="w-full bg-white text-gray-900 mt-6 mb-4" height="lg" type='submit'/>
       </form>

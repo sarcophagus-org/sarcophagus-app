@@ -19,8 +19,13 @@ const getBountyFees = (archaeologist, file, bigNumber=false) => {
   return calculatedFee
 }
 
+const getDate = (maximumResurrectionTime) => {
+  return new Date(Number(utils.formatUnits(maximumResurrectionTime, 'wei')).toFixed(0))
+}
+
 export {
   getBountyFees,
   getDecimalNumber,
-  makeNumeral
+  makeNumeral,
+  getDate
 }

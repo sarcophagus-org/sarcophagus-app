@@ -4,10 +4,10 @@ import { utils } from 'ethers'
 
 const useFileEncryption = () => {
   const [ file, setFile ] = useState(false)
-  const [ recipientAddress, setrecipientAddress ] = useState(false)
+  const [ recipientPublicKey, setRecipientAddress ] = useState(false)
   const [ fileByteArray, setFileByteArrayArray ] = useState(false)
   const [ fileEncryptedRecipient, setFileEncryptedRecipient ] = useState(false)
-  const [ archaeologistAddress, setArchaeologistAddress] = useState(false)
+  const [ archaeologistPublicKey, setArchaeologistAddress] = useState(false)
   const [ encryptedBlob, setEncryptedBlob ] = useState(false)
   const [ assetDoubleHash, setAssetDoubleHash ] = useState(false)
 
@@ -27,9 +27,9 @@ const useFileEncryption = () => {
   }, [file])
 
   useEffect(() => {
-    if(!fileByteArray || !recipientAddress) return
+    if(!fileByteArray || !recipientPublicKey) return
     try {
-      const encrypted = encrypt(recipientAddress, fileByteArray)
+      const encrypted = encrypt(recipientPublicKey, fileByteArray)
       const hashedOnce = utils.keccak256(encrypted)
       const hashedTwice = utils.keccak256(hashedOnce)
       setAssetDoubleHash(utils.arrayify(hashedTwice))
@@ -37,23 +37,23 @@ const useFileEncryption = () => {
     } catch (e) {
       console.error(e)
     }
-  }, [fileByteArray, recipientAddress])
+  }, [fileByteArray, recipientPublicKey])
 
   useEffect(() => {
-    if(!fileEncryptedRecipient || !archaeologistAddress) return
+    if(!fileEncryptedRecipient || !archaeologistPublicKey) return
     try {
-      const encrypted = encrypt(archaeologistAddress, fileEncryptedRecipient)
+      const encrypted = encrypt(archaeologistPublicKey, fileEncryptedRecipient)
       const blob = new Blob([encrypted], {type: file.type})
       setEncryptedBlob(blob)
     } catch (e) {
       console.error(e)
     }
-  },[fileEncryptedRecipient, archaeologistAddress, file])
+  },[fileEncryptedRecipient, archaeologistPublicKey, file])
 
   return { 
     file,
     setFile,
-    setrecipientAddress,
+    setRecipientAddress,
     setArchaeologistAddress,
     encryptedBlob,
     assetDoubleHash

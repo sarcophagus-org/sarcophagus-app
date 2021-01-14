@@ -1,56 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { labels } from '../../constants'
 import MenuItem from '../layout/SideBar/MenuItem'
 import Archaeologists from './Archaeologists'
 import Create from './Create'
 import EmbalmingProcess from './EmbalmingProcess'
 import Settings from './FeeSettings'
-import useFileEncryption from '../customHooks/useFileEncryption'
-import { sarcophagusInitialValues } from '../../constants'
+import useSarcophagusCreate from '../customHooks/useSarcophagusCreate'
 
 const CreateSarco = () => {
   const [ step, setStep ] = useState(0)
-  const { file, setFile, setrecipientAddress, setArchaeologistAddress, encryptedBlob, assetDoubleHash } = useFileEncryption()
-
-  const [ sarcoData, setSarcoData ] = useState(sarcophagusInitialValues)
-
-  useEffect(() => {
-    if(!assetDoubleHash) return
-    setSarcoData(sarcoData => ({...sarcoData, assetDoubleHash: assetDoubleHash}))
-  },[assetDoubleHash])
-
-  const _handleCreateSubmit = ({recipientAddress, resurrectionTime, sarcophagusName}, setExpanded, setCompleted) => {
-    if(!recipientAddress || !resurrectionTime || !file || !sarcophagusName) return
-    setSarcoData(sarcoData => ({...sarcoData, resurrectionTime: resurrectionTime, recipientAddress: recipientAddress, sarcophagusName: sarcophagusName}))
-    setrecipientAddress(recipientAddress)
-    setCompleted(true)
-    setStep(1)
-    setExpanded(false)
-  }
-
-  const _handleFeesSumbit = ({ bountyFees, diggingFees }, setExpanded, setCompleted) => {
-    if(!bountyFees || !diggingFees) return
-    setSarcoData(sarcoData => ({...sarcoData, bountyFees: bountyFees, diggingFees: diggingFees}))
-    setCompleted(true)
-    setStep(2)
-    setExpanded(false)
-  }
-
-  const _handleSelected = (selectedArchaeologist) => {
-    if(!selectedArchaeologist) return
-    setArchaeologistAddress(selectedArchaeologist.currentPublicKey)
-    setSarcoData(sarcoData => ({...sarcoData, archeaologist: selectedArchaeologist}))
-  }
-
-  const _handleEmbalming = async (setExpanded, setCompleted) => {
-    console.log(encryptedBlob)
-    return
-  }
-  const _handleFileChange = (e, setFieldValue) => {
-    e.preventDefault()
-    setFieldValue("file", e.currentTarget.files[0])
-    setFile(e.currentTarget.files[0])
-  }
+  const { sarcophagusSettings, file, handleSettings, handleFees, handleArchaeologistSelect, handleEmbalming, handleFileChange} = useSarcophagusCreate(setStep)
   
   return (
     <div className="relative grid grid-cols-2"> 
@@ -61,22 +20,37 @@ const CreateSarco = () => {
       <div className="h-full">
         <MenuItem label={labels.createSarco} isDisabled={step === 3}>
           {(setExpanded, setCompleted) => (
-            <Create fileInfo={file} handleSubmit={_handleCreateSubmit} handleFileChange={_handleFileChange} setExpanded={setExpanded} setCompleted={setCompleted}/>
+            <Create 
+              fileInfo={file} 
+              handleSubmit={handleSettings} 
+              handleFileChange={handleFileChange} 
+              setExpanded={setExpanded} 
+              setCompleted={setCompleted} />
           )}
         </MenuItem>
         <MenuItem label={labels.feeSettings} step={step} isDisabled={step < 1 || step === 3}>
           {(setExpanded, setCompleted) => (
-            <Settings handleSubmit={_handleFeesSumbit} setExpanded={setExpanded} setCompleted={setCompleted}/>
+            <Settings 
+              handleSubmit={handleFees} 
+              setExpanded={setExpanded} 
+              setCompleted={setCompleted} />
           )}
         </MenuItem>
         <MenuItem label={labels.pickArchaeologist} step={step} isDisabled={step < 2 || step === 3}>
           {(setExpanded, setCompleted) => (
-            <Archaeologists fees={{bountyFees: sarcoData.bountyFees, diggingFees: sarcoData.diggingFees}} handleSelected={_handleSelected} file={file} setExpanded={setExpanded} handleEmbalming={_handleEmbalming} selected={sarcoData.archeaologist.archaeologist || ""} setCompleted={setCompleted}/>
+            <Archaeologists 
+              fees={{bounty: sarcophagusSettings.bounty, diggingFee: sarcophagusSettings.diggingFee}} 
+              file={file} 
+              handleEmbalming={handleEmbalming} 
+              handleSelected={handleArchaeologistSelect} 
+              selected={sarcophagusSettings.archaeologist.archaeologist || ""} 
+              setCompleted={setCompleted} 
+              setExpanded={setExpanded} />
           )}
         </MenuItem>
         <MenuItem label={labels.completeEmbalming} step={step} isDisabled={step !== 3}>
           {(setExpanded) => ( 
-            <EmbalmingProcess handleEmbalming={_handleEmbalming} />
+            <EmbalmingProcess handleEmbalming={handleEmbalming} />
           )}
         </MenuItem>
       </div>

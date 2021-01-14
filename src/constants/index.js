@@ -6,13 +6,14 @@ const labels = {
 }
 
 const sarcophagusInitialValues = {
-  file: false,
-  resurrectionTime: false,
-  recipientAddress: false,
-  sarcophagusName: false,
-  bountyFees: false,
-  diggingFees: false,
-  archeaologist: false,
+  sarcophagusName: false,    // (name) string memory
+  archaeologist: false,      // address
+  resurrectionTime: false,   // uint256
+  storageFee: false,         // uint256
+  diggingFee: false,         // uint256
+  bounty: false,             // uint256
+  assetDoubleHash: false,    // bytes32
+  recipientPublicKey: false, // bytes memory
 } 
 
 export {

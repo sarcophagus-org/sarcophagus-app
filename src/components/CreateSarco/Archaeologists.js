@@ -23,7 +23,6 @@ const ArcInfoBox = ({archaeologist, handleSelected, handleSelect, selected, file
         <span className="">Arch {truncate( archaeologist.archaeologist, 20, null, 2 )}</span>
         <button type="button" className="absolute bottom-0 text-gray-400 border-b border-gray-400 mb-3 cursor-pointer focus:outline-none" onClick={() => handleShowMetrics(archaeologist.archaeologist)}>Show Metrics</button>
       </div>
-
       {showMetrics === archaeologist.archaeologist && <Metrics archaeologist={archaeologist} />}
 
       <div className="h-full border-l border-white col-start-2 pt-3 cursor-pointer" onClick={() => {handleSelected(archaeologist); handleSelect(archaeologist)}}>
@@ -46,16 +45,18 @@ const ArchaeologistList = ({ handleSelected, fees, archSelected, file }) => {
 
   useEffect(() => {
     if(archSelected) {
+    
+    
     setSelected(archSelected)
   }}, [archSelected, setSelected])
   
   const _handleSelect = (archaeologist) => setSelected(archaeologist.archaeologist)
 
-  if (!Array.isArray(archaeologists) || !archaeologists.length) return <div className="text-red text-center w-full my-2">No Archeaologists Available</div>
+  if (!Array.isArray(archaeologists) || !archaeologists.length) return <div className="text-red text-center w-full my-2">No archaeologists Available</div>
   return archaeologists
     .filter(v => !v.freeBond.isZero())
-    .filter(v => v.minimumBounty.gte(utils.parseEther(fees.bountyFees)))
-    .filter(v => v.minimumDiggingFee.gte(utils.parseEther(fees.diggingFees)))
+    .filter(v => v.minimumBounty.gte(utils.parseEther(fees.bounty)))
+    .filter(v => v.minimumDiggingFee.gte(utils.parseEther(fees.diggingFee)))
     .sort((a, b) => getBountyFees(a, file) - getBountyFees(b, file))
     .map((archaeologist) => <ArcInfoBox key={archaeologist.archaeologist} showMetrics={showMetrics} setShowMetrics={setShowMetrics} handleSelected={handleSelected} archaeologist={archaeologist} handleSelect={_handleSelect} selected={selected} file={file} />)
 }

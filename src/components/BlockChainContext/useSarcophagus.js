@@ -8,11 +8,11 @@ const useSarcophagus = (sarcophagusTokenContract, sarcophagusContract) => {
 
   const createSarcophagus = async (settings) => {
     // try {
-    //   const { resurrectionTime, recipientAddress, sarcophagusName, bountyFees, diggingFees, archeaologist, file } = settings
-    //   if(!resurrectionTime || !recipientAddress || !sarcophagusName || !bountyFees || !diggingFees || !archeaologist || !file) return
+    //   const { resurrectionTime, recipientPublicKey, sarcophagusName, bounty, diggingFee, archaeologist, file } = settings
+    //   if(!resurrectionTime || !recipientPublicKey || !sarcophagusName || !bounty || !diggingFee || !archaeologist || !file) return
 
     // Send Transaction
-      // const response = await sarcophagusContract.createSarcophagus(sarcophagusName, archeaologist.archeaologist, resurrectionTime, diggingFees, bountyFees, file, recipientAddress)
+      // const response = await sarcophagusContract.createSarcophagus(sarcophagusName, archaeologist.archaeologist, resurrectionTime, diggingFee, bounty, file, recipientPublicKey)
       // Several Steps will be done here maybe converting this into a userEffect if/else to track progress
     // } catch (e) {
     //   console.log("HERE", e)
