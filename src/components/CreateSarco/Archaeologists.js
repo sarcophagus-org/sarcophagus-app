@@ -43,8 +43,10 @@ const ArchaeologistList = ({ handleSelected, fees, archSelected, file }) => {
 
   if (!Array.isArray(archaeologists) || !archaeologists.length) return <div className="text-red text-center w-full my-2">No Archeaologists Available</div>
   return archaeologists
+    .filter(v => !v.freeBond.isZero())
     .filter(v => v.minimumBounty.gte(utils.parseEther(fees.bountyFees)))
     .filter(v => v.minimumDiggingFee.gte(utils.parseEther(fees.diggingFees)))
+    .sort((a, b) => getBountyFees(a, file) - getBountyFees(b, file))
     .map((archaeologist) => <ArcInfoBox key={archaeologist.archaeologist} fees={fees} handleSelected={handleSelected} archaeologist={archaeologist} handleSelect={_handleSelect} selected={selected} file={file} />)
 }
 

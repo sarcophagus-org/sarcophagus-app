@@ -17,7 +17,6 @@ const DatePickerButton = React.forwardRef(({value, onClick}, ref) => (
 ))
 
 const DatePickerComponent = (props) => (
-  // Allows for DatePicker to be 100% of container
   <div className="date-picker-width">
     <DatePicker {...props} />
   </div>

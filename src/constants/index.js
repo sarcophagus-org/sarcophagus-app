@@ -5,6 +5,17 @@ const labels = {
   completeEmbalming: "Complete Embalming"
 }
 
+const sarcophagusInitialValues = {
+  file: false,
+  resurrectionTime: false,
+  recipientAddress: false,
+  sarcophagusName: false,
+  bountyFees: false,
+  diggingFees: false,
+  archeaologist: false,
+} 
+
 export {
-  labels
+  labels,
+  sarcophagusInitialValues
 }

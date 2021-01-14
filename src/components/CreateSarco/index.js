@@ -1,85 +1,61 @@
-import { BigNumber } from 'ethers'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { labels } from '../../constants'
-import { getBountyFees } from '../../utils/bigNumbers'
-import { useData } from '../BlockChainContext'
 import MenuItem from '../layout/SideBar/MenuItem'
 import Archaeologists from './Archaeologists'
 import Create from './Create'
 import EmbalmingProcess from './EmbalmingProcess'
 import Settings from './FeeSettings'
+import useFileEncryption from '../customHooks/useFileEncryption'
+import { sarcophagusInitialValues } from '../../constants'
 
 const CreateSarco = () => {
   const [ step, setStep ] = useState(0)
-  const [ txReceipt, setTxReceipt ] = useState(BigNumber.from(0))
-  const [ file, setFile ] = useState(false)
-  const { sarcophagusTokenContract } = useData()
+  const { file, setFile, setrecipientAddress, setArchaeologistAddress, encryptedFile, assetDoubleHash } = useFileEncryption()
 
-  const [ sarcoData, setSarcoData ] = useState( {
-    file: false,
-    resurrectionTime: false,
-    recipientAddress: false,
-    sarcophagusName: false,
-    bountyFees: false,
-    diggingFees: false,
-    archeaologist: false,
-  } )
-  const _handleCreateSubmit = ({recipientAddress, resurrectionTime, file, sarcophagusName}, setExpanded, setCompleted) => {
-    if(!recipientAddress || !resurrectionTime ||  !file || !sarcophagusName) return
-    setSarcoData(sarcoData => ({...sarcoData, file: file, resurrectionTime: resurrectionTime, recipientAddress: recipientAddress, sarcophagusName: sarcophagusName}))
+  const [ sarcoData, setSarcoData ] = useState(sarcophagusInitialValues)
+
+  useEffect(() => {
+    if(!encryptedFile) return
+    setSarcoData(sarcoData => ({...sarcoData, file: encryptedFile}))
+  },[encryptedFile])
+
+  const _handleCreateSubmit = ({recipientAddress, resurrectionTime, sarcophagusName}, setExpanded, setCompleted) => {
+    if(!recipientAddress || !resurrectionTime || !file || !sarcophagusName) return
+    setSarcoData(sarcoData => ({...sarcoData, resurrectionTime: resurrectionTime, recipientAddress: recipientAddress, sarcophagusName: sarcophagusName}))
+    setrecipientAddress(recipientAddress)
+    setCompleted(true)
     setStep(1)
     setExpanded(false)
-    setCompleted(true)
   }
 
   const _handleFeesSumbit = ({ bountyFees, diggingFees }, setExpanded, setCompleted) => {
     if(!bountyFees || !diggingFees) return
     setSarcoData(sarcoData => ({...sarcoData, bountyFees: bountyFees, diggingFees: diggingFees}))
+    setCompleted(true)
     setStep(2)
     setExpanded(false)
-    setCompleted(true)
   }
 
   const _handleSelected = (selectedArchaeologist) => {
     if(!selectedArchaeologist) return
+    setArchaeologistAddress(selectedArchaeologist.currentPublicKey)
     setSarcoData(sarcoData => ({...sarcoData, archeaologist: selectedArchaeologist}))
   }
 
   const _handleEmbalming = async (setExpanded, setCompleted) => {
-      const res = await sarcophagusTokenContract.approve(sarcophagusTokenContract?.address, getBountyFees(sarcoData.archeaologist, file, true))
-      if(res) {
-        setStep(3)
-        setExpanded(false)
-        setCompleted(true)
-        setTxReceipt(txReceipt)
-        // createSarcophagus(sarcoData, txReceipt)
-      }
+    return
   }
-
   const _handleFileChange = (e, setFieldValue) => {
     e.preventDefault()
     setFieldValue("file", e.currentTarget.files[0])
     setFile(e.currentTarget.files[0])
   }
-
-  const DevelopmentContent = () => (
-    <div className="absolute right-0 top-0 border border-white p-8" style={{width: '28.5rem'}}>
-      <ul>
-        <li>resurrectionTime: {!!sarcoData.resurrectionTime ? Date.UTC(sarcoData.resurrectionTime.getFullYear(), sarcoData.resurrectionTime.getMonth(), sarcoData.resurrectionTime.getDate(), sarcoData.resurrectionTime.getHours(), sarcoData.resurrectionTime.getMinutes(), sarcoData.resurrectionTime.getSeconds()) + " (Converted to UTC)" : "None"}</li>
-        <li>file: {file?.name || "None"}</li>
-        <li>recipientAddress: {sarcoData.recipientAddress || "None"}</li>
-        <li>sarcophagusName: {sarcoData.sarcophagusName || "None"}</li>
-        <li>bountyFees: {sarcoData.bountyFees || "None"}</li>
-        <li>diggingFees: {sarcoData.diggingFees || "None"}</li>
-        <li>archeaologist: {sarcoData.archeaologist.archaeologist || "None"}</li>
-      </ul>
-    </div>
-  )
   
   return (
     <div className="relative"> 
-      {/* Left Side */}
-      <div className=""></div>
+      <div className="">
+        {/* Content */}
+      </div>
   
       <div className="h-full">
         <MenuItem label={labels.createSarco} isDisabled={step === 3}>
@@ -103,7 +79,6 @@ const CreateSarco = () => {
           )}
         </MenuItem>
       </div>
-      <DevelopmentContent />
   </div>
   )
 }
