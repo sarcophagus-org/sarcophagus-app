@@ -6,8 +6,8 @@ import Title from '../layout/Title'
 import { initialFeesValues } from './initialValues'
 import { validationFeesSchema } from './validationSchemas'
 
-const Settings = ({handleSubmit, setExpanded, setCompleted}) => (
-  <Formik initialValues={initialFeesValues} validationSchema={validationFeesSchema} onSubmit={(values) => handleSubmit(values, setExpanded, setCompleted)} >
+const Settings = ({handleSubmit, setExpanded, setCompleted, sarcophagusSettings}) => (
+  <Formik initialValues={initialFeesValues(sarcophagusSettings)} validationSchema={validationFeesSchema()} onSubmit={(values) => handleSubmit(values, setExpanded, setCompleted)} >
     {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
       <form onSubmit={ handleSubmit } className="relative w-full h-full px-4">
 

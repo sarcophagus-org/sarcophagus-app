@@ -1,4 +1,4 @@
-export const truncate = (fullStr, strLen, separator, sepLength) => {
+const truncate = (fullStr, strLen, separator, sepLength) => {
   if (fullStr.length <= strLen) return fullStr;
 
   separator = separator || '...'
@@ -9,4 +9,13 @@ export const truncate = (fullStr, strLen, separator, sepLength) => {
   const backChars = Math.floor(charsToShow / 2 - 1) // accounts for the "0x"
 
   return fullStr.substr(0, frontChars) + separator + fullStr.substr(fullStr.length - backChars);
+}
+
+const convertToUTC = (resurrectionTime) => {
+  return Date.UTC(resurrectionTime.getFullYear(), resurrectionTime.getMonth(), resurrectionTime.getDate(), resurrectionTime.getHours(), resurrectionTime.getMinutes(), resurrectionTime.getSeconds())
+}
+
+export {
+  truncate,
+  convertToUTC
 }

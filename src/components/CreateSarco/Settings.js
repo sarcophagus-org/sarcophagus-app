@@ -22,8 +22,8 @@ const DatePickerComponent = (props) => (
   </div>
 )
 
-const Create = ({ fileInfo="", handleSubmit, handleFileChange, setExpanded, setCompleted }) => (
-  <Formik initialValues={initialFileValues} validationSchema={validationFileSchema} onSubmit={(values) => handleSubmit(values, setExpanded, setCompleted)}>
+const Settings = ({ fileInfo="", handleSubmit, handleFileChange, setExpanded, setCompleted, sarcophagusSettings }) => (
+  <Formik initialValues={initialFileValues(sarcophagusSettings)} validationSchema={validationFileSchema()} onSubmit={(values) => handleSubmit(values, setExpanded, setCompleted)}>
     {({ values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue }) => (
       <form onSubmit={ handleSubmit } className="relative w-full h-full px-4">
 
@@ -36,7 +36,7 @@ const Create = ({ fileInfo="", handleSubmit, handleFileChange, setExpanded, setC
 
         <Title title="Set Resurrection Time" />
         
-        <DatePickerComponent customInput={<DatePickerButton />} selected={values.resurrectionTime} value={new Date(values.resurrectionTime)} title={new Date(values.resurrectionTime)} onChange={(date) => {setFieldValue("resurrectionTime", date)}} dateFormat="MM/dd/yyyy hh/mm" minDate={new Date()} showTimeSelect/>
+        <DatePickerComponent customInput={<DatePickerButton />} selected={values.resurrectionTime} value={new Date(values.resurrectionTime)} title={new Date(values.resurrectionTime)} onChange={(date) => {setFieldValue("resurrectionTime", date)}} dateFormat="MM/dd/yyyy hh:mm" minDate={new Date()} showTimeSelect/>
 
         <Title title="Recipient Address" />
         <Input name="recipientPublicKey" value={values.recipientPublicKey} onChange={handleChange} type="text" height="md" placeholder="0x........00000" />
@@ -48,4 +48,4 @@ const Create = ({ fileInfo="", handleSubmit, handleFileChange, setExpanded, setC
   </Formik>
 )
 
-export default Create
+export default Settings

@@ -16,7 +16,7 @@ const createDataRoot = () => {
     const sarcophagusTokenContract = useSarcophagusTokenContract()
 
     const { archaeologists } = useArcheologists(sarcophagusContract)
-    const createSarcophagus = useSarcophagus(sarcophagusContract)
+    const { createSarcophagus } = useSarcophagus(sarcophagusTokenContract, sarcophagusContract) // Should return status updates and will need to update button
 
     const decimals = useDecimals(sarcophagusTokenContract)
   

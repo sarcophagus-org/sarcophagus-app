@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react"
-import { BigNumber } from 'ethers'
+import { BigNumber, utils } from 'ethers'
 import { sarcophagusInitialValues } from "../../constants"
 import useFileEncryption from '../customHooks/useFileEncryption'
+import { convertToUTC } from "../../utils"
 
-const useSarcophagusCreate = (setStep) => {
+const useSarcophagusCreate = (setStep, createSarcophagus) => {
   const [ data, setSarcophagusSettings ] = useState(sarcophagusInitialValues)
   const { file, setFile, setRecipientAddress, setArchaeologistAddress, encryptedBlob, assetDoubleHash } = useFileEncryption()
-
+  // console.log(utils.computePublicKey("0x0B9C22ff5b429d68B42c5801281b6D210cBb8f32"))
   useEffect(() => {
     if(!assetDoubleHash) return
     setSarcophagusSettings(sarcophagusSettings => ({...sarcophagusSettings, assetDoubleHash: assetDoubleHash}))
@@ -14,6 +15,7 @@ const useSarcophagusCreate = (setStep) => {
 
   const handleSettings = ({recipientPublicKey, resurrectionTime, sarcophagusName}, setExpanded, setCompleted) => {
     if(!recipientPublicKey || !resurrectionTime || !file || !sarcophagusName) return
+
     setSarcophagusSettings(sarcophagusSettings => ({...sarcophagusSettings, resurrectionTime: resurrectionTime, recipientPublicKey: recipientPublicKey, sarcophagusName: sarcophagusName}))
     setRecipientAddress(recipientPublicKey)
     setCompleted(true)
@@ -29,16 +31,24 @@ const useSarcophagusCreate = (setStep) => {
     setExpanded(false)
   }
 
-  const handleArchaeologistSelect = (selectedArchaeologist) => {
+  const handleArchaeologistSelect = (selectedArchaeologist, storageFee) => {
     if(!selectedArchaeologist) return
     setArchaeologistAddress(selectedArchaeologist.currentPublicKey)
-    setSarcophagusSettings(sarcophagusSettings => ({...sarcophagusSettings, archaeologist: selectedArchaeologist}))
+    setSarcophagusSettings(sarcophagusSettings => ({...sarcophagusSettings, archaeologist: selectedArchaeologist, storageFee: storageFee}))
   }
 
   const handleEmbalming = async (setExpanded, setCompleted) => {
-    console.log(sarcophagusSettings)
-    console.log(encryptedBlob)
-    return
+    const {archaeologist, assetDoubleHash, bounty, diggingFee, recipientPublicKey, resurrectionTime, sarcophagusName, storageFee} = sarcophagusSettings
+    if(!archaeologist || !assetDoubleHash || !bounty || !diggingFee || !recipientPublicKey || !resurrectionTime || !sarcophagusName || !storageFee) return
+    const resurrectionTimeUTC = BigNumber.from(convertToUTC(resurrectionTime))
+    const storageFeeBN = BigNumber.from(storageFee)
+    const diggingFeeBN = BigNumber.from(diggingFee)
+    const bountyBN = BigNumber.from(bounty)
+    const recipientPublicKeyBA = utils.arrayify(recipientPublicKey)
+    createSarcophagus(sarcophagusName, archaeologist, resurrectionTimeUTC, storageFeeBN, diggingFeeBN, bountyBN, assetDoubleHash, recipientPublicKeyBA, encryptedBlob)
+    setCompleted(true)
+    setStep(3)
+    setExpanded(false)
   }
 
   const handleFileChange = (e, setFieldValue) => {

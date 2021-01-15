@@ -25,7 +25,7 @@ const ArcInfoBox = ({archaeologist, handleSelected, handleSelect, selected, file
       </div>
       {showMetrics === archaeologist.archaeologist && <Metrics archaeologist={archaeologist} />}
 
-      <div className="h-full border-l border-white col-start-2 pt-3 cursor-pointer" onClick={() => {handleSelected(archaeologist); handleSelect(archaeologist)}}>
+      <div className="h-full border-l border-white col-start-2 pt-3 cursor-pointer" onClick={() => {handleSelected(archaeologist, getBountyFees(archaeologist, file)); handleSelect(archaeologist)}}>
         <div className="flex flex-col items-center justify-center">
           <div className="flex items-center justify-content">{getBountyFees(archaeologist, file)} <div className="h-4 w-8 ">
             <img className="w-full h-full" alt="" src={warning} />
@@ -40,6 +40,7 @@ const ArcInfoBox = ({archaeologist, handleSelected, handleSelect, selected, file
 
 const ArchaeologistList = ({ handleSelected, fees, archSelected, file }) => {
   const { archaeologists } = useData()
+  // console.log("🚀 ~ file: Archaeologists.js ~ line 43 ~ ArchaeologistList ~ archaeologists", archaeologists)
   const [ selected, setSelected ] = useState(false)
   const [showMetrics, setShowMetrics ] = useState(false)
 

@@ -2,14 +2,16 @@ import React, { useState } from 'react'
 import { labels } from '../../constants'
 import MenuItem from '../layout/SideBar/MenuItem'
 import Archaeologists from './Archaeologists'
-import Create from './Create'
+import Settings from './Settings'
 import EmbalmingProcess from './EmbalmingProcess'
-import Settings from './FeeSettings'
+import FeeSettings from './FeeSettings'
 import useSarcophagusCreate from '../customHooks/useSarcophagusCreate'
+import { useData } from '../BlockChainContext'
 
 const CreateSarco = () => {
   const [ step, setStep ] = useState(0)
-  const { sarcophagusSettings, file, handleSettings, handleFees, handleArchaeologistSelect, handleEmbalming, handleFileChange} = useSarcophagusCreate(setStep)
+  const { createSarcophagus } = useData()
+  const { sarcophagusSettings, file, handleSettings, handleFees, handleArchaeologistSelect, handleEmbalming, handleFileChange} = useSarcophagusCreate(setStep, createSarcophagus)
   
   return (
     <div className="relative grid grid-cols-2"> 
@@ -20,8 +22,9 @@ const CreateSarco = () => {
       <div className="h-full">
         <MenuItem label={labels.createSarco} isDisabled={step === 3}>
           {(setExpanded, setCompleted) => (
-            <Create 
-              fileInfo={file} 
+            <Settings 
+              fileInfo={file}
+              sarcophagusSettings={sarcophagusSettings} 
               handleSubmit={handleSettings} 
               handleFileChange={handleFileChange} 
               setExpanded={setExpanded} 
@@ -30,7 +33,8 @@ const CreateSarco = () => {
         </MenuItem>
         <MenuItem label={labels.feeSettings} step={step} isDisabled={step < 1 || step === 3}>
           {(setExpanded, setCompleted) => (
-            <Settings 
+            <FeeSettings 
+              sarcophagusSettings={sarcophagusSettings}
               handleSubmit={handleFees} 
               setExpanded={setExpanded} 
               setCompleted={setCompleted} />
