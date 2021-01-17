@@ -7,7 +7,7 @@ const heightOptions = {
   lg: '2.25rem'
 }
 
-const baseText = "w-full pl-4 placeholder-text border border-white"
+const baseText = "w-full pl-4 placeholder-text border border-white remove-input-steps"
 const errorText = ""
 
 const TextInput = ({ type, label="", height="md", error, ...rest }) => (

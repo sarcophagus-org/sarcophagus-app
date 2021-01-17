@@ -67,3 +67,8 @@ html {
   overflow: -moz-scrollbars-vertical; 
   overflow-y: scroll;
 }
+
+.remove-input-steps::-webkit-inner-spin-button,
+.remove-input-steps::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
