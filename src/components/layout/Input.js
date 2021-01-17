@@ -27,7 +27,7 @@ const FileInput = ({ type, height="md", ...rest }) => (
 )
 
 const Input = ({ type='text', ...rest} ) => {
-  if(type === "text") return <TextInput type={type} {...rest} />
+  if(type === "text" || type === "number") return <TextInput type={type} {...rest} />
   if(type === "file" ) return <FileInput type={type} {...rest} />
   return <></>
 }

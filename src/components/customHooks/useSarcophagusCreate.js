@@ -7,7 +7,7 @@ import { convertToUTC } from "../../utils"
 const useSarcophagusCreate = (setStep, createSarcophagus) => {
   const [ data, setSarcophagusSettings ] = useState(sarcophagusInitialValues)
   const { file, setFile, setRecipientAddress, setArchaeologistAddress, encryptedBlob, assetDoubleHash } = useFileEncryption()
-  // console.log(utils.computePublicKey("0x0B9C22ff5b429d68B42c5801281b6D210cBb8f32"))
+
   useEffect(() => {
     if(!assetDoubleHash) return
     setSarcophagusSettings(sarcophagusSettings => ({...sarcophagusSettings, assetDoubleHash: assetDoubleHash}))
@@ -40,12 +40,11 @@ const useSarcophagusCreate = (setStep, createSarcophagus) => {
   const handleEmbalming = async (setExpanded, setCompleted) => {
     const {archaeologist, assetDoubleHash, bounty, diggingFee, recipientPublicKey, resurrectionTime, sarcophagusName, storageFee} = sarcophagusSettings
     if(!archaeologist || !assetDoubleHash || !bounty || !diggingFee || !recipientPublicKey || !resurrectionTime || !sarcophagusName || !storageFee) return
-    const resurrectionTimeUTC = BigNumber.from(convertToUTC(resurrectionTime))
-    const storageFeeBN = BigNumber.from(storageFee)
-    const diggingFeeBN = BigNumber.from(diggingFee)
-    const bountyBN = BigNumber.from(bounty)
+    const resurrectionTimeUTC = BigNumber.from(convertToUTC(resurrectionTime) / 1000)
+    const diggingFeeBN = utils.parseEther(diggingFee.toString())
+    const bountyBN = utils.parseEther(bounty.toString())
     const recipientPublicKeyBA = utils.arrayify(recipientPublicKey)
-    createSarcophagus(sarcophagusName, archaeologist, resurrectionTimeUTC, storageFeeBN, diggingFeeBN, bountyBN, assetDoubleHash, recipientPublicKeyBA, encryptedBlob)
+    createSarcophagus(sarcophagusName, archaeologist, resurrectionTimeUTC, storageFee, diggingFeeBN, bountyBN, assetDoubleHash, recipientPublicKeyBA, encryptedBlob)
     setCompleted(true)
     setStep(3)
     setExpanded(false)

@@ -25,7 +25,7 @@ const ArcInfoBox = ({archaeologist, handleSelected, handleSelect, selected, file
       </div>
       {showMetrics === archaeologist.archaeologist && <Metrics archaeologist={archaeologist} />}
 
-      <div className="h-full border-l border-white col-start-2 pt-3 cursor-pointer" onClick={() => {handleSelected(archaeologist, getBountyFees(archaeologist, file)); handleSelect(archaeologist)}}>
+      <div className="h-full border-l border-white col-start-2 pt-3 cursor-pointer" onClick={() => {handleSelected(archaeologist, getBountyFees(archaeologist, file, true)); handleSelect(archaeologist)}}>
         <div className="flex flex-col items-center justify-center">
           <div className="flex items-center justify-content">{getBountyFees(archaeologist, file)} <div className="h-4 w-8 ">
             <img className="w-full h-full" alt="" src={warning} />
@@ -40,7 +40,6 @@ const ArcInfoBox = ({archaeologist, handleSelected, handleSelect, selected, file
 
 const ArchaeologistList = ({ handleSelected, fees, archSelected, file }) => {
   const { archaeologists } = useData()
-  // console.log("🚀 ~ file: Archaeologists.js ~ line 43 ~ ArchaeologistList ~ archaeologists", archaeologists)
   const [ selected, setSelected ] = useState(false)
   const [showMetrics, setShowMetrics ] = useState(false)
 
@@ -56,9 +55,9 @@ const ArchaeologistList = ({ handleSelected, fees, archSelected, file }) => {
   if (!Array.isArray(archaeologists) || !archaeologists.length) return <div className="text-red text-center w-full my-2">No archaeologists Available</div>
   return archaeologists
     .filter(v => !v.freeBond.isZero())
-    .filter(v => v.minimumBounty.gte(utils.parseEther(fees.bounty)))
-    .filter(v => v.minimumDiggingFee.gte(utils.parseEther(fees.diggingFee)))
-    .sort((a, b) => getBountyFees(a, file) - getBountyFees(b, file))
+    .filter(v => v.minimumBounty.lte(utils.parseEther(fees.bounty.toString())))
+    .filter(v => v.minimumDiggingFee.lte(utils.parseEther(fees.bounty.toString())))
+    .sort((a, b) => getBountyFees(b, file) - getBountyFees(a, file))
     .map((archaeologist) => <ArcInfoBox key={archaeologist.archaeologist} showMetrics={showMetrics} setShowMetrics={setShowMetrics} handleSelected={handleSelected} archaeologist={archaeologist} handleSelect={_handleSelect} selected={selected} file={file} />)
 }
 
