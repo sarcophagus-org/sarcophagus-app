@@ -4,6 +4,7 @@ import { toast } from 'react-toastify'
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import { supportedChains } from './chains'
+import detectEthereumProvider from '@metamask/detect-provider'
 
 const providerOptions = {
   walletconnect: {
@@ -44,6 +45,18 @@ const useUserSuppliedConnect = () => {
       })
     }
   }, [provider])
+
+  useEffect(() => {
+    detectEthereumProvider().then(provider => {
+      const web3Provider = new ethers.providers.Web3Provider(provider)
+      web3Provider.listAccounts().then( accounts => {
+        if(provider && accounts.length) {
+          setProvider(provider)
+          setUserSupplied(web3Provider)
+        }
+      })
+    })
+  }, [])
 
   return userSupplied
 }
