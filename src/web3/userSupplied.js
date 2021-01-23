@@ -51,8 +51,7 @@ const useUserSuppliedConnect = () => {
       const web3Provider = new ethers.providers.Web3Provider(provider)
       web3Provider.listAccounts().then( accounts => {
         if(provider && accounts.length) {
-          setProvider(provider)
-          setUserSupplied(web3Provider)
+          web3Modal.connectTo('injected')
         }
       })
     })
