@@ -1,14 +1,16 @@
-import { useState, useEffect } from "react"
-import { encrypt } from 'eciesjs'
+import { useState, useEffect, useCallback } from "react"
+import { encrypt } from 'ecies-geth'
 import { utils } from 'ethers'
+import { hexToBytes } from '../../utils/bytes'
 
 const useFileEncryption = () => {
   const [ file, setFile ] = useState(false)
-  const [ recipientPublicKey, setRecipientAddress ] = useState(false)
+  const [ fileType, setFileType ] = useState(false)
+  const [ recipientPublicKey, setRecipientPublicKey ] = useState(false)
   const [ fileByteArray, setFileByteArrayArray ] = useState(false)
   const [ fileEncryptedRecipient, setFileEncryptedRecipient ] = useState(false)
   const [ archaeologistPublicKey, setArchaeologistAddress] = useState(false)
-  const [ encryptedBlob, setEncryptedBlob ] = useState(false)
+  const [ doubleEncryptedFile, setDoubleEncryptedFile ] = useState(false)
   const [ assetDoubleHash, setAssetDoubleHash ] = useState(false)
 
   useEffect(() => {
@@ -26,36 +28,48 @@ const useFileEncryption = () => {
     }
   }, [file])
 
-  useEffect(() => {
-    if(!fileByteArray || !recipientPublicKey) return
+  const firstEncryption = useCallback( async () => {
     try {
-      const encrypted = encrypt(recipientPublicKey, fileByteArray)
+      const recipPubKeyBytes = hexToBytes(recipientPublicKey, true)
+      const encrypted = await encrypt(recipPubKeyBytes, fileByteArray)
+      setFileEncryptedRecipient(encrypted)
+
       const hashedOnce = utils.keccak256(encrypted)
       const hashedTwice = utils.keccak256(hashedOnce)
       setAssetDoubleHash(utils.arrayify(hashedTwice))
-      setFileEncryptedRecipient(encrypted)
     } catch (e) {
       console.error(e)
     }
   }, [fileByteArray, recipientPublicKey])
 
   useEffect(() => {
-    if(!fileEncryptedRecipient || !archaeologistPublicKey) return
+    if(!fileByteArray || !recipientPublicKey) return
+    firstEncryption()
+  }, [fileByteArray, recipientPublicKey, firstEncryption])
+
+  const secondEncryption = useCallback( async () => {
     try {
-      const encrypted = encrypt(archaeologistPublicKey, fileEncryptedRecipient)
-      const blob = new Blob([encrypted], {type: file.type})
-      setEncryptedBlob(blob)
+      const archPubKeyBytes = hexToBytes(archaeologistPublicKey, true)
+      const encrypted = await encrypt(archPubKeyBytes, fileEncryptedRecipient)
+      setDoubleEncryptedFile(encrypted)
+      setFileType(file.type)
     } catch (e) {
       console.error(e)
     }
-  },[fileEncryptedRecipient, archaeologistPublicKey, file])
+  }, [fileEncryptedRecipient, archaeologistPublicKey, file])
+
+  useEffect(() => {
+    if(!fileEncryptedRecipient || !archaeologistPublicKey) return
+    secondEncryption()
+  },[fileEncryptedRecipient, archaeologistPublicKey, secondEncryption])
 
   return { 
     file,
+    fileType,
     setFile,
-    setRecipientAddress,
+    setRecipientPublicKey,
     setArchaeologistAddress,
-    encryptedBlob,
+    doubleEncryptedFile,
     assetDoubleHash
   }
 }

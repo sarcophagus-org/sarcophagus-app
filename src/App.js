@@ -1,15 +1,9 @@
-import Header from './components/Header'
-import Body from './components/Body'
-import Footer from './components/Footer'
+import AppRouter from './router'
 
 const App = () => {
   return (
-    <div className="container min-h-screen flex flex-col justify-between">
-      <div>
-        <Header />
-        <Body />
-      </div>
-      <Footer />
+    <div className="container relative min-h-screen">
+      <AppRouter />
     </div>
   )
 }

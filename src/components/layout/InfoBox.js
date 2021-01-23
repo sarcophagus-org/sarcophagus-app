@@ -1,7 +1,9 @@
 import React from 'react'
 
-const InfoBox = ({title}) => (
-  <div className="border border-white my-3 pl-4 text-gray-400 flex items-center text-xs" style={{ height: '1.88rem' }}>{title}</div>
+const InfoBox = ({ children, ...rest }) => (
+  <div className="text-gray-400 text-2xs" {...rest}>
+    { children }
+  </div>
 )
 
 export default InfoBox

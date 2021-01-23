@@ -72,3 +72,54 @@ html {
 .remove-input-steps::-webkit-outer-spin-button {
     -webkit-appearance: none;
 }
+
+textarea { resize: none; }
+
+.radio-styles input[type="radio"] {
+  position: absolute;
+  visibility: hidden;
+}
+
+.radio-styles label {
+  cursor: pointer;
+  display: flex;  
+  margin-right: 1rem;
+  position: relative;
+  align-items: center;
+}
+
+.radio-styles label:before {
+  background-color: rgb(11,11,11);
+  border: .1rem solid #888293;
+  border-radius: .8rem;
+  content: "";  
+  display: flex;
+  height: .75rem;
+  margin-right: .4rem;
+  width: .75rem;  
+} 
+
+.radio-styles input[type=radio]:checked + label:after { 
+  background: #FFF;
+  border-radius: .5rem;
+  content: '';
+  height: .375rem;
+  left: 0.2rem;
+  position: absolute;
+  top: 0.875rem;
+  width: .375rem;
+}
+
+.input-placeholder {
+    background-image: url('./assets/images/icon.svg');
+    background-size: 16px;
+    background-position: 1rem;
+    background-repeat: no-repeat;
+    text-indent: 20px;
+    padding-left: 1.5rem;
+}
+
+.input-placeholder::placeholder {
+  color: #29262F;
+  font-size: 14px;
+}

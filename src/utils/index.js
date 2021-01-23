@@ -11,11 +11,19 @@ const truncate = (fullStr, strLen, separator, sepLength) => {
   return fullStr.substr(0, frontChars) + separator + fullStr.substr(fullStr.length - backChars);
 }
 
-const convertToUTC = (resurrectionTime) => {
-  return Date.UTC(resurrectionTime.getFullYear(), resurrectionTime.getMonth(), resurrectionTime.getDate(), resurrectionTime.getHours(), resurrectionTime.getMinutes(), resurrectionTime.getSeconds())
-}
+const createLocationNumberObject = (length, day = false) => {
+  const numArray = Array.from({ length: length + 1 }, (_, k) => {
+    if (k === 0) return 0;
+    return k;
+  });
+  if (day) numArray.shift();
+  const object = {};
+  numArray.forEach((number) => (object[`number_${number}`] = number));
+  return object;
+};
+
 
 export {
   truncate,
-  convertToUTC
+  createLocationNumberObject,
 }

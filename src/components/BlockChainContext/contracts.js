@@ -33,22 +33,7 @@ const useSarcophagusTokenContract = () => {
   return sarcophagusTokenContract
 }
 
-const useDecimals = (contract) => {
-  const [decimals, setDecimals] = useState(0)
-
-  useEffect(() => {
-    if (!contract) return
-
-    contract.decimals().then(decimals => {
-      setDecimals(decimals)
-    }).catch(console.error)
-  }, [contract])
-
-  return decimals
-}
-
 export { 
   useSarcophagusContract,
   useSarcophagusTokenContract,
-  useDecimals
  }

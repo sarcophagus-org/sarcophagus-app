@@ -4,14 +4,17 @@ import wallet from '../assets/images/wallet.svg'
 import { truncate } from '../utils'
 import { useWeb3 } from '../web3'
 import { connect } from '../web3/userSupplied'
+import icon from '../assets/images/icon.svg'
+import NavLink from './nav/NavLink'
 
 const AccountDisplay = () => {
   const { account } = useWeb3()
 
   if (account) {
     return (
-      <div>
+      <div className="flex justify-center items-center">
         {truncate(account, 25)}
+        <img src={icon} alt="" className="ml-6" />
       </div>
     )
   } else {
@@ -23,16 +26,35 @@ const AccountDisplay = () => {
   }
 }
 
+const Tabs = () => {
+  return (
+    <ul className="flex">
+      <li className="pr-4 py-1 ">
+        <NavLink dest="/" title="My Tomb" />
+      </li>
+      <li className="px-4 py-1 ">
+        <NavLink dest="/create" title="Create" />
+      </li>
+      <li className="px-4 py-1 ">
+        <NavLink dest="/resurrect" title="Resurrect" />
+      </li>
+    </ul>
+  )
+}
+
 const Top = () =>  (
-  <div className="flex justify-between mb-16">
-    <div className="w-24 p-1">
-      <img src={logo} alt="logo" />
+  <div className="flex justify-between items-center mb-16" style={{height: '4rem'}}>
+    <div className="flex items-center">
+      <div className="w-10 p-1 mr-4">
+        <img src={logo} alt="logo" />
+      </div>
+      <Tabs />
     </div>
     <div className="flex items-center">
       <div>
-        <img src={wallet} alt="wallet" />
+        <img src={wallet} alt="wallet" className="" />
       </div>
-      <div className="ml-3 text-gray-400 text-sm">
+      <div className="ml-3 text-sm text-gray-300">
         <AccountDisplay />
       </div>
     </div>
@@ -40,24 +62,13 @@ const Top = () =>  (
 )
 
 
-const Tabs = () => {
-  return (
-    <ul className="flex">
-      <li className="px-4 py-1 border border-solid">Create</li>
-      <li className="px-4 py-1 border border-solid">ReWrap</li>
-      <li className="px-4 py-1 border border-solid">Resurrect</li>
-      <li className="px-4 py-1 border border-solid">Tomb</li>
-    </ul>
-  )
-}
 
 
 
 const Header = () => {
   return (
-    <div className="pt-2 pb-6">
+    <div className="pt-2">
       <Top />
-      <Tabs />
     </div>
   )
 }

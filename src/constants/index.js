@@ -1,8 +1,12 @@
+import { createLocationNumberObject } from "../utils"
+import { getUTCDate } from "../utils/datetime"
+
 const labels = {
-  createSarco: "Create Sarcophagus",
-  feeSettings: "Sarcophagus Settings",
+  createSarco: "Create a Sarcophagus",
+  nameAndRecipient: "Name Sarcophagus and add your recipient",
+  fileUpload: "Upload your file to your Sarcophagus",
   pickArchaeologist: "Pick an Archaeologist",
-  completeEmbalming: "Complete Embalming"
+  resurrectionTime: "Set resurrection time"
 }
 
 const sarcophagusInitialValues = {
@@ -14,9 +18,23 @@ const sarcophagusInitialValues = {
   bounty: false,             // uint256
   assetDoubleHash: false,    // bytes32
   recipientPublicKey: false, // bytes memory
-} 
+}
+
+const days = createLocationNumberObject(365, true)
+const hours = createLocationNumberObject(23)
+const minutes = createLocationNumberObject(59)
+
+const weekAhead = getUTCDate(7)
+const monthAhead = getUTCDate(30)
+const threeMonthAhead = getUTCDate(90)
 
 export {
   labels,
-  sarcophagusInitialValues
+  sarcophagusInitialValues,
+  days,
+  hours,
+  minutes,
+  weekAhead,
+  monthAhead,
+  threeMonthAhead
 }

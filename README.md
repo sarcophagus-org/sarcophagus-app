@@ -44,7 +44,7 @@ Follow Instruction in V2-contracts Readme to spin up local blockchain
 Copy 'build' folder and paste to `airfoil-sarcophagus-app` '/src' directory
 if needed update .env `REACT_APP_LOCAL_SARCOPHAGUS_ADDRESS` with deployed contract address given in the terminal.
 
-### Migrate Development Archeologists ((optional) If test archaeologists are needed)
+### Migrate Development Archeologists
 *ensure local blockchain (V2-contracts) is running during this step*
 Go will need to be install to be able to use archaeologist-service. For MacOS follow the instructions in the following link to install Go
 
@@ -61,3 +61,5 @@ Change branch `web_app_seed_data` and in the terminal run
 ```
 go run cmd/seed.go
 ```
+
+### Archaeologist Service and Arweave

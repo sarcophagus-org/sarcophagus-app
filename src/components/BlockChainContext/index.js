@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react'
 import { useArcheologists } from './useArchaeologists'
-import { useDecimals, useSarcophagusContract, useSarcophagusTokenContract } from './contracts'
+import { useSarcophagusContract, useSarcophagusTokenContract } from './contracts'
 import { useSarcophagus } from './useSarcophagus'
 let context
 
@@ -17,15 +17,12 @@ const createDataRoot = () => {
 
     const { archaeologists } = useArcheologists(sarcophagusContract)
     const { createSarcophagus } = useSarcophagus(sarcophagusTokenContract, sarcophagusContract) // Should return status updates and will need to update button
-
-    const decimals = useDecimals(sarcophagusTokenContract)
   
     const dataContext = {
       sarcophagusContract,
       sarcophagusTokenContract,
       archaeologists,
-      createSarcophagus,
-      decimals
+      createSarcophagus
     }
     return <Provider value={dataContext}>{children}</Provider>
   }
