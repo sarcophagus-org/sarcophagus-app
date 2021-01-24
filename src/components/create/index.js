@@ -12,8 +12,7 @@ import useSarcophagusCreate from '../customHooks/useSarcophagusCreate'
 import Button from '../layout/Button'
 
 const CreateSarcophagus = () => {
-  const { archaeologists } = useData()
-  const { createSarcophagus } = useData()
+  const { archaeologists, createSarcophagus } = useData()
   const {file, setFile, handleArchaeologistSelect, handleEmbalming, selectedArchaeologist, handleKey} = useSarcophagusCreate(createSarcophagus)
   return (
     <Formik initialValues={initialValues()} validationSchema={validationSchema()} onSubmit={handleEmbalming}>

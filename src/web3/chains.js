@@ -10,6 +10,7 @@ const useAddresses = chainId => {
 
   useEffect(() => {
     if (chainId === parseInt(process.env.REACT_APP_LOCAL_CHAINID, 10)) {
+      
       setAddresses({
         sarcophagus: process.env.REACT_APP_LOCAL_SARCOPHAGUS_ADDRESS,
         sarcophagusToken: process.env.REACT_APP_LOCAL_SARCOPHAGUS_TOKEN_ADDRESS
