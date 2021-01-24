@@ -8,10 +8,9 @@ const useSarcophagusCreate = (createSarcophagus) => {
   const [ selectedArchaeologist, setSelected ] = useState(false)
   
   const handleArchaeologistSelect = (selectedArchaeologist, storageFee) => {
-    if(!selectedArchaeologist) return
     setStorageFee(storageFee)
     setSelected(selectedArchaeologist)
-    setArchaeologistAddress(selectedArchaeologist.currentPublicKey)
+    setArchaeologistAddress(selectedArchaeologist?.currentPublicKey)
   }
 
   const handleKey = (key) => {
