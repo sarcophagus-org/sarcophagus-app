@@ -13,23 +13,16 @@ const useArchaeologistsSort = (archaeologists, file, bounty, diggingFee ) => {
 		setList(archaeologists.filter((_, i) => i >= page * perPage && i <= ((page + 1) * perPage) - 1 ))
 	}, [archaeologists, page, perPage])
 
-	// if file sort and show bounty fee (everything is still disabled)
 	useEffect(() => {
-		if(!Array.isArray(archaeologists) || !archaeologists.length) return
-		if(!file) return
-		setList( (archaeologists
-			.sort((a, b) => getStorageFee(a, file) - getStorageFee(b, file))
+		if(!bounty || !diggingFee || !file) return
+		setList( archaeologists
+			// if file, bounty and digging fee is present sort by fee then
+			.sort((a, b) => getStorageFee(b, file) - getStorageFee(a, file))
+			// sort disabled to be in the back then
+			.sort((a, b) => a.minimumBounty.lte(utils.parseEther(bounty.toString())) && a.minimumDiggingFee.lte(utils.parseEther(diggingFee.toString())) ? -1 : b.minimumBounty.lte(utils.parseEther(bounty.toString())) && b.minimumDiggingFee.lte(utils.parseEther(diggingFee.toString())) ? 1 : 0)
+			// filter by page
 			.filter((_, i) => i >= page * perPage && i <= ((page + 1) * perPage) - 1 )
-		))
-	}, [archaeologists, file, page, perPage])
-
-	// disabled sort last
-	useEffect(() => {
-    if(!bounty || !diggingFee || !file) return
-		setList( (archaeologists
-			.sort((a) => a.minimumBounty.lte(utils.parseEther(bounty.toString())) && a.minimumDiggingFee.lte(utils.parseEther(diggingFee.toString())) ? -1 : 1)
-			.filter((_, i) => i >= page * perPage && i <= ((page + 1) * perPage) - 1 )
-		))
+			)
 	}, [bounty, diggingFee, file, page, perPage, archaeologists])
 
 
