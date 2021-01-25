@@ -30,7 +30,9 @@ const useArcheologists = (sarcophagusContract) => {
   const getArchaeologistInfo = useCallback(async (sarcophagusContract) => {
     try {
       const archaeologists = await Promise.all(arcAddresses.map( async (address) => await sarcophagusContract.archaeologists(address) ))
-      setArchaeologists(archaeologists)
+      // Remove Line 34 for testing purposes
+      const filteredArchaeologists = archaeologists.filter(v => !v.freeBond.isZero())
+      setArchaeologists([...filteredArchaeologists, ...filteredArchaeologists, ...filteredArchaeologists])
     } catch (error) {
       console.error(error)
     }

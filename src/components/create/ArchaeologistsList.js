@@ -32,6 +32,7 @@ const ArchaeologistsList = ({ archaeologist, file, gtSign, bounty, diggingFee, s
     setFieldValue('address', archaeologist.archaeologist); 
     handleSelected(archaeologist, getStorageFee(archaeologist, file, true))
   }
+  
   return (
     <div onClick={handleClick} className={isDisabled ?  classnames(base, disabledBorder) : selected === archaeologist.archaeologist ? classnames(base, selectedBorder) : classnames(base, baseBorder)} style={{height: '4.375rem'}}>
       <div className="flex justify-between items-center" style={{lineHeight: '1.44375rem'}}>
