@@ -26,7 +26,7 @@ const useUserSuppliedConnect = () => {
   useEffect(() => {
     if(!window.ethereum && !provider) return
     setSelectedAddress(window.ethereum)
-  }, [ window.ethereum, provider ])
+  }, [ provider ])
 
   useEffect(() => {
     detectEthereumProvider().then(injectedProvider => {

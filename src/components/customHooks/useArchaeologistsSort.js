@@ -30,7 +30,7 @@ const useArchaeologistsSort = (archaeologists, file, bounty, diggingFee ) => {
 			.sort((a) => a.minimumBounty.lte(utils.parseEther(bounty.toString())) && a.minimumDiggingFee.lte(utils.parseEther(diggingFee.toString())) ? -1 : 1)
 			.filter((_, i) => i >= page * perPage && i <= ((page + 1) * perPage) - 1 )
 		))
-	}, [bounty, diggingFee, file, page, perPage])
+	}, [bounty, diggingFee, file, page, perPage, archaeologists])
 
 
   return { filteredList, page, totalPages, handlePrevPage, handleNextPage, goToPage, pageNumbers }
