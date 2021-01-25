@@ -18,7 +18,6 @@ const PickArchaeologist = ({ archaeologists, handleSelected, archSelected, file,
       <Fees values={values} handleChange={handleChange} errors={errors} touched={touched} />
       
       <ArchTableRow headerOne={`Archaeologists (${archaeologists.length})`} headerTwo="Fee" headerThree="Metrics" />
-      <div style={{minHeight: '23.25rem'}}>
         {filteredList.map( (archaeologist, i) => 
           <ArchaeologistsList 
           key={`${i}${archaeologist.archaeologist}`} 
@@ -32,8 +31,6 @@ const PickArchaeologist = ({ archaeologists, handleSelected, archSelected, file,
           gtSign="&#62;"
           />
           )}
-      </div>
-      
       {/* Once Pagination is added this will change */}
       {archaeologists.length > 0 && <PageSelect 
           page={page} 
