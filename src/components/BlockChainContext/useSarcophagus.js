@@ -76,21 +76,20 @@ const useSarcophagus = (sarcophagusTokenContract, sarcophagusContract) => {
                     const response = await arweave.api.get(`tx/${AssetId}`)
                     switch (response.status) {
                       case 202:
-                        // Pending Tx (still mining)
+                        /* Pending Tx (still mining) */
                         console.log('still mining')
                         break;
                       case 200:
                         /* Successful Tx */
-                        /* Check that content type tag isn't empty */
-
                         clearInterval(interval)
+
+                        /* Check that content type tag isn't empty */
                         const fileTypeExists = await arweaveFileTypeExists(arweave, AssetId)
                         if (!fileTypeExists) {
                           throw new Error("There was an error with the Arweave file type")
                         }
 
                         /* Call Update Sarcophagus with response from Arch */
-
                         sarcophagusContract.updateSarcophagus(NewPublicKey, AssetDoubleHash, AssetId, V, R, S)
                           .then((txReceipt) => {
                             console.log("🚀 update ~txReceipt", txReceipt)
@@ -99,7 +98,6 @@ const useSarcophagus = (sarcophagusTokenContract, sarcophagusContract) => {
                       default:
 
                         /* Problem with the Tx (status is something other than 202 or 200) */
-
                         if (errorRetries > 0) {
                           errorRetries -= 1
                         } else {
