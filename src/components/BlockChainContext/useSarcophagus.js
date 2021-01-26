@@ -46,13 +46,11 @@ const useSarcophagus = (sarcophagusTokenContract, sarcophagusContract) => {
               .then(async (responseFromArch) => {
                 console.log("response from arch:", responseFromArch)
 
-                // Store in state
+                // Save vars below in local storage (using AssetDoubleHash as key)
                 let { NewPublicKey, AssetDoubleHash, AssetId, V, R, S } = responseFromArch
                 NewPublicKey = Buffer.from(NewPublicKey, 'base64')
 
                 // At this point, we can redirect user to Tomb page.
-
-                // Move code below elsewhere
 
                 /* Validate Arweave File using assetId from Archaeologist response */
                 const arweave = initArweave()
@@ -63,22 +61,28 @@ const useSarcophagus = (sarcophagusTokenContract, sarcophagusContract) => {
                 }
 
                 /* Wait for TX to be mined */
-                var startTime = new Date().getTime();
+                const startTime = new Date().getTime();
+                const INTERVAL_LENGTH_SECONDS = 5
+                const INTERVAL_TIMEOUT_MINS = 15
+                let errorRetries = 2
                 const interval = setInterval(async () => {
                   /* Stop checking and fail after 15 minutes */
-                  if (new Date().getTime() - startTime > (15 * 60 * 1000)) {
+                  if (new Date().getTime() - startTime > (INTERVAL_TIMEOUT_MINS * 60 * 1000)) {
                     clearInterval(interval);
-                    throw new Error("There was an error with the Arweave Transaction")
+                    throw new Error("Mining Timed Out")
                   }
 
                   try {
-                    const response = await arweave.api.get('tx/1bywe_cEpvGQqKUPV_1LowoGYf0WNMEe00mQQgEp_98')
+                    const response = await arweave.api.get(`tx/${AssetId}`)
                     switch (response.status) {
                       case 202:
                         // Pending Tx (still mining)
+                        console.log('still mining')
                         break;
                       case 200:
-                        // Successful Tx
+                        /* Successful Tx */
+                        /* Check that content type tag isn't empty */
+
                         clearInterval(interval)
                         const fileTypeExists = await arweaveFileTypeExists(arweave, AssetId)
                         if (!fileTypeExists) {
@@ -93,15 +97,27 @@ const useSarcophagus = (sarcophagusTokenContract, sarcophagusContract) => {
                           }).catch(e => console.error("Error updating sarcophagus:", e))
                         break;
                       default:
-                        // Problem with the Tx
-                        clearInterval(interval)
-                        throw new Error("There was an error with the Arweave Transaction")
+
+                        /* Problem with the Tx (status is something other than 202 or 200) */
+
+                        if (errorRetries > 0) {
+                          errorRetries -= 1
+                        } else {
+                          clearInterval(interval)
+                          throw new Error("There was an error with the Arweave Transaction")
+                        }
                     }
                   } catch {
-                    clearInterval(interval)
-                    throw new Error("There was an error with the Arweave Transaction")
+                    /* Error querying arweave */
+
+                    if (errorRetries > 0) {
+                      errorRetries -= 1
+                    } else {
+                      clearInterval(interval)
+                      throw new Error("There was an error with the Arweave Transaction")
+                    }
                   }
-                }, 5000)
+                }, INTERVAL_LENGTH_SECONDS * 1000)
               }).catch(e => console.error("Error sending file to archaeologist:", e))
           }).catch(e => console.error("Error creating Sarcophagus:", e))
       }).catch(e => console.error("Error during approval process:", e))
