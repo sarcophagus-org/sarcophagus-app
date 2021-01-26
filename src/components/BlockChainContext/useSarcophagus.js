@@ -45,17 +45,42 @@ const useSarcophagus = (sarcophagusTokenContract, sarcophagusContract) => {
             handleSendFile(doubleEncryptedFile, fileType, archaeologist.endpoint)
               .then(async (responseFromArch) => {
                 console.log("response from arch:", responseFromArch)
+
+                // Store in state
                 let { NewPublicKey, AssetDoubleHash, AssetId, V, R, S } = responseFromArch
                 NewPublicKey = Buffer.from(NewPublicKey, 'base64')
 
-                /* Validate Arweave File using assetId from Archaeologist response */
+                // At this point, we can redirect user to Tomb page.
 
+                // Move code below elsewhere
+
+                /* Validate Arweave File using assetId from Archaeologist response */
                 const arweave = initArweave()
                 const fileValid = await arweaveFileValid(arweave, AssetId, doubleEncryptedFile)
-                const fileTypeExists = await arweaveFileTypeExists(arweave, AssetId)
-                if (!fileValid || !fileTypeExists) {
-                  // Houston we have a problem
+
+                if (!fileValid) {
                   throw new Error("There was an error with the Arweave file")
+                }
+
+                /* Wait for TX to be mined */
+                const interval = setInterval(async () => {
+                  const status = await arweave.api.get(`tx/${AssetId}`).status
+                  switch(status) {
+                    case 202:
+                      // Pending Tx
+                      break;
+                    case 200:
+                      clearInterval(interval)
+                      break;
+                    default:
+                      clearInterval(interval)
+                      throw new Error("There was an error with the Arweave Transaction")
+                  }
+                }, 5000)
+
+                const fileTypeExists = await arweaveFileTypeExists(arweave, AssetId)
+                if (!fileTypeExists) {
+                  throw new Error("There was an error with the Arweave file type")
                 }
 
                 /* Call Update Sarcophagus with response from Arch */
