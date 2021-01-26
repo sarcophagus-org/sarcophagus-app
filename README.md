@@ -15,6 +15,12 @@ then
 npm install
 ```
 
+### Node
+This project uses Node v12.20.1
+
+Recommended:
+use `nvm use` in root directory to switch to the correct node version.
+
 ### Create .env
 Create `.env` in root directory. Contact development team for environment variables settings.
 

@@ -50,6 +50,7 @@ module.exports = {
         '2xs': '0.625rem',   // 10px
         sm: '0.8125rem',     // 13px
         md: '0.875rem',      // 14px
+        base: '1rem',        // 16px
         lg: '1.25rem'        // 20px
       },
     },

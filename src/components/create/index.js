@@ -10,12 +10,17 @@ import { initialValues } from './initialValues'
 import { validationSchema } from './validationSchema'
 import useSarcophagusCreate from '../customHooks/useSarcophagusCreate'
 import Button from '../layout/Button'
+import { useHistory } from 'react-router-dom';
 
 const CreateSarcophagus = () => {
+  const history = useHistory()
   const { archaeologists, createSarcophagus } = useData()
   const {file, setFile, handleArchaeologistSelect, handleEmbalming, selectedArchaeologist, handleKey} = useSarcophagusCreate(createSarcophagus)
+  const handleSubmit = (values) => {
+    handleEmbalming(values, history)
+  }
   return (
-    <Formik initialValues={initialValues()} validationSchema={validationSchema()} onSubmit={handleEmbalming}>
+    <Formik initialValues={initialValues()} validationSchema={validationSchema()} onSubmit={handleSubmit}>
       {({ values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue }) => (
         <form className="ml-8 px-14" onSubmit={handleSubmit}>
           <PageHeading />

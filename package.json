@@ -55,6 +55,9 @@
       "last 1 safari version"
     ]
   },
+  "engines": {
+    "node": "12.20.1"
+  },
   "devDependencies": {
     "dotenv": "^8.2.0",
     "truffle": "^5.1.59"

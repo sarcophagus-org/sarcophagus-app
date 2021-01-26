@@ -2,6 +2,8 @@ import { createContext, useContext } from 'react'
 import { useArcheologists } from './useArchaeologists'
 import { useSarcophagusContract, useSarcophagusTokenContract } from './contracts'
 import { useSarcophagus } from './useSarcophagus'
+import { useSarcoAllowance } from './myBalances'
+import { useSarcophagi } from './useSarcophagi'
 let context
 
 const createDataRoot = () => {
@@ -16,13 +18,18 @@ const createDataRoot = () => {
     const sarcophagusTokenContract = useSarcophagusTokenContract()
 
     const { archaeologists } = useArcheologists(sarcophagusContract)
-    const { createSarcophagus } = useSarcophagus(sarcophagusTokenContract, sarcophagusContract) // Should return status updates and will need to update button
-  
+    const { createSarcophagus } = useSarcophagus(sarcophagusTokenContract, sarcophagusContract)
+    const { sarcophagi } = useSarcophagi(sarcophagusContract)
+    console.log("🚀 ~ file: index.js ~ line 23 ~ return ~ sarcophagi", sarcophagi)
+    const { sarcoAllowance } = useSarcoAllowance(sarcophagusContract, sarcophagusTokenContract)
+    
     const dataContext = {
       sarcophagusContract,
       sarcophagusTokenContract,
       archaeologists,
-      createSarcophagus
+      sarcoAllowance,
+      createSarcophagus,
+      sarcophagi,
     }
     return <Provider value={dataContext}>{children}</Provider>
   }
