@@ -1,7 +1,7 @@
 import { createLocationNumberObject } from "../utils"
 import { getUTCDate } from "../utils/datetime"
 
-const labels = {
+export const labels = {
   createSarco: "Create a Sarcophagus",
   nameAndRecipient: "Name Sarcophagus and add your recipient",
   fileUpload: "Upload your file to your Sarcophagus",
@@ -9,7 +9,7 @@ const labels = {
   resurrectionTime: "Set resurrection time"
 }
 
-const sarcophagusInitialValues = {
+export const sarcophagusInitialValues = {
   sarcophagusName: false,    // (name) string memory
   archaeologist: false,      // address
   resurrectionTime: false,   // uint256
@@ -20,21 +20,26 @@ const sarcophagusInitialValues = {
   recipientPublicKey: false, // bytes memory
 }
 
-const days = createLocationNumberObject(365, true)
-const hours = createLocationNumberObject(23)
-const minutes = createLocationNumberObject(59)
+export const days = createLocationNumberObject(365, true)
+export const hours = createLocationNumberObject(23)
+export const minutes = createLocationNumberObject(59)
 
-const weekAhead = getUTCDate(7)
-const monthAhead = getUTCDate(30)
-const threeMonthAhead = getUTCDate(90)
+export const weekAhead = getUTCDate(7)
+export const monthAhead = getUTCDate(30)
+export const threeMonthAhead = getUTCDate(90)
 
-export {
-  labels,
-  sarcophagusInitialValues,
-  days,
-  hours,
-  minutes,
-  weekAhead,
-  monthAhead,
-  threeMonthAhead
+export const SARCOPHAGI_STATUS_MESSAGES = {
+  STATUS_STILL_MINING: 'Still mining',
+  STATUS_SUCCESS: 'Success',
+  STATUS_MINING_TIMED_OUT: 'Mining Timed out',
 }
+
+export const ERROR_MESSAGES_MINING = {
+  ARWEAVE_FILE: 'There was an error with the Arweave file',
+  ARWEAVE_TRANSACTION: 'There was an error with the Arweave Transaction',
+}
+
+export const INTERVAL_LENGTH_SECONDS = 5
+export const INTERVAL_TIMEOUT_MINS = 15
+
+export const TIMER_DEFAULT = '0 days 00:00:00'

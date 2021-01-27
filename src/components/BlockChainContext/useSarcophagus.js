@@ -48,10 +48,15 @@ const useSarcophagus = (sarcophagusTokenContract, sarcophagusContract) => {
                 // Save vars below in local storage (using AssetDoubleHash as key)
                 let { NewPublicKey, AssetDoubleHash, AssetId, V, R, S } = responseFromArch 
                 NewPublicKey = Buffer.from(NewPublicKey, 'base64')
-                
                 const storageObject = { NewPublicKey: NewPublicKey, AssetDoubleHash: AssetDoubleHash, V: V, R: R, S: S, AssetId: AssetId, DEF: doubleEncryptedFile}
                 localStorage.setItem(AssetDoubleHash, JSON.stringify(storageObject))
-                history.replace('/')
+
+                sarcophagusContract.updateSarcophagus(NewPublicKey, AssetDoubleHash, AssetId, V, R, S)
+              
+                .then((txReceipt) => {
+                  console.log("🚀 update ~txReceipt", txReceipt)
+                  history.replace('/')
+              }).catch(e => console.error("Error updating sarcophagus:", e))
               }).catch(e => console.error("Error sending file to archaeologist:", e))
           }).catch(e => console.error("Error creating Sarcophagus:", e))
       }).catch(e => console.error("Error during approval process:", e))

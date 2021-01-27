@@ -1,45 +1,56 @@
+import { utils } from "ethers";
 import { useEffect, useState, useCallback } from "react"
+import { toast } from "react-toastify";
+import { ERROR_MESSAGES_MINING, INTERVAL_LENGTH_SECONDS, INTERVAL_TIMEOUT_MINS, SARCOPHAGI_STATUS_MESSAGES } from "../../constants";
 import {initArweave, arweaveFileTypeExists, arweaveFileValid} from "../../utils/arweave";
 import { useData } from "../BlockChainContext";
 
-const useArweave = (assetDoubleHash) => {
-  const sarcophagusContract = useData()
+const useArweave = (assetDoubleHash, name) => {
+  const [ doubleHashUint, setDoubleHashUint ] = useState(false)
   const [ status, setStatus ] = useState(false)
+  const [ error, setError ] = useState(false)
   const [ data, setData] = useState(false)
 
   useEffect(() => {
     if(!assetDoubleHash) return
-    const storedData = localStorage.getItem(assetDoubleHash)
+    const hashUint = utils.arrayify(assetDoubleHash)
+    const hashBuffed = Buffer.from(hashUint)
+    setDoubleHashUint(hashBuffed)
+  }, [assetDoubleHash])
+
+  useEffect(() => {
+    if(!doubleHashUint) return
+    const storedData = localStorage.getItem(doubleHashUint.toLocaleString())
     if(!storedData) return
     setData(JSON.parse(storedData))
 
-  }, [assetDoubleHash])
+  }, [doubleHashUint])
 
   const arweave = useCallback( async () => {
-    if(!assetDoubleHash || !data) return
+    if(!doubleHashUint || !data) return
     const { NewPublicKey, AssetDoubleHash, AssetId, V, R, S, DEF} = data
     const arweave = initArweave()
     const fileValid = await arweaveFileValid(arweave, AssetId, DEF)
   
     if (!fileValid) {
-      throw new Error("There was an error with the Arweave file")
+      toast.error(ERROR_MESSAGES_MINING.ARWEAVE_FILE)
+      setError(ERROR_MESSAGES_MINING.ARWEAVE_FILE)
     }
   
     /* Wait for TX to be mined */
     const startTime = new Date().getTime();
-    const INTERVAL_LENGTH_SECONDS = 5
-    const INTERVAL_TIMEOUT_MINS = 15
     let errorRetries = 2
     const interval = setInterval(async () => {
       /* Stop checking and fail after 15 minutes */
       if (new Date().getTime() - startTime > (INTERVAL_TIMEOUT_MINS * 60 * 1000)) {
         clearInterval(interval);
-        setStatus('Mining Timed Out')
-        throw new Error("Mining Timed Out")
+        setStatus(SARCOPHAGI_STATUS_MESSAGES.STATUS_MINING_TIMED_OUT)
+        toast.error(`${name}: ${SARCOPHAGI_STATUS_MESSAGES.STATUS_MINING_TIMED_OUT}`)
       }
   
       try {
-        const response = await arweave.api.get(`tx/${AssetId}`)
+        const response = await arweave.api.get(`${AssetId}`)
+        console.log('Arweave ~response', response)
         switch (response.status) {
           case 202:
             /* Pending Tx (still mining) */
@@ -49,51 +60,48 @@ const useArweave = (assetDoubleHash) => {
           case 200:
             /* Successful Tx */
             clearInterval(interval)
-  
+            setStatus(SARCOPHAGI_STATUS_MESSAGES.STATUS_SUCCESS)
             /* Check that content type tag isn't empty */
             const fileTypeExists = await arweaveFileTypeExists(arweave, AssetId)
             if (!fileTypeExists) {
-              setStatus('There was an error with the Arweave file')
-              throw new Error("There was an error with the Arweave file type")
+              setError(ERROR_MESSAGES_MINING.ARWEAVE_FILE)
+              toast.error(`${name}: ${ERROR_MESSAGES_MINING.ARWEAVE_FILE}`)
             }
-  
             /* Call Update Sarcophagus with response from Arch */
-            sarcophagusContract.updateSarcophagus(NewPublicKey, AssetDoubleHash, AssetId, V, R, S)
-              .then((txReceipt) => {
-                console.log("🚀 update ~txReceipt", txReceipt)
-              }).catch(e => console.error("Error updating sarcophagus:", e))
-            break;
-          default:
+
+              break;
+              default:
   
-            /* Problem with the Tx (status is something other than 202 or 200) */
-            if (errorRetries > 0) {
-              errorRetries -= 1
-            } else {
-              clearInterval(interval)
-              setStatus('There was an error with the Arweave Transaction')
-              throw new Error("There was an error with the Arweave Transaction")
-            }
+          /* Problem with the Tx (status is something other than 202 or 200) */
+          if (errorRetries > 0) {
+            errorRetries -= 1
+          } else {
+            clearInterval(interval)
+            setError(ERROR_MESSAGES_MINING.ARWEAVE_TRANSACTION)
+            toast.error(`${name}: ${ERROR_MESSAGES_MINING.ARWEAVE_TRANSACTION}`)
+          }
         }
       } catch {
         /* Error querying arweave */
-  
+        
         if (errorRetries > 0) {
           errorRetries -= 1
         } else {
           clearInterval(interval)
-          setStatus('There was an error with the Arweave Transaction')
-          throw new Error("There was an error with the Arweave Transaction")
+          setError(ERROR_MESSAGES_MINING.ARWEAVE_TRANSACTION)
+          toast.error(`${name}: ${ERROR_MESSAGES_MINING.ARWEAVE_TRANSACTION}`)
         }
         return { status }
       }
     }, INTERVAL_LENGTH_SECONDS * 1000)
-  }, [assetDoubleHash, data, sarcophagusContract, status])
+  }, [doubleHashUint, data, status, name])
 
   useEffect(() => {
+    if(status === SARCOPHAGI_STATUS_MESSAGES.STATUS_SUCCESS) return
     arweave()
-  }, [arweave])
+  }, [arweave, status])
   /* Validate Arweave File using assetId from Archaeologist response */
-  return { status }
+  return { status, error }
 }
 
 export default useArweave

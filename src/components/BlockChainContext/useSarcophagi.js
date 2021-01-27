@@ -29,7 +29,7 @@ const useSarcophagi = (sarcophagusContract) => {
 
   const getSarcophagInfo = useCallback(async (sarcophagusContract) => {
     try {
-      const sarcophagi = await Promise.all(sarcoDoubleHashes.map( async (doubleHash) => await sarcophagusContract.sarcophagus(doubleHash) ))
+      const sarcophagi = await Promise.all(sarcoDoubleHashes.map( async (doubleHash) => {return{...await sarcophagusContract.sarcophagus(doubleHash), AssetDoubleHash: doubleHash}} ))
       setSarcophagi(sarcophagi)
     } catch (error) {
       console.error(error)

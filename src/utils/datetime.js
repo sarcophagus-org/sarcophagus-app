@@ -31,4 +31,13 @@ const getCustomDateUTC = (days=0, hours=0, minutes=0) => {
   return utc
 }
 
-export { convertToUTC, getUTCDate, getDate, getCustomDateUTC }
+const getTimeRemaining = (endtime) => {
+  const total = endtime - Date.parse(new Date());
+  const seconds = Math.floor( (total/1000) % 60 );
+  const minutes = Math.floor( (total/1000/60) % 60 );
+  const hours = Math.floor( (total/(1000*60*60)) % 24 );
+  const days = Math.floor( total/(1000*60*60*24) );
+  return `${days} days ${hours}:${minutes}:${seconds}`
+}
+
+export { convertToUTC, getUTCDate, getDate, getCustomDateUTC, getTimeRemaining }
