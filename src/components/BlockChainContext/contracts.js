@@ -12,8 +12,13 @@ const useSarcophagusContract = () => {
 
   useEffect(() => {
     if (!chainId || !addresses || !signerOrProvider) return
-
-    setSarcophagusContract(new Contract(addresses.sarcophagus, Sarcophagus.abi, signerOrProvider))
+    try{
+      const contract = new Contract(addresses.sarcophagus, Sarcophagus.abi, signerOrProvider)
+      setSarcophagusContract(contract)
+    } catch (e) {
+      console.log('sarco contract error')
+      console.error(e)
+    }
   }, [chainId, signerOrProvider, addresses])
 
   return sarcophagusContract
@@ -26,8 +31,13 @@ const useSarcophagusTokenContract = () => {
 
   useEffect(() => {
     if (!chainId || !addresses || !signerOrProvider) return
-
-    setSarcophagusTokenContract(new Contract(addresses.sarcophagusToken, SarcophagusToken.abi, signerOrProvider))
+    try {
+      const contract = new Contract(addresses.sarcophagusToken, SarcophagusToken.abi, signerOrProvider)
+      setSarcophagusTokenContract(contract)
+    } catch (e) {
+      console.log('sarco token contract error')
+      console.error(e)
+    }
   }, [chainId, signerOrProvider, addresses])
 
   return sarcophagusTokenContract

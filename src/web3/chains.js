@@ -9,16 +9,16 @@ const useAddresses = chainId => {
   const [addresses, setAddresses] = useState()
 
   useEffect(() => {
+    console.log(chainId)
     if (chainId === parseInt(process.env.REACT_APP_LOCAL_CHAINID, 10)) {
-      
       setAddresses({
         sarcophagus: process.env.REACT_APP_LOCAL_SARCOPHAGUS_ADDRESS,
         sarcophagusToken: process.env.REACT_APP_LOCAL_SARCOPHAGUS_TOKEN_ADDRESS
       })
     } else if (chainId === 5) {
       setAddresses({
-        sarcophagus: '0x65411a12F5Ddc37b6f1f7355cd3fCe77499961aB',
-        sarcophagusToken: '0xa92BdfF0B44CcacFb2027c1292627a272AB7d87E'
+        sarcophagus: '0xAcD4684Ad0d02A5C4ce606c7951Ce949e77FC01b',
+        sarcophagusToken: '0x1Ca4f48412216A886079Fd770E8026B4E2a96FB2'
       })
     }
   }, [chainId])

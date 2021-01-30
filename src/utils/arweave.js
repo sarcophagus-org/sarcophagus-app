@@ -21,15 +21,19 @@ const arweaveFileTypeExists = async (arweave, transactionId) => {
 }
 
 const arweaveFileValid = async (arweave, transactionId, doubleEncryptedFile) => {
-  return arweave.transactions.getData(transactionId, {decode: true}).then(data => {
+  try {
+    const data = await arweave.transactions.getData(transactionId, {decode: true})
     const buffedData = Buffer.from(data)
-    const buffFile = Buffer.from(doubleEncryptedFile)
+    const buffFile = Buffer.from(doubleEncryptedFile.data)
     return (Buffer.compare(buffedData, buffFile) === 0)
-  }).catch(console.error)
+  } catch (e) {
+    console.error(e)
+  }
 }
+
 
 export {
   initArweave,
   arweaveFileTypeExists,
-  arweaveFileValid
+  arweaveFileValid,
 }

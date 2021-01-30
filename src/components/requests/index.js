@@ -14,7 +14,6 @@ const request = async (endpoint, method, body) => {
 
     try {
         const response = await fetch(endpoint, params)
-        console.log('response: ', response)
         if (!response.ok) {
             const error = await response.json()
             // TODO: set explicit error response from arch service
