@@ -180,11 +180,11 @@ const useCheckStatus = (assetDoubleHash=false, sarcophagus) => {
   }, [data, checkForSarcophagus, error])
 
   // // send file is not sent
-  // useEffect(() => {
-  //   if(!isSarcophagusMined) return
-  //   if(error) return
-  //   sendFileToService()
-  // },[sendFileToService, isSarcophagusMined, error])
+  useEffect(() => {
+    if(!isSarcophagusMined) return
+    if(error) return
+    sendFileToService()
+  },[sendFileToService, isSarcophagusMined, error])
 
   // check file mining status
   useEffect(() => {
