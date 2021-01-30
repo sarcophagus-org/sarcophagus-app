@@ -6,23 +6,21 @@ import { getTimeRemaining } from "../../utils/datetime"
 
 
 const useResurrectionTimer = (resurrectionTime) => {
+    const [ time ] = useState(resurrectionTime)
     const [ timeTillResurrection, setTime ] = useState(TIMER_DEFAULT)
 
     useEffect(() => {
         // Multiply time by 1000 to get correct UTC time
-        const UTCTime = makeNumeral(resurrectionTime, 0).value() * 1000
+        const UTCTime = makeNumeral(time, 0).value() * 1000
         const resurrectionDate = new Date(UTCTime)
-        setInterval(() => {
+        const timer = setInterval(() => {
             const remainingTime = getTimeRemaining(resurrectionDate)
             setTime(remainingTime)
             if(Math.sign(UTCTime - Date.now().valueOf() < 0)) clearInterval()
-        }, 1000)
-        return () => clearInterval()
-    }, [resurrectionTime])
+            }, 1000)
+        return () => clearInterval(timer)
+    }, [time])
     
-    
-    
-
     return {timeTillResurrection}
 }
 

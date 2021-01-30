@@ -9,7 +9,6 @@ const useAddresses = chainId => {
   const [addresses, setAddresses] = useState()
 
   useEffect(() => {
-    console.log(chainId)
     if (chainId === parseInt(process.env.REACT_APP_LOCAL_CHAINID, 10)) {
       setAddresses({
         sarcophagus: process.env.REACT_APP_LOCAL_SARCOPHAGUS_ADDRESS,

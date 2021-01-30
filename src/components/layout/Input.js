@@ -13,7 +13,7 @@ const borderText = "border border-gray-500"
 const errorBorderText = "border border-red"
 
 const TextInput = ({ type, height="md", iPlaceholder="", error, errored, ...rest }) => (
-  <input type={type} className={errored ? classnames(baseText, iPlaceholder, errorBorderText) : classnames(baseText, borderText, iPlaceholder)} style={{height: heightOptions[height], lineHeight: '1.4357rem'}} {...rest} />
+  <input type={type} className={errored ? classnames(baseText, iPlaceholder, errorBorderText) : classnames(baseText, borderText, iPlaceholder)} style={{height: heightOptions[height], lineHeight: '1.4357rem'}} {...rest}/>
 )
 
 const textareaPadding = "p-2"

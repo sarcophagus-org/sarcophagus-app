@@ -26,16 +26,26 @@ const useSarcophagus = (sarcophagusTokenContract, sarcophagusContract) => {
   }
 
   const updateSarcophagus = async (sarcophagus) => {
-    const doubleHashUint = Buffer.from(utils.arrayify(sarcophagus.AssetDoubleHash))
-    const storage = localStorage.getItem(doubleHashUint.toLocaleString())
-    const parsedStorage = JSON.parse(storage)
-    let { NewPublicKey, AssetDoubleHash, AssetId, V, R, S } = parsedStorage
-    NewPublicKey = Buffer.from(NewPublicKey, 'base64')
-    if(!approved) await sarcophagusTokenContract.approve(sarcophagusContract?.address, BigNumber.from(2).pow(BigNumber.from(256)).sub(BigNumber.from(1)))
-    const txReceipt = await sarcophagusContract.updateSarcophagus(NewPublicKey, AssetDoubleHash, AssetId, V, R, S)
-    console.log("🚀 update ~txReceipt", txReceipt)
-    // remove local storage items
-    localStorage.removeItem(AssetDoubleHash.toLocaleString())
+    try {
+
+      const doubleHashUint = Buffer.from(utils.arrayify(sarcophagus.AssetDoubleHash))
+      const storage = localStorage.getItem(doubleHashUint.toLocaleString())
+      const parsedStorage = JSON.parse(storage)
+
+      let { NewPublicKey, AssetDoubleHash, AssetId, V, R, S } = parsedStorage
+      NewPublicKey = Buffer.from(NewPublicKey, 'base64')
+
+      if(!approved) {
+        await sarcophagusTokenContract.approve(sarcophagusContract?.address, BigNumber.from(2).pow(BigNumber.from(256)).sub(BigNumber.from(1)))
+      }
+      const txReceipt = await sarcophagusContract.updateSarcophagus(NewPublicKey, AssetDoubleHash, AssetId, V, R, S)
+      console.log("🚀 update ~txReceipt", txReceipt)
+      // remove local storage items
+      localStorage.removeItem(AssetDoubleHash.toLocaleString())
+    
+    } catch (e) {
+      console.error('There was a problem updating sarcophagus')
+    }
   }
 
   return { createSarcophagus, updateSarcophagus }

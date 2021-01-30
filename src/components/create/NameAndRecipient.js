@@ -17,7 +17,7 @@ const NameAndRecipient = ({values, errors, touched, handleChange, handleKey}) =>
           <Title type="subTwo" title="Title &#x2739;" />
           {errors.name && touched.name && <Error>{errors.name}</Error>}
         </div>
-        <Input type="text" height="lg" placeholder="" errored={errors.name && touched.name} error={errors.name} name="name" value={values.name} onChange={handleChange}/>
+        <Input type="text" height="lg" placeholder="" errored={errors.name && touched.name} error={errors.name} name="name" value={values.name} onChange={handleChange} maxLength={256}/>
       </div>
       <InfoBox style={{marginTop: '1.75rem'}}>
           Helper text here can explain something and have space for a link to learn more

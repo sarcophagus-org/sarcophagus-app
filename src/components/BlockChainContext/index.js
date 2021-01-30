@@ -8,8 +8,6 @@ let context
 
 const createDataRoot = () => {
   context = createContext()
-
-
   context.displayName = 'Data Provider'
   const Provider = context.Provider
 
@@ -21,14 +19,13 @@ const createDataRoot = () => {
     const { archaeologists } = useArcheologists(sarcophagusContract)
     const { createSarcophagus, updateSarcophagus } = useSarcophagus(sarcophagusTokenContract, sarcophagusContract)
     const { sarcoAllowance } = useSarcoAllowance(sarcophagusContract, sarcophagusTokenContract)
-    
     const dataContext = {
       sarcophagusContract,
       sarcophagusTokenContract,
       archaeologists,
       sarcoAllowance,
       createSarcophagus,
-      updateSarcophagus
+      updateSarcophagus,
     }
     return <Provider value={dataContext}>{children}</Provider>
   }
