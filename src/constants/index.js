@@ -28,22 +28,27 @@ export const weekAhead = getUTCDate(7)
 export const monthAhead = getUTCDate(30)
 export const threeMonthAhead = getUTCDate(90)
 
-export const MESSAGES = {
-  STATUS_FINISH: 'Buried',
-  STATUS_SARCPHAGUS_STILL_MINING: 'Still mining',
-  STATUS_SUCCESS: 'Success',
-  STATUS_MINING_TIMED_OUT: 'Mining Timed out',
-  STATUS_AWAITING_APPROVAL: 'Approval Neeeded',
-  STATUS_PENDING: 'Checking with Service',
-  STATUS_FILE_SENDING: 'File is being buried'
+export const STATUSES = {
+  SARCOPHAGUS_PENDING: 'Sarcophagus mining',
+  SARCOPHAGUS_SUCCESS: 'Sarcophagus mined!',
+  ARWEAVE_STARTED: 'File is being uploaded',
+  ARWEAVE_PENDING: 'File is being buried',
+  ARWEAVE_SUCCESS: 'File buried!',
+  ARWEAVE_TIMEOUT: 'Timed out',
+  SARCOPHAGUS_AWAIT_SIGN: 'Tx signing needed',
+  CHECKING_STATUS: 'Checking status...',
+  PROCESS_COMPLETE: 'Sarcophagus buried'
 }
 
-export const ERROR_MESSAGES_MINING = {
-  ARWEAVE_FILE: 'There was an error with the Arweave file',
-  ARWEAVE_TRANSACTION: 'There was an error with the Arweave Transaction',
+export const ERROR = {
+  SARCOPHAGUS_FAILED: '',
+  BLOCKCHAIN_SERVER: 'There was an error connection to blockchain',
+  ARWEAVE_TRANSACTION_FAILED: 'There was an error connecting to service',
+  ARWEAVE_FILE_ERROR: 'There was an error sending file',
 }
 
 export const INTERVAL_LENGTH_SECONDS = 5
 export const INTERVAL_TIMEOUT_MINS = 15
+export const RETRIES = 2
 
 export const TIMER_DEFAULT = '0 days 00:00:00'

@@ -4,18 +4,18 @@ import useCheckStatus from '../customHooks/useCheckStatus'
 import Title from '../layout/Title'
 import question from '../../assets/images/question.svg'
 import { useSarcophagi } from '../BlockChainContext/useSarcophagi'
-import { MESSAGES } from '../../constants'
+import { STATUSES } from '../../constants'
 import ResurrectionTimer from './ResurrectionTimer'
 import Button from '../layout/Button'
 
-const PendingActionSarcophagus = ({sarcophagus, message, error, handleApprove}) => {
+const PendingActionSarcophagus = ({sarcophagus, currentStatus, error, handleApprove}) => {
   return (
     <div className="absolute top-0 -mt-3" style={{right: '1rem'}}>
-      {message === MESSAGES.STATUS_AWAITING_APPROVAL 
+      {currentStatus === STATUSES.SARCOPHAGUS_AWAIT_SIGN 
       ? (
         <Button onClick={handleApprove} label="Approve" />
         ) : (
-        <>{message}</>
+        <>{currentStatus}</>
       )}
     </div>
     )
@@ -24,14 +24,14 @@ const PendingActionSarcophagus = ({sarcophagus, message, error, handleApprove}) 
 const CompletedSarcophagus = ({sarcophagus}) => {
   // TODO Will need to add active and disabled states
   return (
-    <div className="absolute top-0 -mt-3" style={{right: '1rem'}}>
-      {">"} <span className="text-white underline">Rewrap</span>
+    <div className="absolute" style={{right: '1rem', top: '1rem'}}>
+      <span className="text-gray-500 underline">{">"} Rewrap</span>
     </div>
   )
 }
 
 const Sarcophagus = ({sarcophagus, updateSarcophagus}) => {
-  const { message, error } = useCheckStatus(sarcophagus.AssetDoubleHash, sarcophagus)
+  const { currentStatus, error } = useCheckStatus(sarcophagus.AssetDoubleHash, sarcophagus)
   const handleApprove = async () => {
     await updateSarcophagus(sarcophagus)
   }
@@ -41,9 +41,9 @@ const Sarcophagus = ({sarcophagus, updateSarcophagus}) => {
           <div className="text-base font-bold text-white" style={{lineHeight: '1.625rem'}}>{sarcophagus.name}</div>
           <ResurrectionTimer resurrectionTime={sarcophagus.resurrectionTime} />
       </div>
-      {message === MESSAGES.STATUS_FINISH 
+      {currentStatus === STATUSES.PROCESS_COMPLETE 
         ? (<CompletedSarcophagus sarcophagus={sarcophagus} />)
-        : (<PendingActionSarcophagus sarcophagus={sarcophagus} error={error} message={message} handleApprove={handleApprove}/>)
+        : (<PendingActionSarcophagus sarcophagus={sarcophagus} error={error} currentStatus={currentStatus} handleApprove={handleApprove}/>)
       }
   </div>
   )

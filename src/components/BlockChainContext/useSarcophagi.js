@@ -78,10 +78,11 @@ const useSarcophagi = (sarcophagusContract) => {
 
   useEffect(() => {
     if(!storage.length) return
-    if(!pendingCount) return
+    if(pendingCount === 0) return
+    console.log('hello')
     // sets a interval timer to check for newly minded sarcophagus if count != 0
     const timer = setInterval(() => {
-      console.log('checking again')
+      console.log('Pending Sarcophagus are being Mined...')
       getSarcophagiCount()
     }, 5000)
     return () => clearInterval(timer)

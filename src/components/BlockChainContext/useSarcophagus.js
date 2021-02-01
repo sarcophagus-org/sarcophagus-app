@@ -17,7 +17,7 @@ const useSarcophagus = (sarcophagusTokenContract, sarcophagusContract) => {
             console.log("🚀 create ~txReceipt", txReceipt)
 
             /* Send File to Archaeologist */
-            const storageObject = {DEF: doubleEncryptedFile, fileType: fileType, endpoint: archaeologist.endpoint, txReceipt: txReceipt}
+            const storageObject = {sarcophagusName: sarcophagusName, doubleEncryptedFile: doubleEncryptedFile, fileType: fileType, endpoint: archaeologist.endpoint, txReceipt: txReceipt}
             localStorage.setItem(assetDoubleHash, JSON.stringify(storageObject))
             
             history.replace('/')

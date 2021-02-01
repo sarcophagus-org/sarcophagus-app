@@ -1,4 +1,4 @@
-// will need to expand this as needed
+
 const request = async (endpoint, method, body) => {
     if(!endpoint || !method) return
 
@@ -23,9 +23,9 @@ const request = async (endpoint, method, body) => {
             return responseData
         }
     } catch (err) {
-        console.log(err)
+        console.error(err)
     }
 
 }
 
-export { request } 
+export default request
