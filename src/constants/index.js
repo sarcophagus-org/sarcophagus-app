@@ -32,12 +32,12 @@ export const STATUSES = {
   SARCOPHAGUS_PENDING: 'Sarcophagus mining',
   SARCOPHAGUS_SUCCESS: 'Sarcophagus mined!',
   ARWEAVE_STARTED: 'File is being uploaded',
-  ARWEAVE_PENDING: 'File is being buried',
-  ARWEAVE_SUCCESS: 'File buried!',
+  ARWEAVE_PENDING: 'File is being wrapped',
+  ARWEAVE_SUCCESS: 'File wrapped!',
   ARWEAVE_TIMEOUT: 'Timed out',
-  SARCOPHAGUS_AWAIT_SIGN: 'Tx signing needed',
+  SARCOPHAGUS_AWAIT_SIGN: 'Signing needed',
   CHECKING_STATUS: 'Checking status...',
-  PROCESS_COMPLETE: 'Sarcophagus buried'
+  PROCESS_COMPLETE: 'Sarcophagus wrapped'
 }
 
 export const ERROR = {

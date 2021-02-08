@@ -4,11 +4,10 @@ import CreateSarcophagus from './create'
 import Tomb from './Tomb'
 
 const Body = () => (
-  <div className="border border-gray-500 ml-12 p-4 mb-8">
-    {/* <Route path="/" exact component={<div></div>} /> */}
+  <div className="border border-gray-500 p-4 mx-4 mb-8 mt-20 md:mt-0" style={{minHeight: 'calc(100vh - 16rem)'}}>
     <Route path="/" component={Tomb} exact/>
     <Route path="/create" component={CreateSarcophagus} exact />
-    {/* <Route path="/rewrap" component={<div></div>}/> */}
+    {/* <Route path="/resurrect" component={<div></div>}/> */}
   </div>
 )
 

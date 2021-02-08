@@ -62,7 +62,6 @@ const useSarcophagi = (sarcophagusContract) => {
   },[ getSarcophagiCount, getSarcophagiDoubleHashes, getSarcophagInfo, sarcoDoubleHashes, sarcoCount, sarcophagusContract ])
 
   useEffect(() => {
-    if(!sarcophagi.length) return
     let count = 0
     // maps sarocophagus double hashes
     const doubleHashArray = sarcophagi.map(sarcophagus => Buffer.from(utils.arrayify(sarcophagus.AssetDoubleHash)).toLocaleString())
@@ -79,14 +78,12 @@ const useSarcophagi = (sarcophagusContract) => {
   useEffect(() => {
     if(!storage.length) return
     if(pendingCount === 0) return
-    console.log('hello')
     // sets a interval timer to check for newly minded sarcophagus if count != 0
     const timer = setInterval(() => {
       console.log('Pending Sarcophagus are being Mined...')
       getSarcophagiCount()
     }, 5000)
     return () => clearInterval(timer)
-  
   }, [ storage, pendingCount, getSarcophagiCount ])
   
   return { sarcophagi, pendingCount }

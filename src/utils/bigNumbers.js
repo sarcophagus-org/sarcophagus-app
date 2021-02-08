@@ -21,9 +21,15 @@ const getStorageFee = (archaeologist, file, bigNumber=false) => {
   return calculatedFee
 }
 
+const getCursedPercentage = (cursedBond, freeBond) => {
+  const percentBN = cursedBond.div(freeBond.add(cursedBond))
+  return getDecimalNumber(percentBN, 18)
+}
+
 export {
   ENCRYPTED_BYTE_INCREASE,
   getStorageFee,
   getDecimalNumber,
-  makeNumeral
+  makeNumeral,
+  getCursedPercentage
 }

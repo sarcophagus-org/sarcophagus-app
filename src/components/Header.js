@@ -12,14 +12,14 @@ const AccountDisplay = () => {
 
   if (account) {
     return (
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center w-full">
         {truncate(account, 25)}
         <img src={icon} alt="" className="ml-6" />
       </div>
     )
   } else {
     return (
-      <button className="underline" onClick={() => connect()}>
+      <button className="underline text-center w-full" onClick={() => connect()}>
         Connect Web3 Account
       </button>
     )
@@ -28,7 +28,7 @@ const AccountDisplay = () => {
 
 const Tabs = () => {
   return (
-    <ul className="flex">
+    <ul className="flex whitespace-nowrap">
       <li className="pr-4 py-1 ">
         <NavLink dest="/" title="My Tomb" />
       </li>
@@ -43,31 +43,33 @@ const Tabs = () => {
 }
 
 const Top = () =>  (
-  <div className="flex justify-between items-center mb-16" style={{height: '4rem'}}>
-    <div className="flex items-center">
-      <div className="w-10 p-1 mr-4">
-        <img src={logo} alt="logo" />
-      </div>
-      <Tabs />
+  <div className="flex items-center flex-wrap" style={{height: '4rem'}}>
+    <div className="w-24 p-1 mr-4">
+      <img src={logo} alt="logo" />
     </div>
-    <div className="flex items-center">
+
+    <div className="flex items-center w-full justify-center md:w-auto md:justify-start">
+      <div className="">
+        <Tabs />
+      </div>
+    </div>
+
+    <div className="flex items-center justify-center absolute right-0">
       <div>
         <img src={wallet} alt="wallet" className="" />
       </div>
-      <div className="ml-3 text-sm text-gray-300">
+      <div className="ml-3 text-sm text-gray-300 ">
         <AccountDisplay />
       </div>
     </div>
+
   </div>
 )
 
 
-
-
-
 const Header = () => {
   return (
-    <div className="pt-2">
+    <div className="mt-6 mb-16 relative">
       <Top />
     </div>
   )

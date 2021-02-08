@@ -22,7 +22,10 @@ const FileDropzone = ({handleFile, checkfileSize, file, errors,  ...rest}) => (
     ) : (
       <div {...getRootProps()} className={classnames(base, border, flex, font)} {...rest}>
         <input {...getInputProps()} multiple={false}/>
-        <div className="w-3/4 bg-black flex items-center justify-center text-white border border-gray-500 overflow-hidden" style={{height: '2.625rem'}}>{file.name}</div>
+        <div className="flex flex-col justify-around items-center text-white overflow-hidden gap-4">
+          <span>{file.name} uploaded successfully!</span>
+          <div className="underline">Upload a different file</div>
+        </div>
       </div>
     )}
   </Dropzone>

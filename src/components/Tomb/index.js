@@ -5,7 +5,7 @@ import SarcophagiList from './SarcophagiList'
 
 const Tomb = () => {
   return (
-    <div className="pt-8 px-8 flex justify-between sm:flex-wrap" style={{minheight: 'calc(100vh - 16rem)'}}>
+    <div className="pt-8 px-8 flex justify-center md:justify-between flex-wrap md:flex-nowrap gap-3 md:gap-0">
       <div className="" style={{width: '27.75rem'}}>
         <Title type="subOne" icon={icon} title="Tomb" />
         <div className="mt-8 text-md text-white" style={{lineHeight: '1.4375rem'}}>

@@ -2,7 +2,7 @@ import { useCallback, useEffect } from "react"
 import { ERROR, INTERVAL_LENGTH_SECONDS, INTERVAL_TIMEOUT_MINS, STATUSES } from "../../../constants"
 import { arweaveFileTypeExists, arweaveFileValid, initArweave } from "../../../utils/arweave"
 
-const useFileMiningCheck = (archResponse, setArchResponse, setCurrentStatus, error, setError) => {
+const useFileMiningCheck = (archResponse, setArchResponse, setCurrentStatus, error, setError, name) => {
 
     const checkFileMinedStatus = useCallback(async () => {
         const Arweave = initArweave()
@@ -15,7 +15,6 @@ const useFileMiningCheck = (archResponse, setArchResponse, setCurrentStatus, err
         /* Wait for TX to be mined */
         const startTime = new Date().getTime();
         let errorRetries = 2
-        let attempt = 0
         const firstRequest = await Arweave.api.get(`tx/${AssetId}`)
         if(firstRequest.status === 200) {
           setCurrentStatus(STATUSES.SARCOPHAGUS_AWAIT_SIGN)
@@ -33,8 +32,7 @@ const useFileMiningCheck = (archResponse, setArchResponse, setCurrentStatus, err
             const response = await Arweave.api.get(`tx/${AssetId}`)
             switch (response.status) {
               case 202:
-                attempt += 1
-                console.log(attempt)
+                console.log(`${name}: still mining`)
                 break;
               case 200:
                 /* Successful Tx */
@@ -68,7 +66,7 @@ const useFileMiningCheck = (archResponse, setArchResponse, setCurrentStatus, err
             }
           }
         }, INTERVAL_LENGTH_SECONDS * 1000)
-      },[archResponse, setArchResponse, setCurrentStatus, setError])
+      },[archResponse, setArchResponse, setCurrentStatus, setError, name])
     
     
       useEffect(() => {

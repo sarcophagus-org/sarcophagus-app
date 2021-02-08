@@ -19,8 +19,7 @@ const useCheckStatus = (assetDoubleHash=false, sarcophagus) => {
   useFileSentCheck(isSarcophagusMined, setArchResponse, data, setCurrentStatus, error, setError)
 
   // check file mining status
-  useFileMiningCheck(archResponse, setArchResponse, setCurrentStatus, error, setError)
-
+  useFileMiningCheck(archResponse, setArchResponse, setCurrentStatus, error, setError, sarcophagus.name)
 
   // check local storage for stored data on sarcophagi if exists
   useEffect(() => {
@@ -43,16 +42,17 @@ const useCheckStatus = (assetDoubleHash=false, sarcophagus) => {
         if(parseData?.AssetId) {
           setArchResponse(parseData)
           return
+        } else {
+          // sets storages data to start process from start
+          setData(parseData)
         }
-        // sets storages data to start process from start
-        setData(parseData)
       }
   }, [doubleHashUint, sarcophagus])
   
   
   console.log('STATUS', currentStatus)
   console.log('ERROR', error)
-  return { currentStatus, error }
+  return { currentStatus, setCurrentStatus, error }
 }
 
 export default useCheckStatus

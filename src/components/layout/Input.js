@@ -5,7 +5,7 @@ const heightOptions = {
   sm: '1.25rem',
   md: '1.88rem',
   lg: '2.625rem',
-  xl: '6.5rem'
+  xl: '6.75rem'
 }
 
 const baseText = "w-full pl-4 text-md bg-black font-normal text-white placeholder-text border remove-input-steps focus:outline-none"
@@ -16,10 +16,9 @@ const TextInput = ({ type, height="md", iPlaceholder="", error, errored, ...rest
   <input type={type} className={errored ? classnames(baseText, iPlaceholder, errorBorderText) : classnames(baseText, borderText, iPlaceholder)} style={{height: heightOptions[height], lineHeight: '1.4357rem'}} {...rest}/>
 )
 
-const textareaPadding = "p-2"
-const hidden = "overflow-hidden"
+const baseTextArea ="w-full p-2 bg-black text-white text-md focus:outline-none border border-gray-500"
 const TextAreaInput = ({ type, height="md", error, errored, ...rest }) => (
-  <textarea type={type} className={errored ? classnames(baseText, textareaPadding, hidden, errorBorderText) : classnames(baseText, borderText, hidden, textareaPadding)} style={{height: heightOptions[height], lineHeight: '1.4357rem'}} {...rest} />
+  <textarea type={type} className={errored ? classnames(baseTextArea, errorBorderText) : classnames(baseTextArea)} style={{height: heightOptions[height], lineHeight: '1.4357rem'}} {...rest} />
 )
 
 const RadioButton = ({type, value, children, ...rest}) => (

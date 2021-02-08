@@ -2,7 +2,7 @@ import AppRouter from './router'
 
 const App = () => {
   return (
-    <div className="container relative min-h-screen">
+    <div className="container relative">
       <AppRouter />
     </div>
   )

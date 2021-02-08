@@ -1,7 +1,6 @@
 import React from 'react'
-import question from '../../assets/images/question.svg'
-
-
+import { getCustomDate } from '../../utils/datetime'
+import Tooltip from './Tooptip'
 
 const MainTitle = ({ title, icon }) => (
   <div className="flex items-center mb-6 whitespace-nowrap">
@@ -11,23 +10,28 @@ const MainTitle = ({ title, icon }) => (
 )
 
 const SubTitleOne = ({ title, icon=false }) => (
-  <div className="flex items-center text-white whitespace-nowrap">
+  <div className="flex items-center text-white whitespace-pre-wrap md:whitespace-nowrap mr-2">
     {icon && <img src={icon} alt="" className="mr-4" />}
     <span className="text-base font-bold">{ title }</span>
   </div>
 )
 
-const SubTitleTwo = ({ title }) => (
-  <div className="flex mb-2 items-center whitespace-nowrap">
-    <span className="mr-2 text-gray-400 text-sm" style={{lineHeight: '1.375rem'}}>{ title }</span>
-    <img src={question} alt="" className="" style={{paddingTop: '0.15rem'}}/>
+const SubTitleTwo = ({ title, showToolTip=false }) => (
+  <div className="flex mb-2 items-center">
+    <span className="mr-2 text-gray-400 text-sm whitespace-nowrap" style={{lineHeight: '1.375rem'}}>{ title }</span>
+      {showToolTip && 
+        <Tooltip>
+          {'<'} content {'>'}
+        </Tooltip> }
   </div>
 )
 
 const ResurrectionClock = ({values}) => (
   <div className="flex items-center whitespace-nowrap">
-    <span className="mr-2 text-gray-400 text-sm" style={{lineHeight: '1.375rem'}}>Resurrection: {values.daysDisplayed} days 0{values.hours}:0{values.minutes}:00</span>
-    <img src={question} alt="" className=""/>
+    <span className="mr-2 text-gray-400 text-sm" style={{lineHeight: '1.375rem'}}>Resurrection: {getCustomDate(values.resurrectionTime)}</span>
+      <Tooltip>
+        Time currently set for resurrection
+      </Tooltip>
   </div>
 )
 

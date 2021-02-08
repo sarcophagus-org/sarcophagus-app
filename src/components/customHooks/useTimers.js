@@ -12,8 +12,8 @@ const useResurrectionTimer = (resurrectionTime) => {
     useEffect(() => {
         // Multiply time by 1000 to get correct UTC time
         const UTCTime = makeNumeral(time, 0).value() * 1000
-        const resurrectionDate = new Date(UTCTime)
         const timer = setInterval(() => {
+            const resurrectionDate = new Date(UTCTime)
             const remainingTime = getTimeRemaining(resurrectionDate)
             setTime(remainingTime)
             if(Math.sign(UTCTime - Date.now().valueOf() < 0)) clearInterval()

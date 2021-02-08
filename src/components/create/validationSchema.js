@@ -17,21 +17,11 @@ export const validationSchema = () => {
     resurrectionTime: Yup.number().required('Resurrection time is required'),
     bounty: Yup.number().required('Bounty is required'),
     diggingFee: Yup.number().required('Digging Fee is required'),
-    days: Yup.number()
+    customTime: Yup.number()
       .when("custom", {
         is: true,
-        then: Yup.number().required("Please select Days")
+        then:  Yup.number().required('Resurrection time is required')
       }),
-    hours: Yup.number()
-    .when("custom", {
-      is: true,
-      then: Yup.number().required("Please select Hours")
-    }),
-    minutes: Yup.number()
-    .when("custom", {
-      is: true,
-      then: Yup.number().required("Please select minutes")
-    }),
     custom: Yup.bool(),
     fileUploaded: Yup.mixed()
       .test(
