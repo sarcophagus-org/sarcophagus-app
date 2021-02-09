@@ -1,16 +1,16 @@
 import { utils } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
+import { useWeb3 } from '../../web3';
 
-const useSarcophagi = (sarcophagusContract) => {
-  const [ sarcophagi, setSarcophagi ] = useState([])
+const useRecipientSarcophagi = (sarcophagusContract) => {
+  const [ recipientSarcophagi, setSarcophagi ] = useState([])
   const [ sarcoDoubleHashes, setSarcoDoubleHashes ] = useState(false) 
   const [ sarcoCount, setSarcoCount ] = useState(false)
-  const [ pendingCount, setPendingCount ] = useState(0)
-  const storage = window.localStorage
+  const { account } = useWeb3()
   
   const getSarcophagiCount = useCallback( async () => {
     try {
-      const count = await sarcophagusContract.sarcophagusCount()
+      const count = await sarcophagusContract.recipientSarcophagusCount(account)
       setSarcoCount(count)
     } catch (error) {
       console.error(error)
@@ -21,7 +21,7 @@ const useSarcophagi = (sarcophagusContract) => {
     try {
       const sarcophagiDoubleHashes = []
       for(let i = 0; i <= count - 1; i++) {
-        const doubleHash = await sarcophagusContract.sarcophagusDoubleHash(i)
+        const doubleHash = await sarcophagusContract.recipientSarcophagusDoubleHash(account, i)
         sarcophagiDoubleHashes.push(doubleHash)
       }
       await setSarcoDoubleHashes(sarcophagiDoubleHashes)
@@ -32,13 +32,13 @@ const useSarcophagi = (sarcophagusContract) => {
 
   const getSarcophagInfo = useCallback(async () => {
     try {
-      const sarcophagi = await Promise.all(sarcoDoubleHashes.map( async (doubleHash) => {
+      const recipientSarcophagi = await Promise.all(sarcoDoubleHashes.map( async (doubleHash) => {
         return {
           ...await sarcophagusContract.sarcophagus(Buffer.from(utils.arrayify(doubleHash))), AssetDoubleHash: doubleHash
         }
       } )).catch(e => console.log("e", e))
 
-      await setSarcophagi(sarcophagi)
+      await setSarcophagi(recipientSarcophagi)
     } catch (error) {
       console.error(error)
     }
@@ -61,32 +61,8 @@ const useSarcophagi = (sarcophagusContract) => {
     getSarcophagInfo() 
   },[ getSarcophagiCount, getSarcophagiDoubleHashes, getSarcophagInfo, sarcoDoubleHashes, sarcoCount, sarcophagusContract ])
 
-  useEffect(() => {
-    let count = 0
-    // maps sarocophagus double hashes
-    const doubleHashArray = sarcophagi.map(sarcophagus => Buffer.from(utils.arrayify(sarcophagus.AssetDoubleHash)).toLocaleString())
-    // compares the stored keys versus mined sarcophagus if no match adds to count.
-    for(let i = 0; i < storage.length; i++) {
-      const key = storage.key(i)
-      if(!doubleHashArray.includes(key)) {
-        count += 1
-      }
-    }
-    setPendingCount(count)
-  }, [sarcophagi, storage])
-
-  useEffect(() => {
-    if(!storage.length) return
-    if(pendingCount === 0) return
-    // sets a interval timer to check for newly minded sarcophagus if count != 0
-    const timer = setInterval(() => {
-      console.log('Pending Sarcophagus are being Mined...')
-      getSarcophagiCount()
-    }, 5000)
-    return () => clearInterval(timer)
-  }, [ storage, pendingCount, getSarcophagiCount ])
   
-  return { sarcophagi, pendingCount }
+  return { recipientSarcophagi }
 }
 
-export { useSarcophagi }
+export { useRecipientSarcophagi }
