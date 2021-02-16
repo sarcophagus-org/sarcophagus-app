@@ -16,8 +16,8 @@ const useAddresses = chainId => {
       })
     } else if (chainId === 5) {
       setAddresses({
-        sarcophagus: '0xAcD4684Ad0d02A5C4ce606c7951Ce949e77FC01b',
-        sarcophagusToken: '0x1Ca4f48412216A886079Fd770E8026B4E2a96FB2'
+        sarcophagus: '0x1744b883C9F8aD97001D332D13744B5f8F12e3B8',
+        sarcophagusToken: '0x4633b43990b41B57b3678c6F3Ac35bA75C3D8436'
       })
     }
   }, [chainId])
