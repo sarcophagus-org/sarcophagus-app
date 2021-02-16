@@ -5,7 +5,7 @@ const useFileSentCheck = ( isSarcophagusMined, setArchResponse, data, setCurrent
     
     const handleSendFile = useCallback( async (doubleEncryptedFile, fileType, endpoint) => {
       try {
-        const archEndpoint = 'http://' + endpoint + '/file'
+        const archEndpoint = endpoint + '/file'
         const uint8File = new Uint8Array(doubleEncryptedFile.data)
         const fileEncoded = await btoa([].reduce.call(uint8File, function (p, c) { return p + String.fromCharCode(c) }, ''))
         const responseFromArch = await fetch(archEndpoint, {
