@@ -1,6 +1,6 @@
 import React from 'react'
 import { getCustomDate } from '../../utils/datetime'
-import Tooltip from './Tooptip'
+import Tooltip from './Tooltip'
 
 const MainTitle = ({ title, icon }) => (
   <div className="flex items-center mb-6 whitespace-nowrap">

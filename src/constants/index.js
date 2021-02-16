@@ -17,7 +17,7 @@ export const sarcophagusInitialValues = {
   diggingFee: false,         // uint256
   bounty: false,             // uint256
   assetDoubleHash: false,    // bytes32
-  recipientPublicKey: false, // bytes memory
+  recipientPublicKey: "0x0459b159955bb46d90b9d4905c5589ab0694a593ae2e82627d6658a363ae97db0bdcf8275ea45cb8cbd21a249a3fe1c15d8523d166fb74dc6773bc5c02ef329342", // bytes memory
 }
 
 export const days = createLocationNumberObject(365, true)
@@ -29,15 +29,17 @@ export const monthAhead = getUTCDate(30)
 export const threeMonthAhead = getUTCDate(90)
 
 export const STATUSES = {
-  SARCOPHAGUS_PENDING: 'Sarcophagus mining',
-  SARCOPHAGUS_SUCCESS: 'Sarcophagus mined!',
+  SARCOPHAGUS_PENDING: 'Sarcophagus is mining',
+  SARCOPHAGUS_SUCCESS: 'Sarcophagus has been mined!',
   ARWEAVE_STARTED: 'File is being uploaded',
-  ARWEAVE_PENDING: 'File is being wrapped',
-  ARWEAVE_SUCCESS: 'File wrapped!',
-  ARWEAVE_TIMEOUT: 'Timed out',
+  ARWEAVE_PENDING: 'File is being mined on arweave',
+  ARWEAVE_SUCCESS: 'File has been mined!',
+  ARWEAVE_TIMEOUT: 'Timed out, refresh brower to try again',
   SARCOPHAGUS_AWAIT_SIGN: 'Signing needed',
   CHECKING_STATUS: 'Checking status...',
-  PROCESS_COMPLETE: 'Sarcophagus wrapped'
+  PROCESS_COMPLETE: 'Sarcophagus is Active',
+  WINDOW_CLOSED: 'Resurrection Window is past',
+  REWRAP_IN_PROGRESS: 'Rewrap in Progress'
 }
 
 export const ERROR = {
@@ -52,3 +54,4 @@ export const INTERVAL_TIMEOUT_MINS = 15
 export const RETRIES = 2
 
 export const TIMER_DEFAULT = '0 days 00:00:00'
+export const DEFAULT_COLOR = 'text-gray-400'

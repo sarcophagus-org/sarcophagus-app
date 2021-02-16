@@ -182,3 +182,7 @@ textarea { resize: none; }
   animation-name: ease-in;
   transform-origin: top;
 }
+
+.hide-scrollbar::-webkit-scrollbar {
+  background-color: rgb(11,11,11);
+}

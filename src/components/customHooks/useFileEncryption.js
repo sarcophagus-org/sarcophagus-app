@@ -30,7 +30,7 @@ const useFileEncryption = () => {
 
   const firstEncryption = useCallback( async () => {
     try {
-      const recipPubKeyBytes = hexToBytes(recipientPublicKey, true)
+      const recipPubKeyBytes = hexToBytes(recipientPublicKey, true).slice(1)
       const encrypted = await encrypt(recipPubKeyBytes, fileByteArray)
       setFileEncryptedRecipient(encrypted)
 

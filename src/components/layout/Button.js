@@ -3,7 +3,7 @@ import classnames from 'classnames'
 
 const heightOptions = {
   sm: '1.25rem',
-  md: '1.88rem',
+  md: '2.625rem',
   lg: '2.65rem'
 }
 
@@ -13,7 +13,6 @@ const lineHeightOptions = {
 
 const widthOptions = {
   default: '12.75rem',
-  tomb: '6.25rem'
 }
 
 const base = "text-md font-medium flex justify-center items-center focus:outline-none"

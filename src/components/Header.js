@@ -30,7 +30,7 @@ const Tabs = () => {
   return (
     <ul className="flex whitespace-nowrap">
       <li className="pr-4 py-1 ">
-        <NavLink dest="/" title="My Tomb" />
+        <NavLink dest="/tomb" title="My Tomb" />
       </li>
       <li className="px-4 py-1 ">
         <NavLink dest="/create" title="Create" />
@@ -54,7 +54,7 @@ const Top = () =>  (
       </div>
     </div>
 
-    <div className="flex items-center justify-center absolute right-0">
+    <div className="flex items-center justify-center absolute right-0" style={{top: '2.75rem'}}>
       <div>
         <img src={wallet} alt="wallet" className="" />
       </div>

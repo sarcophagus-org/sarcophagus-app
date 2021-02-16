@@ -14,19 +14,17 @@ const useSarcophagusCreate = (createSarcophagus) => {
   }
 
   const handleKey = (key) => {
-    if(key && utils.isHexString(key, 64)) {
-      setRecipientPublicKey(key)
-    }
-    return
+    setRecipientPublicKey(key)
   }
 
   const handleEmbalming = (values, history) => {
     try {
       const { bounty, diggingFee, recipientPublicKey, resurrectionTime, name } = values
+
       const resurrectionTimeUTC = BigNumber.from(resurrectionTime / 1000) // This might change
       const diggingFeeBN = utils.parseEther(diggingFee.toString())
       const bountyBN = utils.parseEther(bounty.toString())
-      const recipientPublicKeyBA = utils.arrayify(recipientPublicKey)
+      const recipientPublicKeyBA = utils.arrayify(recipientPublicKey).slice(1)
       createSarcophagus(name, selectedArchaeologist, resurrectionTimeUTC, storageFee, diggingFeeBN, bountyBN, assetDoubleHash, recipientPublicKeyBA, doubleEncryptedFile, fileType, history)
     } catch (e) {
       console.error(e)

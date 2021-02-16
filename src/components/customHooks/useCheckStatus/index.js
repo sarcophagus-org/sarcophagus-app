@@ -4,8 +4,9 @@ import { STATUSES } from '../../../constants'
 import useSarcophagusCheck from "./useSarcophagusCheck";
 import useFileSentCheck from "./useFileSentCheck";
 import useFileMiningCheck from "./useFileMiningCheck";
+import { isTimePast } from '../../../utils/datetime'
 
-const useCheckStatus = (assetDoubleHash=false, sarcophagus) => {
+const useCheckStatus = (assetDoubleHash=false, sarcophagus, refresh) => {
   const [ doubleHashUint ] = useState(Buffer.from(utils.arrayify(assetDoubleHash)))
   const [ data, setData] = useState(false)
   const [ archResponse, setArchResponse ] = useState({})
@@ -13,7 +14,7 @@ const useCheckStatus = (assetDoubleHash=false, sarcophagus) => {
   const [ error, setError ] = useState(false)
 
   // check localStorage data on sarcophagus
-  const { isSarcophagusMined } = useSarcophagusCheck(data, setCurrentStatus, error, setError)
+  const { isSarcophagusMined } = useSarcophagusCheck(data, setCurrentStatus, error, setError, doubleHashUint, refresh)
 
   // send file is not sent
   useFileSentCheck(isSarcophagusMined, setArchResponse, data, setCurrentStatus, error, setError)
@@ -24,12 +25,19 @@ const useCheckStatus = (assetDoubleHash=false, sarcophagus) => {
   // check local storage for stored data on sarcophagi if exists
   useEffect(() => {
     if(!doubleHashUint) return
+    
       const storedData = localStorage.getItem(doubleHashUint.toLocaleString())
       const parseData = JSON.parse(storedData)
+      // if resurrection window is closed
+      if(isTimePast(sarcophagus.resurrectionTime, sarcophagus.resurrectionWindow)) {
+        setCurrentStatus(STATUSES.WINDOW_CLOSED)
+        return
+      }
       // if there is no stored data then process should be finished This will probably need to more indepth check
       if(!storedData) {
-          // check for state of 2 on sarcophagus for unwrapping
+          // check for state of 2 on sarcophagus for unwrapping should not be here
           if(sarcophagus?.state === 2) {
+            console.log('Should never see this')
             return
           }
           // if no assetId on sarcophagus, mark as finished
@@ -38,6 +46,12 @@ const useCheckStatus = (assetDoubleHash=false, sarcophagus) => {
             return
           }
       } else {
+        // check action
+        if(parseData?.action === 'rewrap') {
+          setCurrentStatus(STATUSES.REWRAP_IN_PROGRESS)
+          setData(parseData)
+          return
+        }
         // if there is an AssetId skip to checking mining status
         if(parseData?.AssetId) {
           setArchResponse(parseData)
@@ -49,9 +63,7 @@ const useCheckStatus = (assetDoubleHash=false, sarcophagus) => {
       }
   }, [doubleHashUint, sarcophagus])
   
-  
-  console.log('STATUS', currentStatus)
-  console.log('ERROR', error)
+
   return { currentStatus, setCurrentStatus, error }
 }
 

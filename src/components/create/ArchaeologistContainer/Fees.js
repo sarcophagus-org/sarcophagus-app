@@ -3,10 +3,10 @@ import Error from '../../Error'
 import Input from '../../layout/Input'
 import Title from '../../layout/Title'
 
-const Fees = ({ values, handleChange, errors, touched }) => (
-  <div className="grid grid-cols-2 bg-gray-600 p-8 my-8 border border-gray-500">
+const Fees = ({ values, handleChange, errors, touched, margin="my-8" }) => (
+  <div className={`flex w-full bg-gray-600 py-8 px-12 ${margin} border border-gray-500`}>
     <div className="flex justify-between">
-      <div className="flex flex-col" style={{width: '6.875rem'}}>
+      <div className="flex flex-col mr-24" style={{width: '6.875rem'}}>
         <div className="flex">
           <Title type="subTwo" title="Bounty &#x2739;" showToolTip={true}/>
           {errors.bounty && touched.bounty && <Error>{errors.bounty}</Error>}

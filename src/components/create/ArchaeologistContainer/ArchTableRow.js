@@ -1,5 +1,5 @@
 import React from 'react'
-import Tooltip from '../../layout/Tooptip'
+import Tooltip from '../../layout/Tooltip'
 
 const gridStyles = {
   display: 'grid',

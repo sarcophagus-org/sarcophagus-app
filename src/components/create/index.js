@@ -45,7 +45,7 @@ const CreateSarcophagus = () => {
           <SettingsContainer values={values} errors={errors} touched={touched} handleChange={handleChange} handleKey={handleKey}/>
           <UploadContainer values={values} file={file} handleFile={setFile} errors={errors} touched={touched} setFieldValue={setFieldValue} />
           <ResurrectionContainer values={values} errors={errors} touched={touched} handleChange={handleChange} setFieldValue={setFieldValue}/>
-          <ArchaeologistContainer errors={errors} touched={touched} archaeologists={archaeologists} file={file} values={values} handleChange={handleChange} handleEmbalming={handleEmbalming} handleSelected={handleArchaeologistSelect} archSelected={selectedArchaeologist?.archaeologist || ""} setFieldValue={setFieldValue}/>
+          <ArchaeologistContainer errors={errors} touched={touched} archaeologists={archaeologists} file={file} values={values} handleChange={handleChange} handleEmbalming={handleEmbalming} handleSelected={handleArchaeologistSelect} archSelected={selectedArchaeologist?.paymentAddress || ""} setFieldValue={setFieldValue}/>
           
           <Button label={buttonText} isDisabled={!isValid} _classNames="my-8" height="lg" type={approved ? 'submit' : 'button'} onClick={approved ? () => validateForm() : () => {validateForm(); handleApproval(errors)}} />
 

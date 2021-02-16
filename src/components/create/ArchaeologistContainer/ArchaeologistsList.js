@@ -8,8 +8,9 @@ import { utils } from 'ethers';
 import useCollaspe from '../../customHooks/useCollaspe';
 import arrowRightBlack from '../../../assets/images/arrowRightBlack.svg'
 import arrowRight from '../../../assets/images/arrowRight.svg'
-import arrowDownBlack from '../../../assets/images/arrowDownBlack.svg'
-import arrowDown from '../../../assets/images/arrowDown.svg'
+// TODO update if expanded and seleted to show correct arrow
+// import arrowDownBlack from '../../../assets/images/arrowDownBlack.svg'
+// import arrowDown from '../../../assets/images/arrowDown.svg'
 import { getDatefromBigNumber } from '../../../utils/datetime';
 
 const base = "pl-6 text-md"
@@ -39,55 +40,55 @@ const ArchaeologistsList = ({ archaeologist, file, gtSign, bounty, diggingFee, s
   },[bounty, diggingFee, archaeologist, file])
 
   useEffect(() => {
-    if(selected === archaeologist.archaeologist && isDisabled) handleSelected(false, false)
+    if(selected === archaeologist.paymentAddress && isDisabled) handleSelected(false, false)
   }, [archaeologist, selected, isDisabled, handleSelected])
 
 
   const handleClick = () => {
     if(isDisabled) return
-    setFieldValue('address', archaeologist.archaeologist); 
+    setFieldValue('address', archaeologist.paymentAddress); 
     handleSelected(archaeologist, getStorageFee(archaeologist, file, true))
   }
   
   if(collasped) return (
-    <div onClick={handleClick} className={isDisabled ?  classnames(base, disabledBorder) : selected === archaeologist.archaeologist ? classnames(base, selectedBorder) : classnames(base, baseBorder)} style={gridStyles}>
-      <div className="">{truncate( archaeologist.archaeologist, 10, null)}</div>
+    <div onClick={handleClick} className={isDisabled ?  classnames(base, disabledBorder) : selected === archaeologist.paymentAddress ? classnames(base, selectedBorder) : classnames(base, baseBorder)} style={gridStyles}>
+      <div className="">{truncate( archaeologist.paymentAddress, 10, null)}</div>
       <div className="">
-        {file && <img src={selected === archaeologist.archaeologist ? iconBlack : icon} alt="" className="inline-block w-4 h-auto mr-2"/>}
+        {file && <img src={selected === archaeologist.paymentAddress ? iconBlack : icon} alt="" className="inline-block w-4 h-auto mr-2"/>}
         {getStorageFee(archaeologist, file)}
         </div>
       <div className="flex items-center">
-        <img src={selected === archaeologist.archaeologist ? iconBlack : icon} alt="" className="inline-block w-4 h-auto mr-2"/>
+        <img src={selected === archaeologist.paymentAddress ? iconBlack : icon} alt="" className="inline-block w-4 h-auto mr-2"/>
         {getDecimalNumber(archaeologist.minimumBounty)}
       </div>
       <div className="-ml-4 flex items-center">
-        <img src={selected === archaeologist.archaeologist ? iconBlack : icon} alt="" className="inline-block w-4 h-auto mr-2"/>
+        <img src={selected === archaeologist.paymentAddress ? iconBlack : icon} alt="" className="inline-block w-4 h-auto mr-2"/>
         {getDecimalNumber(archaeologist.minimumDiggingFee)}
       </div>
       <div className="flex items-center cursor-pointer" onClick={(e) => {e.stopPropagation(); toggle()}}>
-        <img alt="" src={selected === archaeologist.archaeologist ? arrowRightBlack : arrowRight} className="mr-2"/>
+        <img alt="" src={selected === archaeologist.paymentAddress ? arrowRightBlack : arrowRight} className="mr-2"/>
         <u>Metrics</u>
       </div>
     </div>
   )
   else return (
     <div className={isDisabled ?  classnames(disabledBorder) : classnames(baseBorder)} style={{width: '50rem'}}>
-      <div onClick={handleClick} className={isDisabled ?  classnames(base, disabledBorder) : selected === archaeologist.archaeologist ? classnames(base, selectedBorder) : classnames(base, baseBorder)} style={gridStyles}>
-      <div className="">{truncate( archaeologist.archaeologist, 10, null)}</div>
+      <div onClick={handleClick} className={isDisabled ?  classnames(base, disabledBorder) : selected === archaeologist.paymentAddress ? classnames(base, selectedBorder) : classnames(base, baseBorder)} style={gridStyles}>
+      <div className="">{truncate( archaeologist.paymentAddress, 10, null)}</div>
       <div className="">
-        {file && <img src={selected === archaeologist.archaeologist ? iconBlack : icon} alt="" className="inline-block w-4 h-auto mr-2"/>}
+        {file && <img src={selected === archaeologist.paymentAddress ? iconBlack : icon} alt="" className="inline-block w-4 h-auto mr-2"/>}
         {getStorageFee(archaeologist, file)}
         </div>
       <div className="flex items-center">
-        <img src={selected === archaeologist.archaeologist ? iconBlack : icon} alt="" className="inline-block w-4 h-auto mr-2"/>
+        <img src={selected === archaeologist.paymentAddress ? iconBlack : icon} alt="" className="inline-block w-4 h-auto mr-2"/>
         {getDecimalNumber(archaeologist.minimumBounty)}
       </div>
       <div className="-ml-4 flex items-center">
-        <img src={selected === archaeologist.archaeologist ? iconBlack : icon} alt="" className="inline-block w-4 h-auto mr-2"/>
+        <img src={selected === archaeologist.paymentAddress ? iconBlack : icon} alt="" className="inline-block w-4 h-auto mr-2"/>
         {getDecimalNumber(archaeologist.minimumDiggingFee)}
       </div>
       <div className="flex items-center cursor-pointer" onClick={(e) => {e.stopPropagation(); toggle()}}>
-        <img alt="" src={selected === archaeologist.archaeologist ? arrowRightBlack : arrowRight} className="mr-2"/>
+        <img alt="" src={selected === archaeologist.paymentAddress ? arrowRightBlack : arrowRight} className="mr-2"/>
         <u>Metrics</u>
       </div>
     </div>
@@ -95,7 +96,7 @@ const ArchaeologistsList = ({ archaeologist, file, gtSign, bounty, diggingFee, s
       <div className="border-t border-gray-500 py-4 px-8 w-full">
         <div className="flex mb-4">
           <span className="text-gray-400 mr-2">Arch </span>
-          <span>{archaeologist.archaeologist}</span>
+          <span>{archaeologist.paymentAddress}</span>
         </div>
         <div className="grid grid-cols-2 text-sm">
     

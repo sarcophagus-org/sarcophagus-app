@@ -1,11 +1,9 @@
 import React from 'react'
-import { useResurrectionTimer } from '../customHooks/useTimers'
 
-const ResurrectionTimer = ({resurrectionTime}) => {
-    const { timeTillResurrection } = useResurrectionTimer(resurrectionTime)
+const ResurrectionTimer = ({timer, color="text-gray-400", timers}) => {
     return (
-        <div className="text-sm text-gray-400" style={{lineHeight: '1.0625rem'}}>
-            Resurrection: {timeTillResurrection}
+        <div className={`text-sm ${timers ? color : 'text-red'}`} style={{lineHeight: '1.0625rem'}}>
+            Resurrection: {timer}
         </div>
     )
 }

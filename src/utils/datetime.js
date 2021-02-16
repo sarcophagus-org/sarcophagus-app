@@ -53,8 +53,14 @@ const getTimeRemaining = (endtime) => {
   return `${days} days ${covertToTwoDigitString(hours)}:${covertToTwoDigitString(minutes)}:${covertToTwoDigitString(seconds)}`
 }
 
+const isTimePast = (time, window) => {
+  const UTCTime = makeNumeral(time, 0).value() * 1000
+  const UTCWindow= makeNumeral(window, 0).value() * 1000
+  return Math.sign((UTCTime + UTCWindow) - Date.now().valueOf() <= 0)
+}
+
 const covertToTwoDigitString = (num) => {
   return num < 10 ? `0${num}` : num
 }
 
-export { convertToUTC, getUTCDate, getDatefromBigNumber, getCustomDateUTC, getTimeRemaining, getCustomDate }
+export { convertToUTC, getUTCDate, getDatefromBigNumber, getCustomDateUTC, getTimeRemaining, getCustomDate, isTimePast }

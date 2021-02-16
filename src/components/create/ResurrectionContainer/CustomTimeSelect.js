@@ -1,7 +1,6 @@
 import React from 'react'
 import DatePicker from 'react-datepicker'
 import { convertToUTC, getCustomDateUTC } from '../../../utils/datetime'
-import InfoBox from '../../layout/InfoBox'
 
 const DatePickerButton = React.forwardRef(({value, onClick}, ref) => (
     <>

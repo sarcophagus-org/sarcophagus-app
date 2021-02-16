@@ -23,7 +23,7 @@ const createDataRoot = () => {
     
     const allowance = useSarcoAllowance(sarcophagusContract, sarcophagusTokenContract)
     const balance = useSarcoBalance(sarcophagusTokenContract, currentBlock)
-    const { createSarcophagus, updateSarcophagus } = useSarcophagus(sarcophagusContract)
+    const { createSarcophagus, updateSarcophagus, cancelSarcophagus, cleanSarcophagus, rewrapSarcophagus, burySarcophagus } = useSarcophagus(sarcophagusContract)
 
 
 
@@ -35,6 +35,10 @@ const createDataRoot = () => {
       updateSarcophagus,
       allowance,
       balance,
+      cancelSarcophagus, 
+      cleanSarcophagus, 
+      rewrapSarcophagus, 
+      burySarcophagus
     }
     return <Provider value={dataContext}>{children}</Provider>
   }

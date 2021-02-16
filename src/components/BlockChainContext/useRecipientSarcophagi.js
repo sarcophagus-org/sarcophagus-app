@@ -1,6 +1,6 @@
-import { utils } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
 import { useWeb3 } from '../../web3';
+import { utils } from 'ethers';
 
 const useRecipientSarcophagi = (sarcophagusContract) => {
   const [ recipientSarcophagi, setSarcophagi ] = useState([])
@@ -8,29 +8,29 @@ const useRecipientSarcophagi = (sarcophagusContract) => {
   const [ sarcoCount, setSarcoCount ] = useState(false)
   const { account } = useWeb3()
   
-  const getSarcophagiCount = useCallback( async () => {
+  const getRecipientSarcophagiCount = useCallback( async () => {
     try {
       const count = await sarcophagusContract.recipientSarcophagusCount(account)
       setSarcoCount(count)
     } catch (error) {
       console.error(error)
     }
-  }, [sarcophagusContract])
+  }, [sarcophagusContract, account])
 
   const getSarcophagiDoubleHashes = useCallback( async (count) => {
     try {
       const sarcophagiDoubleHashes = []
       for(let i = 0; i <= count - 1; i++) {
-        const doubleHash = await sarcophagusContract.recipientSarcophagusDoubleHash(account, i)
+        const doubleHash = await sarcophagusContract.recipientSarcophagusIdentifier(account, i)
         sarcophagiDoubleHashes.push(doubleHash)
       }
       await setSarcoDoubleHashes(sarcophagiDoubleHashes)
     } catch (error) {
       console.error(error)
     }
-  },[sarcophagusContract])
+  },[sarcophagusContract, account])
 
-  const getSarcophagInfo = useCallback(async () => {
+  const getSarcophagiInfo = useCallback(async () => {
     try {
       const recipientSarcophagi = await Promise.all(sarcoDoubleHashes.map( async (doubleHash) => {
         return {
@@ -46,8 +46,8 @@ const useRecipientSarcophagi = (sarcophagusContract) => {
 
   useEffect(() => {
     if(!sarcophagusContract) return
-    getSarcophagiCount()
-  },[ getSarcophagiCount, sarcophagusContract])
+    getRecipientSarcophagiCount()
+  },[ getRecipientSarcophagiCount, sarcophagusContract])
 
 
   useEffect(() => {
@@ -58,11 +58,11 @@ const useRecipientSarcophagi = (sarcophagusContract) => {
 
   useEffect(() => {
     if(!sarcoCount || !sarcophagusContract || !Array.isArray(sarcoDoubleHashes)) return
-    getSarcophagInfo() 
-  },[ getSarcophagiCount, getSarcophagiDoubleHashes, getSarcophagInfo, sarcoDoubleHashes, sarcoCount, sarcophagusContract ])
+    getSarcophagiInfo() 
+  },[ getRecipientSarcophagiCount, getSarcophagiDoubleHashes, getSarcophagiInfo, sarcoDoubleHashes, sarcoCount, sarcophagusContract ])
 
   
-  return { recipientSarcophagi }
+  return { recipientSarcophagi, getRecipientSarcophagiCount }
 }
 
 export { useRecipientSarcophagi }

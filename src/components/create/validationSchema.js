@@ -11,7 +11,7 @@ export const validationSchema = () => {
       .test(
         'validDataHextString',
         'Please enter a valid public key',
-        (value) => utils.isHexString(value, 64)
+        (value) => utils.isHexString(value, 65)
       ),
     name: Yup.string().required('Name is required'),
     resurrectionTime: Yup.number().required('Resurrection time is required'),

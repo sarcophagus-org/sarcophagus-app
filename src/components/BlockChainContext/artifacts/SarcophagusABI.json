@@ -62,66 +62,68 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "addy",
+        "name": "account",
         "type": "address"
       }
     ],
     "name": "archaeologists",
     "outputs": [
       {
-        "internalType": "bool",
-        "name": "exists",
-        "type": "bool"
-      },
-      {
-        "internalType": "address",
-        "name": "archaeologist",
-        "type": "address"
-      },
-      {
-        "internalType": "bytes",
-        "name": "currentPublicKey",
-        "type": "bytes"
-      },
-      {
-        "internalType": "string",
-        "name": "endpoint",
-        "type": "string"
-      },
-      {
-        "internalType": "address",
-        "name": "paymentAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "feePerByte",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "minimumBounty",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "minimumDiggingFee",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "maximumResurrectionTime",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "freeBond",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "cursedBond",
-        "type": "uint256"
+        "components": [
+          {
+            "internalType": "bool",
+            "name": "exists",
+            "type": "bool"
+          },
+          {
+            "internalType": "bytes",
+            "name": "currentPublicKey",
+            "type": "bytes"
+          },
+          {
+            "internalType": "string",
+            "name": "endpoint",
+            "type": "string"
+          },
+          {
+            "internalType": "address",
+            "name": "paymentAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "feePerByte",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "minimumBounty",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "minimumDiggingFee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "maximumResurrectionTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "freeBond",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "cursedBond",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct Types.Archaeologist",
+        "name": "",
+        "type": "tuple"
       }
     ],
     "stateMutability": "view",
@@ -150,7 +152,7 @@
         "type": "uint256"
       }
     ],
-    "name": "sarcophagusDoubleHash",
+    "name": "sarcophagusIdentifier",
     "outputs": [
       {
         "internalType": "bytes32",
@@ -195,7 +197,7 @@
         "type": "uint256"
       }
     ],
-    "name": "embalmerSarcophagusDoubleHash",
+    "name": "embalmerSarcophagusIdentifier",
     "outputs": [
       {
         "internalType": "bytes32",
@@ -240,7 +242,7 @@
         "type": "uint256"
       }
     ],
-    "name": "archaeologistSarcophagusDoubleHash",
+    "name": "archaeologistSarcophagusIdentifier",
     "outputs": [
       {
         "internalType": "bytes32",
@@ -285,7 +287,7 @@
         "type": "uint256"
       }
     ],
-    "name": "recipientSarcophagusDoubleHash",
+    "name": "recipientSarcophagusIdentifier",
     "outputs": [
       {
         "internalType": "bytes32",
@@ -301,56 +303,88 @@
     "inputs": [
       {
         "internalType": "bytes32",
-        "name": "doubleHash",
+        "name": "identifier",
         "type": "bytes32"
       }
     ],
     "name": "sarcophagus",
     "outputs": [
       {
-        "internalType": "enum Types.SarcophagusStates",
-        "name": "state",
-        "type": "uint8"
-      },
-      {
-        "internalType": "address",
-        "name": "archaeologist",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "embalmer",
-        "type": "address"
-      },
-      {
-        "internalType": "bytes",
-        "name": "archaeologistPublicKey",
-        "type": "bytes"
-      },
-      {
-        "internalType": "uint256",
-        "name": "resurrectionTime",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "resurrectionWindow",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "name",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "assetId",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "storageFee",
-        "type": "uint256"
+        "components": [
+          {
+            "internalType": "enum Types.SarcophagusStates",
+            "name": "state",
+            "type": "uint8"
+          },
+          {
+            "internalType": "address",
+            "name": "archaeologist",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes",
+            "name": "archaeologistPublicKey",
+            "type": "bytes"
+          },
+          {
+            "internalType": "address",
+            "name": "embalmer",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "resurrectionTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "resurrectionWindow",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "assetId",
+            "type": "string"
+          },
+          {
+            "internalType": "bytes",
+            "name": "recipientPublicKey",
+            "type": "bytes"
+          },
+          {
+            "internalType": "uint256",
+            "name": "storageFee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "diggingFee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "bounty",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "currentCursedBond",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "privateKey",
+            "type": "bytes32"
+          }
+        ],
+        "internalType": "struct Types.Sarcophagus",
+        "name": "",
+        "type": "tuple"
       }
     ],
     "stateMutability": "view",
@@ -403,9 +437,9 @@
     "name": "registerArchaeologist",
     "outputs": [
       {
-        "internalType": "bool",
+        "internalType": "uint256",
         "name": "",
-        "type": "bool"
+        "type": "uint256"
       }
     ],
     "stateMutability": "nonpayable",
@@ -420,7 +454,7 @@
       },
       {
         "internalType": "bytes",
-        "name": "currentPublicKey",
+        "name": "newPublicKey",
         "type": "bytes"
       },
       {
@@ -518,7 +552,7 @@
       },
       {
         "internalType": "bytes32",
-        "name": "assetDoubleHash",
+        "name": "identifier",
         "type": "bytes32"
       },
       {
@@ -530,9 +564,9 @@
     "name": "createSarcophagus",
     "outputs": [
       {
-        "internalType": "bool",
+        "internalType": "uint256",
         "name": "",
-        "type": "bool"
+        "type": "uint256"
       }
     ],
     "stateMutability": "nonpayable",
@@ -547,7 +581,7 @@
       },
       {
         "internalType": "bytes32",
-        "name": "assetDoubleHash",
+        "name": "identifier",
         "type": "bytes32"
       },
       {
@@ -586,7 +620,7 @@
     "inputs": [
       {
         "internalType": "bytes32",
-        "name": "assetDoubleHash",
+        "name": "identifier",
         "type": "bytes32"
       }
     ],
@@ -605,7 +639,7 @@
     "inputs": [
       {
         "internalType": "bytes32",
-        "name": "assetDoubleHash",
+        "name": "identifier",
         "type": "bytes32"
       },
       {
@@ -639,13 +673,8 @@
     "inputs": [
       {
         "internalType": "bytes32",
-        "name": "assetDoubleHash",
+        "name": "identifier",
         "type": "bytes32"
-      },
-      {
-        "internalType": "bytes",
-        "name": "singleHash",
-        "type": "bytes"
       },
       {
         "internalType": "bytes32",
@@ -668,7 +697,7 @@
     "inputs": [
       {
         "internalType": "bytes32",
-        "name": "assetDoubleHash",
+        "name": "identifier",
         "type": "bytes32"
       },
       {
@@ -697,7 +726,7 @@
     "inputs": [
       {
         "internalType": "bytes32",
-        "name": "assetDoubleHash",
+        "name": "identifier",
         "type": "bytes32"
       }
     ],
@@ -716,7 +745,7 @@
     "inputs": [
       {
         "internalType": "bytes32",
-        "name": "assetDoubleHash",
+        "name": "identifier",
         "type": "bytes32"
       },
       {

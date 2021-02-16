@@ -42,6 +42,7 @@ You must have MetaMask or a supported wallet to navigate this webApp
 Currently Supported:
 - MetaMask (Recommended)
 - WalletConnect
+
 ### Deploy local contracts for development
 
 clone V2-contracts repository @ [Github Repository](https://github.com/decent-labs/airfoil-sarcophagus-v2-contracts)
@@ -56,16 +57,5 @@ Go will need to be install to be able to use archaeologist-service. For MacOS fo
 
 [Medium.com (blog)](https://medium.com/@jimkang/install-go-on-mac-with-homebrew-5fa421fc55f5)
 
-clone V2-contracts repository @ [Github Repository](https://github.com/decent-labs/airfoil-sarcophagus-archaeologist-service)
+clone the service repository @ [Github Repository](https://github.com/decent-labs/airfoil-sarcophagus-archaeologist-service)
 
-Navigate to root directory of project and install dependencies
-```
-go get
-```
-
-Change branch `web_app_seed_data` and in the terminal run
-```
-go run cmd/seed.go
-```
-
-### Archaeologist Service and Arweave

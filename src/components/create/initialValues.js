@@ -1,6 +1,6 @@
 const initialValues = () => {
   return {
-    recipientPublicKey: "0xd5f5868912811ad4e92cd737770488ed4576ee87f14db9b9d50c589a1f7c6a5d52922fd0e8ff02ba0e18fd023f1b175deeab9294791520a04acb34537fb1b7f8",
+    recipientPublicKey: "0x0459b159955bb46d90b9d4905c5589ab0694a593ae2e82627d6658a363ae97db0bdcf8275ea45cb8cbd21a249a3fe1c15d8523d166fb74dc6773bc5c02ef329342",
     name: "",
     resurrectionTime: "",
     bounty: 0,
