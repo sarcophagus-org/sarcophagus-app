@@ -16,7 +16,10 @@ const useFileSentCheck = ( isSarcophagusMined, setArchResponse, data, setCurrent
           })
         })
         // TODO: set explicit error response from arch service
-        if (!responseFromArch.ok)  throw new Error("Failed to send file")
+        if (!responseFromArch.ok)  {
+          setError(ERROR.ARWEAVE_TRANSACTION_FAILED)
+          return
+        }
         const data = await responseFromArch.json()
         return data
       } catch (e) {

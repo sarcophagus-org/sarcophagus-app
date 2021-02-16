@@ -10,7 +10,7 @@ const useFileMiningCheck = (archResponse, setArchResponse, setCurrentStatus, err
         const fileValid = await arweaveFileValid(Arweave, AssetId, doubleEncryptedFile)
       
         if (!fileValid) {
-          setError(ERROR.ARWEAVE_FILE)
+          setError(ERROR.ARWEAVE_FILE_ERROR)
         }
         /* Wait for TX to be mined */
         const startTime = new Date().getTime();
@@ -40,7 +40,7 @@ const useFileMiningCheck = (archResponse, setArchResponse, setCurrentStatus, err
                 /* Check that content type tag isn't empty */
                 const fileTypeExists = await arweaveFileTypeExists(Arweave, AssetId)
                 if (!fileTypeExists) {
-                  setError(ERROR.ARWEAVE_FILE)
+                  setError(ERROR.ARWEAVE_FILE_ERROR)
                 }
                 setCurrentStatus(STATUSES.SARCOPHAGUS_AWAIT_SIGN)
                 setArchResponse(false)
@@ -52,8 +52,8 @@ const useFileMiningCheck = (archResponse, setArchResponse, setCurrentStatus, err
               if (errorRetries > 0) {
                 errorRetries -= 1
               } else {
-                clearInterval(interval)
-                setError(ERROR.ARWEAVE_TRANSACTION)
+                setError(ERROR.ARWEAVE_TRANSACTION_FAILED)
+                return clearInterval(interval)
               }
             }
           } catch {
@@ -62,7 +62,7 @@ const useFileMiningCheck = (archResponse, setArchResponse, setCurrentStatus, err
               errorRetries -= 1
             } else {
               clearInterval(interval)
-              setError(ERROR.ARWEAVE_TRANSACTION)
+              setError(ERROR.ARWEAVE_TRANSACTION_FAILED)
             }
           }
         }, INTERVAL_LENGTH_SECONDS * 1000)

@@ -19,7 +19,7 @@ const useSarcophagus = (sarcophagusContract) => {
           }).catch(e => console.error("Error creating Sarcophagus:", e))
   }
 
-  const updateSarcophagus = async (sarcophagus, setCurrentStatus) => {
+  const updateSarcophagus = async (sarcophagus, setCurrentStatus, refresh, toggle) => {
     try {
 
       const doubleHashUint = Buffer.from(utils.arrayify(sarcophagus.AssetDoubleHash))
@@ -28,12 +28,13 @@ const useSarcophagus = (sarcophagusContract) => {
 
       let { NewPublicKey, AssetDoubleHash, AssetId, V, R, S } = parsedStorage
       NewPublicKey = Buffer.from(NewPublicKey, 'base64')
-
       const txReceipt = await sarcophagusContract.updateSarcophagus(NewPublicKey, AssetDoubleHash, AssetId, V, R, S)
       console.log("🚀 update ~txReceipt", txReceipt)
       // remove local storage items
       localStorage.removeItem(AssetDoubleHash.toLocaleString())
       setCurrentStatus(STATUSES.PROCESS_COMPLETE)
+      refresh()
+      toggle()
     
     } catch (e) {
       console.error('There was a problem updating sarcophagus', e)

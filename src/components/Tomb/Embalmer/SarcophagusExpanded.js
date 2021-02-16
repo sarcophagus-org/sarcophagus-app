@@ -10,9 +10,7 @@ const Sign = ({sarcophagus, setCurrentStatus, refresh, toggle}) => {
     const { updateSarcophagus, cancelSarcophagus } = useData()
 
     const handleUpdate = async () => {
-        await updateSarcophagus(sarcophagus, setCurrentStatus)
-        await toggle()
-        await refresh()
+        await updateSarcophagus(sarcophagus, setCurrentStatus, refresh, toggle)
     }
 
     const handleCancel = async () => {
@@ -21,7 +19,7 @@ const Sign = ({sarcophagus, setCurrentStatus, refresh, toggle}) => {
         await refresh()
     }
     return (
-        <div className="flex flex-col items-center justify-center h-full relative" style={{height: '12.0625rem'}}>
+        <div className="flex flex-col items-center justify-center h-full relative" style={{height: '8.0625rem'}}>
             <Button type="button" onClick={handleUpdate} label="Sign" />
             <div className="whitespace-nowrap flex absolute bottom-8 underline cursor-pointer" onClick={handleCancel}>
                 <span className="mr-2">Cancel this sarcophagus</span>
