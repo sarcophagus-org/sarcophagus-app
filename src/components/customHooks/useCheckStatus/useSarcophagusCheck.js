@@ -22,7 +22,7 @@ const useSarcophagusCheck = (data, setCurrentStatus, error, setError, doubleHash
         console.error(e)
         setError(ERROR.BLOCKCHAIN_SERVER)
       }
-    },[ data.txReceipt, provider , setError, setCurrentStatus])
+    },[ data, provider , setError, setCurrentStatus, doubleHashUint, refresh])
   
     // check localStorage data on sarcophagus
     useEffect(() => {
