@@ -1,5 +1,5 @@
 import { BigNumber, utils } from 'ethers'
-import { STATUSES } from '../../constants'
+import { ACTIONS, STATUSES } from '../../constants'
 
 
 const useSarcophagus = (sarcophagusContract) => {
@@ -12,7 +12,7 @@ const useSarcophagus = (sarcophagusContract) => {
             console.log("🚀 create ~txReceipt", txReceipt)
 
             /* Send File to Archaeologist */
-            const storageObject = {sarcophagusName: sarcophagusName, doubleEncryptedFile: doubleEncryptedFile, fileType: fileType, endpoint: archaeologist.endpoint, txReceipt: txReceipt}
+            const storageObject = {action: ACTIONS.SARCOPHAGUS_CREATED, sarcophagusName: sarcophagusName, doubleEncryptedFile: doubleEncryptedFile, fileType: fileType, endpoint: archaeologist.endpoint, txReceipt: txReceipt}
             localStorage.setItem(assetDoubleHash, JSON.stringify(storageObject))
             
             history.replace('/')
@@ -41,7 +41,7 @@ const useSarcophagus = (sarcophagusContract) => {
     }
   }
 
-  const rewrapSarcophagus = async (sarcophagus, values) => {
+  const rewrapSarcophagus = async (sarcophagus, values, refresh, toggle) => {
     try {
       const { AssetDoubleHash } = sarcophagus
       const { bounty, diggingFee, resurrectionTime } = values
@@ -54,9 +54,11 @@ const useSarcophagus = (sarcophagusContract) => {
       const txReceipt = await sarcophagusContract.rewrapSarcophagus(doubleHashUint, resurrectionTimeBN, diggingFeeBN, bountyBN)
       console.log("🚀 ~ rewrap ~ txReceipt", txReceipt)
       // create storage object for rewraping
-      const storageObject = { action: 'rewrap', txReceipt: txReceipt }
+      const storageObject = { action: ACTIONS.SARCOPHAGUS_TX_MINING, txReceipt: txReceipt }
       const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
       localStorage.setItem(arrayifyDoubleHash, JSON.stringify(storageObject))
+      refresh()
+      toggle()
 
     } catch (e) {
       console.error('There was a problem rewrapping sarcophagus', e)
@@ -64,39 +66,56 @@ const useSarcophagus = (sarcophagusContract) => {
 
   }
 
-  const burySarcophagus = async (sarcophagus) => {
+  const burySarcophagus = async (sarcophagus, refresh, toggle) => {
     try {
       const { AssetDoubleHash } = sarcophagus
       const doubleHashUint = Buffer.from(utils.arrayify(AssetDoubleHash))
       const txReceipt = await sarcophagusContract.burySarcophagus(doubleHashUint)
       console.log("🚀 ~ burySarcophagus ~ txReceipt", txReceipt)
-      localStorage.removeItem(doubleHashUint.toLocaleString())
+
+      const storageObject = { action: ACTIONS.SARCOPHAGUS_TX_MINING, txReceipt: txReceipt }
+      const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
+      localStorage.setItem(arrayifyDoubleHash, JSON.stringify(storageObject))
+
+      refresh()
+      toggle()
 
     } catch (e) {
       console.error('There was a problem buring sarcophagus', e)
     }
   }
 
-  const cleanSarcophagus = async (sarcophagus) => {
+  const cleanSarcophagus = async (sarcophagus, refresh, toggle) => {
     try {
       const { AssetDoubleHash, paymentAddress } = sarcophagus
       const doubleHashUint = Buffer.from(utils.arrayify(AssetDoubleHash))
       localStorage.removeItem(doubleHashUint.toLocaleString())
       const txReceipt = await sarcophagusContract.cleanUpSarcophagus(doubleHashUint, paymentAddress)
       console.log("🚀  ~ cleanSarcophagus ~ txReceipt", txReceipt)
+
+      const storageObject = { action: ACTIONS.SARCOPHAGUS_TX_MINING, txReceipt: txReceipt }
+      const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
+      localStorage.setItem(arrayifyDoubleHash, JSON.stringify(storageObject))
+
+      refresh()
+      toggle()
       
     } catch (e) {
       console.error('There was a problem cleaning sarcophagus', e)
     }
   }
 
-  const cancelSarcophagus = async (sarcophagus) => {
+  const cancelSarcophagus = async (sarcophagus, toggle) => {
     try {
       const { AssetDoubleHash } = sarcophagus
       const doubleHashUint = Buffer.from(utils.arrayify(AssetDoubleHash))
       const txReceipt = await sarcophagusContract.cancelSarcophagus(doubleHashUint)
       console.log("🚀 ~ cancelSarcophagus ~ txReceipt", txReceipt)
-      localStorage.removeItem(doubleHashUint.toLocaleString())
+
+      const storageObject = { action: ACTIONS.SARCOPHAGUS_TX_MINING, txReceipt: txReceipt }
+      const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
+      localStorage.setItem(arrayifyDoubleHash, JSON.stringify(storageObject))
+      toggle()
     } catch (e) {
       console.error('There was a problem canceling sarcophagus', e)
     }

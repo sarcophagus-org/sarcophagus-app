@@ -14,14 +14,12 @@ const Sign = ({sarcophagus, setCurrentStatus, refresh, toggle}) => {
     }
 
     const handleCancel = async () => {
-        await cancelSarcophagus(sarcophagus)
-        await toggle()
-        await refresh()
+        await cancelSarcophagus(sarcophagus, toggle, refresh)
     }
     return (
-        <div className="flex flex-col items-center justify-center h-full relative" style={{height: '8.0625rem'}}>
+        <div className="flex flex-col items-center justify-center h-full relative gap-8" style={{height: '12.0625rem'}}>
             <Button type="button" onClick={handleUpdate} label="Sign" />
-            <div className="whitespace-nowrap flex absolute bottom-8 underline cursor-pointer" onClick={handleCancel}>
+            <div className="whitespace-nowrap flex underline cursor-pointer" onClick={handleCancel}>
                 <span className="mr-2">Cancel this sarcophagus</span>
                 <Tooltip>
                     {`< Content >`}
@@ -34,34 +32,34 @@ const Sign = ({sarcophagus, setCurrentStatus, refresh, toggle}) => {
 const ErrorOptions = ({sarcophagus, refresh, toggle}) => {
     const { cancelSarcophagus } = useData()
     const handleCancel = async () => {
-        await cancelSarcophagus(sarcophagus)
-        await toggle()
-        await refresh()
+        await cancelSarcophagus(sarcophagus, refresh, toggle)
+    }
+
+    const handleRefresh = () => {
+        refresh()
+        toggle()
     }
     return (
-        <div className="flex flex-col items-center justify-center h-full relative gap-8" style={{height: '12.0625rem'}}>
-        <div className="whitespace-nowrap flex underline cursor-pointer" onClick={handleCancel}>
-            <span className="mr-2">Cancel this sarcophagus</span>
-            <Tooltip>
-                {`< Content >`}
-            </Tooltip>
+        <div className="flex flex-col items-center justify-center h-full gap-8" style={{height: '12.0625rem'}}>
+            <Button type="button" onClick={handleRefresh} label="Refresh" />
+            <div className="whitespace-nowrap flex underline cursor-pointer" onClick={handleCancel}>
+                <span className="mr-2">Cancel this sarcophagus</span>
+                <Tooltip>
+                    {`< Content >`}
+                </Tooltip>
+            </div>
         </div>
-    </div>
-        )
+    )
 }
 
 const WindowClosed = ({sarcophagus, toggle, refresh}) => {
     const { cancelSarcophagus, cleanSarcophagus } = useData()
     const handleCancel = async () => {
-        cancelSarcophagus(sarcophagus)
-        await toggle()
-        await refresh()
+        cancelSarcophagus(sarcophagus, refresh, toggle)
     }
 
     const handleClean = async () => {
-        cleanSarcophagus(sarcophagus)
-        await toggle()
-        await refresh()
+        cleanSarcophagus(sarcophagus, refresh, toggle)
     }
     return (
         <div className="flex flex-col items-center justify-center h-full relative gap-8" style={{height: '12.0625rem'}}>

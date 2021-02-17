@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react'
-import { ERROR, STATUSES } from '../../../constants'
+import { ACTIONS, ERROR, STATUSES } from '../../../constants'
 
 const useFileSentCheck = ( isSarcophagusMined, setArchResponse, data, setCurrentStatus, error, setError ) => {
     
@@ -41,6 +41,7 @@ const useFileSentCheck = ( isSarcophagusMined, setArchResponse, data, setCurrent
   
         let { NewPublicKey, AssetDoubleHash, AssetId, V, R, S } = responseFromArch 
         const storageObject = {
+            action: ACTIONS.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED,
             NewPublicKey: NewPublicKey, 
             AssetDoubleHash: AssetDoubleHash, 
             V: V, 

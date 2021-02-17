@@ -71,7 +71,7 @@ const useFileMiningCheck = (archResponse, setArchResponse, setCurrentStatus, err
     
       useEffect(() => {
         if(!archResponse?.AssetId) return
-        if(error) return
+        if(!!error) return
         checkFileMinedStatus()
       }, [checkFileMinedStatus, archResponse, error])
 }

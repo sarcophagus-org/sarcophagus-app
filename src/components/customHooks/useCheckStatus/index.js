@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react"
 import { utils } from "ethers";
-import { STATUSES } from '../../../constants'
 import useSarcophagusCheck from "./useSarcophagusCheck";
 import useFileSentCheck from "./useFileSentCheck";
 import useFileMiningCheck from "./useFileMiningCheck";
 import { isTimePast } from '../../../utils/datetime'
+import { ACTIONS, STATUSES } from '../../../constants'
+import { useWeb3 } from "../../../web3";
 
-const useCheckStatus = (assetDoubleHash=false, sarcophagus, refresh) => {
-  const [ doubleHashUint ] = useState(Buffer.from(utils.arrayify(assetDoubleHash)))
+const useCheckStatus = (sarcophagus, refresh) => {
   const [ data, setData] = useState(false)
   const [ archResponse, setArchResponse ] = useState({})
   const [ currentStatus, setCurrentStatus ] = useState(STATUSES.CHECKING_STATUS)
   const [ error, setError ] = useState(false)
+  const { provider } = useWeb3()
 
   // check localStorage data on sarcophagus
-  const { isSarcophagusMined } = useSarcophagusCheck(data, setCurrentStatus, error, setError, doubleHashUint, refresh)
+  const { isSarcophagusMined } = useSarcophagusCheck(data, setCurrentStatus, error, setError)
 
   // send file is not sent
   useFileSentCheck(isSarcophagusMined, setArchResponse, data, setCurrentStatus, error, setError)
@@ -24,8 +25,7 @@ const useCheckStatus = (assetDoubleHash=false, sarcophagus, refresh) => {
 
   // check local storage for stored data on sarcophagi if exists
   useEffect(() => {
-    if(!doubleHashUint) return
-    
+      const doubleHashUint = Buffer.from(utils.arrayify(sarcophagus.AssetDoubleHash))
       const storedData = localStorage.getItem(doubleHashUint.toLocaleString())
       const parseData = JSON.parse(storedData)
       // if resurrection window is closed
@@ -47,21 +47,30 @@ const useCheckStatus = (assetDoubleHash=false, sarcophagus, refresh) => {
           }
       } else {
         // check action
-        if(parseData?.action === 'rewrap') {
-          setCurrentStatus(STATUSES.REWRAP_IN_PROGRESS)
-          setData(parseData)
+        if(parseData?.action === ACTIONS.SARCOPHAGUS_TX_MINING) {
+          const doubleHashUint = Buffer.from(utils.arrayify(sarcophagus.AssetDoubleHash))
+          const getRecipient = async () => {
+            return provider.getTransactionReceipt(parseData.txReceipt.hash)
+          }
+          const txReceipt = provider.getTransactionReceipt(parseData.txReceipt.hash)
+          setCurrentStatus(STATUSES.TRANACTION_MINING_IN_PROGRESS)
+          if(txReceipt && txReceipt.blockNumber) {
+            localStorage.removeItem(doubleHashUint.toLocaleString())
+            refresh()
+          }
           return
         }
         // if there is an AssetId skip to checking mining status
-        if(parseData?.AssetId) {
+        else if(parseData?.action === ACTIONS.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED) {
           setArchResponse(parseData)
           return
-        } else {
           // sets storages data to start process from start
+        } else {
+
           setData(parseData)
         }
       }
-  }, [doubleHashUint, sarcophagus])
+  }, [sarcophagus, provider, refresh])
   
 
   return { currentStatus, setCurrentStatus, error }

@@ -29,7 +29,6 @@ export const monthAhead = getUTCDate(30)
 export const threeMonthAhead = getUTCDate(90)
 
 export const STATUSES = {
-  SARCOPHAGUS_PENDING: 'Sarcophagus is mining',
   SARCOPHAGUS_SUCCESS: 'Sarcophagus has been mined!',
   ARWEAVE_STARTED: 'File is being uploaded',
   ARWEAVE_PENDING: 'File is being mined on arweave',
@@ -39,7 +38,7 @@ export const STATUSES = {
   CHECKING_STATUS: 'Checking status...',
   PROCESS_COMPLETE: 'Sarcophagus is Active',
   WINDOW_CLOSED: 'Resurrection Window is past',
-  REWRAP_IN_PROGRESS: 'Rewrap in Progress'
+  TRANACTION_MINING_IN_PROGRESS: 'Sarcophagus transaction is being mined!'
 }
 
 export const ERROR = {
@@ -47,6 +46,12 @@ export const ERROR = {
   BLOCKCHAIN_SERVER: 'There was an error connection to blockchain',
   ARWEAVE_TRANSACTION_FAILED: 'There was an error connecting to service',
   ARWEAVE_FILE_ERROR: 'There was an error sending file',
+}
+
+export const ACTIONS = {
+  SARCOPHAGUS_CREATED: 'Created',
+  SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED: 'File accepted',
+  SARCOPHAGUS_TX_MINING: 'Mining in progress'
 }
 
 export const INTERVAL_LENGTH_SECONDS = 5

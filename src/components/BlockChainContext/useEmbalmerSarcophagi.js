@@ -1,5 +1,6 @@
 import { utils } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
+import { ACTIONS } from '../../constants';
 import { useWeb3 } from '../../web3';
 
 const useEmbalmerSarcophagi = (sarcophagusContract) => {
@@ -52,6 +53,36 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
   },[sarcoDoubleHashes, sarcophagusContract])
 
   useEffect(() => {
+    let count = 0
+    // maps sarocophagus double hashes
+    const doubleHashArray = embalmerSarcophagi.map(sarcophagus => Buffer.from(utils.arrayify(sarcophagus.AssetDoubleHash)).toLocaleString())
+    // compares the stored keys versus mined sarcophagus if no match adds to count.
+    for(let i = 0; i < storage.length; i++) {
+      const key = storage.key(i)
+      const item = JSON.parse(localStorage.getItem(key))
+      if(item?.action === ACTIONS.SARCOPHAGUS_TX_MINING) {
+        count += 1
+      }
+      if(!doubleHashArray.includes(key)) {
+        count += 1
+      }
+
+    }
+    setPendingCount(count)
+  }, [embalmerSarcophagi, storage])
+
+  useEffect(() => {
+    if(pendingCount === 0) return
+    // sets a interval timer to check for newly minded sarcophagus if count != 0
+    const timer = setInterval(() => {
+      console.log('Pending Sarcophagus are being Mined...')
+      getSarcophagiCount()
+    }, 10000)
+    if(pendingCount === 0) return clearInterval(timer)
+    return () => clearInterval(timer)
+  }, [ storage, pendingCount, getSarcophagiCount ])
+
+  useEffect(() => {
     if(!sarcophagusContract) return
     getSarcophagiCount()
   },[ getSarcophagiCount, sarcophagusContract])
@@ -66,32 +97,10 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
   useEffect(() => {
     if(!sarcoCount || !sarcophagusContract || !Array.isArray(sarcoDoubleHashes)) return
     getSarcophagInfo() 
-  },[ getSarcophagiCount, getSarcophagiDoubleHashes, getSarcophagInfo, sarcoDoubleHashes, sarcoCount, sarcophagusContract ])
+  },[ getSarcophagInfo, sarcoDoubleHashes, sarcoCount, sarcophagusContract ])
 
-  useEffect(() => {
-    let count = 0
-    // maps sarocophagus double hashes
-    const doubleHashArray = embalmerSarcophagi.map(sarcophagus => Buffer.from(utils.arrayify(sarcophagus.AssetDoubleHash)).toLocaleString())
-    // compares the stored keys versus mined sarcophagus if no match adds to count.
-    for(let i = 0; i < storage.length; i++) {
-      const key = storage.key(i)
-      if(!doubleHashArray.includes(key)) {
-        count += 1
-      }
-    }
-    setPendingCount(count)
-  }, [embalmerSarcophagi, storage])
 
-  useEffect(() => {
-    if(pendingCount === 0) return
-    // sets a interval timer to check for newly minded sarcophagus if count != 0
-    const timer = setInterval(() => {
-      console.log('Pending Sarcophagus are being Mined...')
-      getSarcophagiCount()
-    }, 5000)
-    return () => clearInterval(timer)
-  }, [ storage, pendingCount, getSarcophagiCount ])
-  
+
   return { embalmerSarcophagi, overSarcophagi, pendingCount, getSarcophagiCount }
 }
 

@@ -4,6 +4,8 @@ import { useSarcophagusContract, useSarcophagusTokenContract } from './contracts
 import { useSarcophagus } from './useSarcophagus'
 import { useSarcoAllowance, useSarcoBalance } from './myBalances'
 import { useCurrentBlock } from './blocks'
+import { useEmbalmerSarcophagi } from './useEmbalmerSarcophagi'
+import { useRecipientSarcophagi } from './useRecipientSarcophagi'
 
 let context
 
@@ -16,15 +18,16 @@ const createDataRoot = () => {
   return ({ children }) => {
     const sarcophagusContract = useSarcophagusContract()
     const sarcophagusTokenContract = useSarcophagusTokenContract()
-
+    
     const { archaeologists } = useArcheologists(sarcophagusContract)
+    const { embalmerSarcophagi, overSarcophagi, getSarcophagiCount } = useEmbalmerSarcophagi(sarcophagusContract)
+    const { recipientSarcophagi, getRecipientSarcophagiCount } = useRecipientSarcophagi(sarcophagusContract)
     
     const { currentBlock } = useCurrentBlock()
     
     const allowance = useSarcoAllowance(sarcophagusContract, sarcophagusTokenContract)
     const balance = useSarcoBalance(sarcophagusTokenContract, currentBlock)
     const { createSarcophagus, updateSarcophagus, cancelSarcophagus, cleanSarcophagus, rewrapSarcophagus, burySarcophagus } = useSarcophagus(sarcophagusContract)
-
 
 
     const dataContext = {
@@ -38,7 +41,13 @@ const createDataRoot = () => {
       cancelSarcophagus, 
       cleanSarcophagus, 
       rewrapSarcophagus, 
-      burySarcophagus
+      burySarcophagus,
+      embalmerSarcophagi, overSarcophagi,
+      recipientSarcophagi,
+      refresh: () => {
+        getSarcophagiCount()
+        getRecipientSarcophagiCount()
+      }
     }
     return <Provider value={dataContext}>{children}</Provider>
   }
