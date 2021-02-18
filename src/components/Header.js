@@ -36,7 +36,7 @@ const Tabs = () => {
         <NavLink dest="/create" title="Create" />
       </li>
       <li className="px-4 py-1 ">
-        <NavLink dest="/resurrect" title="Resurrect" />
+        <NavLink dest="/horus" title="Horus" />
       </li>
     </ul>
   )

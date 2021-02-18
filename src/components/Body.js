@@ -12,7 +12,7 @@ const Body = () => {
       </Route>
       <Route path={`${url}tomb`} component={Tomb} />
       <Route path={`${url}create`} component={CreateSarcophagus} exact />
-      {/* <Route path="/resurrect" component={<div></div>}/> */}
+      {/* <Route path="/horus" component={<div></div>}/> */}
     </div>
   )
 }
