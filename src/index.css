@@ -58,6 +58,9 @@
 .react-datepicker {
   background-color: rgb(0,0,0);
   border: 2px solid #29262F;
+  min-width: max-content;
+  position: absolute;
+  z-index: 99999;
 }
 
 .react-datepicker * {
