@@ -1,7 +1,6 @@
 import { useWeb3 } from "../../../web3"
 import { useCallback, useState, useEffect } from 'react'
-import { ACTIONS, ERROR, STATUSES } from "../../../constants"
-import { utils } from "ethers"
+import { ERROR, STATUSES } from "../../../constants"
 
 const useSarcophagusCheck = (data, setCurrentStatus, error, setError) => {
     const { provider } = useWeb3()

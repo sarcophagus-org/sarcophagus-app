@@ -10,7 +10,7 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
   const [ sarcoCount, setSarcoCount ] = useState(false)
   const [ pendingCount, setPendingCount ] = useState(0)
   const { account } = useWeb3()
-  const storage = window.localStorage
+  const [ storage ] = useState(window.localStorage)
   
   const getSarcophagiCount = useCallback( async () => {
     try {
@@ -53,9 +53,10 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
   },[sarcoDoubleHashes, sarcophagusContract])
 
   useEffect(() => {
+    if(!Array.isArray(sarcoDoubleHashes)) return
     let count = 0
     // maps sarocophagus double hashes
-    const doubleHashArray = embalmerSarcophagi.map(sarcophagus => Buffer.from(utils.arrayify(sarcophagus.AssetDoubleHash)).toLocaleString())
+    const doubleHashArray = sarcoDoubleHashes.map(hashes => Buffer.from(utils.arrayify(hashes)).toLocaleString())
     // compares the stored keys versus mined sarcophagus if no match adds to count.
     for(let i = 0; i < storage.length; i++) {
       const key = storage.key(i)

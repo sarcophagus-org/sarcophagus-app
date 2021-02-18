@@ -24,8 +24,8 @@ const useResurrectionTimer = (time, resWindowTime, currentStatus) => {
 
 
     useEffect(() => {
-        if(currentStatus === STATUSES.REWRAP_IN_PROGRESS) {
-            setTime(TIMER_DEFAULT)
+        if(currentStatus === STATUSES.TRANACTION_MINING_IN_PROGRESS) {
+            setTime('re-calculating...')
             return
         }
         if(resWindowTimerActive) return

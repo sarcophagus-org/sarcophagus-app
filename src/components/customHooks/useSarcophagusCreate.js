@@ -17,7 +17,7 @@ const useSarcophagusCreate = (createSarcophagus) => {
     setRecipientPublicKey(key)
   }
 
-  const handleEmbalming = (values, history) => {
+  const handleEmbalming = (values, history, refresh) => {
     try {
       const { bounty, diggingFee, recipientPublicKey, resurrectionTime, name } = values
 
@@ -25,7 +25,7 @@ const useSarcophagusCreate = (createSarcophagus) => {
       const diggingFeeBN = utils.parseEther(diggingFee.toString())
       const bountyBN = utils.parseEther(bounty.toString())
       const recipientPublicKeyBA = utils.arrayify(recipientPublicKey).slice(1)
-      createSarcophagus(name, selectedArchaeologist, resurrectionTimeUTC, storageFee, diggingFeeBN, bountyBN, assetDoubleHash, recipientPublicKeyBA, doubleEncryptedFile, fileType, history)
+      createSarcophagus(name, selectedArchaeologist, resurrectionTimeUTC, storageFee, diggingFeeBN, bountyBN, assetDoubleHash, recipientPublicKeyBA, doubleEncryptedFile, fileType, history, refresh)
     } catch (e) {
       console.error(e)
     }

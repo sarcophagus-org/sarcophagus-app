@@ -5,7 +5,7 @@ import { ACTIONS, STATUSES } from '../../constants'
 const useSarcophagus = (sarcophagusContract) => {
 
   
-  const createSarcophagus = async (sarcophagusName, archaeologist, resurrectionTimeUTC, storageFeeBN, diggingFeeBN, bountyBN, assetDoubleHash, recipientPublicKeyBA, doubleEncryptedFile, fileType, history) => {
+  const createSarcophagus = async (sarcophagusName, archaeologist, resurrectionTimeUTC, storageFeeBN, diggingFeeBN, bountyBN, assetDoubleHash, recipientPublicKeyBA, doubleEncryptedFile, fileType, history, refresh) => {
         /* Create Sarco Transaction */
         sarcophagusContract.createSarcophagus(sarcophagusName, archaeologist.paymentAddress, resurrectionTimeUTC, storageFeeBN, diggingFeeBN, bountyBN, assetDoubleHash, recipientPublicKeyBA)
           .then((txReceipt) => {
@@ -16,6 +16,8 @@ const useSarcophagus = (sarcophagusContract) => {
             localStorage.setItem(assetDoubleHash, JSON.stringify(storageObject))
             
             history.replace('/')
+
+            refresh()
           }).catch(e => console.error("Error creating Sarcophagus:", e))
   }
 

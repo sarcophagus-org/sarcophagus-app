@@ -30,7 +30,8 @@ const useFileSentCheck = ( isSarcophagusMined, setArchResponse, data, setCurrent
     
     const sendFileToService = useCallback( async () => {
       try {
-        const {doubleEncryptedFile, fileType, endpoint, txReceipt } = data
+        const {doubleEncryptedFile, fileType, endpoint, txReceipt, action } = data
+        if(action === ACTIONS.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED) return 
         setCurrentStatus(STATUSES.ARWEAVE_STARTED)
         const responseFromArch = await handleSendFile(doubleEncryptedFile, fileType, endpoint)
         if(!responseFromArch?.AssetId) {

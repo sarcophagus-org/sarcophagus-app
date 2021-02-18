@@ -45,6 +45,7 @@ const createDataRoot = () => {
       embalmerSarcophagi, overSarcophagi,
       recipientSarcophagi,
       refresh: () => {
+        console.log('refreshed...')
         getSarcophagiCount()
         getRecipientSarcophagiCount()
       }

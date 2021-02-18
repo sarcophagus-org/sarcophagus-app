@@ -15,7 +15,7 @@ import ArchaeologistContainer from './ArchaeologistContainer'
 
 const CreateSarcophagus = () => {
   const history = useHistory()
-  const { archaeologists, createSarcophagus } = useData()
+  const { archaeologists, createSarcophagus, refresh } = useData()
   const { approved, approveTransaction } = useApproval()
   const {file, setFile, handleArchaeologistSelect, handleEmbalming, selectedArchaeologist, handleKey} = useSarcophagusCreate(createSarcophagus)
   const [ buttonText, setButtonText ] = useState('')
@@ -29,7 +29,7 @@ const CreateSarcophagus = () => {
     }, [approved])
 
   const handleSubmit = (values) => {
-    handleEmbalming(values, history)
+    handleEmbalming(values, history, refresh)
   }
 
   const handleApproval = (errors) => {

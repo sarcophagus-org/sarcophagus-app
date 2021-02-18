@@ -25,6 +25,7 @@ const useCheckStatus = (sarcophagus, refresh) => {
 
   // check local storage for stored data on sarcophagi if exists
   useEffect(() => {
+    const checkState = async () => {
       const doubleHashUint = Buffer.from(utils.arrayify(sarcophagus.AssetDoubleHash))
       const storedData = localStorage.getItem(doubleHashUint.toLocaleString())
       const parseData = JSON.parse(storedData)
@@ -48,11 +49,7 @@ const useCheckStatus = (sarcophagus, refresh) => {
       } else {
         // check action
         if(parseData?.action === ACTIONS.SARCOPHAGUS_TX_MINING) {
-          const doubleHashUint = Buffer.from(utils.arrayify(sarcophagus.AssetDoubleHash))
-          const getRecipient = async () => {
-            return provider.getTransactionReceipt(parseData.txReceipt.hash)
-          }
-          const txReceipt = provider.getTransactionReceipt(parseData.txReceipt.hash)
+          const txReceipt = await provider.getTransactionReceipt(parseData.txReceipt.hash)
           setCurrentStatus(STATUSES.TRANACTION_MINING_IN_PROGRESS)
           if(txReceipt && txReceipt.blockNumber) {
             localStorage.removeItem(doubleHashUint.toLocaleString())
@@ -70,6 +67,8 @@ const useCheckStatus = (sarcophagus, refresh) => {
           setData(parseData)
         }
       }
+    }
+    checkState()
   }, [sarcophagus, provider, refresh])
   
 
