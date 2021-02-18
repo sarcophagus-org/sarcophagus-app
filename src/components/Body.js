@@ -6,7 +6,7 @@ import Tomb from './Tomb'
 const Body = () => {
   const { url } = useRouteMatch()
   return (
-    <div className="border border-gray-500 p-4 mx-4 mb-8 mt-20 md:mt-0" style={{minHeight: 'calc(100vh - 16rem)'}}>
+    <div className="border border-gray-500 p-4 mx-4 mb-8 mt-20 md:mt-0 overflow-x-scroll hide-scrollbar" style={{minHeight: 'calc(100vh - 16rem)'}}>
       <Route path={`${url}`} exact>
         <Redirect to="/tomb" />
       </Route>

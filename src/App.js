@@ -2,7 +2,7 @@ import AppRouter from './router'
 
 const App = () => {
   return (
-    <div className="container overflow-x-scroll relative">
+    <div className="container relative">
       <AppRouter />
     </div>
   )

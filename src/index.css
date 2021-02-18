@@ -113,7 +113,13 @@ div.react-datepicker__day:hover {
 html {
   overflow: -moz-scrollbars-vertical; 
   overflow-y: scroll;
+  
 }
+
+html::-webkit-scrollbar {
+  background-color: rgb(11,11,11);
+}
+
 
 .remove-input-steps::-webkit-inner-spin-button,
 .remove-input-steps::-webkit-outer-spin-button {

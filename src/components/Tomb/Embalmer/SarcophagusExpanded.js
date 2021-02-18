@@ -81,7 +81,7 @@ const WindowClosed = ({sarcophagus, toggle, refresh}) => {
 
 const SarcophagusExpanded = ({ sarcophagus, archaeologist, currentStatus, error, setCurrentStatus, toggle, refresh }) => {
     return (
-        <div className="text-white text-md relative flex flex-col" style={{maxWidth: '34.4375rem'}}>
+        <div className="text-white text-md relative flex flex-col overflow-x-scroll hide-scrollbar" style={{maxWidth: '34.4375rem'}}>
             {error && <ErrorOptions sarcophagus={sarcophagus} refresh={refresh} toggle={toggle} />}
             {/* If resurrection window is closed*/}
             {currentStatus === STATUSES.WINDOW_CLOSED && <WindowClosed sarcophagus={sarcophagus} refresh={refresh} toggle={toggle} />}
