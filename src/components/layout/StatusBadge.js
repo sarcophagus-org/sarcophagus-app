@@ -9,12 +9,12 @@ const bgGray = 'bg-gray-300'
 const bgYellow = 'bg-yellow'
 const bgGreen = 'bg-green'
 
-const Content = ({ status, error }) => (
-  <div>{ error || status }</div>
+const Content = ({ status}) => (
+  <div>{ status }</div>
 )
 
 const StatusBadge = ({ status, error, isActive=false, isOver=false }) => (
-    <Tippy content={<Content status={status} error={error} />} className="border-2 border-white rounded text-center text-xs font-normal p-2 bg-gray-900">
+    <Tippy content={<Content status={status} />} className="border-2 border-white rounded text-center text-xs font-normal p-2 bg-gray-900">
       <div 
         className={error ?  classnames(base, bgRed) : isActive ?  classnames(base, bgGreen) : isOver ?  classnames(base, bgGray) : classnames(base, bgYellow)} 
         style={{width: 'fit-content'}}>

@@ -12,7 +12,7 @@ const SarcophagiList = () => {
   const { embalmerSarcophagi, overSarcophagi, recipientSarcophagi, refresh } = useData()
 
   return (
-    <div className="border-t border-gray-500 md:border-none mt-8 md:mt-0 pt-8 md:pt-0 w-full" style={{maxWidth: '34.4375rem'}}>
+    <div className="border-t border-gray-500 md:border-none mt-8 md:mt-0 pt-8 md:pt-0 w-full overflow-x-scroll hide-scrollbar" style={{maxWidth: '34.4375rem'}}>
       <Tabs embalmerCount={embalmerSarcophagi?.length} recipientCount={recipientSarcophagi?.length} overCount={overSarcophagi?.length}/>
 
       <div className="mt-8">

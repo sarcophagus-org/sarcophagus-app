@@ -67,10 +67,9 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
       if(!doubleHashArray.includes(key)) {
         count += 1
       }
-
     }
     setPendingCount(count)
-  }, [embalmerSarcophagi, storage])
+  }, [embalmerSarcophagi, storage, sarcoDoubleHashes])
 
   useEffect(() => {
     if(pendingCount === 0) return

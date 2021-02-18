@@ -9,19 +9,19 @@ import { useWeb3 } from "../../../web3";
 
 const useCheckStatus = (sarcophagus, refresh) => {
   const [ data, setData] = useState(false)
-  const [ archResponse, setArchResponse ] = useState({})
   const [ currentStatus, setCurrentStatus ] = useState(STATUSES.CHECKING_STATUS)
   const [ error, setError ] = useState(false)
+  const [ archResponse, setArchResponse ] = useState(false)
   const { provider } = useWeb3()
 
   // check localStorage data on sarcophagus
   const { isSarcophagusMined } = useSarcophagusCheck(data, setCurrentStatus, error, setError)
 
-  // send file is not sent
-  useFileSentCheck(isSarcophagusMined, setArchResponse, data, setCurrentStatus, error, setError)
+  // send file if not sent
+  const { sentArchResponse } = useFileSentCheck(isSarcophagusMined, data, setCurrentStatus, error, setError)
 
   // check file mining status
-  useFileMiningCheck(archResponse, setArchResponse, setCurrentStatus, error, setError, sarcophagus.name)
+  useFileMiningCheck(sentArchResponse || archResponse, setCurrentStatus, error, setError, sarcophagus.name)
 
   // check local storage for stored data on sarcophagi if exists
   useEffect(() => {
@@ -58,12 +58,12 @@ const useCheckStatus = (sarcophagus, refresh) => {
           return
         }
         // if there is an AssetId skip to checking mining status
-        else if(parseData?.action === ACTIONS.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED) {
+        else if(parseData?.action === ACTIONS.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED ) {
           setArchResponse(parseData)
           return
           // sets storages data to start process from start
         } else {
-
+          
           setData(parseData)
         }
       }

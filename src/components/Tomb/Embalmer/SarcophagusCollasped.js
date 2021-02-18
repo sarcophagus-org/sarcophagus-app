@@ -32,7 +32,7 @@ const SarcophagusCollasped = ({ sarcophagus, currentStatus, error, toggle, expan
                         </span>
                     </div>
                 )}
-                <StatusBadge status={currentStatus} error={!!error || currentStatus === STATUSES.WINDOW_CLOSED} isActive={currentStatus === STATUSES.PROCESS_COMPLETE} />
+                <StatusBadge status={error || currentStatus} error={!!error || currentStatus === STATUSES.WINDOW_CLOSED} isActive={currentStatus === STATUSES.PROCESS_COMPLETE} />
             </div>
         </div>
     )

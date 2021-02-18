@@ -29,19 +29,13 @@ const Sign = ({sarcophagus, setCurrentStatus, refresh, toggle}) => {
     )
 }
 
-const ErrorOptions = ({sarcophagus, refresh, toggle}) => {
+const ErrorOptions = ({sarcophagus, refresh, toggle, error}) => {
     const { cancelSarcophagus } = useData()
     const handleCancel = async () => {
         await cancelSarcophagus(sarcophagus, refresh, toggle)
     }
-
-    const handleRefresh = () => {
-        refresh()
-        toggle()
-    }
     return (
         <div className="flex flex-col items-center justify-center h-full gap-8" style={{height: '12.0625rem'}}>
-            <Button type="button" onClick={handleRefresh} label="Refresh" />
             <div className="whitespace-nowrap flex underline cursor-pointer" onClick={handleCancel}>
                 <span className="mr-2">Cancel this sarcophagus</span>
                 <Tooltip>
@@ -82,7 +76,7 @@ const WindowClosed = ({sarcophagus, toggle, refresh}) => {
 const SarcophagusExpanded = ({ sarcophagus, archaeologist, currentStatus, error, setCurrentStatus, toggle, refresh }) => {
     return (
         <div className="text-white text-md relative flex flex-col overflow-x-scroll hide-scrollbar" style={{maxWidth: '34.4375rem'}}>
-            {error && <ErrorOptions sarcophagus={sarcophagus} refresh={refresh} toggle={toggle} />}
+            {error && <ErrorOptions sarcophagus={sarcophagus} refresh={refresh} toggle={toggle} error={error}/>}
             {/* If resurrection window is closed*/}
             {currentStatus === STATUSES.WINDOW_CLOSED && <WindowClosed sarcophagus={sarcophagus} refresh={refresh} toggle={toggle} />}
             {/* If status is signing needed */}
