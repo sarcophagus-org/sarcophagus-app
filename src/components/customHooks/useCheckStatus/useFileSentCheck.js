@@ -59,13 +59,13 @@ const useFileSentCheck = ( isSarcophagusMined, data, setCurrentStatus, error, se
         setError(ERROR.ARWEAVE_TRANSACTION_FAILED)
         console.error(e)
       }
-    },[ data, handleSendFile, setSentArchResponse, setCurrentStatus, setError ])
+    },[ data, handleSendFile, setSentArchResponse, setCurrentStatus, setError, pending ])
 
   useEffect(() => {
     if(!isSarcophagusMined) return
     if(error) return
     sendFileToService()
-  },[sendFileToService, isSarcophagusMined, error, pending])
+  },[sendFileToService, isSarcophagusMined, error])
 
   return { sentArchResponse }
 }
