@@ -26,10 +26,10 @@ const SarcophagiList = () => {
           {account && !embalmerSarcophagi.length && <MockSarcophagus message="Create an sarcophagus" handleClick={() => history.push('/create')} />}
           {embalmerSarcophagi?.map((sarcophagus, i) => <SarcophagusWrapper key={sarcophagus.archaeologist + i.toString()} sarcophagus={sarcophagus} refresh={refresh} />)}
         </Route>
-        <Route path={`${match.path}/received`}>
+        <Route path={`${match.path}/resurrect`}>
           {recipientSarcophagi?.map((sarcophagus, i) => <RecipientSarcophagusWrapper key={sarcophagus.archaeologist + i.toString()} sarcophagus={sarcophagus} refresh={refresh}/>)}
         </Route>
-        <Route path={`${match.path}/over`}>
+        <Route path={`${match.path}/archived`}>
           {overSarcophagi?.map((sarcophagus, i) => <OverSarcophagusWrapper key={sarcophagus.archaeologist + i.toString()} sarcophagus={sarcophagus} refresh={refresh} />)}
         </Route>
       </div>
