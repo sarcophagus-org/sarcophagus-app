@@ -1,14 +1,19 @@
 import React from 'react'
+import { Route, useHistory, useRouteMatch } from 'react-router-dom'
 import Tabs from './Tabs'
 import SarcophagusWrapper from './Embalmer/SarcophagusWrapper'
 import RecipientSarcophagusWrapper from './Recipient/SarcophagusWrapper'
 import OverSarcophagusWrapper from './Over/SarcophagusWrapper'
+import MockSarcophagus from './MockSarcophagus'
 import { useData } from '../BlockChainContext'
-import { Route, useRouteMatch } from 'react-router-dom'
+import { connect } from '../../web3/userSupplied'
+import { useWeb3 } from '../../web3'
 
 
 const SarcophagiList = () => {
   const match = useRouteMatch()
+  const history = useHistory()
+  const { account } = useWeb3()
   const { embalmerSarcophagi, overSarcophagi, recipientSarcophagi, refresh } = useData()
 
   return (
@@ -17,6 +22,8 @@ const SarcophagiList = () => {
 
       <div className="mt-8">
         <Route path={`${match.path}`} exact>
+          {!account && <MockSarcophagus message="Connect to a wallet to get started" handleClick={() => connect()}/>}
+          {account && !embalmerSarcophagi.length && <MockSarcophagus message="Create an sarcophagus" handleClick={() => history.push('/create')} />}
           {embalmerSarcophagi?.map((sarcophagus, i) => <SarcophagusWrapper key={sarcophagus.archaeologist + i.toString()} sarcophagus={sarcophagus} refresh={refresh} />)}
         </Route>
         <Route path={`${match.path}/received`}>
