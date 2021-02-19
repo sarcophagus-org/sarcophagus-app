@@ -1,15 +1,16 @@
 import React from 'react'
 import classnames from 'classnames'
 import ResurrectionTimer from '../ResurrectionTimer'
-import arrowRight from '../../../assets/images/arrowRight.svg'
 import StatusBadge from '../../layout/StatusBadge'
 import { STATUSES } from '../../../constants'
+import arrowRight from '../../../assets/images/arrowRight.svg'
+import arrowDown from '../../../assets/images/arrowDown.svg'
 
 const base = "text-white text-md flex justify-between relative cursor-default"
 const pointer = "cursor-pointer"
 
 
-const SarcophagusCollasped = ({ sarcophagus, currentStatus, error, toggle, expandedOption=false, timer, color, timers }) => {
+const SarcophagusCollasped = ({ sarcophagus, currentStatus, error, toggle, collasped, expandedOption=false, timer, color, timers }) => {
     return (
         <div className={!expandedOption ? classnames(base) : classnames(base, pointer)} onClick={!expandedOption ? () => null : () => toggle()} style={{height: '4.375rem', maxWidth: '34.4375rem'}}>
             <div>
@@ -19,7 +20,8 @@ const SarcophagusCollasped = ({ sarcophagus, currentStatus, error, toggle, expan
             <div className="flex flex-col">
                 {expandedOption && (
                     <div className="flex cursor-pointer">
-                        <img alt="" src={arrowRight} className="mr-2" />
+                        {collasped && <img alt="" src={arrowDown} className="mr-2"/>} 
+                        {!collasped && <img alt="" src={arrowRight} className="mr-2"/>}
                         <span>
                             { 
                                 !!error || currentStatus === STATUSES.WINDOW_CLOSED 
