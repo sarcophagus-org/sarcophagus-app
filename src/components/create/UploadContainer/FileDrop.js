@@ -25,8 +25,8 @@ const FileDrop = ({handleFile, file, setFieldValue, errors, touched, icon, toggl
         </div>
         <TwoColumnContainer>
           <FileDropzone errors={errors.fileUploaded && touched.fileUploaded} handleFile={handleFile} style={{height: '10.625rem'}} file={file}/>
-          <InfoBox>
-            Helper text here can explain something and have space for a link to learn more
+          <InfoBox margin="-mt-1">
+            Upload the file that you wish to embalm. This file will be downloaded exactly as it is after resurrection. Current alpha max file size: 2.5mb
           </InfoBox>
         </TwoColumnContainer>
       </div>

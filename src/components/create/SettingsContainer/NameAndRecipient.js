@@ -23,7 +23,7 @@ const NameAndRecipient = ({values, errors, touched, handleChange, handleKey, tit
         <Input type="text" height="lg" placeholder="" errored={errors.name && touched.name} error={errors.name} name="name" value={values.name} onChange={handleChange} maxLength={256}/>
       </div>
       <InfoBox style={{marginTop: '1.75rem'}}>
-          Enter a name for your sarcophagus.
+        Enter a name for your sarcophagus, this will be public on the blockchain.
       </InfoBox>
     </TwoColumnContainer>
     
@@ -37,7 +37,7 @@ const NameAndRecipient = ({values, errors, touched, handleChange, handleKey, tit
       </div>
       <InfoBox style={{marginTop: '1.75rem'}}>
         <div className="border-b border-gray-400 mb-4" style={{width: 'fit-content'}}>Eth public key</div>
-        <div className="text-gray-400">Helper text here can explain something and have space for a link to learn more</div>
+        <div className="text-gray-400">Paste your recipient’s full Ethereum public key here, this is not the same as a public address. You can visit (INSERT PUB KEY RETRIEVAL LINK HERE) to get your full public key.</div>
       </InfoBox>
     </TwoColumnContainer>
   </SectionContainer>

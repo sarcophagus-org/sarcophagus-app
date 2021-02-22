@@ -18,9 +18,17 @@ const ResurrectionTime = ({values, errors, touched, setFieldValue, title, icon, 
       <img alt="" src={arrowDown} onClick={toggle} />
     </div>
     <TwoColumnContainer>
-    <TimeFields errors={errors} touched={touched} setFieldValue={setFieldValue} values={values} />
-      <InfoBox>
-        Set your resurrection time. Helper text here can explain something and have space for a link to learn more
+      <TimeFields errors={errors} touched={touched} setFieldValue={setFieldValue} values={values} />
+      <InfoBox margin="-mt-1">
+        <div className="pb-2">
+          The resurrection time is the exact time and date that the outer layer of your sarcophagus will be decrypted by the Archaeologist.
+        </div>
+        <div className="pb-2">
+          If you fail to re-wrap before this time; only the inter layer of encryption controlled by the recipient is protecting the data in your sarcophagus. 
+        </div>
+        <div>
+          The further the resurrection date is into the future, the more it will cost to create your sarcophagus.
+        </div>
       </InfoBox>
     </TwoColumnContainer>
   </SectionContainer>

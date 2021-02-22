@@ -101,7 +101,7 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
 
 
 
-  return { embalmerSarcophagi, overSarcophagi, pendingCount, getSarcophagiCount }
+  return { embalmerSarcophagi, overSarcophagi, pendingCount, setPendingCount, getSarcophagiCount }
 }
 
 export { useEmbalmerSarcophagi }

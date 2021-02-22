@@ -16,12 +16,12 @@ const SubTitleOne = ({ title, icon=false }) => (
   </div>
 )
 
-const SubTitleTwo = ({ title, showToolTip=false }) => (
+const SubTitleTwo = ({ title, showToolTip=false, toolTip="" }) => (
   <div className="flex mb-2 items-center">
     <span className="mr-2 text-gray-400 text-sm whitespace-nowrap" style={{lineHeight: '1.375rem'}}>{ title }</span>
       {showToolTip && 
         <Tooltip>
-          {'<'} content {'>'}
+          {toolTip}
         </Tooltip> }
   </div>
 )

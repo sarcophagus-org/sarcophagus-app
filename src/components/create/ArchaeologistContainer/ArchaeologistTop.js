@@ -30,11 +30,11 @@ const ArchaeologistTop = ({archaeologist, handleClick, toggle, file, selected, i
                 <img src={selected === archaeologist.paymentAddress ? iconBlack : icon} alt="" className="inline-block w-4 h-auto mr-2"/>
                 {getDecimalNumber(archaeologist.minimumBounty)}
             </div>
-            <div className="-ml-6 flex items-center">
+            <div className="-ml-7 flex items-center">
                 <img src={selected === archaeologist.paymentAddress ? iconBlack : icon} alt="" className="inline-block w-4 h-auto mr-2"/>
                 {getDecimalNumber(archaeologist.minimumDiggingFee)}
             </div>
-            <div className="flex items-center cursor-pointer -ml-6" onClick={(e) => {e.stopPropagation(); toggle()}}>
+            <div className="flex items-center cursor-pointer -ml-5" onClick={(e) => {e.stopPropagation(); toggle()}}>
                 {selected === archaeologist.paymentAddress && collasped && <img alt="" src={arrowRightBlack} className="mr-2"/>} 
                 {selected === archaeologist.paymentAddress && !collasped && <img alt="" src={arrowDownBlack} className="mr-2"/>}
                 {selected !== archaeologist.paymentAddress && collasped && <img alt="" src={arrowRight} className="mr-2"/>} 
