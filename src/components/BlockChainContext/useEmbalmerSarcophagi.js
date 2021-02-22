@@ -10,7 +10,7 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
   const [ sarcoCount, setSarcoCount ] = useState(false)
   const [ pendingCount, setPendingCount ] = useState(0)
   const { account } = useWeb3()
-  const [ storage ] = useState(window.localStorage)
+  const [ storage, setStorage ] = useState(window.localStorage)
   
   const getSarcophagiCount = useCallback( async () => {
     try {
@@ -101,7 +101,7 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
 
 
 
-  return { embalmerSarcophagi, overSarcophagi, pendingCount, setPendingCount, getSarcophagiCount }
+  return { embalmerSarcophagi, overSarcophagi, pendingCount, setStorage, getSarcophagiCount }
 }
 
 export { useEmbalmerSarcophagi }

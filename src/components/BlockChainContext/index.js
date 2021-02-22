@@ -20,7 +20,7 @@ const createDataRoot = () => {
     const sarcophagusTokenContract = useSarcophagusTokenContract()
     
     const { archaeologists } = useArcheologists(sarcophagusContract)
-    const { embalmerSarcophagi, overSarcophagi, getSarcophagiCount, pendingCount, setPendingCount } = useEmbalmerSarcophagi(sarcophagusContract)
+    const { embalmerSarcophagi, overSarcophagi, getSarcophagiCount, pendingCount, setStorage } = useEmbalmerSarcophagi(sarcophagusContract)
     const { recipientSarcophagi, getRecipientSarcophagiCount } = useRecipientSarcophagi(sarcophagusContract)
     
     const { currentBlock } = useCurrentBlock()
@@ -46,7 +46,7 @@ const createDataRoot = () => {
       recipientSarcophagi,
       pendingCount,
       refresh: () => {
-        setPendingCount(0)
+        setStorage(window.localStorage)
         getSarcophagiCount()
         getRecipientSarcophagiCount()
       }
