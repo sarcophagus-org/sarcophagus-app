@@ -46,14 +46,14 @@ const ErrorOptions = ({sarcophagus, refresh, toggle, error}) => {
     )
 }
 
-const WindowClosed = ({sarcophagus, toggle, refresh}) => {
+const WindowClosed = ({sarcophagus, toggle, refresh, archaeologist}) => {
     const { cancelSarcophagus, cleanSarcophagus } = useData()
     const handleCancel = async () => {
         cancelSarcophagus(sarcophagus, refresh, toggle)
     }
 
     const handleClean = async () => {
-        cleanSarcophagus(sarcophagus, refresh, toggle)
+        cleanSarcophagus(sarcophagus, archaeologist, refresh, toggle)
     }
     return (
         <div className="flex flex-col items-center justify-center h-full relative gap-8" style={{height: '12.0625rem'}}>
@@ -78,7 +78,7 @@ const SarcophagusExpanded = ({ sarcophagus, archaeologist, currentStatus, error,
         <div className="text-white text-md relative flex flex-col overflow-x-scroll hide-scrollbar" style={{maxWidth: '34.4375rem'}}>
             {error && <ErrorOptions sarcophagus={sarcophagus} refresh={refresh} toggle={toggle} error={error}/>}
             {/* If resurrection window is closed*/}
-            {currentStatus === STATUSES.WINDOW_CLOSED && <WindowClosed sarcophagus={sarcophagus} refresh={refresh} toggle={toggle} />}
+            {currentStatus === STATUSES.WINDOW_CLOSED && <WindowClosed sarcophagus={sarcophagus} archaeologist={archaeologist} refresh={refresh} toggle={toggle} />}
             {/* If status is signing needed */}
             {currentStatus === STATUSES.SARCOPHAGUS_AWAIT_SIGN && <Sign sarcophagus={sarcophagus} setCurrentStatus={setCurrentStatus} refresh={refresh} toggle={toggle} />}
             {/* if active then allow rewrap */}

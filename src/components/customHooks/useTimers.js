@@ -17,8 +17,9 @@ const useResurrectionTimer = (time, resWindowTime, currentStatus) => {
         time.setMinutes(time.getMinutes() + timeZoneOffset)
         const total = time - Date.parse(new Date());
         const days = Math.floor( total/(1000*60*60*24) );
+        const hours = Math.floor( (total/(1000*60*60)) % 24);
         if(resWindowTimerActive) return setColor('text-yellow')
-        else if (days === 1) return setColor('text-red')
+        else if (days === 0 && hours < 24) return setColor('text-red')
         else return setColor('text-gray-400')
     },[setColor, resWindowTimerActive])
 

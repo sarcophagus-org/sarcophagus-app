@@ -5,18 +5,13 @@ const useFileSentCheck = ( isSarcophagusMined, data, setCurrentStatus, error, se
   const [ sentArchResponse, setSentArchResponse ] = useState(false)
   const [ pending, setPending ] = useState(false)
   
-  const handleSendFile = useCallback( async (doubleEncryptedFile, fileType, endpoint, setError) => {
+  const handleSendFile = useCallback( async (doubleEncryptedFile, endpoint, setError) => {
     try {
       const archEndpoint = endpoint + '/file'
       const uint8File = new Uint8Array(doubleEncryptedFile.data)
       const fileEncoded = await btoa([].reduce.call(uint8File, function (p, c) { return p + String.fromCharCode(c) }, ''))
-      const responseFromArch = await fetch(archEndpoint, {
-        method: 'POST',
-        body: JSON.stringify({
-          fileType: fileType,
-          fileBytes: fileEncoded
-        })
-      })
+      const params = { method: 'POST', body: JSON.stringify({fileBytes: fileEncoded}) }
+      const responseFromArch = await fetch(archEndpoint, params)
       // TODO: set explicit error response from arch service
       if (!responseFromArch.ok)  {
         setError(ERROR.ARWEAVE_TRANSACTION_FAILED)
@@ -34,10 +29,10 @@ const useFileSentCheck = ( isSarcophagusMined, data, setCurrentStatus, error, se
     if(pending) return
     setPending(true)
     try {
-      const {doubleEncryptedFile, fileType, endpoint, txReceipt, action } = data
+      const {doubleEncryptedFile, endpoint, txReceipt, action } = data
       if(action === ACTIONS.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED) return 
       setCurrentStatus(STATUSES.ARWEAVE_STARTED)
-      const responseFromArch = await handleSendFile(doubleEncryptedFile, fileType, endpoint, setError)
+      const responseFromArch = await handleSendFile(doubleEncryptedFile, endpoint, setError)
 
       let { NewPublicKey, AssetDoubleHash, AssetId, V, R, S } = await responseFromArch 
       const storageObject = {

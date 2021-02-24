@@ -41,6 +41,12 @@ export const STATUSES = {
   TRANACTION_MINING_IN_PROGRESS: 'Sarcophagus transaction is being mined!'
 }
 
+export const RECIPIENT_STATUSES = {
+  CREATED: 'Sarcophagus creation in progress, resurrection unavailable',
+  ACTIVE: 'Sarcophagus Active',
+  UNWRAPPED: 'Sarcophagus unwrapped, resurrection available',
+}
+
 export const ERROR = {
   SARCOPHAGUS_FAILED: '',
   BLOCKCHAIN_SERVER: 'There was an error connection to blockchain',

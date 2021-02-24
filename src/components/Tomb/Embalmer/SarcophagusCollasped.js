@@ -24,12 +24,15 @@ const SarcophagusCollasped = ({ sarcophagus, currentStatus, error, toggle, colla
                         {!collasped && <img alt="" src={arrowRight} className="mr-2"/>}
                         <span>
                             { 
-                                !!error || currentStatus === STATUSES.WINDOW_CLOSED 
+                                !!error 
                                 ? "Details" 
                                 : currentStatus === STATUSES.PROCESS_COMPLETE 
                                 ? 'Rewrap' 
                                 : currentStatus === STATUSES.SARCOPHAGUS_AWAIT_SIGN 
-                                ? STATUSES.SARCOPHAGUS_AWAIT_SIGN : "" 
+                                ? STATUSES.SARCOPHAGUS_AWAIT_SIGN 
+                                : currentStatus === STATUSES.WINDOW_CLOSED
+                                ? "Details"
+                                : ""
                             }
                         </span>
                     </div>

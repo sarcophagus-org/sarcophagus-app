@@ -11,13 +11,13 @@ const TimeFields = ({errors, touched, values, setFieldValue}) => (
         <div className="flex flex-col justify-around h-full text-gray-400 radio-styles">
           <Title type="resurrection" values={values} />
           {/* One Week */}
-          <Input type="radio" name="timeSelect" onChange={() => {setFieldValue('timeSelect', 'week'); setFieldValue("resurrectionTime", weekAhead)}} checked={values.timeSelect === 'week'} value={weekAhead}>1 week</Input>
+          <Input type="radio" name="timeSelect" onChange={() => {setFieldValue('timeSelect', 'week'); setFieldValue("resurrectionTime", weekAhead); setFieldValue('custom', false)}} checked={values.timeSelect === 'week'} value={weekAhead}>1 week</Input>
           {/* One Month */}
-          <Input type="radio" name="timeSelect" onChange={() => {setFieldValue('timeSelect', 'month'); setFieldValue("resurrectionTime", monthAhead)}} checked={values.timeSelect === 'month'} value={monthAhead}>1 month</Input>
+          <Input type="radio" name="timeSelect" onChange={() => {setFieldValue('timeSelect', 'month'); setFieldValue("resurrectionTime", monthAhead); setFieldValue('custom', false)}} checked={values.timeSelect === 'month'} value={monthAhead}>1 month</Input>
           {/* Three Months */}
-          <Input type="radio" name="timeSelect" onChange={() => {setFieldValue('timeSelect', 'threeMonth'); setFieldValue("resurrectionTime", threeMonthAhead)}} checked={values.timeSelect === 'threeMonth'} value={threeMonthAhead}>3 months</Input>
+          <Input type="radio" name="timeSelect" onChange={() => {setFieldValue('timeSelect', 'threeMonth'); setFieldValue("resurrectionTime", threeMonthAhead); setFieldValue('custom', false)}} checked={values.timeSelect === 'threeMonth'} value={threeMonthAhead}>3 months</Input>
           {/* Custom */}
-          <Input type="radio" name="timeSelect" onChange={() => null} onClick={() => {setFieldValue('timeSelect', 'custom'); setFieldValue('resurrectionTime', values.customTime)}} checked={values.timeSelect === 'custom'} value={getCustomDate(values.resurrectionTime)} custom="custom">
+          <Input type="radio" name="timeSelect" onChange={() => null} onClick={() => {setFieldValue('timeSelect', 'custom'); setFieldValue('resurrectionTime', values.customTime); setFieldValue('custom', true)}} checked={values.timeSelect === 'custom'} value={getCustomDate(values.resurrectionTime)} custom="custom">
             <CustomTimeSelect values={values} setFieldValue={setFieldValue} />
           </Input>
         </div>

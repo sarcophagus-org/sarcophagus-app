@@ -11,6 +11,17 @@ const convertToUTC = date => {
   )
 }
 
+const convertToUTCTime = date => {
+  return Date.UTC(
+    date.getUTCFullYear(),
+    date.getUTCMonth(),
+    date.getUTCDate(),
+    date.getUTCHours(),
+    date.getUTCMinutes(),
+    date.getUTCSeconds()
+  )
+}
+
 const getUTCDate = numDays => {
   let today = new Date()
   today.setDate(today.getDate() + numDays)
@@ -42,9 +53,6 @@ const getCustomDateUTC = (utc) => {
 }
 
 const getTimeRemaining = (endtime) => {
-  // adds the time zone offset to date object (300 minutes)
-  const timeZoneOffset = endtime.getTimezoneOffset()
-  endtime.setMinutes(endtime.getMinutes() + timeZoneOffset)
   const total = endtime - Date.parse(new Date());
   const seconds = Math.floor( (total/1000) % 60 );
   const minutes = Math.floor( (total/1000/60) % 60 );
@@ -63,4 +71,4 @@ const covertToTwoDigitString = (num) => {
   return num < 10 ? `0${num}` : num
 }
 
-export { convertToUTC, getUTCDate, getDatefromBigNumber, getCustomDateUTC, getTimeRemaining, getCustomDate, isTimePast }
+export { convertToUTC, getUTCDate, getDatefromBigNumber, getCustomDateUTC, getTimeRemaining, getCustomDate, isTimePast, convertToUTCTime }

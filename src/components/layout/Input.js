@@ -17,8 +17,8 @@ const TextInput = ({ type, height="md", iPlaceholder="", error, errored, ...rest
 )
 
 const baseTextArea ="w-full p-2 bg-black text-white text-md focus:outline-none border border-gray-500"
-const TextAreaInput = ({ type, height="md", error, errored, ...rest }) => (
-  <textarea type={type} className={errored ? classnames(baseTextArea, errorBorderText) : classnames(baseTextArea)} style={{height: heightOptions[height], lineHeight: '1.4357rem'}} {...rest} />
+const TextAreaInput = ({ type, height="md", error, errored, _classNames, ...rest }) => (
+  <textarea type={type} className={errored ? classnames(baseTextArea, errorBorderText, _classNames) : classnames(baseTextArea, _classNames)} style={{height: heightOptions[height], lineHeight: '1.4357rem'}} {...rest} />
 )
 
 const RadioButton = ({type, value, children, ...rest}) => (

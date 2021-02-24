@@ -93,6 +93,10 @@ div.react-datepicker__day:hover {
   color: #888293;
   font-size: 0.7rem;
 }
+li.react-datepicker__time-list-item--disabled {
+  color:#888293 !important;
+  font-size: 0.7rem;
+}
 
 .react-datepicker__navigation {
   color: white;

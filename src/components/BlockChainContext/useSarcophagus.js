@@ -1,24 +1,23 @@
 import { BigNumber, utils } from 'ethers'
 import { ACTIONS, STATUSES } from '../../constants'
 
-
 const useSarcophagus = (sarcophagusContract) => {
 
   
-  const createSarcophagus = async (sarcophagusName, archaeologist, resurrectionTimeUTC, storageFeeBN, diggingFeeBN, bountyBN, assetDoubleHash, recipientPublicKeyBA, doubleEncryptedFile, fileType, history, refresh) => {
+  const createSarcophagus = async (sarcophagusName, archaeologist, resurrectionTimeUTC, storageFeeBN, diggingFeeBN, bountyBN, assetDoubleHash, recipientPublicKeyBA, doubleEncryptedFile, history, refresh) => {
         /* Create Sarco Transaction */
         sarcophagusContract.createSarcophagus(sarcophagusName, archaeologist.paymentAddress, resurrectionTimeUTC, storageFeeBN, diggingFeeBN, bountyBN, assetDoubleHash, recipientPublicKeyBA)
           .then((txReceipt) => {
             console.log("🚀 create ~txReceipt", txReceipt)
 
             /* Send File to Archaeologist */
-            const storageObject = {action: ACTIONS.SARCOPHAGUS_CREATED, sarcophagusName: sarcophagusName, doubleEncryptedFile: doubleEncryptedFile, fileType: fileType, endpoint: archaeologist.endpoint, txReceipt: txReceipt}
+            const storageObject = {action: ACTIONS.SARCOPHAGUS_CREATED, sarcophagusName: sarcophagusName, doubleEncryptedFile: doubleEncryptedFile, endpoint: archaeologist.endpoint, txReceipt: txReceipt}
             localStorage.setItem(assetDoubleHash, JSON.stringify(storageObject))
             
             history.replace('/')
 
             refresh()
-          }).catch(e => console.error("Error creating Sarcophagus:", e))
+          }).catch(e => console.error("There was a problem creating sarcophagus:", e))
   }
 
   const updateSarcophagus = async (sarcophagus, setCurrentStatus, refresh, toggle) => {
@@ -87,9 +86,10 @@ const useSarcophagus = (sarcophagusContract) => {
     }
   }
 
-  const cleanSarcophagus = async (sarcophagus, refresh, toggle) => {
+  const cleanSarcophagus = async (sarcophagus, archaeologist, refresh, toggle) => {
     try {
-      const { AssetDoubleHash, paymentAddress } = sarcophagus
+      const { AssetDoubleHash } = sarcophagus
+      const { paymentAddress } = archaeologist
       const doubleHashUint = Buffer.from(utils.arrayify(AssetDoubleHash))
       localStorage.removeItem(doubleHashUint.toLocaleString())
       const txReceipt = await sarcophagusContract.cleanUpSarcophagus(doubleHashUint, paymentAddress)
@@ -99,7 +99,6 @@ const useSarcophagus = (sarcophagusContract) => {
       const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
       localStorage.setItem(arrayifyDoubleHash, JSON.stringify(storageObject))
 
-      refresh()
       toggle()
       
     } catch (e) {

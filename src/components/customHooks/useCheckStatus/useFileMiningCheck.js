@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react"
 import { ERROR, INTERVAL_LENGTH_SECONDS, INTERVAL_TIMEOUT_MINS, STATUSES } from "../../../constants"
-import { arweaveFileTypeExists, arweaveFileValid, initArweave } from "../../../utils/arweave"
+import { arweaveFileValid, initArweave } from "../../../utils/arweave"
 
 const useFileMiningCheck = (archResponse, setCurrentStatus, error, setError, name) => {
   const [ pending, setPending ] = useState(false)
@@ -39,10 +39,6 @@ const useFileMiningCheck = (archResponse, setCurrentStatus, error, setError, nam
           case 200:
             /* Successful Tx */
             /* Check that content type tag isn't empty */
-            const fileTypeExists = await arweaveFileTypeExists(Arweave, AssetId)
-            if (!fileTypeExists) {
-              setError(ERROR.ARWEAVE_FILE_ERROR)
-            }
             setCurrentStatus(STATUSES.SARCOPHAGUS_AWAIT_SIGN)
             clearInterval(interval)
             return clearInterval(interval)

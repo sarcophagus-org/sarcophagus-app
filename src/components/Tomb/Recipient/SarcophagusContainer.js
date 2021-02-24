@@ -1,12 +1,25 @@
 import React from 'react'
+import { RECIPIENT_STATUSES } from '../../../constants'
 import useCollaspe from '../../customHooks/useCollaspe'
 import SarcophagusCollasped from './SarcophagusCollasped'
+import SarcophagusExpanded from './SarcophagusExpanded'
 
 const RecipientSarcophagusContainer = ({ sarcophagus, currentStatus, error }) => {
-    const { toggle } = useCollaspe()
-    // !TODO if current state is 2 resurrection option available
+    const { collasped, toggle } = useCollaspe(true, true)
     return (
-        <SarcophagusCollasped sarcophagus={sarcophagus} toggle={toggle} expandedOption={false} status={currentStatus} error={error} />
+        <div className="border border-gray-500 px-4 my-8 pt-3 ">
+            <SarcophagusCollasped 
+                sarcophagus={sarcophagus} 
+                toggle={toggle} 
+                collasped={collasped}
+                expandedOption={currentStatus === RECIPIENT_STATUSES.UNWRAPPED || !!error} 
+                status={currentStatus} 
+                error={error} 
+            />
+            {!collasped && (
+                <SarcophagusExpanded sarcophagus={sarcophagus} currentStatus={currentStatus} error={error} toggle={toggle} />
+            )}
+        </div>
     )
 }
 

@@ -1,4 +1,4 @@
-import { STATUSES } from "../../../constants"
+import { RECIPIENT_STATUSES, STATUSES } from "../../../constants"
 
 const { useEffect, useState } = require("react")
 
@@ -7,14 +7,14 @@ const useCheckReceivedSarcophagi = (sarcophagus) => {
     const [ error, setError ] = useState(false)
 
     useEffect(() => {
-        if(sarcophagus.state === 2) {
-            setCurrentStatus('Resurrection available')
-        } 
-        else if(!sarcophagus?.assetId){
-            setCurrentStatus('Sarcophagus creation in progress, resurrection unavailable')
+        if(!sarcophagus?.assetId){
+            setCurrentStatus(RECIPIENT_STATUSES.CREATED)
         }
-        else if (sarcophagus?.assetId) {
-            setCurrentStatus('Sarcophagus Active, resurrection available')
+        else if (sarcophagus?.privateKey !== "0x0000000000000000000000000000000000000000000000000000000000000000") {
+            setCurrentStatus(RECIPIENT_STATUSES.UNWRAPPED)
+        }
+        else if (sarcophagus?.assetId){
+            setCurrentStatus(RECIPIENT_STATUSES.ACTIVE)
         }
         else {setError('There was an error checking state')}
     }, [ sarcophagus ])

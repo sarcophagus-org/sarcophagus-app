@@ -1,11 +1,10 @@
 import { useState, useEffect, useCallback } from "react"
-import { encrypt } from 'ecies-geth'
+import { decrypt, encrypt } from 'ecies-geth'
 import { utils } from 'ethers'
 import { hexToBytes } from '../../utils/bytes'
 
 const useFileEncryption = () => {
   const [ file, setFile ] = useState(false)
-  const [ fileType, setFileType ] = useState(false)
   const [ recipientPublicKey, setRecipientPublicKey ] = useState(false)
   const [ fileByteArray, setFileByteArrayArray ] = useState(false)
   const [ fileEncryptedRecipient, setFileEncryptedRecipient ] = useState(false)
@@ -28,10 +27,20 @@ const useFileEncryption = () => {
     }
   }, [file])
 
+  const createJSONObject = useCallback(() => {
+    const jsonString = JSON.stringify({
+      type: file.type,
+      data: fileByteArray
+    })
+    const jsonBtyeArray = new Uint8Array(Buffer.from(jsonString))
+    return jsonBtyeArray
+  }, [file, fileByteArray])
+
   const firstEncryption = useCallback( async () => {
     try {
+      const fileObject = createJSONObject()
       const recipPubKeyBytes = hexToBytes(recipientPublicKey, true).slice(1)
-      const encrypted = await encrypt(recipPubKeyBytes, fileByteArray)
+      const encrypted = await encrypt(recipPubKeyBytes, fileObject)
       setFileEncryptedRecipient(encrypted)
 
       const hashedOnce = utils.keccak256(encrypted)
@@ -40,7 +49,7 @@ const useFileEncryption = () => {
     } catch (e) {
       console.error(e)
     }
-  }, [fileByteArray, recipientPublicKey])
+  }, [createJSONObject, recipientPublicKey])
 
   useEffect(() => {
     if(!fileByteArray || !recipientPublicKey) return
@@ -52,11 +61,10 @@ const useFileEncryption = () => {
       const archPubKeyBytes = hexToBytes(archaeologistPublicKey, true)
       const encrypted = await encrypt(archPubKeyBytes, fileEncryptedRecipient)
       setDoubleEncryptedFile(encrypted)
-      setFileType(file.type)
     } catch (e) {
       console.error(e)
     }
-  }, [fileEncryptedRecipient, archaeologistPublicKey, file])
+  }, [fileEncryptedRecipient, archaeologistPublicKey])
 
   useEffect(() => {
     if(!fileEncryptedRecipient || !archaeologistPublicKey) return
@@ -65,7 +73,6 @@ const useFileEncryption = () => {
 
   return { 
     file,
-    fileType,
     setFile,
     setRecipientPublicKey,
     setArchaeologistAddress,
