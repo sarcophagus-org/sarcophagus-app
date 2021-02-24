@@ -3,34 +3,15 @@ import { Formik } from 'formik'
 import React from 'react'
 import { arweaveFileValid, initArweave } from '../../../utils/arweave'
 import { hexToBytes } from '../../../utils/bytes'
-import Error from '../../Error'
 import Button from '../../layout/Button'
-import Input from '../../layout/Input'
-import Title from '../../layout/Title'
-import Tooltip from '../../layout/Tooltip'
 import { initialValues } from './initialValues'
+import RecipientPrivateKeyField from './RecipientPrivateKeyField'
 import { validationSchema } from './validationSchema'
 
-const RecipientPrivateKey = ({values, errors, touched, handleChange}) => {
-    return (
-        <div>
-            <div className="flex items-center">
-                <Title type="subOne" title="Recipient's Private Key" />
-                <Tooltip>
-                    <div>The Private Key of the receiver of this Sarcophagus</div>
-                </Tooltip>
-                {errors.bounty && touched.bounty && <Error>{errors.bounty}</Error>}
-                {errors.diggingFee && touched.diggingFee && <Error>{errors.diggingFee}</Error>}
-            </div>
-            <Input _classNames="my-4" name="recipientPrivateKey" value={values.recipientPrivateKey} errored={errors.recipientPrivateKey && touched.recipientPrivateKey} error={errors.recipientPublicKey} onChange={handleChange} type="textarea" height="xl" placeholder="0x........00000" />
-        </div>
-    )
-}
-
-const Resurrect = ({sarcophagus, keys}) => {
+const Resurrect = ({sarcophagus, recipientPrivateKey}) => {
     const handleDownload = async (values) => {
         try {
-            let recipientPrivateKey = keys?.recipientPrivateKey || values.recipientPrivateKey
+            let currentKey = recipientPrivateKey || values.recipientPrivateKey
             let archPrivateKey = sarcophagus.privateKey
             // retrieve arweave file
             const Arweave = initArweave()
@@ -44,7 +25,7 @@ const Resurrect = ({sarcophagus, keys}) => {
             const outerLayerDecrypted = await decrypt(hexToBytes(archPrivateKey, true).slice(1), encryptedData).catch(e => console.log('Outer', e))
             
             // decrypt with public key
-            const innerLayerDecrypted = await decrypt(hexToBytes(recipientPrivateKey, true).slice(1), outerLayerDecrypted).catch(e => console.log('Inner:', e))
+            const innerLayerDecrypted = await decrypt(hexToBytes(currentKey, true).slice(1), outerLayerDecrypted).catch(e => console.log('Inner:', e))
             const parsedData = JSON.parse(innerLayerDecrypted)
             // create blob using Buffer.from(bytes) and file type (use sarco name for now for download)
             const { type, data } = parsedData
@@ -64,10 +45,10 @@ const Resurrect = ({sarcophagus, keys}) => {
         }
     }
     return (
-        <Formik initialValues={initialValues()} validationSchema={validationSchema(!!keys?.recipientPrivateKey)} onSubmit={values => handleDownload(values)} >
+        <Formik initialValues={initialValues()} validationSchema={validationSchema(!!recipientPrivateKey)} onSubmit={values => handleDownload(values)} >
             {({ values, errors, touched, handleChange, handleSubmit}) => (
                 <form onSubmit={handleSubmit} className="px-2">
-                    {!keys?.recipientPrivateKey && <RecipientPrivateKey values={values} errors={errors} touched={touched} handleChange={handleChange} />}
+                    {!recipientPrivateKey && <RecipientPrivateKeyField values={values} errors={errors} touched={touched} handleChange={handleChange} />}
                     <Button _classNames="mx-auto w-full mb-4" type="submit" label="Resurrect File" />
                 </form>
             )}

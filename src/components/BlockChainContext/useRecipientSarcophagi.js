@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useWeb3 } from '../../web3';
 import { utils } from 'ethers';
 
-const useRecipientSarcophagi = (sarcophagusContract, privateKey=false) => {
+const useRecipientSarcophagi = (sarcophagusContract, privateKey=false, waitForAddress=false) => {
   const [ recipientSarcophagi, setSarcophagi ] = useState([])
   const [ sarcoDoubleHashes, setSarcoDoubleHashes ] = useState(false) 
   const [ sarcoCount, setSarcoCount ] = useState(false)
@@ -46,8 +46,9 @@ const useRecipientSarcophagi = (sarcophagusContract, privateKey=false) => {
 
   useEffect(() => {
     if(!sarcophagusContract) return
+    if(waitForAddress && !privateKey) return
     getRecipientSarcophagiCount()
-  },[ getRecipientSarcophagiCount, sarcophagusContract])
+  },[ getRecipientSarcophagiCount, sarcophagusContract, waitForAddress, privateKey])
 
 
   useEffect(() => {
