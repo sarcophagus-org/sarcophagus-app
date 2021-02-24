@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { BigNumber, utils } from 'ethers'
 import useFileEncryption from '../customHooks/useFileEncryption'
-import { convertToUTC, convertToUTCTime } from "../../utils/datetime"
+import { convertToUTCTime } from "../../utils/datetime"
 
 const useSarcophagusCreate = (createSarcophagus) => {
   const [ storageFee, setStorageFee ] = useState(false)

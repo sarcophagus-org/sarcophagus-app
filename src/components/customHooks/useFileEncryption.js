@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react"
-import { decrypt, encrypt } from 'ecies-geth'
+import { encrypt } from 'ecies-geth'
 import { utils } from 'ethers'
 import { hexToBytes } from '../../utils/bytes'
 

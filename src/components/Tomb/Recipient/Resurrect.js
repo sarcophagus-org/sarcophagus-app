@@ -11,11 +11,27 @@ import Tooltip from '../../layout/Tooltip'
 import { initialValues } from './initialValues'
 import { validationSchema } from './validationSchema'
 
-const Resurrect = ({sarcophagus}) => {
+const RecipientPrivateKey = ({values, errors, touched, handleChange}) => {
+    return (
+        <div>
+            <div className="flex items-center">
+                <Title type="subOne" title="Recipient's Private Key" />
+                <Tooltip>
+                    <div>The Private Key of the receiver of this Sarcophagus</div>
+                </Tooltip>
+                {errors.bounty && touched.bounty && <Error>{errors.bounty}</Error>}
+                {errors.diggingFee && touched.diggingFee && <Error>{errors.diggingFee}</Error>}
+            </div>
+            <Input _classNames="my-4" name="recipientPrivateKey" value={values.recipientPrivateKey} errored={errors.recipientPrivateKey && touched.recipientPrivateKey} error={errors.recipientPublicKey} onChange={handleChange} type="textarea" height="xl" placeholder="0x........00000" />
+        </div>
+    )
+}
+
+const Resurrect = ({sarcophagus, keys}) => {
     const handleDownload = async (values) => {
         try {
-            const { recipientPrivateKey } = values
-
+            let recipientPrivateKey = keys?.recipientPrivateKey || values.recipientPrivateKey
+            let archPrivateKey = sarcophagus.privateKey
             // retrieve arweave file
             const Arweave = initArweave()
             const encryptedData = await Arweave.transactions.getData(sarcophagus.assetId, {decode: true})
@@ -25,7 +41,7 @@ const Resurrect = ({sarcophagus}) => {
             if(!isValid) return
 
             // decrypt with private key (NOTE this step may be done by service)
-            const outerLayerDecrypted = await decrypt(hexToBytes(sarcophagus.privateKey, true).slice(1), encryptedData).catch(e => console.log('Outer', e))
+            const outerLayerDecrypted = await decrypt(hexToBytes(archPrivateKey, true).slice(1), encryptedData).catch(e => console.log('Outer', e))
             
             // decrypt with public key
             const innerLayerDecrypted = await decrypt(hexToBytes(recipientPrivateKey, true).slice(1), outerLayerDecrypted).catch(e => console.log('Inner:', e))
@@ -48,18 +64,10 @@ const Resurrect = ({sarcophagus}) => {
         }
     }
     return (
-        <Formik initialValues={initialValues()} validationSchema={validationSchema()} onSubmit={values => handleDownload(values)} >
+        <Formik initialValues={initialValues()} validationSchema={validationSchema(!!keys?.recipientPrivateKey)} onSubmit={values => handleDownload(values)} >
             {({ values, errors, touched, handleChange, handleSubmit}) => (
                 <form onSubmit={handleSubmit} className="px-2">
-                    <div className="flex items-center">
-                        <Title type="subOne" title="Recipient's Private Key" />
-                        <Tooltip>
-                            <div>The Private Key of the receiver of this Sarcophagus</div>
-                        </Tooltip>
-                        {errors.bounty && touched.bounty && <Error>{errors.bounty}</Error>}
-                        {errors.diggingFee && touched.diggingFee && <Error>{errors.diggingFee}</Error>}
-                    </div>
-                    <Input _classNames="my-4" name="recipientPrivateKey" value={values.recipientPrivateKey} errored={errors.recipientPrivateKey && touched.recipientPrivateKey} error={errors.recipientPublicKey} onChange={handleChange} type="textarea" height="xl" placeholder="0x........00000" />   
+                    {!keys?.recipientPrivateKey && <RecipientPrivateKey values={values} errors={errors} touched={touched} handleChange={handleChange} />}
                     <Button _classNames="mx-auto w-full mb-4" type="submit" label="Resurrect File" />
                 </form>
             )}

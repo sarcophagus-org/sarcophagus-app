@@ -1,7 +1,8 @@
 import { utils } from 'ethers'
 import * as Yup from 'yup'
 
-export const validationSchema = () => {
+export const validationSchema = (hasKeys) => {
+  if(hasKeys) return
   return Yup.object().shape({
     recipientPrivateKey: Yup.string()
       .test(

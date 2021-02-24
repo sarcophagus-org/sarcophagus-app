@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useWeb3 } from '../../web3';
 import { utils } from 'ethers';
 
-const useRecipientSarcophagi = (sarcophagusContract) => {
+const useRecipientSarcophagi = (sarcophagusContract, privateKey=false) => {
   const [ recipientSarcophagi, setSarcophagi ] = useState([])
   const [ sarcoDoubleHashes, setSarcoDoubleHashes ] = useState(false) 
   const [ sarcoCount, setSarcoCount ] = useState(false)
@@ -10,12 +10,12 @@ const useRecipientSarcophagi = (sarcophagusContract) => {
   
   const getRecipientSarcophagiCount = useCallback( async () => {
     try {
-      const count = await sarcophagusContract.recipientSarcophagusCount(account)
+      const count = await sarcophagusContract.recipientSarcophagusCount(privateKey || account)
       setSarcoCount(count)
     } catch (error) {
       console.error(error)
     }
-  }, [sarcophagusContract, account])
+  }, [sarcophagusContract, account, privateKey])
 
   const getSarcophagiDoubleHashes = useCallback( async (count) => {
     try {
