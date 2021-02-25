@@ -6,6 +6,10 @@ import { useWeb3 } from '../web3'
 import { connect } from '../web3/userSupplied'
 import icon from '../assets/images/icon.svg'
 import NavLink from './nav/NavLink'
+import tombIcon from '../assets/images/tomb.svg'
+import sarcophagusIcon from '../assets/images/sarcophagus.svg'
+import eyeOfHorusIcon from '../assets/images/eyeOfHorus2.svg'
+// import resurrectionIcon from ''
 
 const AccountDisplay = () => {
   const { account } = useWeb3()
@@ -30,13 +34,16 @@ const Tabs = () => {
   return (
     <ul className="flex whitespace-nowrap">
       <li className="pr-4 py-1 ">
-        <NavLink dest="/tomb" title="My Tomb" />
+        <NavLink dest="/tomb" title="Tomb" icon={tombIcon}/>
       </li>
       <li className="px-4 py-1 ">
-        <NavLink dest="/create" title="Create" />
+        <NavLink dest="/create" title="Create Sarcophagus" icon={sarcophagusIcon}/>
       </li>
       <li className="px-4 py-1 ">
-        <NavLink dest="/horus" title="Horus" />
+        <NavLink dest="/resurrection" title="Resurrection" icon={eyeOfHorusIcon} />
+      </li>
+      <li className="px-4 py-1 ">
+        <NavLink dest="/horus" title="Eye of Horus"/>
       </li>
     </ul>
   )
@@ -48,13 +55,13 @@ const Top = () =>  (
       <img src={logo} alt="logo" />
     </div>
 
-    <div className="flex items-center w-full justify-center md:w-auto md:justify-start">
+    <div className="flex items-center w-full justify-center md:-mt-4">
       <div className="">
         <Tabs />
       </div>
     </div>
 
-    <div className="flex items-center justify-center absolute right-0" style={{top: '2.75rem'}}>
+    <div className="flex items-center justify-center absolute right-0" style={{top: '2rem'}}>
       <div>
         <img src={wallet} alt="wallet" className="" />
       </div>

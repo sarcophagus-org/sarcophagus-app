@@ -117,7 +117,7 @@ li.react-datepicker__time-list-item--disabled {
 html {
   overflow: -moz-scrollbars-vertical; 
   overflow-y: scroll;
-  
+  min-width: 650px;
 }
 
 html::-webkit-scrollbar {

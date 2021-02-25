@@ -54,6 +54,9 @@ module.exports = {
         base: '1rem',        // 16px
         lg: '1.25rem'        // 20px
       },
+      backgroundSize: {
+        'icon': '1.5rem'
+      }
     },
   },
   variants: {},
