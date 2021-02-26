@@ -1,5 +1,5 @@
 import React from 'react'
-import { Redirect, Route, useRouteMatch } from 'react-router-dom'
+import { Redirect, Route } from 'react-router-dom'
 import CreateSarcophagus from './create'
 import Tomb from './Tomb'
 import Resurrection from './Resurrection'
