@@ -26,13 +26,10 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Sarcophagus</title>
-    <script defer>(function(){
-      var redirect = sessionStorage.redirect;
-      delete sessionStorage.redirect;
-      if (redirect && redirect != location.href) {
-        history.replaceState(null, null, redirect);
-      }
-    })();</script>
+    <script defer>
+      sessionStorage.redirect = location.href;
+    </script>
+    <meta http-equiv="refresh" content=“0;URL=‘/’”>
   </head>
   <body class="bg-background text-white">
     <noscript>You need to enable JavaScript to run this app.</noscript>
