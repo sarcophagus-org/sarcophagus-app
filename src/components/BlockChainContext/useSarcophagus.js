@@ -122,7 +122,21 @@ const useSarcophagus = (sarcophagusContract) => {
     }
   }
 
-  return { createSarcophagus, updateSarcophagus, cancelSarcophagus, cleanSarcophagus, burySarcophagus, rewrapSarcophagus }
+  const accuseArchaeologist = async (values) => {
+    try{ 
+
+      const { singleHash, identifier, paymentAddress } = values
+      const identifierUint = Buffer.from(utils.arrayify(identifier))
+      const singleHashUint = Buffer.from(utils.arrayify(singleHash))
+      const txReceipt = await sarcophagusContract.accuseArchaeologist(identifierUint, singleHashUint, paymentAddress)
+      console.log("🚀 ~ accuseArchaeologist ~ txReceipt", txReceipt)
+    } catch (e) {
+      console.log(e)
+    }
+  
+  }
+
+  return { createSarcophagus, updateSarcophagus, cancelSarcophagus, cleanSarcophagus, burySarcophagus, rewrapSarcophagus, accuseArchaeologist }
 
 }
 

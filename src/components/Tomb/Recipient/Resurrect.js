@@ -49,7 +49,7 @@ const Resurrect = ({sarcophagus, recipientPrivateKey}) => {
             {({ values, errors, touched, handleChange, handleSubmit}) => (
                 <form onSubmit={handleSubmit} className="px-2">
                     {!recipientPrivateKey && <RecipientPrivateKeyField values={values} errors={errors} touched={touched} handleChange={handleChange} />}
-                    <Button _classNames="mx-auto w-full mb-4" type="submit" label="Resurrect File" />
+                    <Button _classnames="mx-auto w-full mb-4" type="submit" label="Resurrect File" />
                 </form>
             )}
         </Formik>

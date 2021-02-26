@@ -37,7 +37,6 @@ const useArcheologists = (sarcophagusContract) => {
     }
   },[arcAddresses])
 
-  
   useEffect(() => {
     if(!sarcophagusContract) return
     getArchaeologistCount(sarcophagusContract)
@@ -59,5 +58,5 @@ const useArcheologists = (sarcophagusContract) => {
 }
 
 export {
-  useArcheologists
+  useArcheologists,
 }

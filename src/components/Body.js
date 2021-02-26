@@ -3,6 +3,7 @@ import { Redirect, Route, useRouteMatch } from 'react-router-dom'
 import CreateSarcophagus from './create'
 import Tomb from './Tomb'
 import Resurrection from './Resurrection'
+import AccuseArchaeologist from './Accuse'
 
 const Body = () => {
   const { url } = useRouteMatch()
@@ -14,7 +15,7 @@ const Body = () => {
       <Route path={`${url}tomb`} component={Tomb} />
       <Route path={`${url}create`} component={CreateSarcophagus} exact />
       <Route path={`${url}resurrection`} component={Resurrection} exact />
-      {/* <Route path="/horus" component={<div></div>}/> */}
+      <Route path="/horus" component={AccuseArchaeologist} exact />
     </div>
   )
 }

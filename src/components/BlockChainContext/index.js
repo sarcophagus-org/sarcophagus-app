@@ -27,13 +27,14 @@ const createDataRoot = () => {
     
     const allowance = useSarcoAllowance(sarcophagusContract, sarcophagusTokenContract)
     const balance = useSarcoBalance(sarcophagusTokenContract, currentBlock)
-    const { createSarcophagus, updateSarcophagus, cancelSarcophagus, cleanSarcophagus, rewrapSarcophagus, burySarcophagus } = useSarcophagus(sarcophagusContract)
+    const { createSarcophagus, updateSarcophagus, cancelSarcophagus, cleanSarcophagus, rewrapSarcophagus, burySarcophagus, accuseArchaeologist } = useSarcophagus(sarcophagusContract)
 
 
     const dataContext = {
       sarcophagusContract,
       sarcophagusTokenContract,
       archaeologists,
+      accuseArchaeologist,
       createSarcophagus,
       updateSarcophagus,
       allowance,
