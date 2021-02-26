@@ -12,10 +12,10 @@ const Body = () => {
       <Route path={`${url}`} exact>
         <Redirect to="/tomb" />
       </Route>
-      <Route path={`${url}tomb`} component={Tomb} />
-      <Route path={`${url}create`} component={CreateSarcophagus} exact />
-      <Route path={`${url}resurrection`} component={Resurrection} exact />
-      <Route path="/horus" component={AccuseArchaeologist} exact />
+      <Route path={`${url}tomb`} render={(routerProps) => <Tomb routerProps={routerProps}/>} />
+      <Route path={`${url}create`} render={(routerProps) => <CreateSarcophagus routerProps={routerProps}/>} exact />
+      <Route path={`${url}resurrection`} render={(routerProps) => <Resurrection routerProps={routerProps}/>} exact />
+      <Route path="/horus" render={(routerProps) => <AccuseArchaeologist routerProps={routerProps}/>} exact />
     </div>
   )
 }
