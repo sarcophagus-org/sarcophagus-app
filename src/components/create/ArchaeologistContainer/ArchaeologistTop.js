@@ -1,28 +1,29 @@
 import React from 'react'
-import arrowRightBlack from '../../../assets/images/arrowRightBlack.svg'
-import arrowRight from '../../../assets/images/arrowRight.svg'
+import { truncate } from '../../../utils';
 import { getStorageFee, getDecimalNumber } from '../../../utils/bigNumbers';
-import arrowDownBlack from '../../../assets/images/arrowDownBlack.svg'
 import arrowDown from '../../../assets/images/arrowDown.svg'
+import arrowDownBlack from '../../../assets/images/arrowDownBlack.svg'
+import arrowRight from '../../../assets/images/arrowRight.svg'
+import arrowRightBlack from '../../../assets/images/arrowRightBlack.svg'
 import icon from '../../../assets/images/icon.svg'
 import iconBlack from '../../../assets/images/iconBlack.svg'
-import { truncate } from '../../../utils';
-
 
 const gridStyles = {
-  display: 'grid',
-  gridTemplateColumns: '11rem 1fr 1fr 1fr 1fr',
-  columnGap: '1rem',
-  height: '4.375rem',
-  alignItems: 'center',
-  width: '50rem'
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
+    gridTemplateRow: '4.375rem',
+    columnGap: '2rem',
+    rowGap: '2rem',
+    height: '4.375rem',
+    alignItems: 'center',
+    width: '50rem'
 }
 
 const ArchaeologistTop = ({archaeologist, handleClick, toggle, file, selected, isDisabled, collasped}) => {
     return (
         <div className={isDisabled ? 'cursor-default' : 'cursor-pointer'} onClick={handleClick} style={gridStyles}>
-            <div className="">{truncate( archaeologist.paymentAddress, 10, null)}</div>
-            <div className="">
+            <div className="">{truncate( archaeologist.paymentAddress, 18, null)}</div>
+            <div className="pl-6">
                 {file && <img src={selected === archaeologist.paymentAddress ? iconBlack : icon} alt="" className="inline-block w-4 h-auto mr-2"/>}
                 {getStorageFee(archaeologist, file)}
             </div>

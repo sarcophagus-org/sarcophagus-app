@@ -1,6 +1,6 @@
+import { useEffect, useState } from 'react'
 import { RECIPIENT_STATUSES, STATUSES } from "../../../constants"
 
-const { useEffect, useState } = require("react")
 
 const useCheckReceivedSarcophagi = (sarcophagus) => {
     const [ currentStatus, setCurrentStatus ] = useState(STATUSES.CHECKING_STATUS)

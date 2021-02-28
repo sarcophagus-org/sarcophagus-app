@@ -15,7 +15,6 @@ const useSarcophagus = (sarcophagusContract) => {
             localStorage.setItem(assetDoubleHash, JSON.stringify(storageObject))
             
             history.replace('/')
-
             refresh()
           }).catch(e => console.error("There was a problem creating sarcophagus:", e))
   }
@@ -42,7 +41,7 @@ const useSarcophagus = (sarcophagusContract) => {
     }
   }
 
-  const rewrapSarcophagus = async (sarcophagus, values, refresh, toggle) => {
+  const rewrapSarcophagus = async (sarcophagus, values, refresh, toggle, setCurrentStatus) => {
     try {
       const { AssetDoubleHash } = sarcophagus
       const { bounty, diggingFee, resurrectionTime } = values
@@ -58,16 +57,16 @@ const useSarcophagus = (sarcophagusContract) => {
       const storageObject = { action: ACTIONS.SARCOPHAGUS_TX_MINING, txReceipt: txReceipt }
       const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
       localStorage.setItem(arrayifyDoubleHash, JSON.stringify(storageObject))
+      setCurrentStatus(STATUSES.TRANACTION_MINING_IN_PROGRESS)
       refresh()
       toggle()
-
     } catch (e) {
       console.error('There was a problem rewrapping sarcophagus', e)
     }
 
   }
 
-  const burySarcophagus = async (sarcophagus, refresh, toggle) => {
+  const burySarcophagus = async (sarcophagus, setCurrentStatus, refresh, toggle) => {
     try {
       const { AssetDoubleHash } = sarcophagus
       const doubleHashUint = Buffer.from(utils.arrayify(AssetDoubleHash))
@@ -77,7 +76,7 @@ const useSarcophagus = (sarcophagusContract) => {
       const storageObject = { action: ACTIONS.SARCOPHAGUS_TX_MINING, txReceipt: txReceipt }
       const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
       localStorage.setItem(arrayifyDoubleHash, JSON.stringify(storageObject))
-
+      setCurrentStatus(STATUSES.TRANACTION_MINING_IN_PROGRESS)
       refresh()
       toggle()
 
@@ -86,7 +85,7 @@ const useSarcophagus = (sarcophagusContract) => {
     }
   }
 
-  const cleanSarcophagus = async (sarcophagus, archaeologist, refresh, toggle) => {
+  const cleanSarcophagus = async (sarcophagus, setCurrentStatus, archaeologist, toggle) => {
     try {
       const { AssetDoubleHash } = sarcophagus
       const { paymentAddress } = archaeologist
@@ -98,7 +97,7 @@ const useSarcophagus = (sarcophagusContract) => {
       const storageObject = { action: ACTIONS.SARCOPHAGUS_TX_MINING, txReceipt: txReceipt }
       const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
       localStorage.setItem(arrayifyDoubleHash, JSON.stringify(storageObject))
-
+      setCurrentStatus(STATUSES.TRANACTION_MINING_IN_PROGRESS)
       toggle()
       
     } catch (e) {
@@ -106,7 +105,7 @@ const useSarcophagus = (sarcophagusContract) => {
     }
   }
 
-  const cancelSarcophagus = async (sarcophagus, toggle) => {
+  const cancelSarcophagus = async (sarcophagus, setCurrentStatus, toggle) => {
     try {
       const { AssetDoubleHash } = sarcophagus
       const doubleHashUint = Buffer.from(utils.arrayify(AssetDoubleHash))
@@ -116,6 +115,7 @@ const useSarcophagus = (sarcophagusContract) => {
       const storageObject = { action: ACTIONS.SARCOPHAGUS_TX_MINING, txReceipt: txReceipt }
       const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
       localStorage.setItem(arrayifyDoubleHash, JSON.stringify(storageObject))
+      setCurrentStatus(STATUSES.TRANACTION_MINING_IN_PROGRESS)
       toggle()
     } catch (e) {
       console.error('There was a problem canceling sarcophagus', e)

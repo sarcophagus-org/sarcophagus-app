@@ -11,7 +11,7 @@ import TimeFields from './TimeFields'
 const ResurrectionTime = ({values, errors, touched, setFieldValue, title, icon, toggle}) => (
   <SectionContainer>
     <div className="flex justify-between">
-      <div className="flex">
+      <div className="flex items-center">
         <Title type="subOne" title={title} icon={icon} />
         {errors.resurrectionTime && touched.resurrectionTime && <Error>{errors.resurrectionTime}</Error>}
       </div>

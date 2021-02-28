@@ -6,6 +6,8 @@ import { useSarcoAllowance, useSarcoBalance } from './myBalances'
 import { useCurrentBlock } from './blocks'
 import { useEmbalmerSarcophagi } from './useEmbalmerSarcophagi'
 import { useRecipientSarcophagi } from './useRecipientSarcophagi'
+import { useSarcophagi } from './useSarcophagi'
+import { useArchaeologistsCheck } from './useArchaeologistsCheck'
 
 let context
 
@@ -19,16 +21,17 @@ const createDataRoot = () => {
     const sarcophagusContract = useSarcophagusContract()
     const sarcophagusTokenContract = useSarcophagusTokenContract()
     
-    const { archaeologists } = useArcheologists(sarcophagusContract)
-    const { embalmerSarcophagi, overSarcophagi, getSarcophagiCount, pendingCount, setStorage } = useEmbalmerSarcophagi(sarcophagusContract)
-    const { recipientSarcophagi, getRecipientSarcophagiCount } = useRecipientSarcophagi(sarcophagusContract)
-    
+    const { rawArchaeologists } = useArcheologists(sarcophagusContract)
+    const { archaeologists } = useArchaeologistsCheck(sarcophagusContract, rawArchaeologists)
+    const { embalmerAllSarcophagi, getSarcophagiCount, pendingCount, setStorage } = useEmbalmerSarcophagi(sarcophagusContract)
+    const { recipientAllSarcophagi, getRecipientSarcophagiCount } = useRecipientSarcophagi(sarcophagusContract)
+
+    const { embalmerSarcophagi, recipientSarcophagi, overSarcophagi } = useSarcophagi(embalmerAllSarcophagi, recipientAllSarcophagi)
     const { currentBlock } = useCurrentBlock()
     
     const allowance = useSarcoAllowance(sarcophagusContract, sarcophagusTokenContract)
     const balance = useSarcoBalance(sarcophagusTokenContract, currentBlock)
     const { createSarcophagus, updateSarcophagus, cancelSarcophagus, cleanSarcophagus, rewrapSarcophagus, burySarcophagus, accuseArchaeologist } = useSarcophagus(sarcophagusContract)
-
 
     const dataContext = {
       sarcophagusContract,
@@ -43,7 +46,8 @@ const createDataRoot = () => {
       cleanSarcophagus, 
       rewrapSarcophagus, 
       burySarcophagus,
-      embalmerSarcophagi, overSarcophagi,
+      embalmerSarcophagi, 
+      overSarcophagi,
       recipientSarcophagi,
       pendingCount,
       refresh: () => {

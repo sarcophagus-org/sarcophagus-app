@@ -13,7 +13,7 @@ const createWeb3Root = () => {
   const Provider = context.Provider
 
   return ({ children }) => {
-    const userSupplied = useUserSuppliedConnect()
+    const { userSupplied }= useUserSuppliedConnect()
     const local = useLocalConnect(!!userSupplied)
     const fallback = useFallbackConnect(!!local)
 
@@ -43,7 +43,7 @@ const createWeb3Root = () => {
             account: false,
             chainId: network.chainId,
             provider: local,
-            signerOrProvider: local,
+            signerOrProvider: local.getSigner(),
           })
         }).catch(console.error)
       } else if (fallback) {
@@ -60,7 +60,7 @@ const createWeb3Root = () => {
           account: false,
           chainId: null,
           provider: null,
-          signerOrProvider: null
+          signerOrProvider: null,
         })
       }
     }, [userSupplied, local, fallback])

@@ -43,16 +43,30 @@ module.exports = {
       lg: '1152px',
     },
     extend: {
+      width: {
+        '128': '32rem',       // 512 px
+        '112': '28rem',       // 448 px
+        '104': '26rem',       // 416 px
+        '27.5': '6.875rem'    // 110 px
+      },
+      maxWidth: {
+        '128': '32rem',       // 512 px
+        '104': '26rem',       // 416 px
+      },
+      minWidth: {
+        '128': '32rem',       // 512 px
+        '104': '26rem',       // 416 px
+      },
       fontFamily: {
         sans: ['Roboto Mono'],
       },
       fontSize: {
-        '3xs': '0.5rem',     // 8px
-        '2xs': '0.625rem',   // 10px
-        sm: '0.8125rem',     // 13px
-        md: '0.875rem',      // 14px
-        base: '1rem',        // 16px
-        lg: '1.25rem'        // 20px
+        '3xs': '0.5rem',      // 8px
+        '2xs': '0.625rem',    // 10px
+        sm: '0.8125rem',      // 13px
+        md: '0.875rem',       // 14px
+        base: '1rem',         // 16px
+        lg: '1.25rem'         // 20px
       },
       backgroundSize: {
         'icon': '1.5rem'

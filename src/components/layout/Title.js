@@ -12,12 +12,12 @@ const MainTitle = ({ title, icon }) => (
 const SubTitleOne = ({ title, icon=false }) => (
   <div className="flex items-center text-white whitespace-pre-wrap md:whitespace-nowrap mr-2">
     {icon && <img src={icon} alt="" className="mr-4" />}
-    <span className="text-base font-bold">{ title }</span>
+    <span className="text-md font-bold">{ title }</span>
   </div>
 )
 
 const SubTitleTwo = ({ title, showToolTip=false, toolTip="" }) => (
-  <div className="flex mb-2 items-center">
+  <div className="flex items-center">
     <span className="mr-2 text-gray-400 text-sm whitespace-nowrap" style={{lineHeight: '1.375rem'}}>{ title }</span>
       {showToolTip && 
         <Tooltip>

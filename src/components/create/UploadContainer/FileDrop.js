@@ -19,7 +19,7 @@ const FileDrop = ({handleFile, file, setFieldValue, errors, touched, icon, toggl
         <img alt="" src={arrowDown} onClick={toggle} />
       </div>
       <div className="mt-8">
-        <div className="flex">
+        <div className="flex items-center">
           <Title type="subTwo" title="Attach File" />
           {errors.fileUploaded && touched.fileUploaded && <Error>{errors.fileUploaded}</Error>}
         </div>

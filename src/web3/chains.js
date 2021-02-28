@@ -14,10 +14,10 @@ const useAddresses = chainId => {
         sarcophagus: process.env.REACT_APP_LOCAL_SARCOPHAGUS_ADDRESS,
         sarcophagusToken: process.env.REACT_APP_LOCAL_SARCOPHAGUS_TOKEN_ADDRESS
       })
-    } else if (chainId === process.env.CHAINID) {
+    } else if (chainId === process.env.REACT_APP_CHAINID) {
       setAddresses({
-        sarcophagus: process.env.SARCO_CONTRACT_ADDRESS,
-        sarcophagusToken: process.env.SARCO_TOKEN_ADDRESS
+        sarcophagus: process.env.REACT_APP_SARCO_CONTRACT_ADDRESS,
+        sarcophagusToken: process.env.REACT_APP_SARCO_TOKEN_ADDRESS
       })
     }
   }, [chainId])

@@ -14,7 +14,7 @@ const Sign = ({sarcophagus, setCurrentStatus, refresh, toggle}) => {
     }
 
     const handleCancel = async () => {
-        await cancelSarcophagus(sarcophagus, toggle, refresh)
+        await cancelSarcophagus(sarcophagus, setCurrentStatus, toggle)
     }
     return (
         <div className="flex flex-col items-center justify-center h-full relative gap-8" style={{height: '12.0625rem'}}>
@@ -29,10 +29,10 @@ const Sign = ({sarcophagus, setCurrentStatus, refresh, toggle}) => {
     )
 }
 
-const ErrorOptions = ({sarcophagus, refresh, toggle, error}) => {
+const ErrorOptions = ({sarcophagus, refresh, toggle, error, setCurrentStatus}) => {
     const { cancelSarcophagus } = useData()
     const handleCancel = async () => {
-        await cancelSarcophagus(sarcophagus, refresh, toggle)
+        await cancelSarcophagus(sarcophagus, setCurrentStatus, toggle)
     }
     return (
         <div className="flex flex-col items-center justify-center h-full gap-8" style={{height: '12.0625rem'}}>
@@ -46,14 +46,14 @@ const ErrorOptions = ({sarcophagus, refresh, toggle, error}) => {
     )
 }
 
-const WindowClosed = ({sarcophagus, toggle, refresh, archaeologist}) => {
+const WindowClosed = ({sarcophagus, toggle, refresh, archaeologist, setCurrentStatus}) => {
     const { cancelSarcophagus, cleanSarcophagus } = useData()
     const handleCancel = async () => {
-        cancelSarcophagus(sarcophagus, refresh, toggle)
+        cancelSarcophagus(sarcophagus, setCurrentStatus, toggle)
     }
 
     const handleClean = async () => {
-        cleanSarcophagus(sarcophagus, archaeologist, refresh, toggle)
+        cleanSarcophagus(sarcophagus, setCurrentStatus, archaeologist, toggle)
     }
     return (
         <div className="flex flex-col items-center justify-center h-full relative gap-8" style={{height: '12.0625rem'}}>
@@ -75,10 +75,10 @@ const WindowClosed = ({sarcophagus, toggle, refresh, archaeologist}) => {
 
 const SarcophagusExpanded = ({ sarcophagus, archaeologist, currentStatus, error, setCurrentStatus, toggle, refresh }) => {
     return (
-        <div className="text-white text-md relative flex flex-col overflow-x-scroll hide-scrollbar" style={{maxWidth: '34.4375rem'}}>
-            {error && <ErrorOptions sarcophagus={sarcophagus} refresh={refresh} toggle={toggle} error={error}/>}
+        <div className="text-white text-md relative flex flex-col overflow-x-scroll hide-scrollbar max-w-128">
+            {error && <ErrorOptions sarcophagus={sarcophagus} refresh={refresh} toggle={toggle} error={error} setCurrentStatus={setCurrentStatus}/>}
             {/* If resurrection window is closed*/}
-            {currentStatus === STATUSES.WINDOW_CLOSED && <WindowClosed sarcophagus={sarcophagus} archaeologist={archaeologist} refresh={refresh} toggle={toggle} />}
+            {currentStatus === STATUSES.WINDOW_CLOSED && <WindowClosed sarcophagus={sarcophagus} archaeologist={archaeologist} refresh={refresh} toggle={toggle} setCurrentStatus={setCurrentStatus} />}
             {/* If status is signing needed */}
             {currentStatus === STATUSES.SARCOPHAGUS_AWAIT_SIGN && <Sign sarcophagus={sarcophagus} setCurrentStatus={setCurrentStatus} refresh={refresh} toggle={toggle} />}
             {/* if active then allow rewrap */}

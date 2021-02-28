@@ -6,13 +6,13 @@ import { STATUSES } from '../../../constants'
 import arrowRight from '../../../assets/images/arrowRight.svg'
 import arrowDown from '../../../assets/images/arrowDown.svg'
 
-const base = "text-white text-md flex justify-between relative cursor-default"
+const base = "text-white text-md flex justify-between relative cursor-default max-w-128"
 const pointer = "cursor-pointer"
 
 
 const SarcophagusCollasped = ({ sarcophagus, currentStatus, error, toggle, collasped, expandedOption=false, timer, color, timers }) => {
     return (
-        <div className={!expandedOption ? classnames(base) : classnames(base, pointer)} onClick={!expandedOption ? () => null : () => toggle()} style={{height: '4.375rem', maxWidth: '34.4375rem'}}>
+        <div className={!expandedOption ? classnames(base) : classnames(base, pointer)} onClick={!expandedOption ? () => null : () => toggle()} style={{height: '4.375rem'}}>
             <div>
                 <div className="text-base font-bold text-white" style={{lineHeight: '1.625rem'}}>{sarcophagus.name}</div>
                 <ResurrectionTimer timer={timer} color={color} timers={timers}/>

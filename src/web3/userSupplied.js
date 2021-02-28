@@ -4,7 +4,16 @@ import { toast } from 'react-toastify'
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import { supportedChains } from './chains'
-import detectEthereumProvider from '@metamask/detect-provider'
+
+const toastOptions = {
+  position: "bottom-right",
+  hideProgressBar: false,
+  closeOnClick: true,
+  autoClose: 1000,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+}
 
 const providerOptions = {
   walletconnect: {
@@ -15,60 +24,68 @@ const providerOptions = {
   },
 }
 
-const web3Modal = new Web3Modal({ providerOptions })
+const web3Modal = new Web3Modal({ providerOptions , cacheProvider: true})
 
 const useUserSuppliedConnect = () => {
-  const [provider, setProvider] = useState(null)
   const [userSupplied, setUserSupplied] = useState(null)
-  const [ selectedAddress, setSelectedAddress ]= useState(false)
-
-  // allows auto connection to injected provider
-  useEffect(() => {
-    if(!window.ethereum && !provider) return
-    setSelectedAddress(window.ethereum)
-  }, [ provider ])
 
   useEffect(() => {
-    detectEthereumProvider().then(injectedProvider => {
-      if(injectedProvider && selectedAddress) {
-        setProvider(injectedProvider)
-        setUserSupplied(new ethers.providers.Web3Provider(injectedProvider))
-      }
-    })
-  }, [selectedAddress])
+    if(web3Modal.cachedProvider) {
+      web3Modal.connect()
+    }
 
-  // listens for connection click
-  web3Modal.on('connect', provider => {
-    setProvider(provider)
-    setUserSupplied(new ethers.providers.Web3Provider(provider))
-  })
+    // subscribe to connect events
+    web3Modal.on('connect', provider => {
+      const web3Provider = new ethers.providers.Web3Provider(provider)
+      setUserSupplied(web3Provider)
+      toast.dark('Connected', { toastId: 'connected', ...toastOptions })
 
-  // allows for fallback when user is disconnected or change to unsupported network
-  useEffect(() => {
-    if (provider) {
-      provider.on('accountsChanged', accounts => {
-        if (accounts.length === 0) {
-          setProvider(null)
-          setUserSupplied(null)
-        }  
-      })
+      // subscribe to Network events
       provider.on('chainChanged', chainId => {
         if (!supportedChains().includes(parseInt(chainId))) {
-          toast.info('Switch to a supported network', {
-            toastId: 'switchNetwork'
-          })
-          setProvider(null)
+          toast.dark('Switch to a supported network', { ...toastOptions, toastId: 'switchNetwork' })
           setUserSupplied(null)
-        }  
+        } else {
+          toast.dark('Network changed', { ...toastOptions, toastId: 'changedNetwork' })
+          web3Modal.connect()
+        }
       })
-    }
-  }, [provider])
+      
+      // subscribe to account change events
+      provider.on('accountsChanged', accounts => {
+        if (accounts.length === 0) {
+          toast.dark('Account disconnected', { toastId: 'disconnected', ...toastOptions })
+          setUserSupplied(null)
+        } else {
+          toast.dark('Account Changed', { toastId: 'disconnected', ...toastOptions })
+          web3Modal.connect()
+        }
+      })
+      
+      // subscribe to provider disconnection
+      provider.on("disconnect", error => {
+        toast.error('Disconnected from wallet', {
+          ...toastOptions,
+          toastId: 'Disconnected'
+        })
+      });
 
-  return userSupplied
+      // unsubscribe
+      return () => {
+        provider.off('chainChanged')
+        provider.off('disconnect')
+        provider.off('accountsChanged')
+      }
+    })
+    
+}, [])
+
+
+return { userSupplied }
 }
 
-const connect = () => {
-  web3Modal.connect().catch(console.error)
+const connect = async () => {
+  web3Modal.connect().catch(console.error) 
 }
 
 export { useUserSuppliedConnect, connect }

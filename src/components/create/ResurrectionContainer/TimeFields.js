@@ -5,9 +5,12 @@ import CustomTimeSelect from './CustomTimeSelect';
 import { monthAhead, threeMonthAhead, weekAhead } from '../../../constants'
 import { getCustomDate } from '../../../utils/datetime'
 
+const border = "border border-gray-500 px-8 py-4 w-112"
+const borderError = "border border-red pl-8 py-4 w-112"
+
 const TimeFields = ({errors, touched, values, setFieldValue}) => (
-    <div className="flex gap-8">
-      <div className={errors.resurrectionTime && touched.resurrectionTime ? "border border-red pl-8 py-4" : "border border-gray-500 px-8 py-4"} style={{height: '15.25rem', width: '28rem'}}>
+    <div className="flex gap-8 mb-8">
+      <div className={errors.resurrectionTime && touched.resurrectionTime ? borderError : border} style={{height: '15.25rem'}}>
         <div className="flex flex-col justify-around h-full text-gray-400 radio-styles">
           <Title type="resurrection" values={values} />
           {/* One Week */}

@@ -1,13 +1,13 @@
-import { utils } from 'ethers';
+import { BigNumber, utils } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { ACTIONS } from '../../constants';
 import { useWeb3 } from '../../web3';
 
 const useEmbalmerSarcophagi = (sarcophagusContract) => {
-  const [ embalmerSarcophagi, setSarcophagi ] = useState([])
-  const [ overSarcophagi, setOverSarcophagi ] = useState([])
+  const [ embalmerAllSarcophagi, setSarcophagi ] = useState([])
   const [ sarcoDoubleHashes, setSarcoDoubleHashes ] = useState(false) 
-  const [ sarcoCount, setSarcoCount ] = useState(false)
+  const [ sarcoCount, setSarcoCount ] = useState(BigNumber.from(0))
   const [ pendingCount, setPendingCount ] = useState(0)
   const { account } = useWeb3()
   const [ storage, setStorage ] = useState(window.localStorage)
@@ -17,7 +17,6 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
       const count = await sarcophagusContract.embalmerSarcophagusCount(account)
       setSarcoCount(count)
     } catch (error) {
-      console.error(error)
     }
   }, [sarcophagusContract, account])
 
@@ -43,65 +42,70 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
           }
         })
         ).catch(e => console.log("e", e))
-      const activeSarcophagi = await embalmerSarcophagi.filter(v => v.state === 1)
-      const inactiveSarcophagi = await embalmerSarcophagi.filter(v => v.state === 2)
-      await setSarcophagi(activeSarcophagi)
-      await setOverSarcophagi(inactiveSarcophagi)
+      await setSarcophagi(embalmerSarcophagi)
     } catch (error) {
       console.error(error)
     }
   },[sarcoDoubleHashes, sarcophagusContract])
 
   useEffect(() => {
-    if(!Array.isArray(sarcoDoubleHashes)) return
     let count = 0
-    // maps sarocophagus double hashes
-    const doubleHashArray = sarcoDoubleHashes.map(hashes => Buffer.from(utils.arrayify(hashes)).toLocaleString())
     // compares the stored keys versus mined sarcophagus if no match adds to count.
     for(let i = 0; i < storage.length; i++) {
       const key = storage.key(i)
+      // ignore cached provider
+      if(key === 'WEB3_CONNECT_CACHED_PROVIDER') continue
       const item = JSON.parse(localStorage.getItem(key))
+      // Sarcophagus pending mining
       if(item?.action === ACTIONS.SARCOPHAGUS_TX_MINING) {
         count += 1
       }
-      if(!doubleHashArray.includes(key)) {
+      // Sarcophagus pending created mining
+      if(item?.action === ACTIONS.SARCOPHAGUS_CREATED) {
         count += 1
       }
     }
     setPendingCount(count)
-  }, [embalmerSarcophagi, storage, sarcoDoubleHashes])
+  }, [embalmerAllSarcophagi, storage])
 
   useEffect(() => {
-    if(pendingCount === 0) return
-    // sets a interval timer to check for newly minded sarcophagus if count != 0
-    const timer = setInterval(() => {
-      console.log('Pending Sarcophagus are being Mined...')
-      getSarcophagiCount()
-    }, 10000)
-    if(pendingCount === 0) return clearInterval(timer)
-    return () => clearInterval(timer)
+    if(pendingCount > 0) {
+      // sets a interval timer to check for newly minded sarcophagus if count != 0
+      const timer = setInterval(() => {
+        console.log('Pending Sarcophagus are being Mined...')
+        getSarcophagiCount()
+      }, 10000)
+      return () => clearInterval(timer)
+    }
   }, [ storage, pendingCount, getSarcophagiCount ])
 
   useEffect(() => {
-    if(!sarcophagusContract) return
-    getSarcophagiCount()
-  },[ getSarcophagiCount, sarcophagusContract])
-
-
-  useEffect(() => {
-    if (!sarcoCount || !sarcophagusContract) return
-    if (sarcoCount.isZero()) return
-    getSarcophagiDoubleHashes(sarcoCount.toNumber())
-  },[ sarcoCount, getSarcophagiDoubleHashes, sarcophagusContract ])
+    if(sarcophagusContract && account) {
+      getSarcophagiCount()
+    }
+  },[ getSarcophagiCount, account, sarcophagusContract])
 
   useEffect(() => {
-    if(!sarcoCount || !sarcophagusContract || !Array.isArray(sarcoDoubleHashes)) return
-    getSarcophagInfo() 
-  },[ getSarcophagInfo, sarcoDoubleHashes, sarcoCount, sarcophagusContract ])
+    if(!sarcoCount.isZero()){
+      getSarcophagiDoubleHashes(sarcoCount.toNumber())
+    }
+  },[ sarcoCount, getSarcophagiDoubleHashes ])
+
+  useEffect(() => {
+    if(Array.isArray(sarcoDoubleHashes) && sarcoDoubleHashes.length) {
+      getSarcophagInfo() 
+    }
+  },[ getSarcophagInfo, sarcoDoubleHashes ])
+
+  useEffect(() => {
+    if(account) {
+      toast.dark('Loading Sarcophagi', {autoClose: 1500})
+    }
+  },[account])
 
 
 
-  return { embalmerSarcophagi, overSarcophagi, pendingCount, setStorage, getSarcophagiCount }
+  return { embalmerAllSarcophagi, pendingCount, setStorage, getSarcophagiCount }
 }
 
 export { useEmbalmerSarcophagi }

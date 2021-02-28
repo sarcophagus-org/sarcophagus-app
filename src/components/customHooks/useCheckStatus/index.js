@@ -6,6 +6,7 @@ import useFileMiningCheck from "./useFileMiningCheck";
 import { isTimePast } from '../../../utils/datetime'
 import { ACTIONS, STATUSES } from '../../../constants'
 import { useWeb3 } from "../../../web3";
+import { toast } from "react-toastify";
 
 const useCheckStatus = (sarcophagus, refresh) => {
   const [ data, setData] = useState(false)
@@ -71,6 +72,20 @@ const useCheckStatus = (sarcophagus, refresh) => {
     checkState()
   }, [sarcophagus, provider, refresh])
   
+  useEffect(() => {
+    if(currentStatus === STATUSES.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED) {
+      toast.dark(STATUSES.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED, {toastId: 'FileAccepted'})
+    }
+    if(currentStatus === STATUSES.ARWEAVE_PENDING){
+      toast.dark(STATUSES.ARWEAVE_PENDING,  {toastId: 'ArweavePending'})
+    }
+    if(currentStatus === STATUSES.SARCOPHAGUS_AWAIT_SIGN){
+      toast.dark(STATUSES.SARCOPHAGUS_AWAIT_SIGN, {toastId: 'SigningNeeded'})
+    }
+    if(error) {
+      toast.error(error, {toastId:error, autoClose: false})
+    }
+  }, [currentStatus, error])
 
   return { currentStatus, setCurrentStatus, error }
 }

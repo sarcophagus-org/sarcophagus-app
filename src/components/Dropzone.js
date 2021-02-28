@@ -3,7 +3,7 @@ import Dropzone from 'react-dropzone'
 import uploadIcon from '../assets/images/upload.svg'
 import classnames from 'classnames'
 
-const border = "border-2 border-dashed border-gray-500"
+const border = "border-2 border-dashed border-gray-500 mb-8"
 const error = "border-2 border-dashed border-red"
 const base = "cursor-pointer focus:outline-none"
 const flex = "flex flex-col justify-center items-center"

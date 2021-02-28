@@ -6,8 +6,8 @@ import RecipientSarcophagusWrapper from './Recipient/SarcophagusWrapper'
 import OverSarcophagusWrapper from './Over/SarcophagusWrapper'
 import MockSarcophagus from './MockSarcophagus'
 import { useData } from '../BlockChainContext'
-import { connect } from '../../web3/userSupplied'
 import { useWeb3 } from '../../web3'
+import { connect } from '../../web3/userSupplied'
 
 
 const SarcophagiList = () => {
@@ -17,7 +17,7 @@ const SarcophagiList = () => {
   const { embalmerSarcophagi, overSarcophagi, recipientSarcophagi, refresh } = useData()
 
   return (
-    <div className="border-t border-gray-500 md:border-none mt-8 md:mt-0 pt-8 md:pt-0 w-full overflow-x-scroll hide-scrollbar" style={{maxWidth: '34.4375rem'}}>
+    <div className="border-t border-gray-500 md:border-none mt-8 md:mt-0 pt-8 md:pt-0 w-full overflow-x-scroll hide-scrollbar max-w-128">
       <Tabs embalmerCount={embalmerSarcophagi?.length} recipientCount={recipientSarcophagi?.length} overCount={overSarcophagi?.length}/>
 
       <div className="mt-8">
@@ -29,7 +29,7 @@ const SarcophagiList = () => {
         <Route path={`${match.path}/resurrect`}>
           {recipientSarcophagi?.map((sarcophagus, i) => <RecipientSarcophagusWrapper key={sarcophagus.archaeologist + i.toString()} sarcophagus={sarcophagus} refresh={refresh}/>)}
         </Route>
-        <Route path={`${match.path}/archived`}>
+        <Route path={`${match.path}/archive`}>
           {overSarcophagi?.map((sarcophagus, i) => <OverSarcophagusWrapper key={sarcophagus.archaeologist + i.toString()} sarcophagus={sarcophagus} refresh={refresh} />)}
         </Route>
       </div>

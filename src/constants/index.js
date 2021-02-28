@@ -60,6 +60,15 @@ export const ACTIONS = {
   SARCOPHAGUS_TX_MINING: 'Mining in progress'
 }
 
+export const OVER_STATUSES = {
+  DEFAULT: 'Checking status',
+  CANCELED: 'Sarcophagus canceled',
+  ACCUSED: 'Sarcophagus accused',
+  CLEANED: 'Sarcophagus cleaned',
+  UNWRAPPED: 'Sarcophagus upwrapped',
+  BURIED: 'Sarcophagus buried'
+}
+
 export const INTERVAL_LENGTH_SECONDS = 5
 export const INTERVAL_TIMEOUT_MINS = 15
 export const RETRIES = 2

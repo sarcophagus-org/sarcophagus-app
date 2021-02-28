@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 
 const useArcheologists = (sarcophagusContract) => {
-  const [ archaeologists, setArchaeologists ] = useState([])
+  const [ rawArchaeologists, setArchaeologists ] = useState([])
   const [ arcAddresses, setAddresses ] = useState(false) 
   const [ arcCount, setArcCount ] = useState(false)
   
@@ -42,7 +42,6 @@ const useArcheologists = (sarcophagusContract) => {
     getArchaeologistCount(sarcophagusContract)
   },[ getArchaeologistCount, sarcophagusContract ])
 
-
   useEffect(() => {
     if (!arcCount || !sarcophagusContract) return
     if (arcCount.isZero()) return
@@ -54,7 +53,7 @@ const useArcheologists = (sarcophagusContract) => {
     getArchaeologistInfo(sarcophagusContract) 
   },[ getArchaeologistCount, getArchaeologistIndexes, getArchaeologistInfo, arcAddresses, arcCount, sarcophagusContract ])
   
-  return { archaeologists }
+  return { rawArchaeologists }
 }
 
 export {

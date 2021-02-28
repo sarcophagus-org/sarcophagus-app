@@ -5,12 +5,23 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Web3Provider } from './web3/index';
 import { DataProvider } from './components/BlockChainContext';
+import { ToastContainer } from 'react-toastify';
 
 ReactDOM.render(
   <React.StrictMode>
     <Web3Provider>
       <DataProvider>
         <App />
+        <ToastContainer 
+          closeButton={false} position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover/>
       </DataProvider>
     </Web3Provider>
   </React.StrictMode>,

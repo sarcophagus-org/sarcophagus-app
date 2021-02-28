@@ -11,7 +11,7 @@ import eyeOfHorus from '../../assets/images/eyeOfHorus2.svg'
 import { useData } from '../BlockChainContext'
 
 const TextField = ({errors, touched, handleChange, title, tooltip, ...rest}) => (
-    <div className="" style={{width: '34rem'}}>
+    <div className="w-128">
         <div className="flex items-center">
             <Title type="subOne" title={title} />
             <Tooltip>
@@ -43,7 +43,7 @@ const AccuseArchaeologist = () => {
         <Formik initialValues={initialValues()} validationSchema={validationSchema()} onSubmit={values => accuseArchaeologist(values)} >
             {({ values, errors, touched, handleChange, handleSubmit}) => (
             <form onSubmit={handleSubmit} className="px-2 flex flex-wrap justify-center">
-                <div className="mr-4 mt-2" style={{width: '22rem'}}>
+                <div className="mr-4 mt-2 w-104">
                     <Title type="subOne" icon={eyeOfHorus} title="Eye of Horus" />
                     <div className="mt-8 text-md text-white" style={{lineHeight: '1.4375rem'}}>
                         <div>Ad aliqua proident adipisicing id cillum nisi cupidatat incididunt duis. Cupidatat occaecat aliquip deserunt mollit labore et occaecat ipsum veniam voluptate aliqua tempor. Deserunt esse dolore occaecat ipsum nulla nisi proident esse ipsum. Sint veniam magna pariatur amet ea ut reprehenderit velit eu magna ut cillum aute.</div>

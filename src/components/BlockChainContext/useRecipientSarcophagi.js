@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useWeb3 } from '../../web3';
-import { utils } from 'ethers';
+import { BigNumber, utils } from 'ethers';
 
 const useRecipientSarcophagi = (sarcophagusContract, privateKey=false, waitForAddress=false) => {
-  const [ recipientSarcophagi, setSarcophagi ] = useState([])
+  const [ recipientAllSarcophagi, setSarcophagi ] = useState([])
   const [ sarcoDoubleHashes, setSarcoDoubleHashes ] = useState(false) 
-  const [ sarcoCount, setSarcoCount ] = useState(false)
+  const [ sarcoCount, setSarcoCount ] = useState(BigNumber.from(0))
   const { account } = useWeb3()
   
   const getRecipientSarcophagiCount = useCallback( async () => {
@@ -47,23 +47,23 @@ const useRecipientSarcophagi = (sarcophagusContract, privateKey=false, waitForAd
   useEffect(() => {
     if(!sarcophagusContract) return
     if(waitForAddress && !privateKey) return
+    if(!waitForAddress && !account) return
     getRecipientSarcophagiCount()
-  },[ getRecipientSarcophagiCount, sarcophagusContract, waitForAddress, privateKey])
+  },[ getRecipientSarcophagiCount, waitForAddress, privateKey, account, sarcophagusContract])
 
 
   useEffect(() => {
-    if (!sarcoCount || !sarcophagusContract) return
     if (sarcoCount.isZero()) return
     getSarcophagiDoubleHashes(sarcoCount.toNumber())
-  },[ sarcoCount, getSarcophagiDoubleHashes, sarcophagusContract ])
+  },[ sarcoCount, getSarcophagiDoubleHashes ])
 
   useEffect(() => {
-    if(!sarcoCount || !sarcophagusContract || !Array.isArray(sarcoDoubleHashes)) return
+    if(!sarcoDoubleHashes.length && !Array.isArray(sarcoDoubleHashes)) return
     getSarcophagiInfo() 
-  },[ getRecipientSarcophagiCount, getSarcophagiDoubleHashes, getSarcophagiInfo, sarcoDoubleHashes, sarcoCount, sarcophagusContract ])
+  },[ getSarcophagiInfo, sarcoDoubleHashes, ])
 
   
-  return { recipientSarcophagi, getRecipientSarcophagiCount }
+  return { recipientAllSarcophagi, getRecipientSarcophagiCount }
 }
 
 export { useRecipientSarcophagi }

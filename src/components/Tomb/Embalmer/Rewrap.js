@@ -11,7 +11,7 @@ import { initialValues } from './initialValues'
 import { useData } from '../../BlockChainContext'
 import useApproval from '../../customHooks/useApproval'
 
-const Rewrap = ({ sarcophagus, archaeologist, refresh, toggle }) => {
+const Rewrap = ({ sarcophagus, archaeologist, refresh, toggle, setCurrentStatus }) => {
     const { burySarcophagus, rewrapSarcophagus } = useData()
     const { approved, approveTransaction } = useApproval()
     const [ buttonText, setButtonText ] = useState('')
@@ -29,11 +29,11 @@ const Rewrap = ({ sarcophagus, archaeologist, refresh, toggle }) => {
     }
 
     const handleSubmit = async (values) => {
-        await rewrapSarcophagus(sarcophagus, values, refresh, toggle)
+        await rewrapSarcophagus(sarcophagus, values, refresh, toggle, setCurrentStatus)
     }
 
     const handleBury = async () => {
-        await burySarcophagus(sarcophagus, refresh, toggle)
+        await burySarcophagus(sarcophagus, setCurrentStatus, refresh, toggle)
     }
 
     return (

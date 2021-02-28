@@ -16,7 +16,7 @@ const NameAndRecipient = ({values, errors, touched, handleChange, handleKey, tit
 
     <TwoColumnContainer>
       <div>
-        <div className="flex">
+        <div className="flex items-center mb-2">
           <Title type="subTwo" title="Title" />
           {errors.name && touched.name && <Error>{errors.name}</Error>}
         </div>
@@ -29,11 +29,11 @@ const NameAndRecipient = ({values, errors, touched, handleChange, handleKey, tit
     
     <TwoColumnContainer>
       <div>
-        <div className="flex">
+        <div className="flex items-center mb-2">
           <Title type="subTwo" title="Recipient" />
           {errors.recipientPublicKey && touched.recipientPublicKey && <Error>{errors.recipientPublicKey}</Error>}
         </div>
-        <Input name="recipientPublicKey" value={values.recipientPublicKey} errored={errors.recipientPublicKey && touched.recipientPublicKey} error={errors.recipientPublicKey} onChange={(e) => {handleChange(e); handleKey(e.target.value)}} type="textarea" height="xl" placeholder="0x........00000" />         
+        <Input name="recipientPublicKey" value={values.recipientPublicKey} errored={errors.recipientPublicKey && touched.recipientPublicKey} error={errors.recipientPublicKey} onChange={(e) => {handleChange(e); handleKey(e.target.value)}} type="textarea" height="xl" placeholder="0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" />         
       </div>
       <InfoBox style={{marginTop: '1.75rem'}}>
         <div className="border-b border-gray-400 mb-4" style={{width: 'fit-content'}}>Eth public key</div>
