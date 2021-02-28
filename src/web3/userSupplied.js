@@ -9,7 +9,7 @@ const toastOptions = {
   position: "bottom-right",
   hideProgressBar: false,
   closeOnClick: true,
-  autoClose: 1000,
+  autoClose: 3000,
   pauseOnHover: true,
   draggable: true,
   progress: undefined,
