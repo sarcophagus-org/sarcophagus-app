@@ -36,10 +36,14 @@ const useUserSuppliedConnect = () => {
 
     // subscribe to connect events
     web3Modal.on('connect', provider => {
-      const web3Provider = new ethers.providers.Web3Provider(provider)
-      setUserSupplied(web3Provider)
-      toast.dark('Connected', { toastId: 'connected', ...toastOptions })
-
+      if (!supportedChains().includes(parseInt(provider.chainId))) {
+        toast.dark('Switch to a supported network', { ...toastOptions, toastId: 'switchNetwork' })
+        setUserSupplied(null)
+      } else {
+        const web3Provider = new ethers.providers.Web3Provider(provider)
+        setUserSupplied(web3Provider)
+        toast.dark('Connected', { toastId: 'connected', ...toastOptions })
+      }
       // subscribe to Network events
       provider.on('chainChanged', chainId => {
         if (!supportedChains().includes(parseInt(chainId))) {
