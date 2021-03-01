@@ -47,11 +47,7 @@ const ErrorOptions = ({sarcophagus, refresh, toggle, error, setCurrentStatus}) =
 }
 
 const WindowClosed = ({sarcophagus, toggle, refresh, archaeologist, setCurrentStatus}) => {
-    const { cancelSarcophagus, cleanSarcophagus } = useData()
-    const handleCancel = async () => {
-        cancelSarcophagus(sarcophagus, setCurrentStatus, toggle)
-    }
-
+    const { cleanSarcophagus } = useData()
     const handleClean = async () => {
         cleanSarcophagus(sarcophagus, setCurrentStatus, archaeologist, toggle)
     }
