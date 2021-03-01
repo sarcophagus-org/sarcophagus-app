@@ -1,4 +1,5 @@
 import { makeNumeral } from "./bigNumbers"
+import {BigNumber} from "ethers";
 
 const convertToUTC = date => {
   return Date.UTC(
@@ -71,4 +72,12 @@ const covertToTwoDigitString = (num) => {
   return num < 10 ? `0${num}` : num
 }
 
-export { convertToUTC, getUTCDate, getDatefromBigNumber, getCustomDateUTC, getTimeRemaining, getCustomDate, isTimePast, convertToUTCTime }
+const formatCustomResurrectionTime = (resurrectionTime) => {
+  const date = new Date(resurrectionTime)
+  const timeZoneOffset = date.getTimezoneOffset()
+  date.setMinutes(date.getMinutes() +  timeZoneOffset)
+  const zonedUTC = convertToUTCTime(date)
+  return BigNumber.from(zonedUTC / 1000)
+}
+
+export { convertToUTC, getUTCDate, getDatefromBigNumber, getCustomDateUTC, getTimeRemaining, getCustomDate, isTimePast, formatCustomResurrectionTime }

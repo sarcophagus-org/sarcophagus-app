@@ -1,8 +1,7 @@
 import { utils } from 'ethers'
 import * as Yup from 'yup'
 
-export const validationSchema = () => {
-  return Yup.object().shape({
+export const validationSchema = Yup.object().shape({
     recipientPublicKey: Yup.string()
       .test(
         'required',
@@ -11,7 +10,12 @@ export const validationSchema = () => {
       .test(
         'validDataHextString',
         'Please enter a valid public key',
-        (value) => utils.isHexString(value, 65)
+        (value) => {
+          let testValue
+          const str = value?.substr?.(0, 4)
+          if(str !== "0x04") testValue = "0x04" + value
+          return utils.isHexString(testValue || value, 65)
+        }
       ),
     name: Yup.string().required('Name is required'),
     resurrectionTime: Yup.number().required('Resurrection time is required'),
@@ -36,4 +40,3 @@ export const validationSchema = () => {
     ),
     address: Yup.string().required('Please select an archaeologist')
   }).nullable()
-}

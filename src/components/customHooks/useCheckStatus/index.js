@@ -16,7 +16,7 @@ const useCheckStatus = (sarcophagus, refresh) => {
   const { provider } = useWeb3()
 
   // check localStorage data on sarcophagus
-  const { isSarcophagusMined } = useSarcophagusCheck(data, setCurrentStatus, error, setError)
+  const { isSarcophagusMined } = useSarcophagusCheck(data, sarcophagus.AssetDoubleHash, setCurrentStatus, error, setError, refresh)
 
   // send file if not sent
   const { sentArchResponse } = useFileSentCheck(isSarcophagusMined, data, setCurrentStatus, error, setError)
@@ -47,19 +47,11 @@ const useCheckStatus = (sarcophagus, refresh) => {
             setCurrentStatus(STATUSES.PROCESS_COMPLETE)
             return
           }
-      } else {
+      } 
+      else {
         // check action
-        if(parseData?.action === ACTIONS.SARCOPHAGUS_TX_MINING) {
-          const txReceipt = await provider.getTransactionReceipt(parseData.txReceipt.hash)
-          setCurrentStatus(STATUSES.TRANACTION_MINING_IN_PROGRESS)
-          if(txReceipt && txReceipt.blockNumber) {
-            localStorage.removeItem(doubleHashUint.toLocaleString())
-            refresh()
-          }
-          return
-        }
         // if there is an AssetId skip to checking mining status
-        else if(parseData?.action === ACTIONS.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED ) {
+        if(parseData?.action === ACTIONS.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED ) {
           setArchResponse(parseData)
           return
           // sets storages data to start process from start

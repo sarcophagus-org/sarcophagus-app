@@ -38,14 +38,14 @@ const CreateSarcophagus = () => {
   }
 
   return (
-    <Formik initialValues={initialValues()} validationSchema={validationSchema()} onSubmit={handleSubmit} validateOnMount >
+    <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit} validateOnMount >
       {({ values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, validateForm, isValid }) => (
         <form className="ml-8 px-14" onSubmit={handleSubmit}>
           <PageHeading />
           <SettingsContainer values={values} errors={errors} touched={touched} handleChange={handleChange} handleKey={handleKey}/>
           <UploadContainer values={values} file={file} handleFile={setFile} errors={errors} touched={touched} setFieldValue={setFieldValue} />
           <ResurrectionContainer values={values} errors={errors} touched={touched} handleChange={handleChange} setFieldValue={setFieldValue}/>
-          <ArchaeologistContainer errors={errors} touched={touched} archaeologists={archaeologists} file={file} values={values} handleChange={handleChange} handleEmbalming={handleEmbalming} handleSelected={handleArchaeologistSelect} archSelected={selectedArchaeologist?.paymentAddress || ""} setFieldValue={setFieldValue}/>
+          <ArchaeologistContainer errors={errors} touched={touched} archaeologists={archaeologists} file={file} values={values} handleChange={handleChange} handleEmbalming={handleEmbalming} handleSelected={handleArchaeologistSelect} archSelected={selectedArchaeologist?.address || ""} setFieldValue={setFieldValue}/>
           
           <Button label={buttonText} isDisabled={!isValid} _classnames="my-8" height="lg" type={approved ? 'submit' : 'button'} onClick={approved ? () => validateForm() : () => {validateForm(); handleApproval(errors)}} />
 

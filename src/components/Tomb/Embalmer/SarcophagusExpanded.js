@@ -63,12 +63,6 @@ const WindowClosed = ({sarcophagus, toggle, refresh, archaeologist, setCurrentSt
                 {`< Content >`}
             </Tooltip>
         </div>
-        <div className="whitespace-nowrap flex underline cursor-pointer" onClick={handleCancel}>
-            <span className="mr-2">Cancel this sarcophagus</span>
-            <Tooltip>
-                {`< Content >`}
-            </Tooltip>
-        </div>
     </div>
         )
 }

@@ -29,7 +29,8 @@ const useArcheologists = (sarcophagusContract) => {
 
   const getArchaeologistInfo = useCallback(async (sarcophagusContract) => {
     try {
-      const archaeologists = await Promise.all(arcAddresses.map( async (address) => await sarcophagusContract.archaeologists(address) ))
+      let archaeologists = await Promise.all(arcAddresses.map( async (address) => await sarcophagusContract.archaeologists(address) ))
+      archaeologists = archaeologists.map((arch, index) => ({...arch, address: arcAddresses[index]}) )
       const filteredArchaeologists = archaeologists.filter(v => !v.freeBond.isZero())
       setArchaeologists(filteredArchaeologists)
     } catch (error) {

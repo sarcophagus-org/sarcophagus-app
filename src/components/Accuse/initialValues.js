@@ -1,7 +1,5 @@
-export const initialValues = () => {
-    return {
-        singleHash: "",
-        paymentAddress: "",
-        identifier: "",
-    }
+export const initialValues = {
+    singleHash: "",
+    address: "",
+    identifier: "",
 }

@@ -1,8 +1,7 @@
-const initialValues = () => {
-    return {
-      recipientPrivateKey: "",
-    }
-  }
+const initialValues = {
+  recipientPrivateKey: "",
+}
+
   
   export {
     initialValues

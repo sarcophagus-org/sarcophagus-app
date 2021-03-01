@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
-import useCollaspe from '../../customHooks/useCollaspe'
-import CollaspedContainer from '../CollaspedContainer'
+import useCollapse from '../../customHooks/useCollapse'
+import CollapsedContainer from '../CollapsedContainer'
 import { labels } from '../../../constants'
 import icon from '../../../assets/images/clock.svg'
 import ResurrectionTime from './ResurrectionTime'
 
 const ResurrectionContainer = ({values, errors, ...rest}) => {
-    const { collasped, toggle, open } = useCollaspe()
+    const { collapsed, toggle, open } = useCollapse()
     
     useEffect(() => {
         if(values.fileUploaded) {
@@ -16,12 +16,12 @@ const ResurrectionContainer = ({values, errors, ...rest}) => {
         }
     },[ open, errors, values ])
 
-    if(!collasped) {
+    if(!collapsed) {
         return (
             <ResurrectionTime values={values} errors={errors} title={labels.resurrectionTime} icon={icon} toggle={toggle} {...rest} />
     )} else {
         return (
-            <CollaspedContainer title={labels.resurrectionTime} icon={icon} toggle={toggle} />
+            <CollapsedContainer title={labels.resurrectionTime} icon={icon} toggle={toggle} />
         )}
 
 }

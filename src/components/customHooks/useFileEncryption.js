@@ -39,7 +39,9 @@ const useFileEncryption = () => {
   const firstEncryption = useCallback( async () => {
     try {
       const fileObject = createJSONObject()
-      const recipPubKeyBytes = hexToBytes(recipientPublicKey, true).slice(1)
+      let formatedPublicKey
+      if(recipientPublicKey.substr(0, 4) !== '0x04') formatedPublicKey = "0x04" + recipientPublicKey
+      const recipPubKeyBytes = hexToBytes(formatedPublicKey || recipientPublicKey, true).slice(1)
       const encrypted = await encrypt(recipPubKeyBytes, fileObject)
       setFileEncryptedRecipient(encrypted)
 

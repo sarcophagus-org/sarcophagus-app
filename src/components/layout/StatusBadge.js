@@ -15,17 +15,17 @@ const Content = ({ status}) => (
   <div>{ status }</div>
 )
 
-const StatusBadge = ({ status, error, isActive=false, isOver=false }) => (
+const StatusBadge = ({ status, error, isActive=false, isArchived=false }) => (
     <Tippy content={<Content status={status} />} className="border-2 border-white rounded text-center text-xs font-normal p-2 bg-gray-900">
       <div 
-        className={error ? classnames(base, bgRed) : status === RECIPIENT_STATUSES.UNWRAPPED ? classnames(base, bgWhite) : isActive ?  classnames(base, bgGreen) : isOver ?  classnames(base, bgGray) : classnames(base, bgYellow)} 
+        className={error ? classnames(base, bgRed) : status === RECIPIENT_STATUSES.UNWRAPPED ? classnames(base, bgWhite) : isActive ?  classnames(base, bgGreen) : isArchived ?  classnames(base, bgGray) : classnames(base, bgYellow)}
         style={{width: 'fit-content'}}>
           { error ? (
             <div className="flex items-center">
               <img alt="" src={errorIcon} className="mr-2"/>
               <div className="leading-4">Error</div>
             </div>
-          ) : status === RECIPIENT_STATUSES.UNWRAPPED ? 'Unwrapped' : isActive ? "Active" : isOver ? "Over" : "Pending" }
+          ) : status === RECIPIENT_STATUSES.UNWRAPPED ? 'Unwrapped' : isActive ? "Active" : isArchived ? "Archived" : "Pending" }
       </div>
       </Tippy>
 )

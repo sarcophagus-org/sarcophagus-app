@@ -6,7 +6,7 @@ import { useSarcoAllowance, useSarcoBalance } from './myBalances'
 import { useCurrentBlock } from './blocks'
 import { useEmbalmerSarcophagi } from './useEmbalmerSarcophagi'
 import { useRecipientSarcophagi } from './useRecipientSarcophagi'
-import { useSarcophagi } from './useSarcophagi'
+import { useArchivedSarcophagi } from './useArchivedSarcophagi'
 import { useArchaeologistsCheck } from './useArchaeologistsCheck'
 
 let context
@@ -23,10 +23,10 @@ const createDataRoot = () => {
     
     const { rawArchaeologists } = useArcheologists(sarcophagusContract)
     const { archaeologists } = useArchaeologistsCheck(sarcophagusContract, rawArchaeologists)
-    const { embalmerAllSarcophagi, getSarcophagiCount, pendingCount, setStorage } = useEmbalmerSarcophagi(sarcophagusContract)
-    const { recipientAllSarcophagi, getRecipientSarcophagiCount } = useRecipientSarcophagi(sarcophagusContract)
+    const { embalmerSarcophagi, embalmerAllSarcophagi, setStorage, getSarcophagiCount } = useEmbalmerSarcophagi(sarcophagusContract)
+    const { recipientSarcophagi, recipientAllSarcophagi, getRecipientSarcophagiCount } = useRecipientSarcophagi(sarcophagusContract)
 
-    const { embalmerSarcophagi, recipientSarcophagi, overSarcophagi } = useSarcophagi(embalmerAllSarcophagi, recipientAllSarcophagi)
+    const { archivedSarcophagi } = useArchivedSarcophagi(embalmerAllSarcophagi, recipientAllSarcophagi)
     const { currentBlock } = useCurrentBlock()
     
     const allowance = useSarcoAllowance(sarcophagusContract, sarcophagusTokenContract)
@@ -47,9 +47,8 @@ const createDataRoot = () => {
       rewrapSarcophagus, 
       burySarcophagus,
       embalmerSarcophagi, 
-      overSarcophagi,
+      archivedSarcophagi,
       recipientSarcophagi,
-      pendingCount,
       refresh: () => {
         setStorage(window.localStorage)
         getSarcophagiCount()

@@ -1,9 +1,7 @@
 import * as Yup from 'yup'
 
-export const validationSchema = () => {
-  return Yup.object().shape({
-    identifier: Yup.string(),
-    paymentAddress: Yup.string(),
-    singleHash: Yup.string()
-  })
-}
+export const validationSchema = Yup.object().shape({
+  identifier: Yup.string(),
+  address: Yup.string(),
+  singleHash: Yup.string()
+})

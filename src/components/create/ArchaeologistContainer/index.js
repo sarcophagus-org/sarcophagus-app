@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
-import useCollaspe from '../../customHooks/useCollaspe'
-import CollaspedContainer from '../CollaspedContainer'
+import useCollapse from '../../customHooks/useCollapse'
+import CollapsedContainer from '../CollapsedContainer'
 import { labels } from '../../../constants'
 import icon from '../../../assets/images/pickaxe.svg'
 import PickArchaeologist from './PickArchaeologist'
 
 const ArchaeologistContainer = ({values, errors, ...rest}) => {
-    const { collasped, toggle, open } = useCollaspe()
+    const { collapsed, toggle, open } = useCollapse()
     
     useEffect(() => {
         if(values.resurrectionTime) {
@@ -16,12 +16,12 @@ const ArchaeologistContainer = ({values, errors, ...rest}) => {
         }
     },[ open, errors, values ])
 
-    if(!collasped) {
+    if(!collapsed) {
         return (
             <PickArchaeologist  values={values} errors={errors} title={labels.pickArchaeologist} icon={icon} toggle={toggle} {...rest} />
     )} else {
         return (
-            <CollaspedContainer title={labels.pickArchaeologist} icon={icon} toggle={toggle} />
+            <CollapsedContainer title={labels.pickArchaeologist} icon={icon} toggle={toggle} />
         )}
 
 }

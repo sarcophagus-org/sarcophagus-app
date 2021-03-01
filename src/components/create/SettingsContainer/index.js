@@ -1,19 +1,19 @@
 import React from 'react'
-import useCollaspe from '../../customHooks/useCollaspe'
+import useCollapse from '../../customHooks/useCollapse'
 import NameAndRecipient from './NameAndRecipient'
-import CollaspedContainer from '../CollaspedContainer'
+import CollapsedContainer from '../CollapsedContainer'
 import { labels } from '../../../constants'
 import icon from '../../../assets/images/name.svg'
 
 const SettingsContainer = ({values, ...rest}) => {
-    const { collasped, toggle } = useCollaspe(false, true)
+    const { collapsed, toggle } = useCollapse(false, true)
 
-    if(!collasped) {
+    if(!collapsed) {
         return (
             <NameAndRecipient values={values} title={labels.nameAndRecipient} icon={icon} toggle={toggle} {...rest} />
     )} else {
         return (
-            <CollaspedContainer title={labels.nameAndRecipient} icon={icon} toggle={toggle} />
+            <CollapsedContainer title={labels.nameAndRecipient} icon={icon} toggle={toggle} />
         )}
 
 }

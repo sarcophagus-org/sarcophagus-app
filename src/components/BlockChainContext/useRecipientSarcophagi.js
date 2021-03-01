@@ -3,7 +3,8 @@ import { useWeb3 } from '../../web3';
 import { BigNumber, utils } from 'ethers';
 
 const useRecipientSarcophagi = (sarcophagusContract, privateKey=false, waitForAddress=false) => {
-  const [ recipientAllSarcophagi, setSarcophagi ] = useState([])
+  const [ recipientAllSarcophagi, setAllSarcophagi ] = useState([])
+  const [ recipientSarcophagi, setSarcophagi ] = useState([])
   const [ sarcoDoubleHashes, setSarcoDoubleHashes ] = useState(false) 
   const [ sarcoCount, setSarcoCount ] = useState(BigNumber.from(0))
   const { account } = useWeb3()
@@ -38,7 +39,8 @@ const useRecipientSarcophagi = (sarcophagusContract, privateKey=false, waitForAd
         }
       } )).catch(e => console.log("e", e))
 
-      await setSarcophagi(recipientSarcophagi)
+      await setAllSarcophagi(recipientSarcophagi)
+      await setSarcophagi(recipientSarcophagi.filter(v => v.state === 1 || (v.state === 2 && v.privateKey !== "0x0000000000000000000000000000000000000000000000000000000000000000")))
     } catch (error) {
       console.error(error)
     }
@@ -63,7 +65,7 @@ const useRecipientSarcophagi = (sarcophagusContract, privateKey=false, waitForAd
   },[ getSarcophagiInfo, sarcoDoubleHashes, ])
 
   
-  return { recipientAllSarcophagi, getRecipientSarcophagiCount }
+  return { recipientSarcophagi, recipientAllSarcophagi, getRecipientSarcophagiCount }
 }
 
 export { useRecipientSarcophagi }

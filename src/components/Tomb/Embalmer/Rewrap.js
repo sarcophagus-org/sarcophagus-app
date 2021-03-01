@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
-import { validationSchema } from './validationSchema'
+import * as Yup from 'yup'
 import Fees from '../../create/ArchaeologistContainer/Fees'
 import TimeFields from '../../create/ResurrectionContainer/TimeFields'
 import Title from '../../layout/Title'
 import Error from '../../Error'
 import Tooltip from '../../layout/Tooltip'
 import Button from '../../layout/Button'
-import { initialValues } from './initialValues'
 import { useData } from '../../BlockChainContext'
 import useApproval from '../../customHooks/useApproval'
+import { getDecimalNumber } from '../../../utils/bigNumbers'
 
 const Rewrap = ({ sarcophagus, archaeologist, refresh, toggle, setCurrentStatus }) => {
     const { burySarcophagus, rewrapSarcophagus } = useData()
@@ -36,8 +36,32 @@ const Rewrap = ({ sarcophagus, archaeologist, refresh, toggle, setCurrentStatus 
         await burySarcophagus(sarcophagus, setCurrentStatus, refresh, toggle)
     }
 
+    const initialValues = {
+        resurrectionTime: "",
+        bounty: getDecimalNumber(archaeologist?.minimumBounty, 18),
+        diggingFee: getDecimalNumber(archaeologist?.minimumDiggingFee, 18),
+        custom: false,
+        customTime: ""
+      }
+
+    const validationSchema = Yup.object().shape({
+        resurrectionTime: Yup.number().required('Resurrection time is required'),
+        bounty: Yup.number()
+          .min(getDecimalNumber(archaeologist?.minimumBounty, 18), 'Bounty is too low')
+          .required('Bounty is required'),
+        diggingFee: Yup.number()
+          .min(getDecimalNumber(archaeologist?.minimumDiggingFee, 18), 'Digging Fee is too low')
+          .required('Digging Fee is required'),
+        customTime: Yup.number()
+          .when("custom", {
+            is: true,
+            then:  Yup.number().required('Resurrection time is required')
+          }),
+        custom: Yup.bool()
+      }).nullable()
+
     return (
-        <Formik initialValues={initialValues(archaeologist)} validationSchema={validationSchema(archaeologist)} onSubmit={handleSubmit} validateOnMount >
+        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit} validateOnMount >
             {({ values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, validateForm, isValid }) => (
                 <form onSubmit={handleSubmit} className="pb-8 px-10">
                     <div className="flex items-center">
@@ -48,7 +72,7 @@ const Rewrap = ({ sarcophagus, archaeologist, refresh, toggle, setCurrentStatus 
                         {errors.bounty && touched.bounty && <Error>{errors.bounty}</Error>}
                         {errors.diggingFee && touched.diggingFee && <Error>{errors.diggingFee}</Error>}
                     </div>
-                    <Fees values={values} handleChange={handleChange} errors={errors} touched={touched} margin="my-4" />
+                    <Fees values={values} handleChange={handleChange} errors={errors} touched={touched} margin="my-4" paddingRight="mr-8"/>
                     <div className="flex mb-4 items-center">
                         <Title type="subOne" title="Choose new resurrection time" />
                         <Tooltip>

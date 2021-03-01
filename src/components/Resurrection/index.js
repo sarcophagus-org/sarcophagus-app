@@ -16,11 +16,11 @@ const useQuery = () => {
 
 const PrivateKeyField = ({handleQuery}) => {
     return (
-        <Formik initialValues={initialValues()} validationSchema={validationSchema()} onSubmit={values => handleQuery(values)} >
+        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={values => handleQuery(values)} >
             {({ values, errors, touched, handleChange, handleSubmit}) => (
-                <form onSubmit={handleSubmit} className="px-2">
+                <form onSubmit={handleSubmit} className="px-2 w-full">
                     <RecipientPrivateKeyField values={values} errors={errors} touched={touched} handleChange={handleChange} />
-                    <Button _classnames="mx-auto w-full mb-4" type="submit" label="Submit" />
+                    <Button _classnames="w-full mb-4" type="submit" label="Submit" />
                 </form>
             )}
         </Formik>

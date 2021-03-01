@@ -17,7 +17,7 @@ const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
   },[sarcophagusContract])
 
   const getCleanupIdentifiers = useCallback(async (address, count) => {
-    if(count.isZero()) return []
+    if(count?.isZero()) return []
     try {
       const arr = new Array(count.toNumber()).fill(undefined)
       const identifiers = await Promise.all(arr.map(async (_, i) => await sarcophagusContract.archaeologistCleanupsIdentifier(address, i)))
@@ -39,7 +39,7 @@ const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
   },[sarcophagusContract])
 
   const getCanceledIdentifiers = useCallback(async (address, count) => {
-    if(count.isZero()) return []
+    if(count?.isZero()) return []
     try {
       const arr = new Array(count.toNumber()).fill(undefined)
       const identifiers = await Promise.all(arr.map(async (_, i) => await sarcophagusContract.archaeologistCancelsIdentifier(address, i)))
@@ -61,7 +61,7 @@ const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
   },[sarcophagusContract])
 
   const getAccusedIdentifiers = useCallback(async (address, count) => {
-    if(count.isZero()) return []
+    if(count?.isZero()) return []
     try {
       const arr = new Array(count.toNumber()).fill(undefined)
       const identifiers = await Promise.all(arr.map(async (_, i) => await sarcophagusContract.archaeologistAccusalsIdentifier(address, i)))
@@ -83,7 +83,7 @@ const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
   },[sarcophagusContract])
 
   const getSuccessesIdentifiers = useCallback(async (address, count) => {
-    if(count.isZero()) return []
+    if(count?.isZero()) return []
     try {
       const arr = new Array(count.toNumber()).fill(undefined)
       const identifiers = await Promise.all(arr.map(async (_, i) => await sarcophagusContract.archaeologistSuccessesIdentifier(address, i)))
@@ -96,10 +96,10 @@ const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
 
   const getCounts = useCallback(async () => {
     const archaeologists = await Promise.all(rawArchaeologists.map( async (archaeologist) => {
-      const cleanupCount = await getCleanupCount(archaeologist.paymentAddress)
-      const canceledCount = await getCanceledCount(archaeologist.paymentAddress)
-      const accusedCount = await getAccusedCount(archaeologist.paymentAddress)
-      const successesCount = await getSuccessesCount(archaeologist.paymentAddress)
+      const cleanupCount = await getCleanupCount(archaeologist.address)
+      const canceledCount = await getCanceledCount(archaeologist.address)
+      const accusedCount = await getAccusedCount(archaeologist.address)
+      const successesCount = await getSuccessesCount(archaeologist.address)
 
       const archWithCounts = {...archaeologist, cleanupCount, canceledCount, accusedCount, successesCount}
       return archWithCounts
@@ -109,10 +109,10 @@ const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
 
   const getIdentifiers = useCallback(async () => {
     const archaeologists = await Promise.all(archaeologistsWithCounts.map( async (archaeologist) => {
-      const cleanupIdentifiers = await getCleanupIdentifiers(archaeologist.paymentAddress, archaeologist.cleanupCount)
-      const canceledIdentifiers = await getCanceledIdentifiers(archaeologist.paymentAddress, archaeologist.canceledCount)
-      const accusedIdentifiers = await getAccusedIdentifiers(archaeologist.paymentAddress, archaeologist.accusedCount)
-      const successesIdentifiers = await getSuccessesIdentifiers(archaeologist.paymentAddress, archaeologist.successesCount)
+      const cleanupIdentifiers = await getCleanupIdentifiers(archaeologist.address, archaeologist.cleanupCount)
+      const canceledIdentifiers = await getCanceledIdentifiers(archaeologist.address, archaeologist.canceledCount)
+      const accusedIdentifiers = await getAccusedIdentifiers(archaeologist.address, archaeologist.accusedCount)
+      const successesIdentifiers = await getSuccessesIdentifiers(archaeologist.address, archaeologist.successesCount)
 
       const archWithIdentifiers = {...archaeologist, cleanupIdentifiers, canceledIdentifiers, accusedIdentifiers, successesIdentifiers}
       return archWithIdentifiers

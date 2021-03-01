@@ -38,6 +38,7 @@ const useUserSuppliedConnect = () => {
     web3Modal.on('connect', provider => {
       if (!supportedChains().includes(parseInt(provider.chainId))) {
         toast.dark('Switch to a supported network', { ...toastOptions, toastId: 'switchNetwork' })
+        web3Modal.clearCachedProvider()
         setUserSupplied(null)
       } else {
         const web3Provider = new ethers.providers.Web3Provider(provider)
@@ -48,6 +49,7 @@ const useUserSuppliedConnect = () => {
       provider.on('chainChanged', chainId => {
         if (!supportedChains().includes(parseInt(chainId))) {
           toast.dark('Switch to a supported network', { ...toastOptions, toastId: 'switchNetwork' })
+          web3Modal.clearCachedProvider()
           setUserSupplied(null)
         } else {
           toast.dark('Network changed', { ...toastOptions, toastId: 'changedNetwork' })
@@ -60,6 +62,7 @@ const useUserSuppliedConnect = () => {
         if (accounts.length === 0) {
           toast.dark('Account disconnected', { toastId: 'disconnected', ...toastOptions })
           setUserSupplied(null)
+          web3Modal.clearCachedProvider()
         } else {
           toast.dark('Account Changed', { toastId: 'disconnected', ...toastOptions })
           web3Modal.connect()

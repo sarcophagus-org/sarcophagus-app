@@ -5,13 +5,15 @@ import { ACTIONS } from '../../constants';
 import { useWeb3 } from '../../web3';
 
 const useEmbalmerSarcophagi = (sarcophagusContract) => {
-  const [ embalmerAllSarcophagi, setSarcophagi ] = useState([])
-  const [ sarcoDoubleHashes, setSarcoDoubleHashes ] = useState(false) 
+  const [ embalmerAllSarcophagi, setAllSarcophagi ] = useState([])
+  const [ embalmerSarcophagi, setSarcophagi ] = useState([])
+  const [ sarcoDoubleHashes, setSarcoDoubleHashes ] = useState(false)
   const [ sarcoCount, setSarcoCount ] = useState(BigNumber.from(0))
   const [ pendingCount, setPendingCount ] = useState(0)
   const { account } = useWeb3()
   const [ storage, setStorage ] = useState(window.localStorage)
-  
+
+
   const getSarcophagiCount = useCallback( async () => {
     try {
       const count = await sarcophagusContract.embalmerSarcophagusCount(account)
@@ -42,7 +44,8 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
           }
         })
         ).catch(e => console.log("e", e))
-      await setSarcophagi(embalmerSarcophagi)
+      await setAllSarcophagi(embalmerSarcophagi)
+      await setSarcophagi(embalmerSarcophagi.filter(v => v.state === 1))
     } catch (error) {
       console.error(error)
     }
@@ -73,10 +76,13 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
       // sets a interval timer to check for newly minded sarcophagus if count != 0
       const timer = setInterval(() => {
         console.log('Pending Sarcophagus are being Mined...')
+        toast.dark('Sarcophagus is being mined, please wait', { toastId: 'sarcoMining', autoClose: false })
         getSarcophagiCount()
-      }, 10000)
+        if(pendingCount > 0) clearInterval()
+      }, 5000)
       return () => clearInterval(timer)
     }
+    if(pendingCount === 0) toast.dismiss('sarcoMining')
   }, [ storage, pendingCount, getSarcophagiCount ])
 
   useEffect(() => {
@@ -86,7 +92,7 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
   },[ getSarcophagiCount, account, sarcophagusContract])
 
   useEffect(() => {
-    if(!sarcoCount.isZero()){
+    if(!sarcoCount?.isZero()){
       getSarcophagiDoubleHashes(sarcoCount.toNumber())
     }
   },[ sarcoCount, getSarcophagiDoubleHashes ])
@@ -105,7 +111,7 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
 
 
 
-  return { embalmerAllSarcophagi, pendingCount, setStorage, getSarcophagiCount }
+  return { embalmerSarcophagi, embalmerAllSarcophagi, setStorage, getSarcophagiCount }
 }
 
 export { useEmbalmerSarcophagi }

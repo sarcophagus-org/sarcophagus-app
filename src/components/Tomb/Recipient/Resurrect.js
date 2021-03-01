@@ -45,7 +45,7 @@ const Resurrect = ({sarcophagus, recipientPrivateKey}) => {
         }
     }
     return (
-        <Formik initialValues={initialValues()} validationSchema={validationSchema(!!recipientPrivateKey)} onSubmit={values => handleDownload(values)} >
+        <Formik initialValues={initialValues} validationSchema={validationSchema(!!recipientPrivateKey)} onSubmit={values => handleDownload(values)} >
             {({ values, errors, touched, handleChange, handleSubmit}) => (
                 <form onSubmit={handleSubmit} className="px-2">
                     {!recipientPrivateKey && <RecipientPrivateKeyField values={values} errors={errors} touched={touched} handleChange={handleChange} />}

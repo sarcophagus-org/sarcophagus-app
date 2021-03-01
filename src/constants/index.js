@@ -33,12 +33,12 @@ export const STATUSES = {
   ARWEAVE_STARTED: 'File is being uploaded',
   ARWEAVE_PENDING: 'File is being mined on arweave',
   ARWEAVE_SUCCESS: 'File has been mined!',
-  ARWEAVE_TIMEOUT: 'Timed out, refresh brower to try again',
+  ARWEAVE_TIMEOUT: 'Timed out, refresh browser to try again',
   SARCOPHAGUS_AWAIT_SIGN: 'Signing needed',
   CHECKING_STATUS: 'Checking status...',
   PROCESS_COMPLETE: 'Sarcophagus is Active',
   WINDOW_CLOSED: 'Resurrection Window is past',
-  TRANACTION_MINING_IN_PROGRESS: 'Sarcophagus transaction is being mined!'
+  TRANSACTION_MINING_IN_PROGRESS: 'Sarcophagus transaction is being mined!'
 }
 
 export const RECIPIENT_STATUSES = {
@@ -51,7 +51,7 @@ export const ERROR = {
   SARCOPHAGUS_FAILED: '',
   BLOCKCHAIN_SERVER: 'There was an error connection to blockchain',
   ARWEAVE_TRANSACTION_FAILED: 'There was an error connecting to service',
-  ARWEAVE_FILE_ERROR: 'There was an error sending file',
+  ARWEAVE_FILE_ERROR: 'There was an error uploading the file to arweave',
 }
 
 export const ACTIONS = {
@@ -60,12 +60,12 @@ export const ACTIONS = {
   SARCOPHAGUS_TX_MINING: 'Mining in progress'
 }
 
-export const OVER_STATUSES = {
+export const ARCHIVED_STATUSES = {
   DEFAULT: 'Checking status',
-  CANCELED: 'Sarcophagus canceled',
+  CANCELED: 'Sarcophagus cancelled',
   ACCUSED: 'Sarcophagus accused',
   CLEANED: 'Sarcophagus cleaned',
-  UNWRAPPED: 'Sarcophagus upwrapped',
+  UNWRAPPED: 'Sarcophagus unwrapped',
   BURIED: 'Sarcophagus buried'
 }
 

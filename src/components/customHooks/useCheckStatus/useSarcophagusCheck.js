@@ -1,8 +1,9 @@
 import { useWeb3 } from "../../../web3"
 import { useCallback, useState, useEffect } from 'react'
-import { ERROR, STATUSES } from "../../../constants"
+import { ACTIONS, ERROR, STATUSES } from "../../../constants"
+import { utils } from "ethers"
 
-const useSarcophagusCheck = (data, setCurrentStatus, error, setError) => {
+const useSarcophagusCheck = ( data, assetDoubleHash, setCurrentStatus, error, setError, refresh ) => {
     const { provider } = useWeb3()
     const [ isSarcophagusMined, setSarcophagusMined ] = useState(false)
   
@@ -10,6 +11,11 @@ const useSarcophagusCheck = (data, setCurrentStatus, error, setError) => {
       try {
         const txReceipt = await provider.getTransactionReceipt(data.txReceipt.hash)
         if(txReceipt && txReceipt.blockNumber) {
+          if(data?.action === ACTIONS.SARCOPHAGUS_TX_MINING) {
+            const doubleHashUint = Buffer.from(utils.arrayify(assetDoubleHash))
+            localStorage.removeItem(doubleHashUint.toLocaleString())
+            return
+          }
           setSarcophagusMined(true)
           setCurrentStatus(STATUSES.SARCOPHAGUS_SUCCESS)
         } 
@@ -17,7 +23,7 @@ const useSarcophagusCheck = (data, setCurrentStatus, error, setError) => {
         console.error(e)
         setError(ERROR.BLOCKCHAIN_SERVER)
       }
-    },[ data, provider , setError, setCurrentStatus])
+    },[ data, provider , setError, setCurrentStatus, assetDoubleHash])
   
     // check localStorage data on sarcophagus
     useEffect(() => {

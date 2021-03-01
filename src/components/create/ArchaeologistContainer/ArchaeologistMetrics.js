@@ -1,42 +1,52 @@
 import React from 'react'
+import classnames from 'classnames'
 import { getDatefromBigNumber } from '../../../utils/datetime';
 import { getStorageFee, getDecimalNumber, getCursedPercentage } from '../../../utils/bigNumbers';
-const ArchaeologistMetrics = ({archaeologist, file}) => {
+
+const Property = ({label}) => (
+  <span className="text-gray-400 mr-2">{ label }</span>
+)
+
+const Value = ({value, selected}) => (
+  <span className={!selected ? classnames("text-white") : classnames('text-black')}> { value }</span>
+)
+
+const ArchaeologistMetrics = ({archaeologist, file, isSelected}) => {
     return (
         <div className="border-t border-gray-500 py-4 px-8 w-full">
           <div className="flex mb-4">
             <span className="text-gray-400 mr-2">Arch </span>
-            <span>{archaeologist.paymentAddress}</span>
+            <span>{archaeologist.address}</span>
           </div>
             <div className="grid grid-cols-2 text-sm">
               <div className="">
                 <div className="flex">
-                  <span className="text-gray-400 mr-2">Early Resurrections: </span>
-                  <span className="text-white"></span>
+                  <Property label="Early Resurrections: " />
+                  <Value selected={isSelected} value="" />
                 </div>
                 <div className="flex">
                   <span className="text-gray-400 mr-2">Late | Missed Resurrections: </span>
-                  <span className="text-white"></span>
+                  <Value selected={isSelected} value="" />
                 </div>
                 <div className="flex">
                   <span className="text-gray-400 mr-2">Malacious Volume:</span>
-                  <span className="text-white"></span>
+                  <Value selected={isSelected} value="" />
                 </div>
                 <div className="flex">
                   <span className="text-gray-400 mr-2">Bounded </span>
-                  <span className="text-white"></span>
+                  <Value selected={isSelected} value="" />
                 </div>
                 <div className="flex">
                   <span className="text-gray-400 mr-2">Percent Cursed:</span>
-                  <span className="text-white">{getCursedPercentage(archaeologist.cursedBond, archaeologist.freeBond)}%</span>
+                  <Value selected={isSelected} value={`${getCursedPercentage(archaeologist.cursedBond, archaeologist.freeBond)}%`} />
                 </div>
                 <div className="flex whitespace-nowrap">
                   <span className="text-gray-400 mr-2">Max Resurrection Time:</span>
-                  <span className="text-white">{getDatefromBigNumber(archaeologist.maximumResurrectionTime)}</span>
+                  <Value selected={isSelected} value={getDatefromBigNumber(archaeologist.maximumResurrectionTime)} />
                 </div>
                 <div className="flex">
                   <span className="text-gray-400 mr-2">First Curse</span>
-                  <span className="text-white"></span>
+                  <Value selected={isSelected} value="" />
                 </div>
               </div>
               <div> 

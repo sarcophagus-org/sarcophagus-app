@@ -9,7 +9,7 @@ const Wrapper = ({sarcophagus, refresh, ...rest}) => {
     const [ archaeologist, setArchaeologist] = useState({})
 
     useEffect(() => {
-        const singleArch = archaeologists?.filter((v) => v.paymentAddress === sarcophagus.archaeologist)
+        const singleArch = archaeologists?.filter((v) => v.address === sarcophagus.archaeologist)
         setArchaeologist(singleArch[0])
     }, [archaeologists, sarcophagus])
     

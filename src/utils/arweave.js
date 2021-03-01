@@ -10,16 +10,6 @@ const initArweave = () => {
   })
 }
 
-const arweaveFileTypeExists = async (arweave, transactionId) => {
-  return arweave.transactions.get(transactionId).then(transaction => {
-    const contentType = transaction.get('tags').filter(tag =>
-      tag.get('name', {decode: true, string: true}) === 'Content-Type'
-    ).map(tag => tag.get('value', {decode: true, string: true}))
-
-    return contentType.length && contentType[0] !== ""
-  })
-}
-
 const arweaveFileValid = async (arweave, transactionId, doubleEncryptedFile) => {
   try {
     const data = await arweave.transactions.getData(transactionId, {decode: true})
@@ -34,6 +24,5 @@ const arweaveFileValid = async (arweave, transactionId, doubleEncryptedFile) => 
 
 export {
   initArweave,
-  arweaveFileTypeExists,
   arweaveFileValid,
 }

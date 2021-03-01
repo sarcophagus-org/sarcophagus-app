@@ -25,7 +25,7 @@ const PickArchaeologist = ({ archaeologists, handleSelected, archSelected, file,
           {errors.address && touched.address && <Error extraPadding="ml-6">{errors.address}</Error>}
           <ArchTableRow headerOne={`Archaeologists (${archaeologists.length})`} headerTwo="Fee" headerThree="Digging Fee" headerFour='Bounty' headerFive='Metrics' />
           {filteredList.map( (archaeologist, i) => 
-            <ArchaeologistsList key={`${i}${archaeologist.paymentAddress}`} setFieldValue={setFieldValue} selected={archSelected} handleSelected={handleSelected} archaeologist={archaeologist} file={file} bounty={bounty} diggingFee={diggingFee} gtSign="&#62;"/>)}
+            <ArchaeologistsList key={`${i}${archaeologist.address}`} setFieldValue={setFieldValue} selected={archSelected} handleSelected={handleSelected} archaeologist={archaeologist} file={file} bounty={bounty} diggingFee={diggingFee} gtSign="&#62;"/>)}
 
         </div>
         {archaeologists.length > 0 && <PageSelect 

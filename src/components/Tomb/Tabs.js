@@ -3,7 +3,7 @@ import Tooltip from '../layout/Tooltip'
 import Title from '../layout/Title'
 import { NavLink, useRouteMatch } from 'react-router-dom'
 
-const Tabs = ({embalmerCount, recipientCount, overCount}) => {
+const Tabs = ({embalmerCount, recipientCount, archivedCount}) => {
   const match = useRouteMatch()
   return (
     <div className="flex items-center justify-center lg:justify-between flex-wrap md:flex-nowrap gap-4">
@@ -22,7 +22,7 @@ const Tabs = ({embalmerCount, recipientCount, overCount}) => {
         </Tooltip>
       </NavLink>
       <NavLink activeClassName="border-b-2 border-white" className="px-2 pb-4 cursor-pointer whitespace-nowrap flex justif-center items-center flex-shrink-0" to={`${match.path}/archive`}>
-        <Title type="subOne" title={`Archived: (${overCount || 0})`} />
+        <Title type="subOne" title={`Archived: (${archivedCount || 0})`} />
         <Tooltip>
           <div>Inactive sarcophagi</div>
           <div>Click to view previous sarcophagi details</div>

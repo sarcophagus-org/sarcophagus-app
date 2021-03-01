@@ -10,7 +10,7 @@ const base = "text-white text-md flex justify-between relative cursor-default ma
 const pointer = "cursor-pointer"
 
 
-const SarcophagusCollasped = ({ sarcophagus, currentStatus, error, toggle, collasped, expandedOption=false, timer, color, timers }) => {
+const SarcophagusCollapsed = ({ sarcophagus, currentStatus, error, toggle, collapsed, expandedOption=false, timer, color, timers }) => {
     return (
         <div className={!expandedOption ? classnames(base) : classnames(base, pointer)} onClick={!expandedOption ? () => null : () => toggle()} style={{height: '4.375rem'}}>
             <div>
@@ -20,8 +20,8 @@ const SarcophagusCollasped = ({ sarcophagus, currentStatus, error, toggle, colla
             <div className="flex flex-col">
                 {expandedOption && (
                     <div className="flex cursor-pointer">
-                        {collasped && <img alt="" src={arrowDown} className="mr-2"/>} 
-                        {!collasped && <img alt="" src={arrowRight} className="mr-2"/>}
+                        {!collapsed && <img alt="" src={arrowDown} className="mr-2"/>}
+                        {collapsed && <img alt="" src={arrowRight} className="mr-2"/>}
                         <span>
                             { 
                                 !!error 
@@ -42,4 +42,4 @@ const SarcophagusCollasped = ({ sarcophagus, currentStatus, error, toggle, colla
         </div>
     )
 }
-export default SarcophagusCollasped 
+export default SarcophagusCollapsed
