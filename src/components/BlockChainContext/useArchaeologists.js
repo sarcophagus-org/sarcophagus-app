@@ -54,7 +54,7 @@ const useArcheologists = (sarcophagusContract) => {
     getArchaeologistInfo(sarcophagusContract) 
   },[ getArchaeologistCount, getArchaeologistIndexes, getArchaeologistInfo, arcAddresses, arcCount, sarcophagusContract ])
   
-  return { rawArchaeologists }
+  return { rawArchaeologists, getArchaeologistCount }
 }
 
 export {

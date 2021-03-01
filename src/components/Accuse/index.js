@@ -33,10 +33,6 @@ const IDENTIFIER_TITLE = 'Sarcophagus Identifier'
 const IDENTIFIER_TOOLTIP = ''
 const IDENTIFIER_PLACEHOLDER = '0x0000000000000000000000000000000000000000000000000000000000000000'
 
-// address // 0x18948906Cb850B1f87bfb8Cb2115785f338C3fb1
-// singlehash // 0x3db2acf426baeced6da3c16bf14b349ea91de275cc400f3f5c0a1f6c4f9dcb5c
-// doublehash // 0xfd976a9d551d010debe8c7d7cf599239ee6e0622a61c22bff570fb7e4bd9ca68
-
 const AccuseArchaeologist = () => {
     const { accuseArchaeologist } = useData()
     return (

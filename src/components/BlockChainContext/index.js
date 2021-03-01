@@ -21,7 +21,7 @@ const createDataRoot = () => {
     const sarcophagusContract = useSarcophagusContract()
     const sarcophagusTokenContract = useSarcophagusTokenContract()
     
-    const { rawArchaeologists } = useArcheologists(sarcophagusContract)
+    const { rawArchaeologists, getArchaeologistCount } = useArcheologists(sarcophagusContract)
     const { archaeologists } = useArchaeologistsCheck(sarcophagusContract, rawArchaeologists)
     const { embalmerSarcophagi, embalmerAllSarcophagi, setStorage, getSarcophagiCount } = useEmbalmerSarcophagi(sarcophagusContract)
     const { recipientSarcophagi, recipientAllSarcophagi, getRecipientSarcophagiCount } = useRecipientSarcophagi(sarcophagusContract)
@@ -53,6 +53,7 @@ const createDataRoot = () => {
         setStorage(window.localStorage)
         getSarcophagiCount()
         getRecipientSarcophagiCount()
+        getArchaeologistCount()
       }
     }
     return <Provider value={dataContext}>{children}</Provider>
