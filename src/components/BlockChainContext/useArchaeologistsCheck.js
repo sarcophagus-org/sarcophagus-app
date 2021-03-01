@@ -86,7 +86,7 @@ const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
     if(count.isZero()) return []
     try {
       const arr = new Array(count.toNumber()).fill(undefined)
-      const identifiers = await Promise.all(arr.map(async (_, i) => await sarcophagusContract.archaeologistSuccessesIdentifiers(address, i)))
+      const identifiers = await Promise.all(arr.map(async (_, i) => await sarcophagusContract.archaeologistSuccessesIdentifier(address, i)))
       return identifiers
     } catch (e) {
       toast.error('There was an error with contract')
