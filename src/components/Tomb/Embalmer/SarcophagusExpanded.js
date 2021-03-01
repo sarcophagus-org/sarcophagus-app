@@ -14,7 +14,7 @@ const Sign = ({sarcophagus, setCurrentStatus, refresh, toggle}) => {
     }
 
     const handleCancel = async () => {
-        await cancelSarcophagus(sarcophagus, setCurrentStatus, toggle)
+        await cancelSarcophagus(sarcophagus, setCurrentStatus, toggle, refresh)
     }
     return (
         <div className="flex flex-col items-center justify-center h-full relative gap-8" style={{height: '12.0625rem'}}>
@@ -32,7 +32,7 @@ const Sign = ({sarcophagus, setCurrentStatus, refresh, toggle}) => {
 const ErrorOptions = ({sarcophagus, refresh, toggle, error, setCurrentStatus}) => {
     const { cancelSarcophagus } = useData()
     const handleCancel = async () => {
-        await cancelSarcophagus(sarcophagus, setCurrentStatus, toggle)
+        await cancelSarcophagus(sarcophagus, setCurrentStatus, toggle, refresh)
     }
     return (
         <div className="flex flex-col items-center justify-center h-full gap-8" style={{height: '12.0625rem'}}>
@@ -49,7 +49,7 @@ const ErrorOptions = ({sarcophagus, refresh, toggle, error, setCurrentStatus}) =
 const WindowClosed = ({sarcophagus, toggle, refresh, archaeologist, setCurrentStatus}) => {
     const { cleanSarcophagus } = useData()
     const handleClean = async () => {
-        cleanSarcophagus(sarcophagus, setCurrentStatus, archaeologist, toggle)
+        cleanSarcophagus(sarcophagus, setCurrentStatus, archaeologist, toggle, refresh)
     }
     return (
         <div className="flex flex-col items-center justify-center h-full relative gap-8" style={{height: '12.0625rem'}}>

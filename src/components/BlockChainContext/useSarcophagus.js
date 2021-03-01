@@ -97,7 +97,7 @@ const useSarcophagus = (sarcophagusContract) => {
     }
   }
 
-  const cleanSarcophagus = async (sarcophagus, setCurrentStatus, archaeologist, toggle) => {
+  const cleanSarcophagus = async (sarcophagus, setCurrentStatus, archaeologist, toggle, refresh) => {
     try {
       const { AssetDoubleHash } = sarcophagus
       const { address } = archaeologist
@@ -111,14 +111,14 @@ const useSarcophagus = (sarcophagusContract) => {
       localStorage.setItem(arrayifyDoubleHash, JSON.stringify(storageObject))
       setCurrentStatus(STATUSES.TRANSACTION_MINING_IN_PROGRESS)
       toggle()
-      
+      refresh()
     } catch (e) {
       toast.error('There was a problem cleaning sarcophagus')
       console.error('There was a problem cleaning sarcophagus', e)
     }
   }
 
-  const cancelSarcophagus = async (sarcophagus, setCurrentStatus, toggle) => {
+  const cancelSarcophagus = async (sarcophagus, setCurrentStatus, toggle, refresh) => {
     try {
       const { AssetDoubleHash } = sarcophagus
       const doubleHashUint = Buffer.from(utils.arrayify(AssetDoubleHash))
@@ -130,6 +130,7 @@ const useSarcophagus = (sarcophagusContract) => {
       localStorage.setItem(arrayifyDoubleHash, JSON.stringify(storageObject))
       setCurrentStatus(STATUSES.TRANSACTION_MINING_IN_PROGRESS)
       toggle()
+      refresh()
     } catch (e) {
       toast.error('There was a problem canceling sarcophagus')
       console.error('There was a problem canceling sarcophagus', e)
