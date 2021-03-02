@@ -23,7 +23,7 @@ const createDataRoot = () => {
     
     const { rawArchaeologists, getArchaeologistCount } = useArcheologists(sarcophagusContract)
     const { archaeologists } = useArchaeologistsCheck(sarcophagusContract, rawArchaeologists)
-    const { embalmerSarcophagi, embalmerAllSarcophagi, setStorage, getSarcophagiCount } = useEmbalmerSarcophagi(sarcophagusContract)
+    const { embalmerSarcophagi, embalmerAllSarcophagi, getEmbalmerSarcophagi, pendingSarcophagi} = useEmbalmerSarcophagi(sarcophagusContract)
     const { recipientSarcophagi, recipientAllSarcophagi, getRecipientSarcophagiCount } = useRecipientSarcophagi(sarcophagusContract)
 
     const { archivedSarcophagi } = useArchivedSarcophagi(embalmerAllSarcophagi, recipientAllSarcophagi)
@@ -49,9 +49,9 @@ const createDataRoot = () => {
       embalmerSarcophagi, 
       archivedSarcophagi,
       recipientSarcophagi,
+      pendingSarcophagi,
       refresh: () => {
-        setStorage(window.localStorage)
-        getSarcophagiCount()
+        getEmbalmerSarcophagi()
         getRecipientSarcophagiCount()
         getArchaeologistCount()
       }

@@ -11,7 +11,7 @@ import { useData } from '../../BlockChainContext'
 import useApproval from '../../customHooks/useApproval'
 import { getDecimalNumber } from '../../../utils/bigNumbers'
 
-const Rewrap = ({ sarcophagus, archaeologist, refresh, toggle, setCurrentStatus }) => {
+const Rewrap = ({ sarcophagus, archaeologist, refresh, toggle, setCurrentStatus, refreshTimers }) => {
     const { burySarcophagus, rewrapSarcophagus } = useData()
     const { approved, approveTransaction } = useApproval()
     const [ buttonText, setButtonText ] = useState('')
@@ -29,11 +29,11 @@ const Rewrap = ({ sarcophagus, archaeologist, refresh, toggle, setCurrentStatus 
     }
 
     const handleSubmit = async (values) => {
-        await rewrapSarcophagus(sarcophagus, values, refresh, toggle, setCurrentStatus)
+        await rewrapSarcophagus(sarcophagus, values, refresh, toggle, setCurrentStatus, refreshTimers)
     }
 
     const handleBury = async () => {
-        await burySarcophagus(sarcophagus, setCurrentStatus, refresh, toggle)
+        await burySarcophagus(sarcophagus, setCurrentStatus, refresh, toggle, refreshTimers)
     }
 
     const initialValues = {

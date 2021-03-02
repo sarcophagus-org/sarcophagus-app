@@ -2,6 +2,7 @@ import { BigNumber, utils } from 'ethers'
 import { toast } from 'react-toastify'
 import { ACTIONS, STATUSES } from '../../constants'
 import { formatCustomResurrectionTime } from "../../utils/datetime";
+import { initialValues } from '../Accuse/initialValues';
 
 const useSarcophagus = (sarcophagusContract) => {
 
@@ -38,8 +39,8 @@ const useSarcophagus = (sarcophagusContract) => {
       // remove local storage items
       localStorage.removeItem(AssetDoubleHash.toLocaleString())
       setCurrentStatus(STATUSES.PROCESS_COMPLETE)
-      refresh()
-      toggle()
+      await toggle()
+      await refresh()
     
     } catch (e) {
       toast.error('There was a problem updating sarcophagus')
@@ -47,7 +48,7 @@ const useSarcophagus = (sarcophagusContract) => {
     }
   }
 
-  const rewrapSarcophagus = async (sarcophagus, values, refresh, toggle, setCurrentStatus) => {
+  const rewrapSarcophagus = async (sarcophagus, values, refresh, toggle, setCurrentStatus, refreshTimers) => {
     try {
       const { AssetDoubleHash } = sarcophagus
       const { bounty, diggingFee, resurrectionTime, custom } = values
@@ -64,12 +65,13 @@ const useSarcophagus = (sarcophagusContract) => {
       const txReceipt = await sarcophagusContract.rewrapSarcophagus(doubleHashUint, resurrectionTimeUTC, diggingFeeBN, bountyBN)
       console.log("🚀 ~ rewrap ~ txReceipt", txReceipt)
       // create storage object for rewraping
-      const storageObject = { action: ACTIONS.SARCOPHAGUS_TX_MINING, txReceipt: txReceipt }
+      const storageObject = { action: ACTIONS.TRANSACTION_MINING_IN_PROGRESS, txReceipt: txReceipt }
       const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
       localStorage.setItem(arrayifyDoubleHash, JSON.stringify(storageObject))
       setCurrentStatus(STATUSES.TRANSACTION_MINING_IN_PROGRESS)
+      refreshTimers()
       refresh()
-      toggle()
+      await toggle()
     } catch (e) {
       toast.error('There was a problem rewrapping sarcophagus')
       console.error('There was a problem rewrapping sarcophagus', e)
@@ -77,19 +79,20 @@ const useSarcophagus = (sarcophagusContract) => {
 
   }
 
-  const burySarcophagus = async (sarcophagus, setCurrentStatus, refresh, toggle) => {
+  const burySarcophagus = async (sarcophagus, setCurrentStatus, refresh, toggle, refreshTimers) => {
     try {
       const { AssetDoubleHash } = sarcophagus
       const doubleHashUint = Buffer.from(utils.arrayify(AssetDoubleHash))
       const txReceipt = await sarcophagusContract.burySarcophagus(doubleHashUint)
       console.log("🚀 ~ burySarcophagus ~ txReceipt", txReceipt)
 
-      const storageObject = { action: ACTIONS.SARCOPHAGUS_TX_MINING, txReceipt: txReceipt }
+      const storageObject = { action: ACTIONS.TRANSACTION_MINING_IN_PROGRESS, txReceipt: txReceipt }
       const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
       localStorage.setItem(arrayifyDoubleHash, JSON.stringify(storageObject))
       setCurrentStatus(STATUSES.TRANSACTION_MINING_IN_PROGRESS)
+      refreshTimers()
       refresh()
-      toggle()
+      await toggle()
 
     } catch (e) {
       toast.error('There was a problem buring sarcophagus')
@@ -97,7 +100,7 @@ const useSarcophagus = (sarcophagusContract) => {
     }
   }
 
-  const cleanSarcophagus = async (sarcophagus, setCurrentStatus, archaeologist, toggle, refresh) => {
+  const cleanSarcophagus = async (sarcophagus, setCurrentStatus, archaeologist, toggle, refresh, refreshTimers) => {
     try {
       const { AssetDoubleHash } = sarcophagus
       const { address } = archaeologist
@@ -106,38 +109,40 @@ const useSarcophagus = (sarcophagusContract) => {
       const txReceipt = await sarcophagusContract.cleanUpSarcophagus(doubleHashUint, address)
       console.log("🚀  ~ cleanSarcophagus ~ txReceipt", txReceipt)
 
-      const storageObject = { action: ACTIONS.SARCOPHAGUS_TX_MINING, txReceipt: txReceipt }
+      const storageObject = { action: ACTIONS.TRANSACTION_MINING_IN_PROGRESS, txReceipt: txReceipt }
       const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
       localStorage.setItem(arrayifyDoubleHash, JSON.stringify(storageObject))
       setCurrentStatus(STATUSES.TRANSACTION_MINING_IN_PROGRESS)
-      toggle()
+      refreshTimers()
       refresh()
+      await toggle()
     } catch (e) {
       toast.error('There was a problem cleaning sarcophagus')
       console.error('There was a problem cleaning sarcophagus', e)
     }
   }
 
-  const cancelSarcophagus = async (sarcophagus, setCurrentStatus, toggle, refresh) => {
+  const cancelSarcophagus = async (sarcophagus, setCurrentStatus, toggle, refresh, refreshTimers) => {
     try {
       const { AssetDoubleHash } = sarcophagus
       const doubleHashUint = Buffer.from(utils.arrayify(AssetDoubleHash))
       const txReceipt = await sarcophagusContract.cancelSarcophagus(doubleHashUint)
       console.log("🚀 ~ cancelSarcophagus ~ txReceipt", txReceipt)
 
-      const storageObject = { action: ACTIONS.SARCOPHAGUS_TX_MINING, txReceipt: txReceipt }
+      const storageObject = { action: ACTIONS.TRANSACTION_MINING_IN_PROGRESS, txReceipt: txReceipt }
       const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
       localStorage.setItem(arrayifyDoubleHash, JSON.stringify(storageObject))
       setCurrentStatus(STATUSES.TRANSACTION_MINING_IN_PROGRESS)
-      toggle()
+      refreshTimers()
       refresh()
+      await toggle()
     } catch (e) {
       toast.error('There was a problem canceling sarcophagus')
       console.error('There was a problem canceling sarcophagus', e)
     }
   }
 
-  const accuseArchaeologist = async (values) => {
+  const accuseArchaeologist = async (values, resetForm) => {
     try{ 
 
       const { singleHash, identifier, address } = values
@@ -145,9 +150,11 @@ const useSarcophagus = (sarcophagusContract) => {
       const singleHashUint = Buffer.from(utils.arrayify(singleHash))
       const txReceipt = await sarcophagusContract.accuseArchaeologist(identifierUint, singleHashUint, address)
       console.log("🚀 ~ accuseArchaeologist ~ txReceipt", txReceipt)
+      await resetForm(initialValues)
+      toast.error('The accusal was successful', {toastId: 'accuseFail', position: 'top-center', autoClose: 5000})
     } catch (e) {
-      toast.error('There was a problem canceling sarcophagus')
-      console.log('There was a problem accusing archaeologist')
+      toast.error('The accusal was unsuccessful', {toastId: 'accuseFail', position: 'top-center', autoClose: 5000})
+      console.log('Accused Unsuccessful: ', e)
     }
   
   }

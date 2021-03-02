@@ -3,14 +3,17 @@ import arrowRight from '../../../assets/images/arrowRight.svg'
 import arrowDown from '../../../assets/images/arrowDown.svg'
 import StatusBadge from '../../layout/StatusBadge'
 import classnames from 'classnames'
+import ResurrectionTimer from '../ResurrectionTimer'
+import { TIMER_DEFAULT } from '../../../constants'
 
 const base = "text-white text-md flex justify-between relative cursor-default max-w-128"
 const pointer = "cursor-pointer"
 
-const SarcophagusCollapsed = ({ sarcophagus, error, toggle, status, collapsed, expandedOption=false}) => (
+const SarcophagusCollapsed = ({ sarcophagus, error, toggle, status, collapsed, expandedOption=false, timer, color, timers}) => (
     <div className={!expandedOption ? classnames(base) : classnames(base, pointer)} onClick={!expandedOption ? () => null : () => toggle()} style={{height: '4.375rem'}}>
         <div>
             <div className="text-base font-bold text-white" style={{lineHeight: '1.625rem'}}>{sarcophagus.name}</div>
+            <ResurrectionTimer state={sarcophagus.state} timer={!timers && timer === TIMER_DEFAULT ? 'Unwrapped' : timer} color={timer === TIMER_DEFAULT ? 'text-white' : color} timers={timers}/>
         </div>
 
         <div className="flex flex-col">

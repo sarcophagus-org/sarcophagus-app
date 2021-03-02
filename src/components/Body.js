@@ -4,6 +4,7 @@ import CreateSarcophagus from './create'
 import Tomb from './Tomb'
 import Resurrection from './Resurrection'
 import AccuseArchaeologist from './Accuse'
+import PublicKey from './PublicKey'
 
 const Body = () => {
   return (
@@ -11,10 +12,11 @@ const Body = () => {
       <Route path={`/`} exact>
         <Redirect to="/tomb" />
       </Route>
-      <Route path={`/tomb`} component={Tomb} />
-      <Route path={`/create`} component={CreateSarcophagus} exact />
-      <Route path={`/resurrection`} component={Resurrection} exact />
-      <Route path="/horus" component={AccuseArchaeologist} exact />
+      <Route path='/tomb' component={Tomb} />
+      <Route path='/create' component={CreateSarcophagus} exact />
+      <Route path='/resurrection' component={Resurrection} exact />
+      <Route path='/horus' component={AccuseArchaeologist} exact />
+      <Route path='/publicKey' component={PublicKey} exact />
     </div>
   )
 }

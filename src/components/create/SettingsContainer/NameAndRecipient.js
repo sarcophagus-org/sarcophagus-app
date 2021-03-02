@@ -6,6 +6,7 @@ import SectionContainer from '../../layout/SectionContainer'
 import Title from '../../layout/Title'
 import TwoColumnContainer from '../../layout/TwoColumnContainer'
 import arrowDown from '../../../assets/images/arrowDown.svg'
+import { NavLink } from 'react-router-dom'
 
 const NameAndRecipient = ({values, errors, touched, handleChange, handleKey, title, icon, toggle}) => (
   <SectionContainer>
@@ -37,7 +38,10 @@ const NameAndRecipient = ({values, errors, touched, handleChange, handleKey, tit
       </div>
       <InfoBox style={{marginTop: '1.75rem'}}>
         <div className="border-b border-gray-400 mb-4" style={{width: 'fit-content'}}>Eth public key</div>
-        <div className="text-gray-400">Paste your recipient’s full Ethereum public key here, this is not the same as a public address. You can visit (INSERT PUB KEY RETRIEVAL LINK HERE) to get your full public key.</div>
+        <div className="text-gray-400">
+          Paste your recipient’s full Ethereum public key here, this is not the same as a public address. You can visit
+         <NavLink className="cursor-pointer mx-2 text-md underline hover:text-white" to="/publicKey">Get Public Key</NavLink>
+         to get your full public key.</div>
       </InfoBox>
     </TwoColumnContainer>
   </SectionContainer>

@@ -5,16 +5,16 @@ const useArcheologists = (sarcophagusContract) => {
   const [ arcAddresses, setAddresses ] = useState(false) 
   const [ arcCount, setArcCount ] = useState(false)
   
-  const getArchaeologistCount = useCallback( async (sarcophagusContract) => {
+  const getArchaeologistCount = useCallback( async () => {
     try {
       const count = await sarcophagusContract.archaeologistCount() 
       setArcCount(count)
     } catch (error) {
       console.error(error)
     }
-  }, [])
+  }, [sarcophagusContract])
 
-  const getArchaeologistIndexes = useCallback( async (sarcophagusContract, count) => {
+  const getArchaeologistIndexes = useCallback( async (count) => {
     try {
       const arcAddresses = []
       for(let i = 0; i <= count - 1; i++) {
@@ -25,9 +25,9 @@ const useArcheologists = (sarcophagusContract) => {
     } catch (error) {
       console.error(error)
     }
-  },[])
+  },[sarcophagusContract])
 
-  const getArchaeologistInfo = useCallback(async (sarcophagusContract) => {
+  const getArchaeologistInfo = useCallback(async () => {
     try {
       let archaeologists = await Promise.all(arcAddresses.map( async (address) => await sarcophagusContract.archaeologists(address) ))
       archaeologists = archaeologists.map((arch, index) => ({...arch, address: arcAddresses[index]}) )
@@ -36,23 +36,23 @@ const useArcheologists = (sarcophagusContract) => {
     } catch (error) {
       console.error(error)
     }
-  },[arcAddresses])
+  },[sarcophagusContract, arcAddresses])
 
   useEffect(() => {
     if(!sarcophagusContract) return
-    getArchaeologistCount(sarcophagusContract)
+    getArchaeologistCount()
   },[ getArchaeologistCount, sarcophagusContract ])
 
   useEffect(() => {
-    if (!arcCount || !sarcophagusContract) return
+    if (!arcCount) return
     if (arcCount.isZero()) return
-    getArchaeologistIndexes(sarcophagusContract, arcCount.toNumber())
-  },[ arcCount, getArchaeologistIndexes, sarcophagusContract ])
+    getArchaeologistIndexes(arcCount.toNumber())
+  },[ arcCount, getArchaeologistIndexes ])
 
   useEffect(() => {
-    if(!arcCount || !sarcophagusContract || !arcAddresses) return
-    getArchaeologistInfo(sarcophagusContract) 
-  },[ getArchaeologistCount, getArchaeologistIndexes, getArchaeologistInfo, arcAddresses, arcCount, sarcophagusContract ])
+    if(!arcCount || !arcAddresses) return
+    getArchaeologistInfo() 
+  },[ getArchaeologistCount, getArchaeologistIndexes, getArchaeologistInfo, arcAddresses, arcCount ])
   
   return { rawArchaeologists, getArchaeologistCount }
 }

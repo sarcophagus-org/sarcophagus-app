@@ -11,7 +11,7 @@ const useSarcophagusCheck = ( data, assetDoubleHash, setCurrentStatus, error, se
       try {
         const txReceipt = await provider.getTransactionReceipt(data.txReceipt.hash)
         if(txReceipt && txReceipt.blockNumber) {
-          if(data?.action === ACTIONS.SARCOPHAGUS_TX_MINING) {
+          if(data?.action === ACTIONS.TRANSACTION_MINING_IN_PROGRESS) {
             const doubleHashUint = Buffer.from(utils.arrayify(assetDoubleHash))
             localStorage.removeItem(doubleHashUint.toLocaleString())
             return

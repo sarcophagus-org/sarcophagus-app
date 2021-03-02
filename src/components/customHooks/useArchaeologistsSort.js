@@ -1,6 +1,6 @@
 import { utils } from 'ethers'
 import { useState, useEffect } from 'react'
-import { getStorageFee } from '../../utils/bigNumbers'
+import { getTotalFee } from '../../utils/bigNumbers'
 import usePagination from './usePagination'
 
 const useArchaeologistsSort = (archaeologists, file, bounty, diggingFee ) => {
@@ -17,7 +17,7 @@ const useArchaeologistsSort = (archaeologists, file, bounty, diggingFee ) => {
 		if(!bounty || !diggingFee || !file) return
 		setList( archaeologists
 			// if file, bounty and digging fee is present sort by fee then
-			.sort((a, b) => getStorageFee(b, file) - getStorageFee(a, file))
+			.sort((a, b) => getTotalFee(b, file) - getTotalFee(a, file))
 			// sort disabled to be in the back then
 			.sort((a, b) => a.minimumBounty.lte(utils.parseEther(bounty.toString())) && a.minimumDiggingFee.lte(utils.parseEther(diggingFee.toString())) ? -1 : b.minimumBounty.lte(utils.parseEther(bounty.toString())) && b.minimumDiggingFee.lte(utils.parseEther(diggingFee.toString())) ? 1 : 0)
 			// filter by page

@@ -38,7 +38,7 @@ export const STATUSES = {
   CHECKING_STATUS: 'Checking status...',
   PROCESS_COMPLETE: 'Sarcophagus is Active',
   WINDOW_CLOSED: 'Resurrection Window is past',
-  TRANSACTION_MINING_IN_PROGRESS: 'Sarcophagus transaction is being mined!'
+  TRANSACTION_MINING_IN_PROGRESS: 'Mining in progress'
 }
 
 export const RECIPIENT_STATUSES = {
@@ -57,7 +57,7 @@ export const ERROR = {
 export const ACTIONS = {
   SARCOPHAGUS_CREATED: 'Created',
   SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED: 'File accepted',
-  SARCOPHAGUS_TX_MINING: 'Mining in progress'
+  TRANSACTION_MINING_IN_PROGRESS: 'Mining in progress'
 }
 
 export const ARCHIVED_STATUSES = {

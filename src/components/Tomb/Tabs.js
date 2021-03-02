@@ -25,7 +25,7 @@ const Tabs = ({embalmerCount, recipientCount, archivedCount}) => {
         <Title type="subOne" title={`Archived: (${archivedCount || 0})`} />
         <Tooltip>
           <div>Inactive sarcophagi</div>
-          <div>Click to view previous sarcophagi details</div>
+          <div>Click to view past sarcophagi</div>
         </Tooltip>
       </NavLink>
     </div>

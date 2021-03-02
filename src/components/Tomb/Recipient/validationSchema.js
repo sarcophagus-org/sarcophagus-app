@@ -12,7 +12,12 @@ export const validationSchema = (hasKeys) => {
       .test(
         'validDataHextString',
         'Please enter a valid public key',
-        (value) => utils.isHexString(value, 32)
+        (value) => {
+          let testValue
+          const str = value?.substr?.(0, 2)
+          if(str !== "0x") testValue = "0x" + value
+          return utils.isHexString(testValue || value, 32)
+        }
       ),
   })
 }

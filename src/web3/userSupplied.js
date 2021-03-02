@@ -50,10 +50,10 @@ const useUserSuppliedConnect = () => {
         if (!supportedChains().includes(parseInt(chainId))) {
           toast.dark('Switch to a supported network', { ...toastOptions, toastId: 'switchNetwork' })
           web3Modal.clearCachedProvider()
-          setUserSupplied(null)
+          window.location.reload()
         } else {
-          toast.dark('Network changed', { ...toastOptions, toastId: 'changedNetwork' })
-          web3Modal.connect()
+          toast.dark('Network changed, reloading', { ...toastOptions, toastId: 'changedNetwork' })
+          window.location.reload()
         }
       })
       
@@ -63,9 +63,10 @@ const useUserSuppliedConnect = () => {
           toast.dark('Account disconnected', { toastId: 'disconnected', ...toastOptions })
           setUserSupplied(null)
           web3Modal.clearCachedProvider()
+          window.location.reload()
         } else {
-          toast.dark('Account Changed', { toastId: 'disconnected', ...toastOptions })
-          web3Modal.connect()
+          toast.dark('Account Changed, reloading...', { toastId: 'disconnected', ...toastOptions })
+          window.location.reload()
         }
       })
       

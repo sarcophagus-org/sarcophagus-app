@@ -17,11 +17,12 @@ const widthOptions = {
 
 const base = "text-md font-medium flex justify-center items-center focus:outline-none"
 const border = "text-white border border-white"
-const disabled = "text-gray-400 border border-500"
+const disabled = "text-gray-400 border border-500 cursor-default"
 const error = ""
 
 const Button = ({label, isDisabled=false, _classnames, errors, height="md", width="default", ...rest}) => (
-  <button 
+  <button
+    disabled={isDisabled}
     className={isDisabled ? classnames(base, disabled, _classnames) : errors ? classnames(base, disabled, error, _classnames) : classnames(base, border, _classnames)} 
     style={{height: heightOptions[height], width: widthOptions[width], lineHeight: lineHeightOptions['default']}}
     {...rest}

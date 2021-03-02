@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useWeb3 } from '../../web3';
 import { BigNumber, utils } from 'ethers';
 
-const useRecipientSarcophagi = (sarcophagusContract, privateKey=false, waitForAddress=false) => {
+const useRecipientSarcophagi = (sarcophagusContract, address=false, waitForAddress=false) => {
   const [ recipientAllSarcophagi, setAllSarcophagi ] = useState([])
   const [ recipientSarcophagi, setSarcophagi ] = useState([])
   const [ sarcoDoubleHashes, setSarcoDoubleHashes ] = useState(false) 
@@ -11,25 +11,25 @@ const useRecipientSarcophagi = (sarcophagusContract, privateKey=false, waitForAd
   
   const getRecipientSarcophagiCount = useCallback( async () => {
     try {
-      const count = await sarcophagusContract.recipientSarcophagusCount(privateKey || account)
+      const count = await sarcophagusContract.recipientSarcophagusCount(address || account)
       setSarcoCount(count)
     } catch (error) {
       console.error(error)
     }
-  }, [sarcophagusContract, account, privateKey])
+  }, [sarcophagusContract, account, address])
 
   const getSarcophagiDoubleHashes = useCallback( async (count) => {
     try {
       const sarcophagiDoubleHashes = []
       for(let i = 0; i <= count - 1; i++) {
-        const doubleHash = await sarcophagusContract.recipientSarcophagusIdentifier(account, i)
+        const doubleHash = await sarcophagusContract.recipientSarcophagusIdentifier(address || account, i)
         sarcophagiDoubleHashes.push(doubleHash)
       }
       await setSarcoDoubleHashes(sarcophagiDoubleHashes)
     } catch (error) {
       console.error(error)
     }
-  },[sarcophagusContract, account])
+  },[sarcophagusContract, account, address])
 
   const getSarcophagiInfo = useCallback(async () => {
     try {
@@ -48,10 +48,10 @@ const useRecipientSarcophagi = (sarcophagusContract, privateKey=false, waitForAd
 
   useEffect(() => {
     if(!sarcophagusContract) return
-    if(waitForAddress && !privateKey) return
+    if(waitForAddress && !address) return
     if(!waitForAddress && !account) return
     getRecipientSarcophagiCount()
-  },[ getRecipientSarcophagiCount, waitForAddress, privateKey, account, sarcophagusContract])
+  },[ getRecipientSarcophagiCount, waitForAddress, address, account, sarcophagusContract])
 
 
   useEffect(() => {

@@ -36,10 +36,10 @@ const IDENTIFIER_PLACEHOLDER = '0x0000000000000000000000000000000000000000000000
 const AccuseArchaeologist = () => {
     const { accuseArchaeologist } = useData()
     return (
-        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={values => accuseArchaeologist(values)} >
+        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={(values, {resetForm}) => accuseArchaeologist(values, resetForm)} >
             {({ values, errors, touched, handleChange, handleSubmit}) => (
-            <form onSubmit={handleSubmit} className="px-2 flex flex-wrap justify-center">
-                <div className="mr-4 mt-2 w-104">
+            <form onSubmit={handleSubmit} className="px-2 flex flex-wrap md:flex-nowrap justify-center">
+                <div className="mr-4 mt-2 w-104 md:w-128">
                     <Title type="subOne" icon={eyeOfHorus} title="Eye of Horus" />
                     <div className="mt-8 text-md text-white" style={{lineHeight: '1.4375rem'}}>
                         <div>Ad aliqua proident adipisicing id cillum nisi cupidatat incididunt duis. Cupidatat occaecat aliquip deserunt mollit labore et occaecat ipsum veniam voluptate aliqua tempor. Deserunt esse dolore occaecat ipsum nulla nisi proident esse ipsum. Sint veniam magna pariatur amet ea ut reprehenderit velit eu magna ut cillum aute.</div>

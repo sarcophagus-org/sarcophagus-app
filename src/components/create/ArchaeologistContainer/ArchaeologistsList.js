@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import classnames from 'classnames'
 import { utils } from 'ethers';
-import { getStorageFee } from '../../../utils/bigNumbers';
+import { getTotalFee } from '../../../utils/bigNumbers';
 import useCollapse from '../../customHooks/useCollapse';
 import ArchaeologistTop from './ArchaeologistTop';
 import ArchaeologistMetrics from './ArchaeologistMetrics'
@@ -22,7 +22,7 @@ const ArchaeologistsList = ({ archaeologist, file, bounty, diggingFee, selected,
     }
     const isBountyLess = archaeologist.minimumBounty.lte(utils.parseEther(bounty.toString()))
     const isDiggingFeeLess = archaeologist.minimumDiggingFee.lte(utils.parseEther(diggingFee.toString()))
-    const isFreeBondGreater = archaeologist.freeBond.gte(utils.parseEther(getStorageFee(archaeologist, file).toString()))
+    const isFreeBondGreater = archaeologist.freeBond.gte(utils.parseEther(getTotalFee(archaeologist, file).toString()))
     if(isBountyLess && isDiggingFeeLess && isFreeBondGreater && !!file) setIsDisabled(false)
     else setIsDisabled(true)
     
@@ -35,7 +35,7 @@ const ArchaeologistsList = ({ archaeologist, file, bounty, diggingFee, selected,
   const handleClick = () => {
     if(isDisabled) return
     setFieldValue('address', archaeologist.address); 
-    handleSelected(archaeologist, getStorageFee(archaeologist, file, true))
+    handleSelected(archaeologist, getTotalFee(archaeologist, file, true))
   }
   
   return (

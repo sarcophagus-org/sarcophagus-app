@@ -25,7 +25,9 @@ const convertToUTCTime = date => {
 
 const getUTCDate = numDays => {
   let today = new Date()
+  const timeZoneOffset = today.getTimezoneOffset()
   today.setDate(today.getDate() + numDays)
+  today.setMinutes(today.getMinutes() + timeZoneOffset)
   const utc = convertToUTC(today)
   return utc
 }

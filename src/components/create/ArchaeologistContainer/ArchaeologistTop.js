@@ -1,6 +1,6 @@
 import React from 'react'
 import { truncate } from '../../../utils';
-import { getStorageFee, getDecimalNumber } from '../../../utils/bigNumbers';
+import { getTotalFee, getDecimalNumber } from '../../../utils/bigNumbers';
 import arrowDown from '../../../assets/images/arrowDown.svg'
 import arrowDownBlack from '../../../assets/images/arrowDownBlack.svg'
 import arrowRight from '../../../assets/images/arrowRight.svg'
@@ -25,7 +25,7 @@ const ArchaeologistTop = ({archaeologist, handleClick, toggle, file, selected, i
             <div className="">{truncate( archaeologist.address, 18, null)}</div>
             <div className="pl-6">
                 {file && <img src={selected === archaeologist.address ? iconBlack : icon} alt="" className="inline-block w-4 h-auto mr-2"/>}
-                {getStorageFee(archaeologist, file)}
+                {getTotalFee(archaeologist, file)}
             </div>
             <div className="-ml-1 flex items-center">
                 <img src={selected === archaeologist.address ? iconBlack : icon} alt="" className="inline-block w-4 h-auto mr-2"/>

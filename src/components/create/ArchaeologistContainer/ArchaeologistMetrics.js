@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { getDatefromBigNumber } from '../../../utils/datetime';
-import { getStorageFee, getDecimalNumber, getCursedPercentage } from '../../../utils/bigNumbers';
+import { getTotalFee, getDecimalNumber, getCursedPercentage, getStorageFee } from '../../../utils/bigNumbers';
 
 const Property = ({label}) => (
   <span className="text-gray-400 mr-2">{ label }</span>
@@ -18,53 +18,53 @@ const ArchaeologistMetrics = ({archaeologist, file, isSelected}) => {
             <span className="text-gray-400 mr-2">Arch </span>
             <span>{archaeologist.address}</span>
           </div>
-            <div className="grid grid-cols-2 text-sm">
+            <div className="grid grid-cols-2 text-sm gap-4">
               <div className="">
                 <div className="flex">
-                  <Property label="Early Resurrections: " />
-                  <Value selected={isSelected} value="" />
+                  <Property label="Accused Sarcophagi" />
+                  <Value selected={isSelected} value={archaeologist?.accusedCount?.toNumber()} />
                 </div>
                 <div className="flex">
-                  <span className="text-gray-400 mr-2">Late | Missed Resurrections: </span>
-                  <Value selected={isSelected} value="" />
+                  <Property label="Cleaned Sarcophagi" />
+                  <Value selected={isSelected} value={archaeologist?.cleanupCount?.toNumber()} />
                 </div>
                 <div className="flex">
-                  <span className="text-gray-400 mr-2">Malacious Volume:</span>
-                  <Value selected={isSelected} value="" />
+                  <Property label="Canceled Sarcophagi" />
+                  <Value selected={isSelected} value={archaeologist?.canceledCount?.toNumber()} />
                 </div>
                 <div className="flex">
-                  <span className="text-gray-400 mr-2">Bounded </span>
-                  <Value selected={isSelected} value="" />
+                  <Property label="Successful Sarcophagi" />
+                  <Value selected={isSelected} value={archaeologist?.successesCount?.toNumber()} />
                 </div>
                 <div className="flex">
-                  <span className="text-gray-400 mr-2">Percent Cursed:</span>
-                  <Value selected={isSelected} value={`${getCursedPercentage(archaeologist.cursedBond, archaeologist.freeBond)}%`} />
+                  <Property label="Percent Cursed:" />
+                  <Value selected={isSelected} value={`${getCursedPercentage(archaeologist?.cursedBond, archaeologist?.freeBond)}%`} />
                 </div>
                 <div className="flex whitespace-nowrap">
-                  <span className="text-gray-400 mr-2">Max Resurrection Time:</span>
-                  <Value selected={isSelected} value={getDatefromBigNumber(archaeologist.maximumResurrectionTime)} />
-                </div>
-                <div className="flex">
-                  <span className="text-gray-400 mr-2">First Curse</span>
-                  <Value selected={isSelected} value="" />
+                  <Property label="Max Resurrection Time:" />
+                  <Value selected={isSelected} value={getDatefromBigNumber(archaeologist?.maximumResurrectionTime)} />
                 </div>
               </div>
               <div> 
                 <div className="flex">
-                  <span className="text-gray-400 mr-2">Min Digging Fee:</span>
-                  <span className="text-white">{getDecimalNumber(archaeologist.minimumDiggingFee, 18)}</span>
+                  <Property label="Min Digging Fee:" />
+                  <Value selected={isSelected} value={getDecimalNumber(archaeologist?.minimumDiggingFee, 18)}/>
                 </div>
                 <div className="flex">
-                  <span className="text-gray-400 mr-2">Min Bounty:</span>
-                  <span className="text-white">{getDecimalNumber(archaeologist.minimumBounty, 18)}</span>
+                  <Property label="Min Bounty:" />
+                  <Value selected={isSelected} value={getDecimalNumber(archaeologist?.minimumBounty, 18)}/>
                 </div>
                 <div className="flex">
-                  <span className="text-gray-400 mr-2">Fee per byte:</span>
-                  <span className="text-white">{getDecimalNumber(archaeologist.feePerByte, 18)}</span>
+                  <Property label="Fee per byte:" />
+                  <Value selected={isSelected} value={getDecimalNumber(archaeologist?.feePerByte, 18)} />
                 </div>
                 <div className="flex">
-                  <span className="text-gray-400 mr-2">Total Storage Fee</span>
-                  <span className="text-white">{getStorageFee(archaeologist , file)}</span>
+                  <Property label="Total Storage Fee" />
+                  <Value selected={isSelected} value={getStorageFee(archaeologist, file)}/>
+                </div>
+                <div className="flex">
+                  <Property label="Total Fees" />
+                  <Value selected={isSelected} value={getTotalFee(archaeologist, file)}/>
                 </div>
               </div>
             </div>
