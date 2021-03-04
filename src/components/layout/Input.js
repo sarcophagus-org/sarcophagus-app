@@ -9,7 +9,7 @@ const heightOptions = {
   accuse: '4rem'
 }
 
-const baseText = "w-full pl-4 text-md bg-black font-normal text-white placeholder-text border remove-input-steps focus:outline-none"
+const baseText = "w-full pl-4 text-md bg-black font-normal text-white border remove-input-steps focus:outline-none"
 const borderText = "border border-gray-500"
 const errorBorderText = "border border-red"
 
