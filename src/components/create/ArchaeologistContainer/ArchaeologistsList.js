@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import classnames from 'classnames'
 import { utils } from 'ethers';
-import { getTotalFee } from '../../../utils/bigNumbers';
+import { getNumberalString, getTotalFee } from '../../../utils/bigNumbers';
 import useCollapse from '../../customHooks/useCollapse';
 import ArchaeologistTop from './ArchaeologistTop';
 import ArchaeologistMetrics from './ArchaeologistMetrics'
@@ -24,7 +24,10 @@ const ArchaeologistsList = ({ archaeologist, file, bounty, diggingFee, selected,
     const isDiggingFeeLess = archaeologist.minimumDiggingFee.lte(utils.parseEther(diggingFee.toString()))
     const isFreeBondGreater = archaeologist.freeBond.gte(utils.parseEther(getTotalFee(archaeologist, file).toString()))
     if(isBountyLess && isDiggingFeeLess && isFreeBondGreater && !!file) setIsDisabled(false)
-    else setIsDisabled(true)
+    else {
+      
+      setIsDisabled(true)
+    }
     
   },[bounty, diggingFee, archaeologist, file])
 
@@ -35,6 +38,8 @@ const ArchaeologistsList = ({ archaeologist, file, bounty, diggingFee, selected,
   const handleClick = () => {
     if(isDisabled) return
     setFieldValue('address', archaeologist.address); 
+    setFieldValue('bounty', getNumberalString(archaeologist.minimumBounty, 18)); 
+    setFieldValue('diggingFee', getNumberalString(archaeologist.minimumDiggingFee, 18)); 
     handleSelected(archaeologist, getTotalFee(archaeologist, file, true))
   }
   
