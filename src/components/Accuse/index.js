@@ -9,6 +9,7 @@ import { initialValues } from './initialValues'
 import { validationSchema } from './validationSchema'
 import eyeOfHorus from '../../assets/images/eyeOfHorus2.svg'
 import { useData } from '../BlockChainContext'
+import { ADDRESS_PLACEHOLDER, ADDRESS_TOOLTIP, IDENTIFIER_PLACEHOLDER, IDENTIFIER_TITLE, IDENTIFIER_TOOLTIP, PAYMENT_ADDRESS_TITLE, SINGLEHASH_PLACEHOLDER, SINGLEHASH_TITLE, SINGLEHASH_TOOLTIP } from '../../constants'
 
 const TextField = ({errors, touched, handleChange, title, tooltip, ...rest}) => (
     <div className="w-128">
@@ -22,16 +23,6 @@ const TextField = ({errors, touched, handleChange, title, tooltip, ...rest}) => 
         <Input _classnames="my-4" errored={errors && touched} error={errors} onChange={handleChange} {...rest} />
     </div>
 )
-
-const SINGLEHASH_TITLE = 'Single Hash'
-const SINGLEHASH_TOOLTIP = ''
-const SINGLEHASH_PLACEHOLDER = '0x0000000000000000000000000000000000000000000000000000000000000000'
-const PAYMENT_ADDRESS_TITLE = 'Archaeologist Address'
-const ADDRESS_TOOLTIP = ''
-const ADDRESS_PLACEHOLDER = '0x0000000000000000000000000000000000000000'
-const IDENTIFIER_TITLE = 'Sarcophagus Identifier'
-const IDENTIFIER_TOOLTIP = ''
-const IDENTIFIER_PLACEHOLDER = '0x0000000000000000000000000000000000000000000000000000000000000000'
 
 const AccuseArchaeologist = () => {
     const { accuseArchaeologist } = useData()
@@ -47,7 +38,7 @@ const AccuseArchaeologist = () => {
                     </div>
                 </div>
                 <div className="mt-8 md:mt-16">
-                    <TextField type="text" name="address" value={values.address} errors={errors.address} touched={touched.address} handleChange={handleChange} title={PAYMENT_ADDRESS_TITLE} tooltip={ADDRESS_TOOLTIP} placeholder={ADDRESS_PLACEHOLDER}/>
+                    <TextField type="text" name="address" height="lg" value={values.address} errors={errors.address} touched={touched.address} handleChange={handleChange} title={PAYMENT_ADDRESS_TITLE} tooltip={ADDRESS_TOOLTIP} placeholder={ADDRESS_PLACEHOLDER}/>
                     <TextField type="textarea" name="singleHash" height="accuse" value={values.singleHash} errors={errors.singleHash} touched={touched.singleHash} handleChange={handleChange} title={SINGLEHASH_TITLE} tooltip={SINGLEHASH_TOOLTIP} placeholder={SINGLEHASH_PLACEHOLDER}/>
                     <TextField type="textarea" name="identifier" height="accuse" value={values.identifier} errors={errors.identifier} touched={touched.identifier} handleChange={handleChange} title={IDENTIFIER_TITLE} tooltip={IDENTIFIER_TOOLTIP} placeholder={IDENTIFIER_PLACEHOLDER}/>
                     <Button _classnames="mx-auto w-full mb-4" type="submit" label="Submit" />
