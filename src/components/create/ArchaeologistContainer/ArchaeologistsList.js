@@ -15,22 +15,22 @@ const ArchaeologistsList = ({ archaeologist, file, bounty, diggingFee, selected,
   const [isDisabled, setIsDisabled ] = useState(true)
   const { collapsed, toggle } = useCollapse(true, true)
 
-  // useEffect(() => {
-  //   if(!bounty || !diggingFee) {
-  //     setIsDisabled(true)
-  //     return
-  //   }
-  //   const isBountyLess = archaeologist.minimumBounty.lte(utils.parseEther(bounty.toString()))
-  //   const isDiggingFeeLess = archaeologist.minimumDiggingFee.lte(utils.parseEther(diggingFee.toString()))
-  //   const isFreeBondGreater = archaeologist.freeBond.gte(utils.parseEther(getTotalFee(archaeologist, file).toString()))
-  //   if(isBountyLess && isDiggingFeeLess && isFreeBondGreater && !!file) setIsDisabled(false)
-  //   else setIsDisabled(true)
+  useEffect(() => {
+    if(!bounty || !diggingFee) {
+      setIsDisabled(true)
+      return
+    }
+    const isBountyLess = archaeologist.minimumBounty.lte(utils.parseEther(bounty.toString()))
+    const isDiggingFeeLess = archaeologist.minimumDiggingFee.lte(utils.parseEther(diggingFee.toString()))
+    const isFreeBondGreater = archaeologist.freeBond.gte(utils.parseEther(getTotalFee(archaeologist, file).toString()))
+    if(isBountyLess && isDiggingFeeLess && isFreeBondGreater && !!file) setIsDisabled(false)
+    else setIsDisabled(true)
     
-  // },[bounty, diggingFee, archaeologist, file])
+  },[bounty, diggingFee, archaeologist, file])
 
-  // useEffect(() => {
-  //   if(selected === archaeologist.address && isDisabled) handleSelected(false, false)
-  // }, [archaeologist, selected, isDisabled, handleSelected])
+  useEffect(() => {
+    if(selected === archaeologist.address && isDisabled) handleSelected(false, false)
+  }, [archaeologist, selected, isDisabled, handleSelected])
 
   const handleClick = () => {
     if(isDisabled) return

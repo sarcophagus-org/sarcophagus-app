@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { getDatefromBigNumber } from '../../../utils/datetime';
-import { getTotalFee, getDecimalNumber, getCursedPercentage, getStorageFee, getNumberalString } from '../../../utils/bigNumbers';
+import { getTotalFee, getCursedPercentage, getStorageFee, getNumberalString } from '../../../utils/bigNumbers';
 
 const Property = ({label}) => (
   <span className="text-gray-400 mr-2">{ label }</span>
