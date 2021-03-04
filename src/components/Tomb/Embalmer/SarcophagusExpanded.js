@@ -29,10 +29,11 @@ const Sign = ({sarcophagus, setCurrentStatus, refresh, toggle, refreshTimers}) =
     )
 }
 
-const ErrorOptions = ({sarcophagus, refresh, toggle, error, setCurrentStatus, refreshTimers}) => {
+const ErrorOptions = ({sarcophagus, refresh, toggle, setCurrentStatus, refreshTimers, setError}) => {
     const { cancelSarcophagus } = useData()
     const handleCancel = async () => {
         await cancelSarcophagus(sarcophagus, setCurrentStatus, toggle, refresh, refreshTimers)
+        await setError(false)
     }
     return (
         <div className="flex flex-col items-center justify-center h-full gap-8" style={{height: '12.0625rem'}}>
@@ -46,10 +47,11 @@ const ErrorOptions = ({sarcophagus, refresh, toggle, error, setCurrentStatus, re
     )
 }
 
-const WindowClosed = ({sarcophagus, toggle, refresh, archaeologist, setCurrentStatus, refreshTimers}) => {
+const WindowClosed = ({sarcophagus, toggle, refresh, archaeologist, setCurrentStatus, refreshTimers, setError}) => {
     const { cleanSarcophagus } = useData()
     const handleClean = async () => {
-        cleanSarcophagus(sarcophagus, setCurrentStatus, archaeologist, toggle, refresh, refreshTimers)
+        await cleanSarcophagus(sarcophagus, setCurrentStatus, archaeologist, toggle, refresh, refreshTimers)
+        await setError(false)
     }
     return (
         <div className="flex flex-col items-center justify-center h-full relative gap-8" style={{height: '12.0625rem'}}>
@@ -63,12 +65,12 @@ const WindowClosed = ({sarcophagus, toggle, refresh, archaeologist, setCurrentSt
         )
 }
 
-const SarcophagusExpanded = ({ sarcophagus, archaeologist, currentStatus, error, setCurrentStatus, toggle, refresh, refreshTimers }) => {
+const SarcophagusExpanded = ({ sarcophagus, archaeologist, currentStatus, error, setError, setCurrentStatus, toggle, refresh, refreshTimers }) => {
     return (
         <div className="text-white text-md relative flex flex-col overflow-x-scroll hide-scrollbar max-w-128">
-            {error && <ErrorOptions sarcophagus={sarcophagus} refresh={refresh} toggle={toggle} error={error} setCurrentStatus={setCurrentStatus} refreshTimers={refreshTimers}/>}
+            {error && <ErrorOptions setError={setError} sarcophagus={sarcophagus} refresh={refresh} toggle={toggle} error={error} setCurrentStatus={setCurrentStatus} refreshTimers={refreshTimers}/>}
             {/* If resurrection window is closed*/}
-            {currentStatus === STATUSES.WINDOW_CLOSED && <WindowClosed sarcophagus={sarcophagus} archaeologist={archaeologist} refresh={refresh} toggle={toggle} setCurrentStatus={setCurrentStatus} refreshTimers={refreshTimers}/>}
+            {currentStatus === STATUSES.WINDOW_CLOSED && <WindowClosed setError={setError} sarcophagus={sarcophagus} archaeologist={archaeologist} refresh={refresh} toggle={toggle} setCurrentStatus={setCurrentStatus} refreshTimers={refreshTimers}/>}
             {/* If status is signing needed */}
             {currentStatus === STATUSES.SARCOPHAGUS_AWAIT_SIGN && <Sign sarcophagus={sarcophagus} setCurrentStatus={setCurrentStatus} refresh={refresh} toggle={toggle} refreshTimers={refreshTimers}/>}
             {/* if active then allow rewrap */}

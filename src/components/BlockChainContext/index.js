@@ -24,7 +24,7 @@ const createDataRoot = () => {
     const { rawArchaeologists, getArchaeologistCount } = useArcheologists(sarcophagusContract)
     const { archaeologists } = useArchaeologistsCheck(sarcophagusContract, rawArchaeologists)
     const { embalmerSarcophagi, embalmerAllSarcophagi, getEmbalmerSarcophagi, pendingSarcophagi} = useEmbalmerSarcophagi(sarcophagusContract)
-    const { recipientSarcophagi, recipientAllSarcophagi, getRecipientSarcophagiCount } = useRecipientSarcophagi(sarcophagusContract)
+    const { recipientSarcophagi, recipientAllSarcophagi, getRecipientSarcophagi } = useRecipientSarcophagi(sarcophagusContract)
 
     const { archivedSarcophagi } = useArchivedSarcophagi(embalmerAllSarcophagi, recipientAllSarcophagi)
     const { currentBlock } = useCurrentBlock()
@@ -50,10 +50,10 @@ const createDataRoot = () => {
       archivedSarcophagi,
       recipientSarcophagi,
       pendingSarcophagi,
-      refresh: () => {
+      refresh: async () => {
         getEmbalmerSarcophagi()
-        getRecipientSarcophagiCount()
-        getArchaeologistCount()
+        getRecipientSarcophagi()
+        await getArchaeologistCount()
       }
     }
     return <Provider value={dataContext}>{children}</Provider>

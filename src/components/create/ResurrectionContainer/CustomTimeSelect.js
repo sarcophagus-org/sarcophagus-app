@@ -1,6 +1,6 @@
 import React from 'react'
 import DatePicker from 'react-datepicker'
-import { convertToUTC, getCustomDateUTC } from '../../../utils/datetime'
+import { convertToUTCTime, getCustomDateUTC } from '../../../utils/datetime'
 
 const DatePickerButton = React.forwardRef(({value, onClick}, ref) => (
     <>
@@ -30,8 +30,8 @@ const DatePickerButton = React.forwardRef(({value, onClick}, ref) => (
             title={customTime ? getCustomDateUTC(customTime) : date} 
             onChange={(date) => {
                 setFieldValue("custom", true)
-                setFieldValue("customTime", convertToUTC(date))
-                setFieldValue("resurrectionTime", convertToUTC(date))
+                setFieldValue("customTime", convertToUTCTime(date))
+                setFieldValue("resurrectionTime", convertToUTCTime(date))
             }} 
             dateFormat="MM/dd/yyyy hh:mm" 
             // minDate={date} 

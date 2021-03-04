@@ -28,7 +28,7 @@ const SubTitleTwo = ({ title, showToolTip=false, toolTip="" }) => (
 
 const ResurrectionClock = ({values}) => (
   <div className="flex items-center whitespace-nowrap">
-    <span className="mr-2 text-gray-400 text-sm" style={{lineHeight: '1.375rem'}}>Resurrection: {getCustomDate(values.resurrectionTime)}</span>
+    <span className="mr-2 text-gray-400 text-sm" style={{lineHeight: '1.375rem'}}>Resurrection: {getCustomDate(values.resurrectionTime, values.custom)}</span>
       <Tooltip>
         Time currently set for resurrection
       </Tooltip>

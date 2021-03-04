@@ -12,10 +12,12 @@ const PublicKey = () => {
 
   const getPublicKey = async () => {
     try {
-      const hash = await utils.keccak256(account)
+      const msg = "Hello from the Sarcophagus! Sign this message to retrieve your account's public key"
+      const msgHash = utils.hashMessage(msg);
+      const msgHashBytes = utils.arrayify(msgHash);
       const signature = await signerOrProvider.signMessage("Hello from the Sarcophagus! Sign this message to retrieve your account's public key")
-      const pubKey = utils.recoverPublicKey(utils.arrayify(utils.hashMessage(utils.arrayify(hash))), signature);
-      setPublicKey(pubKey)
+      const recoveredPubKey = utils.recoverPublicKey(msgHashBytes, signature);
+      setPublicKey(recoveredPubKey)
     } catch (error) {
       if (error.code === 4001) {
         // EIP-1193 userRejectedRequest error

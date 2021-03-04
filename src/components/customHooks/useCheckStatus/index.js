@@ -15,6 +15,12 @@ const useCheckStatus = (sarcophagus, refresh) => {
   const [ archResponse, setArchResponse ] = useState(false)
   const { provider } = useWeb3()
 
+  useEffect(() => {
+    if(error) {
+      setCurrentStatus(false)
+    }
+  },[ error ])
+
   // check localStorage data on sarcophagus
   const { isSarcophagusMined } = useSarcophagusCheck(data, sarcophagus.AssetDoubleHash, setCurrentStatus, error, setError, refresh)
 
@@ -44,7 +50,10 @@ const useCheckStatus = (sarcophagus, refresh) => {
           }
           // if no assetId on sarcophagus, mark as finished
           if(sarcophagus?.assetId) {
+            console.log("HEREHERE", sarcophagus)
             setCurrentStatus(STATUSES.PROCESS_COMPLETE)
+            return
+          } else {
             return
           }
       } 
@@ -54,12 +63,12 @@ const useCheckStatus = (sarcophagus, refresh) => {
         if(parseData?.action === ACTIONS.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED ) {
           setArchResponse(parseData)
           return
-          // sets storages data to start process from start
         } else {
-          
+          // sets storages data to start process from start
           setData(parseData)
+          return
         }
-      }
+      } 
     }
     checkState()
   }, [sarcophagus, provider, refresh])
@@ -79,7 +88,7 @@ const useCheckStatus = (sarcophagus, refresh) => {
     }
   }, [currentStatus, error])
 
-  return { currentStatus, setCurrentStatus, error }
+  return { currentStatus, setCurrentStatus, error, setError }
 }
 
 export default useCheckStatus

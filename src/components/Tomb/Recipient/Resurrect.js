@@ -8,10 +8,16 @@ import { initialValues } from './initialValues'
 import RecipientPrivateKeyField from './RecipientPrivateKeyField'
 import { validationSchema } from './validationSchema'
 
+const hexString = (value) => {
+    let hexKey
+    if(value?.substr(0, 2) !== '0x') hexKey = '0x' + value
+    return hexKey || value
+}
+
 const Resurrect = ({sarcophagus, recipientPrivateKey}) => {
     const handleDownload = async (values) => {
         try {
-            let currentKey = recipientPrivateKey || values.recipientPrivateKey
+            let currentKey = hexString(recipientPrivateKey || values.recipientPrivateKey)
             let archPrivateKey = sarcophagus.privateKey
             // retrieve arweave file
             const Arweave = initArweave()

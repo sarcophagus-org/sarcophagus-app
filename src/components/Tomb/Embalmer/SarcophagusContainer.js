@@ -5,7 +5,7 @@ import { useResurrectionTimer } from '../../customHooks/useTimers'
 import SarcophagusCollapsed from './SarcophagusCollapsed'
 import SarcophagusExpanded from './SarcophagusExpanded'
 
-const SarcophagusContainer = ({ sarcophagus, currentStatus, setCurrentStatus, error, archaeologist , refresh}) => {
+const SarcophagusContainer = ({ sarcophagus, currentStatus, setError, setCurrentStatus, error, archaeologist , refresh}) => {
     const { timer, color, timers, refreshTimers } = useResurrectionTimer(sarcophagus.resurrectionTime, sarcophagus.resurrectionWindow, currentStatus)
     const { collapsed, toggle } = useCollapse(true, true)
     return (
@@ -13,7 +13,7 @@ const SarcophagusContainer = ({ sarcophagus, currentStatus, setCurrentStatus, er
 
             <SarcophagusCollapsed sarcophagus={sarcophagus} currentStatus={currentStatus} error={currentStatus === STATUSES.TRANSACTION_MINING_IN_PROGRESS ? false : error} expandedOption={currentStatus === STATUSES.TRANSACTION_MINING_IN_PROGRESS ? false : currentStatus === STATUSES.SARCOPHAGUS_AWAIT_SIGN || currentStatus === STATUSES.PROCESS_COMPLETE || !!error || !timers} toggle={toggle} collapsed={collapsed} timer={timer} color={color} timers={timers}/>
             {!collapsed && (
-                <SarcophagusExpanded sarcophagus={sarcophagus} currentStatus={currentStatus} refresh={refresh} setCurrentStatus={setCurrentStatus} error={error} toggle={toggle} archaeologist={archaeologist} timer={timer} color={color} timers={timers} refreshTimers={refreshTimers}/>
+                <SarcophagusExpanded sarcophagus={sarcophagus} currentStatus={currentStatus} refresh={refresh} setCurrentStatus={setCurrentStatus} error={error} toggle={toggle} archaeologist={archaeologist} setError={setError} timer={timer} color={color} timers={timers} refreshTimers={refreshTimers}/>
                 )}
         </div>
     )

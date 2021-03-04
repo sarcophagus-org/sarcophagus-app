@@ -1,17 +1,6 @@
 import { makeNumeral } from "./bigNumbers"
 import {BigNumber} from "ethers";
 
-const convertToUTC = date => {
-  return Date.UTC(
-    date.getFullYear(),
-    date.getMonth(),
-    date.getDate(),
-    date.getHours(),
-    date.getMinutes(),
-    date.getSeconds()
-  )
-}
-
 const convertToUTCTime = date => {
   return Date.UTC(
     date.getUTCFullYear(),
@@ -25,10 +14,8 @@ const convertToUTCTime = date => {
 
 const getUTCDate = numDays => {
   let today = new Date()
-  const timeZoneOffset = today.getTimezoneOffset()
   today.setDate(today.getDate() + numDays)
-  today.setMinutes(today.getMinutes() + timeZoneOffset)
-  const utc = convertToUTC(today)
+  const utc = convertToUTCTime(today)
   return utc
 }
 
@@ -43,15 +30,11 @@ const getDatefromBigNumber = UtcBN => {
 const getCustomDate = (utc) => {
   if(!utc) return '00/00/0000 0:00:00 AM'
   const time = new Date(utc)
-  const offset = time.getTimezoneOffset()
-  time.setMinutes(time.getMinutes() + offset)
   return `${time.toLocaleDateString()}  ${time.toLocaleTimeString()}`
 }
 
 const getCustomDateUTC = (utc) => {
   const date = new Date(utc)
-  const offset = date.getTimezoneOffset()
-  date.setMinutes(date.getMinutes() + offset)
   return date
 }
 
@@ -76,10 +59,8 @@ const covertToTwoDigitString = (num) => {
 
 const formatCustomResurrectionTime = (resurrectionTime) => {
   const date = new Date(resurrectionTime)
-  const timeZoneOffset = date.getTimezoneOffset()
-  date.setMinutes(date.getMinutes() +  timeZoneOffset)
   const zonedUTC = convertToUTCTime(date)
   return BigNumber.from(zonedUTC / 1000)
 }
 
-export { convertToUTC, getUTCDate, getDatefromBigNumber, getCustomDateUTC, getTimeRemaining, getCustomDate, isTimePast, formatCustomResurrectionTime }
+export { getUTCDate, getDatefromBigNumber, getCustomDateUTC, getTimeRemaining, getCustomDate, isTimePast, formatCustomResurrectionTime, convertToUTCTime }

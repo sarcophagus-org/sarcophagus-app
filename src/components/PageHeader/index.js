@@ -1,4 +1,5 @@
 import React  from 'react'
+import { NavLink } from 'react-router-dom'
 import AccountDisplay from './AccountDisplay'
 import Navigation from './Navigation'
 import logo from '../../assets/images/logo.png'
@@ -8,7 +9,7 @@ const PageHeader = () => {
   return (
     <div className="flex items-center my-8" style={{height: '4rem'}}>
       <div className="w-24 p-1 mr-4 my-4">
-        <img src={logo} alt="logo" />
+        <NavLink to="/tomb"><img src={logo} alt="logo" /></NavLink>
       </div>
 
       <div className="flex items-center justify-center">
