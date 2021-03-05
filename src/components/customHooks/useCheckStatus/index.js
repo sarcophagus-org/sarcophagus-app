@@ -50,7 +50,6 @@ const useCheckStatus = (sarcophagus, refresh) => {
           }
           // if no assetId on sarcophagus, mark as finished
           if(sarcophagus?.assetId) {
-            console.log("HEREHERE", sarcophagus)
             setCurrentStatus(STATUSES.PROCESS_COMPLETE)
             return
           } else {

@@ -43,14 +43,14 @@ const createWeb3Root = () => {
             account: false,
             chainId: network.chainId,
             provider: local,
-            signerOrProvider: local.getSigner(),
+            signerOrProvider: local,
           })
-        }).catch(console.error)
+        }).catch(e => {console.log('error detecting error', e)})
       } else if (fallback) {
         setWeb3({
           name: 'Fallback provider',
-          account: false,
-          chainId: fallback.network.chainId,
+          account: null,
+          chainId: fallback,
           provider: fallback,
           signerOrProvider: fallback,
         })

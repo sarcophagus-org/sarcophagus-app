@@ -16,8 +16,7 @@ const useSarcophagusContract = () => {
       const contract = new Contract(addresses.sarcophagus, SarcophagusABI, signerOrProvider)
       setSarcophagusContract(contract)
     } catch (e) {
-      console.log('sarco contract error')
-      console.error(e)
+      console.error('sarco contract error', e)
     }
   }, [chainId, signerOrProvider, addresses])
 
@@ -35,8 +34,7 @@ const useSarcophagusTokenContract = () => {
       const contract = new Contract(addresses.sarcophagusToken, SarcoTokenABI, signerOrProvider)
       setSarcophagusTokenContract(contract)
     } catch (e) {
-      console.log('sarco token contract error')
-      console.error(e)
+      console.error('sarco token contract error', e)
     }
   }, [chainId, signerOrProvider, addresses])
 

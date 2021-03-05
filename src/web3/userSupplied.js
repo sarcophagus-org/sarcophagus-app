@@ -28,25 +28,30 @@ const web3Modal = new Web3Modal({ providerOptions , cacheProvider: true})
 
 const useUserSuppliedConnect = () => {
   const [userSupplied, setUserSupplied] = useState(null)
+  const [ provider, setProvider ] = useState(null)
 
   useEffect(() => {
     if(web3Modal.cachedProvider) {
-      web3Modal.connect()
+      web3Modal.connect().then(provider => {
+        setProvider(provider)
+      }).catch(e => {
+        console.log("error connecting", e)
+      })
     }
 
     // subscribe to connect events
-    web3Modal.on('connect', provider => {
+    web3Modal?.on('connect', provider => {
       if (!supportedChains().includes(parseInt(provider.chainId))) {
         toast.dark('Switch to a supported network', { ...toastOptions, toastId: 'switchNetwork' })
         web3Modal.clearCachedProvider()
         setUserSupplied(null)
       } else {
-        const web3Provider = new ethers.providers.Web3Provider(provider)
-        setUserSupplied(web3Provider)
+        setProvider(provider)
         toast.dark('Connected', { toastId: 'connected', ...toastOptions })
       }
+    })
       // subscribe to Network events
-      provider.on('chainChanged', chainId => {
+      provider?.on('chainChanged', chainId => {
         if (!supportedChains().includes(parseInt(chainId))) {
           toast.dark('Switch to a supported network', { ...toastOptions, toastId: 'switchNetwork' })
           web3Modal.clearCachedProvider()
@@ -58,7 +63,7 @@ const useUserSuppliedConnect = () => {
       })
       
       // subscribe to account change events
-      provider.on('accountsChanged', accounts => {
+      provider?.on('accountsChanged', accounts => {
         if (accounts.length === 0) {
           toast.dark('Account disconnected', { toastId: 'disconnected', ...toastOptions })
           setUserSupplied(null)
@@ -71,29 +76,36 @@ const useUserSuppliedConnect = () => {
       })
       
       // subscribe to provider disconnection
-      provider.on("disconnect", error => {
+      provider?.on("disconnect", error => {
         toast.error('Disconnected from wallet', {
           ...toastOptions,
           toastId: 'Disconnected'
         })
       });
 
+      provider?.on('pending', txHash => {
+        console.log('PENDING HASH', txHash)
+      })
+      // set web3Provider
+      if(!!provider) {
+        const web3Provider = new ethers.providers.Web3Provider(provider)
+        setUserSupplied(web3Provider)
+      }
       // unsubscribe
       return () => {
-        provider.off('chainChanged')
-        provider.off('disconnect')
-        provider.off('accountsChanged')
+        provider?.removeAllListeners()
       }
-    })
     
-}, [])
+}, [ provider ])
 
 
-return { userSupplied }
+
+return { userSupplied, connect }
 }
 
 const connect = async () => {
-  web3Modal.connect().catch(console.error) 
+  await web3Modal.connect()
+
 }
 
 export { useUserSuppliedConnect, connect }

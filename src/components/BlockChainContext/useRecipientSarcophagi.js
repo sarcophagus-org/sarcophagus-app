@@ -40,6 +40,7 @@ const useRecipientSarcophagi = (sarcophagusContract, address=false, waitForAddre
   },[sarcophagusContract])
 
   const getRecipientSarcophagi = useCallback(() => {
+    if(!account) return
      // get count
      getSarcophagiCount(account).then((count) => {
       if(count?.isZero()) return

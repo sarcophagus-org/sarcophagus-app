@@ -2,6 +2,7 @@ import { utils } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { ACTIONS } from '../../constants';
+import { logged } from '../../logged';
 import { checkTransaction } from '../../utils/providers';
 import { useWeb3 } from '../../web3';
 
@@ -10,7 +11,7 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
   const [ embalmerSarcophagi, setSarcophagi ] = useState([])
   const [ pendingSarcophagi, setPendingSarcophagi ] = useState([])
   const { account, provider } = useWeb3()
-  const [ storage ] = useState(window.localStorage)
+  const [ storage, setStorage ] = useState(window.localStorage)
   
 
   const getSarcophagiCount = useCallback( async (account) => {
@@ -48,6 +49,7 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
   },[ sarcophagusContract ])
 
   const getEmbalmerSarcophagi = useCallback(() => {
+    if(!account) return
     // get count
     getSarcophagiCount(account).then((count) => {
       if(count?.isZero()) return
@@ -65,6 +67,7 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
   }, [account, getSarcophagiCount, getSarcophagiDoubleHashes, getSarcophagiInfo ])
 
   const checkStorage = useCallback(async () => {
+    logged('checkStorage')
     // compares the stored keys versus mined sarcophagus if no match adds to count.
     // sets a interval timer to check for newly minded sarcophagus if count != 0
     let count = 0
@@ -120,7 +123,7 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
   }, [ checkStorage, embalmerSarcophagi ])
 
 
-  return { embalmerSarcophagi, embalmerAllSarcophagi, getEmbalmerSarcophagi, pendingSarcophagi }
+  return { embalmerSarcophagi, embalmerAllSarcophagi, getEmbalmerSarcophagi, pendingSarcophagi, setStorage }
 }
 
 export { useEmbalmerSarcophagi }
