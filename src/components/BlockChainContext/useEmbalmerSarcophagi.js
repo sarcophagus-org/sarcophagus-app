@@ -83,7 +83,6 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
           console.log('Pending Sarcophagus are being Mined...')
           toast.dark('Sarcophagi are being mined, please wait', { toastId: 'sarcoMining', autoClose: false })
           if(item?.action === ACTIONS.SARCOPHAGUS_CREATED) {
-            console.log("🚀 ~ file: useEmbalmerSarcophagi.js ~ line 88 ~ awaitPromise.all ~ item", item)
             return item
           }
           count += 1
