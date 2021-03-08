@@ -22,9 +22,9 @@ const SarcophagiList = () => {
       <div className="mt-8">
         <Route path={`${match.path}`} exact>
           {!account && <MockSarcophagus message="Connect to a wallet to get started" handleClick={() => connect()}/>}
-          {account && !embalmerSarcophagi.length && <MockSarcophagus message="Create a sarcophagus" handleClick={() => history.push('/create')} />}
+          {account && !embalmerSarcophagi.length && !pendingSarcophagi.length && <MockSarcophagus message="Create a sarcophagus" handleClick={() => history.push('/create')} />}
           {embalmerSarcophagi?.map((sarcophagus, i) => <SarcophagusWrapper key={sarcophagus.archaeologist + i.toString()} sarcophagus={sarcophagus} refresh={refresh} />)}
-          {pendingSarcophagi?.map && pendingSarcophagi?.map((sarcophagus, i) => <PendingSarcophagus sarcophagus={sarcophagus} key={sarcophagus.archaeologist + i.toString()} />) }
+          {pendingSarcophagi?.map((sarcophagus, i) => <PendingSarcophagus sarcophagus={sarcophagus} key={sarcophagus?.archaeologist + i.toString()} />) }
         </Route>
         <Route path={`${match.path}/resurrect`}>
           {recipientSarcophagi?.map((sarcophagus, i) => <RecipientSarcophagusWrapper key={sarcophagus.archaeologist + i.toString()} sarcophagus={sarcophagus} refresh={refresh}/>)}

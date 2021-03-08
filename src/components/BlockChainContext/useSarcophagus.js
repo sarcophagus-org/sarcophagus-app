@@ -7,22 +7,22 @@ import { initialValues } from '../Accuse/initialValues';
 const useSarcophagus = (sarcophagusContract) => {
 
   const createSarcophagus = async (sarcophagusName, archaeologist, resurrectionTimeUTC, storageFeeBN, diggingFeeBN, bountyBN, assetDoubleHash, recipientPublicKeyBA, doubleEncryptedFile, history, refresh) => {
-        /* Create Sarco Transaction */
-        sarcophagusContract.createSarcophagus(sarcophagusName, archaeologist.address, resurrectionTimeUTC, storageFeeBN, diggingFeeBN, bountyBN, assetDoubleHash, recipientPublicKeyBA)
-          .then((txReceipt) => {
-            console.log("🚀 create ~txReceipt", txReceipt)
-
-            /* Send File to Archaeologist */
-            const storageObject = {action: ACTIONS.SARCOPHAGUS_CREATED, sarcophagusName: sarcophagusName, doubleEncryptedFile: doubleEncryptedFile, endpoint: archaeologist.endpoint, txReceipt: txReceipt}
-            localStorage.setItem(assetDoubleHash, JSON.stringify(storageObject))
-            
-            toast.dark('Creating Sarcophagus')
-            history.replace('/')
-            refresh()
-          }).catch(e => {
-            toast.error('There was a problem creating sarcophagus')
-            console.error("There was a problem creating sarcophagus:", e)
-          })
+      /* Create Sarco Transaction */
+      try {
+        const txReceipt = await sarcophagusContract.createSarcophagus(sarcophagusName, archaeologist.address, resurrectionTimeUTC, storageFeeBN, diggingFeeBN, bountyBN, assetDoubleHash, recipientPublicKeyBA)
+        console.log("🚀 create ~txReceipt", txReceipt)
+        
+        /* Send File to Archaeologist */
+        const storageObject = {action: ACTIONS.SARCOPHAGUS_CREATED, sarcophagusName: sarcophagusName, doubleEncryptedFile: doubleEncryptedFile, endpoint: archaeologist.endpoint, txReceipt: txReceipt}
+        localStorage.setItem(assetDoubleHash, JSON.stringify(storageObject))
+        toast.dark('Creating Sarcophagus')
+          
+        await refresh()
+        await history.replace('/')
+        } catch(e) {
+          toast.error('There was a problem creating sarcophagus')
+          console.error("There was a problem creating sarcophagus:", e)
+        }
   }
 
   const updateSarcophagus = async (sarcophagus, setCurrentStatus, refresh, toggle) => {
