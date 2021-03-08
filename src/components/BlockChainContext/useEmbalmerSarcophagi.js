@@ -74,22 +74,21 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
     await Promise.all(arr.map(async (_, i) => {
       const key = storage.key(i)
       // ignore cached provider
-      if(key === 'WEB3_CONNECT_CACHED_PROVIDER') return
+      if(key === 'WEB3_CONNECT_CACHED_PROVIDER') return ""
       // Sarcophagus pending mining
-      const item = JSON.parse(localStorage.getItem(key))
+      const item = await JSON.parse(localStorage.getItem(key))
       if(item?.action === ACTIONS.TRANSACTION_MINING_IN_PROGRESS || item?.action === ACTIONS.SARCOPHAGUS_CREATED) {
-        console.log('Pending Sarcophagus are being Mined...')
-        toast.dark('Sarcophagi are being mined, please wait', { toastId: 'sarcoMining', autoClose: false })
         const isMined = await checkTransaction(item.txReceipt.hash, provider)
         if(!isMined) {
-          count += 1
+          console.log('Pending Sarcophagus are being Mined...')
+          toast.dark('Sarcophagi are being mined, please wait', { toastId: 'sarcoMining', autoClose: false })
           if(item?.action === ACTIONS.SARCOPHAGUS_CREATED) {
+            console.log("🚀 ~ file: useEmbalmerSarcophagi.js ~ line 88 ~ awaitPromise.all ~ item", item)
             return item
           }
-        } else {
-          getEmbalmerSarcophagi()
-          return ""
-        }
+          count += 1
+        } 
+        return ""
       }
       return ""
     })).then((pendingSarcophagi) => {
@@ -105,7 +104,7 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
         }, 5000)
       }
     })
-  }, [ storage, getEmbalmerSarcophagi, provider ])
+  }, [ storage, provider ])
 
   useEffect(() => {
     getEmbalmerSarcophagi()
