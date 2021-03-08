@@ -10,8 +10,6 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
   const [ embalmerSarcophagi, setSarcophagi ] = useState([])
   const [ pendingSarcophagi, setPendingSarcophagi ] = useState([])
   const { account, provider } = useWeb3()
-  const [ storage, setStorage ] = useState(window.localStorage)
-  
 
   const getSarcophagiCount = useCallback( async (account) => {
     try {
@@ -58,8 +56,8 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
         // get info
         getSarcophagiInfo(identifiers).then(sarcophagi => {
           if(!sarcophagi?.length) return 
-          setSarcophagi(sarcophagi.filter((v) => v.state === 1))
-          setAllSarcophagi(sarcophagi)
+          setSarcophagi(() => sarcophagi.filter((v) => v.state === 1))
+          setAllSarcophagi(() => sarcophagi)
         }).catch(e => console.error('Sarcophagus Info', e))
       }).catch(e => console.error('Sarcophagus Identifiers', e))
     }).catch(e => console.error('Sarcophagus Count', e))
@@ -68,7 +66,9 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
   const checkStorage = useCallback(async () => {
     // compares the stored keys versus mined sarcophagus if no match adds to count.
     // sets a interval timer to check for newly minded sarcophagus if count != 0
+    const storage = window.localStorage
     let count = 0
+    
     // const pendingSarcophagi = []
     const arr = new Array(storage.length).fill(undefined)
     await Promise.all(arr.map(async (_, i) => {
@@ -82,38 +82,34 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
         if(!isMined) {
           console.log('Pending Sarcophagus are being Mined...')
           toast.dark('Sarcophagi are being mined, please wait', { toastId: 'sarcoMining', autoClose: false })
+          count += 1
           if(item?.action === ACTIONS.SARCOPHAGUS_CREATED) {
             return item
           }
-          count += 1
         } 
-        return ""
       }
       return ""
     })).then((pendingSarcophagi) => {
-      const pending = pendingSarcophagi.filter(v => v)
-      setPendingSarcophagi(pending)
+      const pendingFiltered = pendingSarcophagi.filter(v => v)
+      setPendingSarcophagi(pendingFiltered)
       if(count === 0) {
-        setPendingSarcophagi([])
         toast.dismiss('sarcoMining')
-        return
+        return getEmbalmerSarcophagi()
       } else {
         setTimeout(() => {
           checkStorage()
         }, 5000)
       }
     })
-  }, [ storage, provider ])
+  }, [ provider, getEmbalmerSarcophagi ])
 
   useEffect(() => {
-    getEmbalmerSarcophagi()
-  }, [ getEmbalmerSarcophagi ])
+    checkStorage().then(() => {
+      getEmbalmerSarcophagi()
+    })
+  }, [ checkStorage, getEmbalmerSarcophagi ])
 
-  useEffect(() => {
-    checkStorage()
-  }, [ checkStorage, embalmerSarcophagi ])
-
-  return { embalmerSarcophagi, embalmerAllSarcophagi, getEmbalmerSarcophagi, pendingSarcophagi, setStorage }
+  return { embalmerSarcophagi, embalmerAllSarcophagi, pendingSarcophagi, checkStorage }
 }
 
 export { useEmbalmerSarcophagi }
