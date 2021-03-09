@@ -22,19 +22,19 @@ const ArchaeologistMetrics = ({archaeologist, file, isSelected}) => {
               <div className="">
                 <div className="flex">
                   <Property label="Accused Sarcophagi" />
-                  <Value selected={isSelected} value={getNumberalString(archaeologist?.accusedCount, 18)} />
+                  <Value selected={isSelected} value={getNumberalString(archaeologist?.accusedCount, 'wei', true)} />
                 </div>
                 <div className="flex">
                   <Property label="Cleaned Sarcophagi" />
-                  <Value selected={isSelected} value={getNumberalString(archaeologist?.cleanupCount, 18)} />
+                  <Value selected={isSelected} value={getNumberalString(archaeologist?.cleanupCount, 'wei', true)} />
                 </div>
                 <div className="flex">
                   <Property label="Canceled Sarcophagi" />
-                  <Value selected={isSelected} value={getNumberalString(archaeologist?.canceledCount, 18)} />
+                  <Value selected={isSelected} value={getNumberalString(archaeologist?.canceledCount, 'wei', true)} />
                 </div>
                 <div className="flex">
                   <Property label="Successful Sarcophagi" />
-                  <Value selected={isSelected} value={getNumberalString(archaeologist?.successesCount, 18)} />
+                  <Value selected={isSelected} value={getNumberalString(archaeologist?.successesCount, 'wei', true)} />
                 </div>
                 <div className="flex">
                   <Property label="Percent Cursed:" />
