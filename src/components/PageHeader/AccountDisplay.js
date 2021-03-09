@@ -10,7 +10,7 @@ const AccountDisplay = () => {
     if (account) {
         return (
         <div className="flex justify-center items-center w-full">
-            {truncate(account, 25, '...', 4)}
+            {truncate(account, 19, '...', 7)}
             <img src={icon} alt="" className="ml-6" />
         </div>
         )

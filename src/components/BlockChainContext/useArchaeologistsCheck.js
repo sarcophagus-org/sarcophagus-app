@@ -12,7 +12,7 @@ const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
       return count
     } catch (e) {
         toast.error('There was an error with contract')
-        console.log(e)
+        console.error('There was an error with contract : ArchCleanCount', e)
     }
   },[sarcophagusContract])
 
@@ -24,7 +24,7 @@ const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
       return identifiers
     } catch (e) {
         toast.error('There was an error with contract')
-        console.log(e)
+        console.error('There was an error with contract : ArchCleanIdentifiers', e)
     }
   },[sarcophagusContract])
 
@@ -34,7 +34,7 @@ const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
       return count
     } catch (e) {
       toast.error('There was an error with contract')
-      console.log(e)
+      console.error('There was an error with contract : ArchCancelCounts', e)
     }
   },[sarcophagusContract])
 
@@ -46,7 +46,7 @@ const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
       return identifiers
     } catch (e) {
       toast.error('There was an error with contract')
-      console.log(e)
+      console.error('There was an error with contract : ArchCancelIdentifiers', e)
     }
   },[sarcophagusContract])
 
@@ -56,7 +56,7 @@ const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
       return count
     } catch (e) {
       toast.error('There was an error with contract')
-      console.log(e)
+      console.error('There was an error with contract : ArchAccusedCount', e)
     }
   },[sarcophagusContract])
 
@@ -68,7 +68,7 @@ const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
       return identifiers
     } catch (e) {
       toast.error('There was an error with contract')
-      console.log(e)
+      console.error('There was an error with contract : ArchAccusedIdentifiers', e)
     }
   },[sarcophagusContract])
 
@@ -78,7 +78,7 @@ const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
       return count
     } catch (e) {
       toast.error('There was an error with contract')
-      console.log(e)
+      console.error('There was an error with contract : ArchSuccessCount', e)
     }
   },[sarcophagusContract])
 
@@ -90,7 +90,7 @@ const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
       return identifiers
     } catch (e) {
       toast.error('There was an error with contract')
-      console.log(e)
+      console.error('There was an error with contract : ArchSuccessIdenifiers', e)
     }
   },[sarcophagusContract])
 

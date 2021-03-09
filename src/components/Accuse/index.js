@@ -20,7 +20,7 @@ const TextField = ({errors, touched, handleChange, title, tooltip, ...rest}) => 
             </Tooltip>
             {errors && touched && <Error>{errors}</Error>}
         </div>
-        <Input _classnames="my-4" errored={errors && touched} error={errors} onChange={handleChange} {...rest} />
+        <Input _classnames="my-4 pl-4" errored={errors && touched} error={errors} onChange={handleChange} {...rest} />
     </div>
 )
 

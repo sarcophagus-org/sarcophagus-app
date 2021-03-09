@@ -45,7 +45,7 @@ const useCheckStatus = (sarcophagus, refresh) => {
       if(!storedData) {
           // check for state of 2 on sarcophagus for unwrapping should not be here
           if(sarcophagus?.state === 2) {
-            console.log('Should never see this')
+            console.error('Should never see this')
             return
           }
           // if no assetId on sarcophagus, mark as finished

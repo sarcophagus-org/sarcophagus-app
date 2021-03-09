@@ -16,7 +16,7 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
       const count = await sarcophagusContract?.embalmerSarcophagusCount(account)
       return count
     } catch (error) {
-      console.error(error)
+      console.error("There was a problem with contract : Count", error)
     }
   }, [ sarcophagusContract ])
 
@@ -26,7 +26,7 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
       const identifiers = await Promise.all(arr.map(async (_, i) => await sarcophagusContract?.embalmerSarcophagusIdentifier(account, i)))
       return identifiers
     } catch (error) {
-      console.error(error)
+      console.error("There was a problem with contract : EmbalmerDoubleHashes", error)
     }
   },[ sarcophagusContract ])
 
@@ -38,10 +38,10 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
             ...await sarcophagusContract?.sarcophagus(Buffer.from(utils.arrayify(doubleHash))), AssetDoubleHash: doubleHash
           }
         })
-        ).catch(e => console.log("e", e))
+        ).catch(e => console.error("There was a problem with contract : EmbalmerInfo", e))
       return embalmerSarcophagi
     } catch (error) {
-      console.error(error)
+      console.error("There was a problem with contract : EmbalmerInfo", error)
     }
   },[ sarcophagusContract ])
 
@@ -81,7 +81,7 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
         const isMined = await checkTransaction(item.txReceipt.hash, provider)
         if(!isMined) {
           console.log('Pending Sarcophagus are being Mined...')
-          toast.dark('Sarcophagi are being mined, please wait', { toastId: 'sarcoMining', autoClose: false })
+          toast.dark('Transaction is being mined, please wait', { toastId: 'sarcoMining', autoClose: false })
           count += 1
           if(item?.action === ACTIONS.SARCOPHAGUS_CREATED) {
             return item

@@ -1,6 +1,7 @@
 import { decrypt } from 'ecies-geth'
 import { Formik } from 'formik'
 import React from 'react'
+import { toast } from 'react-toastify'
 import { arweaveFileValid, initArweave } from '../../../utils/arweave'
 import { hexToBytes } from '../../../utils/bytes'
 import Button from '../../layout/Button'
@@ -28,10 +29,10 @@ const Resurrect = ({sarcophagus, recipientPrivateKey}) => {
             if(!isValid) return
 
             // decrypt with private key (NOTE this step may be done by service)
-            const outerLayerDecrypted = await decrypt(hexToBytes(archPrivateKey, true).slice(1), encryptedData).catch(e => console.log('Outer', e))
+            const outerLayerDecrypted = await decrypt(hexToBytes(archPrivateKey, true).slice(1), encryptedData).catch(e => console.error('Outer', e))
             
             // decrypt with public key
-            const innerLayerDecrypted = await decrypt(hexToBytes(currentKey, true).slice(1), outerLayerDecrypted).catch(e => console.log('Inner:', e))
+            const innerLayerDecrypted = await decrypt(hexToBytes(currentKey, true).slice(1), outerLayerDecrypted).catch(e => console.error('Inner:', e))
             const parsedData = JSON.parse(innerLayerDecrypted)
             // create blob using Buffer.from(bytes) and file type (use sarco name for now for download)
             const { type, data } = parsedData
@@ -47,7 +48,8 @@ const Resurrect = ({sarcophagus, recipientPrivateKey}) => {
             a.click()
             window.URL.revokeObjectURL(url)
         } catch (e){
-            console.log(e)
+            console.error("There was an error downloading file:", e)
+            toast.dark('There was an error downloading file')
         }
     }
     return (

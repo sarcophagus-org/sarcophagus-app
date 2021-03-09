@@ -10,7 +10,8 @@ const getDecimalNumber = (bigNumber, decimals) => {
   return makeNumeral(bigNumber, decimals).value()
 }
 
-const getNumberalString = (bigNumber, decimals) => {
+const getNumberalString = (bigNumber, decimals, isFixed) => {
+  if(isFixed) return makeNumeral(bigNumber, decimals).value().toFixed().toString()
   return makeNumeral(bigNumber, decimals).input()
 }
 

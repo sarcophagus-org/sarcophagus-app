@@ -7,14 +7,14 @@ const useCheckReceivedSarcophagi = (sarcophagus) => {
     const [ error, setError ] = useState(false)
 
     useEffect(() => {
-        if(!sarcophagus?.assetId){
-            setCurrentStatus(RECIPIENT_STATUSES.CREATED)
-        }
-        else if (sarcophagus?.privateKey !== "0x0000000000000000000000000000000000000000000000000000000000000000") {
+        if (sarcophagus?.privateKey !== "0x0000000000000000000000000000000000000000000000000000000000000000") {
             setCurrentStatus(RECIPIENT_STATUSES.UNWRAPPED)
         }
         else if (sarcophagus?.assetId){
             setCurrentStatus(RECIPIENT_STATUSES.ACTIVE)
+        }
+        else if(!sarcophagus?.assetId){
+            setCurrentStatus(RECIPIENT_STATUSES.CREATED)
         }
         else {setError('There was an error checking state')}
     }, [ sarcophagus ])
