@@ -81,7 +81,7 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
         const isMined = await checkTransaction(item.txReceipt.hash, provider)
         if(!isMined) {
           console.log('Pending Sarcophagus are being Mined...')
-          toast.dark('Sarcophagi are being mined, please wait', { toastId: 'sarcoMining', autoClose: false })
+          toast.dark('Transaction is being mined, please wait', { toastId: 'sarcoMining', autoClose: false })
           count += 1
           if(item?.action === ACTIONS.SARCOPHAGUS_CREATED) {
             return item
