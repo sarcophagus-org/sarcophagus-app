@@ -36,11 +36,14 @@ const useSarcophagus = (sarcophagusContract) => {
       NewPublicKey = Buffer.from(NewPublicKey, 'base64')
       const txReceipt = await sarcophagusContract.updateSarcophagus(NewPublicKey, AssetDoubleHash, AssetId, V, R, S)
       console.log("🚀 update ~txReceipt", txReceipt)
-      // remove local storage items
-      localStorage.removeItem(AssetDoubleHash.toLocaleString())
-      setCurrentStatus(STATUSES.PROCESS_COMPLETE)
+      // Mine Transaction
+
+      const storageObject = { action: ACTIONS.TRANSACTION_MINING_IN_PROGRESS, txReceipt: txReceipt }
+      const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
+      localStorage.setItem(arrayifyDoubleHash, JSON.stringify(storageObject))
+      setCurrentStatus(STATUSES.TRANSACTION_MINING_IN_PROGRESS)
+      refresh()
       await toggle()
-      await refresh()
     
     } catch (e) {
       toast.error('There was a problem updating sarcophagus')
