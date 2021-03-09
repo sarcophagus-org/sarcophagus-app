@@ -45,7 +45,7 @@ const createWeb3Root = () => {
             provider: local,
             signerOrProvider: local,
           })
-        }).catch(e => {console.log('error detecting error', e)})
+        }).catch(e => {console.error('error detecting error', e)})
       } else if (fallback) {
         setWeb3({
           name: 'Fallback provider',

@@ -10,7 +10,7 @@ const useSarcophagus = (sarcophagusContract) => {
       /* Create Sarco Transaction */
       try {
         const txReceipt = await sarcophagusContract.createSarcophagus(sarcophagusName, archaeologist.address, resurrectionTimeUTC, storageFeeBN, diggingFeeBN, bountyBN, assetDoubleHash, recipientPublicKeyBA)
-        console.log("🚀 create ~txReceipt", txReceipt)
+        console.info("CREATE TX HASH", txReceipt.hash)
         
         /* Send File to Archaeologist */
         const storageObject = {action: ACTIONS.SARCOPHAGUS_CREATED, sarcophagusName: sarcophagusName, doubleEncryptedFile: doubleEncryptedFile, endpoint: archaeologist.endpoint, txReceipt: txReceipt}
@@ -39,14 +39,14 @@ const useSarcophagus = (sarcophagusContract) => {
       let { NewPublicKey, AssetDoubleHash, AssetId, V, R, S } = parsedStorage
       NewPublicKey = Buffer.from(NewPublicKey, 'base64')
       const txReceipt = await sarcophagusContract.updateSarcophagus(NewPublicKey, AssetDoubleHash, AssetId, V, R, S)
-      console.log("🚀 update ~txReceipt", txReceipt)
+      console.info("UPDATE TX HASH", txReceipt.hash)
       // Mine Transaction
 
       const storageObject = { action: ACTIONS.TRANSACTION_MINING_IN_PROGRESS, txReceipt: txReceipt }
       const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
       localStorage.setItem(arrayifyDoubleHash, JSON.stringify(storageObject))
       setCurrentStatus(STATUSES.TRANSACTION_MINING_IN_PROGRESS)
-      refresh()
+      await refresh()
       await toggle()
     
     } catch (e) {
@@ -74,7 +74,7 @@ const useSarcophagus = (sarcophagusContract) => {
       const bountyBN = utils.parseEther(bounty.toString())
 
       const txReceipt = await sarcophagusContract.rewrapSarcophagus(doubleHashUint, resurrectionTimeUTC, diggingFeeBN, bountyBN)
-      console.log("🚀 ~ rewrap ~ txReceipt", txReceipt)
+      console.info("REWRAP TX HASH", txReceipt.hash)
       // create storage object for rewraping
       const storageObject = { action: ACTIONS.TRANSACTION_MINING_IN_PROGRESS, txReceipt: txReceipt }
       const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
@@ -99,7 +99,7 @@ const useSarcophagus = (sarcophagusContract) => {
       const { AssetDoubleHash } = sarcophagus
       const doubleHashUint = Buffer.from(utils.arrayify(AssetDoubleHash))
       const txReceipt = await sarcophagusContract.burySarcophagus(doubleHashUint)
-      console.log("🚀 ~ burySarcophagus ~ txReceipt", txReceipt)
+      console.info("BURY TX HASH", txReceipt.hash)
 
       const storageObject = { action: ACTIONS.TRANSACTION_MINING_IN_PROGRESS, txReceipt: txReceipt }
       const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
@@ -125,7 +125,7 @@ const useSarcophagus = (sarcophagusContract) => {
       const { address } = archaeologist
       const doubleHashUint = Buffer.from(utils.arrayify(AssetDoubleHash))
       const txReceipt = await sarcophagusContract.cleanUpSarcophagus(doubleHashUint, address)
-      console.log("🚀  ~ cleanSarcophagus ~ txReceipt", txReceipt)
+      console.info("CLEAN TX HASH", txReceipt.hash)
 
       const storageObject = { action: ACTIONS.TRANSACTION_MINING_IN_PROGRESS, txReceipt: txReceipt }
       const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
@@ -149,7 +149,7 @@ const useSarcophagus = (sarcophagusContract) => {
       const { AssetDoubleHash } = sarcophagus
       const doubleHashUint = Buffer.from(utils.arrayify(AssetDoubleHash))
       const txReceipt = await sarcophagusContract.cancelSarcophagus(doubleHashUint)
-      console.log("🚀 ~ cancelSarcophagus ~ txReceipt", txReceipt)
+      console.info("CANCEL TX HASH", txReceipt.hash)
 
       const storageObject = { action: ACTIONS.TRANSACTION_MINING_IN_PROGRESS, txReceipt: txReceipt }
       const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
@@ -176,7 +176,7 @@ const useSarcophagus = (sarcophagusContract) => {
       const identifierUint = Buffer.from(utils.arrayify(identifier))
       const singleHashUint = Buffer.from(utils.arrayify(singleHash))
       const txReceipt = await sarcophagusContract.accuseArchaeologist(identifierUint, singleHashUint, address)
-      console.log("🚀 ~ accuseArchaeologist ~ txReceipt", txReceipt)
+      console.info("Accuse TX HASH", txReceipt.hash)
       await resetForm(initialValues)
       toast.error('The accusal was successful', {toastId: 'accuseFail', position: 'top-center', autoClose: 5000})
     } catch (e) {
@@ -184,7 +184,7 @@ const useSarcophagus = (sarcophagusContract) => {
         toast.error('Transaction Rejected')
       } else {
         toast.error('The accusal was unsuccessful', {toastId: 'accuseFail', position: 'top-center', autoClose: 5000})
-        console.log('Accused Unsuccessful: ', e)
+        console.error('Accused Unsuccessful: ', e)
       }
       
     }

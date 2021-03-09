@@ -21,7 +21,7 @@ const PublicKey = () => {
     } catch (error) {
       if (error.code === 4001) {
         // EIP-1193 userRejectedRequest error
-        console.log('We can encrypt anything without the key.');
+        console.error('We can encrypt anything without the key.');
       } else {
         console.error(error);
       }

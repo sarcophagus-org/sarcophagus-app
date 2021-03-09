@@ -9,7 +9,7 @@ const useApproval = () => {
 
     const approveTransaction = useCallback(async () => {
         const txReceipt = await sarcophagusTokenContract.approve(sarcophagusContract?.address, BigNumber.from(2).pow(BigNumber.from(256)).sub(BigNumber.from(1)))
-        console.log('Tx Receipt ~', txReceipt)
+        console.info("Approval TX HASH", txReceipt.hash)
         toast.dark('Signing Approved, click finish to continue')
         setApproved(true)
       }, [sarcophagusContract?.address, sarcophagusTokenContract])

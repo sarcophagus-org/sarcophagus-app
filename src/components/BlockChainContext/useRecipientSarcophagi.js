@@ -12,7 +12,7 @@ const useRecipientSarcophagi = (sarcophagusContract, address=false, waitForAddre
       const count = await sarcophagusContract?.recipientSarcophagusCount(address || account)
       return count
     } catch (error) {
-      console.error(error)
+      console.error("There was a problem with contract : RecipientCount", error)
     }
   }, [sarcophagusContract, address])
 
@@ -22,7 +22,7 @@ const useRecipientSarcophagi = (sarcophagusContract, address=false, waitForAddre
       const identifiers = await Promise.all(arr.map(async (_, i) => await sarcophagusContract?.recipientSarcophagusIdentifier(address || account, i)))
       return identifiers
     } catch (error) {
-      console.error(error)
+      console.error("There was a problem with contract : RecipientDoubleHashes", error)
     }
   },[sarcophagusContract, address])
 
@@ -32,10 +32,10 @@ const useRecipientSarcophagi = (sarcophagusContract, address=false, waitForAddre
         return {
           ...await sarcophagusContract?.sarcophagus(Buffer.from(utils.arrayify(identifier))), AssetDoubleHash: identifier
         }
-      } )).catch(e => console.log("e", e))
+      } )).catch(e => console.error("There was a problem with contract : RecipientInfo", e))
       return recipientSarcophagi
     } catch (error) {
-      console.error(error)
+      console.error("There was a problem with contract : RecipientInfo", error)
     }
   },[sarcophagusContract])
 

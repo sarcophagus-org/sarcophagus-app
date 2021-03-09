@@ -35,7 +35,7 @@ const useUserSuppliedConnect = () => {
       web3Modal.connect().then(provider => {
         setProvider(provider)
       }).catch(e => {
-        console.log("error connecting", e)
+        console.error("error connecting", e)
       })
     }
 
@@ -84,7 +84,7 @@ const useUserSuppliedConnect = () => {
       });
 
       provider?.on('pending', txHash => {
-        console.log('PENDING HASH', txHash)
+        console.info('PENDING HASH', txHash)
       })
       // set web3Provider
       if(!!provider) {
