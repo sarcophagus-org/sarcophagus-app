@@ -20,8 +20,12 @@ const useSarcophagus = (sarcophagusContract) => {
         await refresh()
         await history.replace('/')
         } catch(e) {
-          toast.error('There was a problem creating sarcophagus')
-          console.error("There was a problem creating sarcophagus:", e)
+          if(e?.code === 4001) {
+            toast.error('Transaction Rejected')
+          } else {
+            toast.error('There was a problem creating sarcophagus')
+            console.error("There was a problem creating sarcophagus:", e)
+          }
         }
   }
 
@@ -46,8 +50,12 @@ const useSarcophagus = (sarcophagusContract) => {
       await toggle()
     
     } catch (e) {
-      toast.error('There was a problem updating sarcophagus')
-      console.error('There was a problem updating sarcophagus', e)
+      if(e?.code === 4001) {
+        toast.error('Transaction Rejected')
+      } else {
+        toast.error('There was a problem updating sarcophagus')
+        console.error('There was a problem updating sarcophagus', e)
+      }
     }
   }
 
@@ -76,8 +84,12 @@ const useSarcophagus = (sarcophagusContract) => {
       refresh()
       await toggle()
     } catch (e) {
-      toast.error('There was a problem rewrapping sarcophagus')
-      console.error('There was a problem rewrapping sarcophagus', e)
+      if(e?.code === 4001) {
+        toast.error('Transaction Rejected')
+      } else {
+        toast.error('There was a problem rewrapping sarcophagus')
+        console.error('There was a problem rewrapping sarcophagus', e)
+      }
     }
 
   }
@@ -98,8 +110,12 @@ const useSarcophagus = (sarcophagusContract) => {
       await toggle()
 
     } catch (e) {
-      toast.error('There was a problem buring sarcophagus')
-      console.error('There was a problem buring sarcophagus', e)
+      if(e?.code === 4001) {
+        toast.error('Transaction Rejected')
+      } else {
+        toast.error('There was a problem buring sarcophagus')
+        console.error('There was a problem buring sarcophagus', e)
+      }
     }
   }
 
@@ -108,7 +124,6 @@ const useSarcophagus = (sarcophagusContract) => {
       const { AssetDoubleHash } = sarcophagus
       const { address } = archaeologist
       const doubleHashUint = Buffer.from(utils.arrayify(AssetDoubleHash))
-      localStorage.removeItem(doubleHashUint.toLocaleString())
       const txReceipt = await sarcophagusContract.cleanUpSarcophagus(doubleHashUint, address)
       console.log("🚀  ~ cleanSarcophagus ~ txReceipt", txReceipt)
 
@@ -120,8 +135,12 @@ const useSarcophagus = (sarcophagusContract) => {
       refresh()
       await toggle()
     } catch (e) {
-      toast.error('There was a problem cleaning sarcophagus')
-      console.error('There was a problem cleaning sarcophagus', e)
+      if(e?.code === 4001) {
+        toast.error('Transaction Rejected')
+      } else {
+        toast.error('There was a problem cleaning sarcophagus')
+        console.error('There was a problem cleaning sarcophagus', e)
+      }
     }
   }
 
@@ -140,8 +159,13 @@ const useSarcophagus = (sarcophagusContract) => {
       refresh()
       await toggle()
     } catch (e) {
-      toast.error('There was a problem canceling sarcophagus')
-      console.error('There was a problem canceling sarcophagus', e)
+      if(e?.code === 4001) {
+        toast.error('Transaction Rejected')
+      } else {
+        toast.error('There was a problem canceling sarcophagus')
+        console.error('There was a problem canceling sarcophagus', e)
+      }
+      
     }
   }
 
@@ -156,8 +180,13 @@ const useSarcophagus = (sarcophagusContract) => {
       await resetForm(initialValues)
       toast.error('The accusal was successful', {toastId: 'accuseFail', position: 'top-center', autoClose: 5000})
     } catch (e) {
-      toast.error('The accusal was unsuccessful', {toastId: 'accuseFail', position: 'top-center', autoClose: 5000})
-      console.log('Accused Unsuccessful: ', e)
+      if(e?.code === 4001) {
+        toast.error('Transaction Rejected')
+      } else {
+        toast.error('The accusal was unsuccessful', {toastId: 'accuseFail', position: 'top-center', autoClose: 5000})
+        console.log('Accused Unsuccessful: ', e)
+      }
+      
     }
   
   }
