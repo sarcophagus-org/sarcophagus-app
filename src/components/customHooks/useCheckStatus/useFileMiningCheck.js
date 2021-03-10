@@ -31,7 +31,6 @@ const useFileMiningCheck = (archResponse, setCurrentStatus, error, setError, nam
         if (new Date().getTime() - startTime > (INTERVAL_TIMEOUT_MINS * 60 * 1000)) {
           clearInterval(interval);
           setCurrentStatus(STATUSES.ARWEAVE_TIMEOUT)
-          setPending(false)
         }
         const response = await Arweave.api.get(`tx/${AssetId}`)
         switch (response.status) {
@@ -39,21 +38,20 @@ const useFileMiningCheck = (archResponse, setCurrentStatus, error, setError, nam
             console.log(`${name}: still mining`)
             break
           case 200:
-            setPending(false)
             /* Successful Tx */
-            /* Check that content type tag isn't empty */
             setCurrentStatus(STATUSES.SARCOPHAGUS_AWAIT_SIGN)
             clearInterval(interval)
-            return clearInterval(interval)
+            break
           default:
             /* Problem with the Tx (status is something other than 202 or 200) */
             if (errorRetries > 0) {
               errorRetries -= 1
-              break
             } else {
               setError(ERROR.ARWEAVE_TRANSACTION_FAILED)
-              return clearInterval(interval)
+              clearInterval(interval)
             }
+            console.log('Response status: ', response.status)
+            break
           }
         }, INTERVAL_LENGTH_SECONDS * 1000)
     } catch {

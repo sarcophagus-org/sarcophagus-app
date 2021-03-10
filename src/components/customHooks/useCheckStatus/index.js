@@ -53,6 +53,7 @@ const useCheckStatus = (sarcophagus, refresh) => {
             setCurrentStatus(STATUSES.PROCESS_COMPLETE)
             return
           } else {
+            setCurrentStatus(STATUSES.TRANSACTION_MINING_IN_PROGRESS)
             return
           }
       } 
@@ -76,14 +77,11 @@ const useCheckStatus = (sarcophagus, refresh) => {
     if(currentStatus === STATUSES.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED) {
       toast.dark(STATUSES.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED, {toastId: 'FileAccepted'})
     }
-    if(currentStatus === STATUSES.ARWEAVE_PENDING){
-      toast.dark(STATUSES.ARWEAVE_PENDING,  {toastId: 'ArweavePending'})
-    }
     if(currentStatus === STATUSES.SARCOPHAGUS_AWAIT_SIGN){
       toast.dark(STATUSES.SARCOPHAGUS_AWAIT_SIGN, {toastId: 'SigningNeeded'})
     }
     if(error) {
-      toast.error(error, {toastId:error, autoClose: false})
+      console.log('Status Error', error)
     }
   }, [currentStatus, error])
 

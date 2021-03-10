@@ -46,9 +46,8 @@ const useSarcophagus = (sarcophagusContract) => {
       const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
       localStorage.setItem(arrayifyDoubleHash, JSON.stringify(storageObject))
       setCurrentStatus(STATUSES.TRANSACTION_MINING_IN_PROGRESS)
-      await refresh()
+      refresh()
       await toggle()
-    
     } catch (e) {
       if(e?.code === 4001) {
         toast.error('Transaction Rejected')
