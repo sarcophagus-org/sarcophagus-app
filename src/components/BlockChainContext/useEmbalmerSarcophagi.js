@@ -6,10 +6,10 @@ import { checkTransaction } from '../../utils/providers';
 import { useWeb3 } from '../../web3';
 
 const useEmbalmerSarcophagi = (sarcophagusContract) => {
+  const { account, provider } = useWeb3()
   const [ embalmerAllSarcophagi, setAllSarcophagi ] = useState([])
   const [ embalmerSarcophagi, setSarcophagi ] = useState([])
   const [ pendingSarcophagi, setPendingSarcophagi ] = useState([])
-  const { account, provider } = useWeb3()
 
   const getSarcophagiCount = useCallback( async (account) => {
     try {
@@ -64,6 +64,7 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
   }, [account, getSarcophagiCount, getSarcophagiDoubleHashes, getSarcophagiInfo ])
 
   const checkStorage = useCallback(async () => {
+    if(!provider) return
     // compares the stored keys versus mined sarcophagus if no match adds to count.
     // sets a interval timer to check for newly minded sarcophagus if count != 0
     const storage = window.localStorage
@@ -86,7 +87,7 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
           if(item?.action === ACTIONS.SARCOPHAGUS_CREATED) {
             return item
           }
-        } 
+        }
       }
       return ""
     })).then((pendingSarcophagi) => {

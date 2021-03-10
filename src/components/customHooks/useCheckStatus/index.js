@@ -25,7 +25,7 @@ const useCheckStatus = (sarcophagus, refresh) => {
   const { isSarcophagusMined } = useSarcophagusCheck(data, sarcophagus.AssetDoubleHash, setCurrentStatus, error, setError, refresh)
 
   // send file if not sent
-  const { sentArchResponse } = useFileSentCheck(isSarcophagusMined, data, setCurrentStatus, error, setError)
+  const { sentArchResponse } = useFileSentCheck(isSarcophagusMined, data, sarcophagus.AssetDoubleHash, setCurrentStatus, error, setError)
 
   // check file mining status
   useFileMiningCheck(sentArchResponse || archResponse, setCurrentStatus, error, setError, sarcophagus.name)

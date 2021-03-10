@@ -50,8 +50,10 @@ export const RECIPIENT_STATUSES = {
 export const ERROR = {
   SARCOPHAGUS_FAILED: '',
   BLOCKCHAIN_SERVER: 'There was an error connection to blockchain',
+  ARCH_CONNECTION_FAILED: 'There was a problem connecting to archaeologist',
   ARWEAVE_TRANSACTION_FAILED: 'There was an error uploading the file to arweave',
   ARWEAVE_FILE_ERROR: 'There was an error validating the arweave file',
+  ARCH_FILE_HANDLING_FAILED: 'The archaeologist had a problem handling file'
 }
 
 export const ACTIONS = {

@@ -1,7 +1,9 @@
+import { utils } from 'ethers'
 import { useCallback, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import { ACTIONS, ERROR, STATUSES } from '../../../constants'
 
-const useFileSentCheck = ( isSarcophagusMined, data, setCurrentStatus, error, setError ) => {
+const useFileSentCheck = ( isSarcophagusMined, data, assetDoubleHash, setCurrentStatus, error, setError ) => {
   const [ sentArchResponse, setSentArchResponse ] = useState(false)
   const [ pending, setPending ] = useState(false)
   
@@ -14,14 +16,16 @@ const useFileSentCheck = ( isSarcophagusMined, data, setCurrentStatus, error, se
       const responseFromArch = await fetch(archEndpoint, params)
       // TODO: set explicit error response from arch service
       if (!responseFromArch.ok)  {
-        setError(ERROR.ARWEAVE_TRANSACTION_FAILED)
-        return
+        console.error('ResponseFromArch:', responseFromArch)
+        setError(ERROR.ARCH_FILE_HANDLING_FAILED)
+        return {error: responseFromArch}
       }
       const data = await responseFromArch.json()
       return data
     } catch (e) {
       console.error(e)
-      setError(ERROR.ARWEAVE_FILE_ERROR)
+      setError(ERROR.ARCH_CONNECTION_FAILED)
+      return {error: ERROR.ARCH_CONNECTION_FAILED}
     }
   }, [])
   
@@ -33,7 +37,13 @@ const useFileSentCheck = ( isSarcophagusMined, data, setCurrentStatus, error, se
       if(action === ACTIONS.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED) return 
       setCurrentStatus(STATUSES.ARWEAVE_STARTED)
       const responseFromArch = await handleSendFile(doubleEncryptedFile, endpoint, setError)
-
+      if(responseFromArch?.error) {
+        setCurrentStatus('')
+        toast.dark('File send unsuccessful')
+        const doubleHashUint = Buffer.from(utils.arrayify(assetDoubleHash))
+        localStorage.removeItem(doubleHashUint.toLocaleString())
+        return
+      }
       let { NewPublicKey, AssetDoubleHash, AssetId, V, R, S } = await responseFromArch 
       const storageObject = {
           action: ACTIONS.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED,
@@ -54,7 +64,7 @@ const useFileSentCheck = ( isSarcophagusMined, data, setCurrentStatus, error, se
         setError(ERROR.ARWEAVE_TRANSACTION_FAILED)
         console.error(e)
       }
-    },[ data, handleSendFile, setSentArchResponse, setCurrentStatus, setError, pending ])
+    },[ data, assetDoubleHash, handleSendFile, setSentArchResponse, setCurrentStatus, setError, pending ])
 
   useEffect(() => {
     if(!isSarcophagusMined) return
