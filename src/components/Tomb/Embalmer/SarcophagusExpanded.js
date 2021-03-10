@@ -1,5 +1,5 @@
 import React from 'react'
-import { STATUSES } from '../../../constants'
+import { CANCEL_TOOLTIP, CLEAN_TOOlTIP, STATUSES } from '../../../constants'
 
 import Tooltip from '../../layout/Tooltip'
 import Button from '../../layout/Button'
@@ -21,9 +21,7 @@ const Sign = ({sarcophagus, setCurrentStatus, refresh, toggle, refreshTimers}) =
             <Button type="button" onClick={handleUpdate} label="Sign" />
             <div className="whitespace-nowrap flex underline cursor-pointer" onClick={handleCancel}>
                 <span className="mr-2">Cancel this sarcophagus</span>
-                <Tooltip>
-                    {`< Content >`}
-                </Tooltip>
+                <Tooltip content={CANCEL_TOOLTIP} />
             </div>
         </div>
     )
@@ -39,9 +37,7 @@ const ErrorOptions = ({sarcophagus, refresh, toggle, setCurrentStatus, refreshTi
         <div className="flex flex-col items-center justify-center h-full gap-8" style={{height: '12.0625rem'}}>
             <div className="whitespace-nowrap flex underline cursor-pointer" onClick={handleCancel}>
                 <span className="mr-2">Cancel this sarcophagus</span>
-                <Tooltip>
-                    {`< Content >`}
-                </Tooltip>
+                <Tooltip content={CANCEL_TOOLTIP} />
             </div>
         </div>
     )
@@ -57,9 +53,7 @@ const WindowClosed = ({sarcophagus, toggle, refresh, archaeologist, setCurrentSt
         <div className="flex flex-col items-center justify-center h-full relative gap-8" style={{height: '12.0625rem'}}>
         <div className="whitespace-nowrap flex underline cursor-pointer" onClick={handleClean}>
             <span className="mr-2">Clean this sarcophagus</span>
-            <Tooltip>
-                {`< Content >`}
-            </Tooltip>
+            <Tooltip content={CLEAN_TOOlTIP} />
         </div>
     </div>
         )

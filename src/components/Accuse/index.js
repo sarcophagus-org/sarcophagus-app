@@ -15,9 +15,7 @@ const TextField = ({errors, touched, handleChange, title, tooltip, ...rest}) => 
     <div className="w-128">
         <div className="flex items-center">
             <Title type="subOne" title={title} />
-            <Tooltip>
-                <div>{ tooltip } </div>
-            </Tooltip>
+            <Tooltip content={ tooltip } />
             {errors && touched && <Error>{errors}</Error>}
         </div>
         <Input _classnames="my-4 pl-4" errored={errors && touched} error={errors} onChange={handleChange} {...rest} />

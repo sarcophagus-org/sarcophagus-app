@@ -9,24 +9,29 @@ const Tabs = ({embalmerCount, recipientCount, archivedCount}) => {
     <div className="flex items-center justify-center lg:justify-between flex-wrap md:flex-nowrap gap-4">
       <NavLink activeClassName="border-b-2 border-white" className="px-2 pb-4 cursor-pointer whitespace-nowrap flex justif-center items-center flex-shrink-0" to={`${match.path}`} exact>
         <Title type="subOne" title={`Sarcophagi (${embalmerCount || 0})`} />
-        <Tooltip>
-          <div>Active sarcophagi</div>
-          <div>Current status and resurrection time will be displayed</div>
-        </Tooltip>
+        <Tooltip content={
+          <div>
+            <div>Active sarcophagi</div>
+            <div>Current status and resurrection time will be displayed</div>
+          </div>
+        } />
       </NavLink>
       <NavLink activeClassName="border-b-2 border-white" className="px-2 pb-4 cursor-pointer whitespace-nowrap flex justif-center items-center flex-shrink-0" to={`${match.path}/resurrect`}>
         <Title type="subOne" title={`Resurrected: (${recipientCount || 0})`} />
-        <Tooltip>
-          <div>Received Sarcophagi</div>
-          <div>Click to view received sarcophagi details</div>
-        </Tooltip>
+        <Tooltip content={
+          <div>
+            <div>Received Sarcophagi</div>
+            <div>Click to view received sarcophagi details</div>
+          </div>
+        } />
       </NavLink>
       <NavLink activeClassName="border-b-2 border-white" className="px-2 pb-4 cursor-pointer whitespace-nowrap flex justif-center items-center flex-shrink-0" to={`${match.path}/archive`}>
         <Title type="subOne" title={`Archived: (${archivedCount || 0})`} />
-        <Tooltip>
+        <Tooltip content={<div>
           <div>Inactive sarcophagi</div>
           <div>Click to view past sarcophagi</div>
-        </Tooltip>
+        </div>
+        } />
       </NavLink>
     </div>
   )

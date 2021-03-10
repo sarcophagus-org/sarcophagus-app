@@ -1,4 +1,5 @@
 import React from 'react'
+import { FEE_ARCH_TOOLTIP, BOUNTY_ARCH_TOOLTIP, DIGGING_FEE_ARCH_TOOLTIP, TABLE_HEADER_ARCHAEOLOGISTS, TABLE_HEADER_BOUNTY, TABLE_HEADER_FEE, TABLE_HEADER_DIGGING_FEE, TABLE_HEADER_METRICS } from '../../../constants'
 import Tooltip from '../../layout/Tooltip'
 
 const gridStyles = {
@@ -12,35 +13,29 @@ const gridStyles = {
   width: '50rem'
 }
 
-const ArchTableRow = ({ headerOne, headerTwo, headerThree, headerFour, headerFive }) => (
+const ArchTableRow = ({ length }) => (
   <div className="text-md text-gray-400 mb-4" style={gridStyles}>
     <div className="ml-6">
-      {headerOne}
+      {`${TABLE_HEADER_ARCHAEOLOGISTS} (${length})`}
     </div>
     <div className="flex items-center">
-      <span className="mr-2 pl-6">{headerTwo}</span>
-      <Tooltip>
-        Total fee in $SARCO to create this sarcophagus.
-      </Tooltip>
+      <span className="mr-2 pl-6">{TABLE_HEADER_FEE}</span>
+      <Tooltip content={FEE_ARCH_TOOLTIP} />
     </div>
     <div className="flex items-center">
       <span className="mr-2">
-        {headerFour}
+        {TABLE_HEADER_BOUNTY}
       </span>
-      <Tooltip>
-        This Archaeologists minimum bounty requirement.
-      </Tooltip>
+      <Tooltip content={BOUNTY_ARCH_TOOLTIP} />
     </div>
     <div className="flex items-center -ml-4">
       <span className="mr-2">
-        {headerThree}
+        {TABLE_HEADER_DIGGING_FEE}
       </span>
-      <Tooltip>
-        This Archaeologists minimum digging fee for your resurrection date/time.
-      </Tooltip>
+      <Tooltip content={DIGGING_FEE_ARCH_TOOLTIP} />
     </div>
     <div className="">
-      {headerFive}
+      {TABLE_HEADER_METRICS}
     </div>
   </div>
 )

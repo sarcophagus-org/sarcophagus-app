@@ -75,13 +75,28 @@ export const RETRIES = 2
 
 export const TIMER_DEFAULT = '0 days 00:00:00'
 export const DEFAULT_COLOR = 'text-gray-400'
+// headerTwo="Fee" headerThree="Digging Fee" headerFour='Bounty' headerFive='Metrics'
+export const TABLE_HEADER_ARCHAEOLOGISTS = 'Archaeologists'
+export const TABLE_HEADER_FEE = 'Fee'
+export const TABLE_HEADER_DIGGING_FEE = 'Digging Fee'
+export const TABLE_HEADER_BOUNTY = 'Bounty'
+export const TABLE_HEADER_METRICS = 'Metrics'
+
+
+export const FEE_ARCH_TOOLTIP = 'Total fee in $SARCO to create this sarcophagus.'
+export const BOUNTY_ARCH_TOOLTIP = 'This Archaeologists minimum bounty requirement.'
+export const DIGGING_FEE_ARCH_TOOLTIP = 'This Archaeologists minimum digging fee for your resurrection date/time.'
 
 export const SINGLEHASH_TITLE = 'Single Hash'
-export const SINGLEHASH_TOOLTIP = ''
+export const SINGLEHASH_TOOLTIP = 'The sarcophagus payload (file bytes) with the outer layer decrypted, hashed once'
 export const SINGLEHASH_PLACEHOLDER = '0x0000000000000000000000000000000000000000000000000000000000000000'
 export const PAYMENT_ADDRESS_TITLE = 'Archaeologist Address'
-export const ADDRESS_TOOLTIP = ''
+export const ADDRESS_TOOLTIP = 'Address of the Archaeologist you are accusing'
 export const ADDRESS_PLACEHOLDER = '0x0000000000000000000000000000000000000000'
 export const IDENTIFIER_TITLE = 'Sarcophagus Identifier'
-export const IDENTIFIER_TOOLTIP = ''
+export const IDENTIFIER_TOOLTIP = 'The sarcophagus payload (file bytes) encrypted and hashed twice'
 export const IDENTIFIER_PLACEHOLDER = '0x0000000000000000000000000000000000000000000000000000000000000000'
+
+export const CANCEL_TOOLTIP = 'Canceling a sarcophagus, transfers the bounty and storage fee back, transfers the digging fee to the archaeologist, and archives sarcophagus.'
+export const CLEAN_TOOlTIP = 'Cleaning a sarcophagus, rewards embalmer with the cursed bond, and refunds the rest of the payment (bounty and digging fees) back to embalmer and archives sarcophagus.'
+export const BURY_TOOLTIP = 'Burying a sarcophagus, releases digging fees to archaeologist and archives sarcophagus.'
