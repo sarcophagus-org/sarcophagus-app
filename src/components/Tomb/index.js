@@ -12,7 +12,7 @@ const Tomb = () => {
           <div>Your tomb is where you manage your sarcophagi. You will be able to see the ones you have created or received, as well as any canceled, buried, or errored out sarcophagi.</div>
 
           <div className="mt-4">More information on the alert statuses and different states for your sarcophagi, please visit our documentation: 
-          <div className="mt-4" ><a className="cursor-pointer hover:text-gray-300" href="https://github.com/sarcophagus-org/sarcophagus-app/blob/develop/README.md">https://github.com/sarcophagus-org/sarcophagus-app/blob/develop/README.md</a></div>
+          <div className="mt-4" ><a target="_blank" rel="noreferrer noopener" className="cursor-pointer hover:text-gray-300" href="https://github.com/sarcophagus-org/sarcophagus-app/blob/develop/README.md">https://github.com/sarcophagus-org/sarcophagus-app/blob/develop/README.md</a></div>
           </div>
         </div>
       </div>
