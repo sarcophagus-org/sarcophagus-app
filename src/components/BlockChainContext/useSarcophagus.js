@@ -55,11 +55,11 @@ const useSarcophagus = (sarcophagusContract) => {
       refresh()
       await toggle()
     } catch (e) {
-      console.log('Message', e?.message)
+      console.log('Message', e?.data)
       if(e?.code === 4001) {
         toast.error('Transaction Rejected')
       } 
-      else if(e?.message === "execution reverted: public key already used") {
+      else if(e?.data?.originalError?.message === "execution reverted: public key already used") {
           toast.error('Public key already used')
           setCurrentStatus('')
           setError('Public key already used')
@@ -100,7 +100,7 @@ const useSarcophagus = (sarcophagusContract) => {
         toast.error('Transaction Rejected')
       } 
       else if(e?.code === -32603) {
-        if(e?.message === "execution reverted: revert resurrection time must be in the future") {
+        if(e?.data?.originalError?.message === "execution reverted: revert resurrection time must be in the future") {
           toast.error('Resurrection time must be in the future')
         }
       }
