@@ -55,7 +55,7 @@ const useSarcophagus = (sarcophagusContract) => {
       refresh()
       await toggle()
     } catch (e) {
-      console.log('Message', e?.messsage)
+      console.log('Message', e?.message)
       if(e?.code === 4001) {
         toast.error('Transaction Rejected')
       } 
