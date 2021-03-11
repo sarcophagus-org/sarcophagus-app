@@ -6,11 +6,11 @@ import Button from '../../layout/Button'
 import { useData } from '../../BlockChainContext'
 import Rewrap from './Rewrap'
 
-const Sign = ({sarcophagus, setCurrentStatus, refresh, toggle, refreshTimers}) => { 
+const Sign = ({sarcophagus, setCurrentStatus, refresh, toggle, refreshTimers, setError}) => { 
     const { updateSarcophagus, cancelSarcophagus } = useData()
 
     const handleUpdate = async () => {
-        await updateSarcophagus(sarcophagus, setCurrentStatus, refresh, toggle, refreshTimers)
+        await updateSarcophagus(sarcophagus, setCurrentStatus, refresh, toggle, setError)
     }
 
     const handleCancel = async () => {
@@ -66,7 +66,7 @@ const SarcophagusExpanded = ({ sarcophagus, archaeologist, currentStatus, error,
             {/* If resurrection window is closed*/}
             {currentStatus === STATUSES.WINDOW_CLOSED && <WindowClosed setError={setError} sarcophagus={sarcophagus} archaeologist={archaeologist} refresh={refresh} toggle={toggle} setCurrentStatus={setCurrentStatus} refreshTimers={refreshTimers}/>}
             {/* If status is signing needed */}
-            {currentStatus === STATUSES.SARCOPHAGUS_AWAIT_SIGN && <Sign sarcophagus={sarcophagus} setCurrentStatus={setCurrentStatus} refresh={refresh} toggle={toggle} refreshTimers={refreshTimers}/>}
+            {currentStatus === STATUSES.SARCOPHAGUS_AWAIT_SIGN && <Sign sarcophagus={sarcophagus} setCurrentStatus={setCurrentStatus} refresh={refresh} toggle={toggle} refreshTimers={refreshTimers} setError={setError}/>}
             {/* if active then allow rewrap */}
             {currentStatus === STATUSES.PROCESS_COMPLETE && !!archaeologist &&  <Rewrap sarcophagus={sarcophagus} archaeologist={archaeologist} refreshTimers={refreshTimers} setCurrentStatus={setCurrentStatus} toggle={toggle} refresh={refresh} />}
 

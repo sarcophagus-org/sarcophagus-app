@@ -22,14 +22,20 @@ const useSarcophagus = (sarcophagusContract) => {
         } catch(e) {
           if(e?.code === 4001) {
             toast.error('Transaction Rejected')
-          } else {
+          } 
+          else if(e?.code === -32603) {
+            if(e?.data?.message === "VM Exception while processing transaction: revert resurrection time must be in the future") {
+              toast.error('Resurrection time must be in the future')
+            }
+          }
+          else {
             toast.error('There was a problem creating sarcophagus')
             console.error("There was a problem creating sarcophagus:", e)
           }
         }
   }
 
-  const updateSarcophagus = async (sarcophagus, setCurrentStatus, refresh, toggle) => {
+  const updateSarcophagus = async (sarcophagus, setCurrentStatus, refresh, toggle, setError) => {
     try {
 
       const doubleHashUint = Buffer.from(utils.arrayify(sarcophagus.AssetDoubleHash))
@@ -51,7 +57,15 @@ const useSarcophagus = (sarcophagusContract) => {
     } catch (e) {
       if(e?.code === 4001) {
         toast.error('Transaction Rejected')
-      } else {
+      } 
+      else if(e?.code === -32603) {
+        if(e?.data?.message === "VM Exception while processing transaction: revert public key already used") {
+          toast.error('Public key already used')
+          setCurrentStatus('')
+          setError('Public key already used')
+        }
+      }
+      else {
         toast.error('There was a problem updating sarcophagus')
         console.error('There was a problem updating sarcophagus', e)
       }
@@ -85,7 +99,13 @@ const useSarcophagus = (sarcophagusContract) => {
     } catch (e) {
       if(e?.code === 4001) {
         toast.error('Transaction Rejected')
-      } else {
+      } 
+      else if(e?.code === -32603) {
+        if(e?.data?.message === "VM Exception while processing transaction: revert resurrection time must be in the future") {
+          toast.error('Resurrection time must be in the future')
+        }
+      }
+      else {
         toast.error('There was a problem rewrapping sarcophagus')
         console.error('There was a problem rewrapping sarcophagus', e)
       }
@@ -111,7 +131,8 @@ const useSarcophagus = (sarcophagusContract) => {
     } catch (e) {
       if(e?.code === 4001) {
         toast.error('Transaction Rejected')
-      } else {
+      }
+       else {
         toast.error('There was a problem buring sarcophagus')
         console.error('There was a problem buring sarcophagus', e)
       }
