@@ -8,7 +8,7 @@ import { useWeb3 } from '../../web3';
 const useEmbalmerSarcophagi = (sarcophagusContract) => {
   const { account, provider } = useWeb3()
   const [ embalmerAllSarcophagi, setAllSarcophagi ] = useState([])
-  const [ embalmerSarcophagi, setSarcophagi ] = useState([])
+  const [ embalmerSarcophagi, setSarcophagi ] = useState(false)
   const [ pendingSarcophagi, setPendingSarcophagi ] = useState([])
 
   const getSarcophagiCount = useCallback( async (account) => {

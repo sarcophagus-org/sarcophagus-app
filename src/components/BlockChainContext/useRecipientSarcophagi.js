@@ -4,7 +4,7 @@ import { utils } from 'ethers';
 
 const useRecipientSarcophagi = (sarcophagusContract, address=false, waitForAddress=false) => {
   const [ recipientAllSarcophagi, setAllSarcophagi ] = useState([])
-  const [ recipientSarcophagi, setSarcophagi ] = useState([])
+  const [ recipientSarcophagi, setSarcophagi ] = useState(false)
   const { account } = useWeb3()
   
   const getSarcophagiCount = useCallback( async (account) => {

@@ -4,7 +4,7 @@ import { toast } from "react-toastify"
 
 const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
   const [ archaeologistsWithCounts, setArchaeologistsWithCounts ] = useState([])
-  const [ archaeologists, setArchaeologists ] = useState([])
+  const [ archaeologists, setArchaeologists ] = useState(false)
 
   const getCleanupCount = useCallback(async (address) => {
     try {

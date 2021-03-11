@@ -36,7 +36,6 @@ const createDataRoot = () => {
     const dataContext = {
       sarcophagusContract,
       sarcophagusTokenContract,
-      archaeologists,
       accuseArchaeologist,
       createSarcophagus,
       updateSarcophagus,
@@ -46,10 +45,11 @@ const createDataRoot = () => {
       cleanSarcophagus, 
       rewrapSarcophagus, 
       burySarcophagus,
-      embalmerSarcophagi, 
       archivedSarcophagi,
-      recipientSarcophagi,
       pendingSarcophagi,
+      embalmerSarcophagi, 
+      recipientSarcophagi,
+      archaeologists:  archaeologists || rawArchaeologists,
       refresh: () => {
         checkStorage()
         getRecipientSarcophagi()
