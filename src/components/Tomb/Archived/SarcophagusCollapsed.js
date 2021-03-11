@@ -15,7 +15,6 @@ const SarcophagusCollapsed = ({ sarcophagus : {name, state}, currentStatus}) => 
                 : (
                     <div className="text-base font-bold text-white" style={{lineHeight: '1.625rem'}}>{name}</div>
             )}
-            <div className="text-base font-bold text-white" style={{lineHeight: '1.625rem'}}>{name}</div>
         </div>
 
         <div className="flex flex-col">
