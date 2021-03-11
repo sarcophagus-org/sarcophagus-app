@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react"
-import { ERROR, INTERVAL_LENGTH_SECONDS, INTERVAL_TIMEOUT_MINS, STATUSES } from "../../../constants"
+import { ERROR, INTERVAL_LENGTH_SECONDS, STATUSES } from "../../../constants"
 import { arweaveFileValid, initArweave } from "../../../utils/arweave"
 
 const useFileMiningCheck = (archResponse, setCurrentStatus, error, setError, name) => {
@@ -24,14 +24,8 @@ const useFileMiningCheck = (archResponse, setCurrentStatus, error, setError, nam
         return
       }
       setCurrentStatus(STATUSES.ARWEAVE_PENDING)
-      /* Wait for TX to be mined */
-      const startTime = new Date().getTime();   
+      /* Wait for TX to be mined */  
       interval = setInterval(async () => {
-        /* Stop checking and fail after 15 minutes */
-        if (new Date().getTime() - startTime > (INTERVAL_TIMEOUT_MINS * 60 * 1000)) {
-          clearInterval(interval);
-          setCurrentStatus(STATUSES.ARWEAVE_TIMEOUT)
-        }
         const response = await Arweave.api.get(`tx/${AssetId}`)
         switch (response.status) {
           case 202:
