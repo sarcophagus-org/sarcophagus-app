@@ -24,7 +24,7 @@ const useSarcophagus = (sarcophagusContract) => {
             toast.error('Transaction Rejected')
           } 
           else if(e?.code === -32603) {
-            if(e?.data?.message === "VM Exception while processing transaction: revert resurrection time must be in the future") {
+            if(e?.data?.message === "execution reverted: revert resurrection time must be in the future") {
               toast.error('Resurrection time must be in the future')
             }
           }
@@ -59,7 +59,7 @@ const useSarcophagus = (sarcophagusContract) => {
         toast.error('Transaction Rejected')
       } 
       else if(e?.code === -32603) {
-        if(e?.data?.message === "VM Exception while processing transaction: revert public key already used") {
+        if(e?.message === "execution reverted: public key already used") {
           toast.error('Public key already used')
           setCurrentStatus('')
           setError('Public key already used')
@@ -101,7 +101,7 @@ const useSarcophagus = (sarcophagusContract) => {
         toast.error('Transaction Rejected')
       } 
       else if(e?.code === -32603) {
-        if(e?.data?.message === "VM Exception while processing transaction: revert resurrection time must be in the future") {
+        if(e?.data?.message === "execution reverted: revert resurrection time must be in the future") {
           toast.error('Resurrection time must be in the future')
         }
       }
