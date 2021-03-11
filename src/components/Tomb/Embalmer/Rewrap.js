@@ -71,7 +71,7 @@ const Rewrap = ({ sarcophagus, archaeologist, refresh, toggle, setCurrentStatus,
                         {errors.bounty && touched.bounty && <Error>{errors.bounty}</Error>}
                         {errors.diggingFee && touched.diggingFee && <Error>{errors.diggingFee}</Error>}
                     </div>
-                    <Fees values={values} handleChange={handleChange} errors={errors} touched={touched} margin="my-4" paddingRight="mr-8"/>
+                    <Fees values={values} handleChange={handleChange} errors={errors} touched={touched} margin="my-4" paddingRight="mr-8" showInfo={false}/>
                     <div className="flex mb-4 items-center">
                         <Title type="subOne" title="Choose new resurrection time" />
                         <Tooltip content={
