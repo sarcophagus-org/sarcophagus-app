@@ -22,10 +22,13 @@ const useSarcophagus = (sarcophagusContract) => {
         } catch(e) {
           if(e?.code === 4001) {
             toast.error('Transaction Rejected')
-          } 
+          }
           else if(e?.error?.code === -32603) {
             if(e?.error?.message === "execution reverted: revert resurrection time must be in the future") {
               toast.error('Resurrection time must be in the future')
+            }
+            if(e?.error?.message === "execution reverted: ERC20: transfer amount exceeds balance") {
+              toast.error('Sarco balance too low to execute transaction')
             }
           }
           else {
@@ -101,6 +104,9 @@ const useSarcophagus = (sarcophagusContract) => {
       else if(e?.error?.code === -32603) {
         if(e?.error?.message === "execution reverted: revert resurrection time must be in the future") {
           toast.error('Resurrection time must be in the future')
+        }
+        if(e?.error?.message === "execution reverted: ERC20: transfer amount exceeds balance") {
+          toast.error('Sarco balance too low to execute transaction')
         }
       }
       else {
