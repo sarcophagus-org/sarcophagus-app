@@ -43,4 +43,17 @@ Currently Supported:
 - MetaMask (Recommended)
 - WalletConnect
 
+### Deploy local contracts for development
 
+clone contracts repository @ [Github Contracts Repository](https://github.com/sarcophagus-org/sarcophagus-contracts)
+Follow Instruction in contracts Readme to spin up local blockchain
+
+### Archeologists Service
+*ensure local blockchain (contracts) is running during this step*
+Go will need to be install to be able to use archaeologist-service. For MacOS follow the instructions in the following link to install Go
+
+[Medium.com (blog)](https://medium.com/@jimkang/install-go-on-mac-with-homebrew-5fa421fc55f5)
+
+clone the service repository @ [Github Service Repository](https://github.com/sarcophagus-org/archaeologist-service)
+
+Follow instractions in service repository to get started
