@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import useCollapse from '../../customHooks/useCollapse'
 import CollapsedContainer from '../CollapsedContainer'
-import { labels } from '../../../constants'
+import { PICK_ARCHAEOLOGIST_HEADER } from '../../../constants'
 import icon from '../../../assets/images/pickaxe.svg'
 import PickArchaeologist from './PickArchaeologist'
 
@@ -18,10 +18,10 @@ const ArchaeologistContainer = ({values, errors, ...rest}) => {
 
     if(!collapsed) {
         return (
-            <PickArchaeologist  values={values} errors={errors} title={labels.pickArchaeologist} icon={icon} toggle={toggle} {...rest} />
+            <PickArchaeologist  values={values} errors={errors} title={PICK_ARCHAEOLOGIST_HEADER} icon={icon} toggle={toggle} {...rest} />
     )} else {
         return (
-            <CollapsedContainer title={labels.pickArchaeologist} icon={icon} toggle={toggle} />
+            <CollapsedContainer title={PICK_ARCHAEOLOGIST_HEADER} icon={icon} toggle={toggle} />
         )}
 
 }

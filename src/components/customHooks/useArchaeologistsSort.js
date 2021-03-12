@@ -5,7 +5,7 @@ import usePagination from './usePagination'
 
 const useArchaeologistsSort = (archaeologists, file, bounty, diggingFee ) => {
 	const [ filteredList, setList ] = useState([])
-	const { page, perPage, totalPages, handlePrevPage, handleNextPage, goToPage, pageNumbers } = usePagination(archaeologists.length)
+	const { page, perPage, totalPages, handlePrevPage, handleNextPage, goToPage, pageNumbers } = usePagination(archaeologists?.length)
 
 	// set list when archaeologists are loaded
 	useEffect(() => {

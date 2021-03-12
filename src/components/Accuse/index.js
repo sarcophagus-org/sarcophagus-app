@@ -8,7 +8,7 @@ import Tooltip from '../layout/Tooltip'
 import { initialValues } from './initialValues'
 import { validationSchema } from './validationSchema'
 import eyeOfHorus from '../../assets/images/eyeOfHorus2.svg'
-import { ADDRESS_PLACEHOLDER, ADDRESS_TOOLTIP, IDENTIFIER_PLACEHOLDER, IDENTIFIER_TITLE, IDENTIFIER_TOOLTIP, PAYMENT_ADDRESS_TITLE, SINGLEHASH_PLACEHOLDER, SINGLEHASH_TITLE, SINGLEHASH_TOOLTIP } from '../../constants'
+import { ADDRESS_PLACEHOLDER, ADDRESS_TOOLTIP, HORUS_MAIN_CONTENT_PART_1, HORUS_MAIN_CONTENT_PART_2, IDENTIFIER_PLACEHOLDER, IDENTIFIER_TITLE, IDENTIFIER_TOOLTIP, PAYMENT_ADDRESS_TITLE, SINGLEHASH_PLACEHOLDER, SINGLEHASH_TITLE, SINGLEHASH_TOOLTIP } from '../../constants'
 import { useSarcophagiData } from '../Context/SarcophagiContext'
 
 const TextField = ({errors, touched, handleChange, title, tooltip, ...rest}) => (
@@ -31,8 +31,8 @@ const AccuseArchaeologist = () => {
                 <div className="mr-4 mt-2 w-104 md:w-128">
                     <Title type="subOne" icon={eyeOfHorus} title="Eye of Horus" />
                     <div className="mt-8 text-md text-white" style={{lineHeight: '1.4375rem'}}>
-                        <div>Ad aliqua proident adipisicing id cillum nisi cupidatat incididunt duis. Cupidatat occaecat aliquip deserunt mollit labore et occaecat ipsum veniam voluptate aliqua tempor. Deserunt esse dolore occaecat ipsum nulla nisi proident esse ipsum. Sint veniam magna pariatur amet ea ut reprehenderit velit eu magna ut cillum aute.</div>
-                        <div className="mt-4">In deserunt sit proident eu incididunt quis veniam. Nisi nisi irure mollit aute nisi incididunt velit qui qui ex amet est. Veniam fugiat fugiat aute magna tempor velit officia nulla est eiusmod. Et incididunt eu anim in adipisicing nisi dolor.</div>
+                        <div>{HORUS_MAIN_CONTENT_PART_1}</div>
+                        <div className="mt-4">{HORUS_MAIN_CONTENT_PART_2}</div>
                     </div>
                 </div>
                 <div className="mt-8 md:mt-16">

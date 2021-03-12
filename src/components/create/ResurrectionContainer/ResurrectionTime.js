@@ -6,6 +6,7 @@ import Error from '../../Error'
 import arrowDown from '../../../assets/images/arrowDown.svg'
 import TwoColumnContainer from '../../layout/TwoColumnContainer'
 import TimeFields from './TimeFields'
+import { RESURRECTION_INFO_P_1, RESURRECTION_INFO_P_2, RESURRECTION_INFO_P_3 } from '../../../constants'
 
 
 const ResurrectionTime = ({values, errors, touched, setFieldValue, title, icon, toggle}) => (
@@ -21,13 +22,13 @@ const ResurrectionTime = ({values, errors, touched, setFieldValue, title, icon, 
       <TimeFields errors={errors} touched={touched} setFieldValue={setFieldValue} values={values} />
       <InfoBox margin="-mt-1">
         <div className="pb-2">
-          The resurrection time is the exact time and date that the outer layer of your sarcophagus will be decrypted by the Archaeologist.
+          { RESURRECTION_INFO_P_1 }
         </div>
         <div className="pb-2">
-          If you fail to re-wrap before this time; only the inter layer of encryption controlled by the recipient is protecting the data in your sarcophagus. 
+          { RESURRECTION_INFO_P_2 }
         </div>
         <div>
-          The further the resurrection date is into the future, the more it will cost to create your sarcophagus.
+          { RESURRECTION_INFO_P_3 }
         </div>
       </InfoBox>
     </TwoColumnContainer>

@@ -15,11 +15,12 @@ import MockSarcophagus from '../Tomb/MockSarcophagus'
 import { connect } from '../../web3/userSupplied'
 import { useWeb3 } from '../../web3'
 import { useSarcophagiData } from '../Context/SarcophagiContext'
+import { useArchData } from '../Context/ArchaeologistContext'
 
 const CreateSarcophagus = () => {
   const history = useHistory()
   const { createSarcophagus, checkStorage, getRecipientSarcophagi } = useSarcophagiData()
-  const { archaeologists, getArchaeologistCount } = useSarcophagiData()
+  const { archaeologists, getArchaeologistCount } = useArchData()
 
   const { account } = useWeb3()
   const { approved, approveTransaction } = useApproval()
