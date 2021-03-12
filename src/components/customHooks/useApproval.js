@@ -1,7 +1,7 @@
 import { BigNumber } from "ethers"
 import { useCallback, useEffect, useState } from "react"
 import { toast } from "react-toastify"
-import { useData } from "../BlockChainContext"
+import { useData } from "../Context/BlockChainContext"
 
 const useApproval = () => {
     const { allowance, balance, sarcophagusContract, sarcophagusTokenContract } = useData()

@@ -5,16 +5,24 @@ import SarcophagusWrapper from './Embalmer/SarcophagusWrapper'
 import RecipientSarcophagusWrapper from './Recipient/SarcophagusWrapper'
 import ArchivedSarcophagusWrapper from './Archived/SarcophagusWrapper'
 import MockSarcophagus from './MockSarcophagus'
-import { useData } from '../BlockChainContext'
 import { useWeb3 } from '../../web3'
 import { connect } from '../../web3/userSupplied'
 import PendingSarcophagus from './PendingSarcophagus'
+import { useSarcophagiData } from '../Context/SarcophagiContext'
+import { useArchData } from '../Context/ArchaeologistContext'
 
 const SarcophagiList = () => {
   const match = useRouteMatch()
   const history = useHistory()
   const { account } = useWeb3()
-  const { embalmerSarcophagi, archivedSarcophagi, recipientSarcophagi, refresh, pendingSarcophagi } = useData()
+  const { embalmerSarcophagi, archivedSarcophagi, recipientSarcophagi, pendingSarcophagi, checkStorage, getRecipientSarcophagi } = useSarcophagiData()
+  const { getArchaeologistCount } = useArchData()
+  
+  const refresh = () => {
+    checkStorage()
+    getRecipientSarcophagi()
+    getArchaeologistCount()
+  }
   return (
     <div className="border-t border-gray-500 md:border-none mt-8 md:mt-0 pt-8 md:pt-0 w-full overflow-x-scroll hide-scrollbar max-w-128">
       <Tabs embalmerCount={embalmerSarcophagi?.length} recipientCount={recipientSarcophagi?.length} archivedCount={archivedSarcophagi?.length}/>

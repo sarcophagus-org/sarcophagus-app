@@ -1,7 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { toast } from "react-toastify"
 
-
 const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
   const [ archaeologistsWithCounts, setArchaeologistsWithCounts ] = useState([])
   const [ archaeologists, setArchaeologists ] = useState(false)

@@ -7,13 +7,13 @@ import Title from '../../layout/Title'
 import Error from '../../Error'
 import Tooltip from '../../layout/Tooltip'
 import Button from '../../layout/Button'
-import { useData } from '../../BlockChainContext'
 import useApproval from '../../customHooks/useApproval'
 import { getDecimalNumber } from '../../../utils/bigNumbers'
 import { BURY_TOOLTIP } from '../../../constants'
+import { useSarcophagiData } from '../../Context/SarcophagiContext'
 
 const Rewrap = ({ sarcophagus, archaeologist, refresh, toggle, setCurrentStatus, refreshTimers }) => {
-    const { burySarcophagus, rewrapSarcophagus } = useData()
+    const { burySarcophagus, rewrapSarcophagus } = useSarcophagiData()
     const { approved, approveTransaction } = useApproval()
     const [ buttonText, setButtonText ] = useState('')
     useEffect(() => {

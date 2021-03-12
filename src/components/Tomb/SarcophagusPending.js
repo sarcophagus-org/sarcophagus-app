@@ -1,9 +1,9 @@
 import React from 'react'
 import { STATUSES } from '../../constants'
-import { useData } from '../BlockChainContext'
+import { useSarcophagiData } from '../Context/SarcophagiContext'
 
 const SarcophagusPending = ({sarcophagus, currentStatus, setCurrentStatus, error}) => {
-    const { updateSarcophagus } = useData()
+    const { updateSarcophagus } = useSarcophagiData()
 
     const handleUpdate = async () => {
         updateSarcophagus(sarcophagus, setCurrentStatus)

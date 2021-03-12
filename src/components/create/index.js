@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
-import { useData } from '../BlockChainContext'
 import PageHeading from './PageHeading'
 import { initialValues } from './initialValues'
 import { validationSchema } from './validationSchema'
@@ -15,14 +14,23 @@ import ArchaeologistContainer from './ArchaeologistContainer'
 import MockSarcophagus from '../Tomb/MockSarcophagus'
 import { connect } from '../../web3/userSupplied'
 import { useWeb3 } from '../../web3'
+import { useSarcophagiData } from '../Context/SarcophagiContext'
 
 const CreateSarcophagus = () => {
   const history = useHistory()
-  const { archaeologists, createSarcophagus, refresh } = useData()
+  const { createSarcophagus, checkStorage, getRecipientSarcophagi } = useSarcophagiData()
+  const { archaeologists, getArchaeologistCount } = useSarcophagiData()
+
   const { account } = useWeb3()
   const { approved, approveTransaction } = useApproval()
   const {file, setFile, handleArchaeologistSelect, handleEmbalming, selectedArchaeologist, handleKey} = useSarcophagusCreate(createSarcophagus)
   const [ buttonText, setButtonText ] = useState('')
+
+  const refresh = () => {
+    checkStorage()
+    getRecipientSarcophagi()
+    getArchaeologistCount()
+  }
     
     useEffect(() => {
         if(!approved) {

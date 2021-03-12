@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useData } from '../../BlockChainContext'
+import { useArchData } from '../../Context/ArchaeologistContext'
 import useCheckStatus from '../../customHooks/useCheckStatus'
 import SarcophagusContainer from './SarcophagusContainer'
 
 const Wrapper = ({sarcophagus, refresh, ...rest}) => {
     const { currentStatus, setCurrentStatus, error, setError } = useCheckStatus(sarcophagus, refresh)
-    const { archaeologists } = useData()
+    const { archaeologists } = useArchData()
     const [ archaeologist, setArchaeologist] = useState({})
 
     useEffect(() => {

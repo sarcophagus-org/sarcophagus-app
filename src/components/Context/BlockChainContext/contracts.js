@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { useWeb3 } from '../../web3'
 import { Contract } from 'ethers'
-import { useAddresses } from '../../web3/chains'
+import { useWeb3 } from '../../../web3'
+import { useAddresses } from '../../../web3/chains'
 import SarcophagusABI from './artifacts/SarcophagusABI.json'
 import SarcoTokenABI from './artifacts/SarcoTokenABI.json'
 

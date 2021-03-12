@@ -1,9 +1,9 @@
 import { utils } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { ACTIONS } from '../../constants';
-import { checkTransaction } from '../../utils/providers';
-import { useWeb3 } from '../../web3';
+import { ACTIONS } from '../../../constants';
+import { checkTransaction } from '../../../utils/providers';
+import { useWeb3 } from '../../../web3';
 
 const useEmbalmerSarcophagi = (sarcophagusContract) => {
   const { account, provider } = useWeb3()

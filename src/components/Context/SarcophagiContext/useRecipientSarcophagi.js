@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useWeb3 } from '../../web3';
+import { useWeb3 } from '../../../web3';
 import { utils } from 'ethers';
 
 const useRecipientSarcophagi = (sarcophagusContract, address=false, waitForAddress=false) => {

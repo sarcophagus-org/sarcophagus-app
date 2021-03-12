@@ -1,13 +1,13 @@
 import React from 'react'
 import { CANCEL_TOOLTIP, CLEAN_TOOlTIP, STATUSES } from '../../../constants'
+import { useSarcophagiData } from '../../Context/SarcophagiContext'
 
 import Tooltip from '../../layout/Tooltip'
 import Button from '../../layout/Button'
-import { useData } from '../../BlockChainContext'
 import Rewrap from './Rewrap'
 
 const Sign = ({sarcophagus, setCurrentStatus, refresh, toggle, refreshTimers, setError}) => { 
-    const { updateSarcophagus, cancelSarcophagus } = useData()
+    const { updateSarcophagus, cancelSarcophagus } = useSarcophagiData()
 
     const handleUpdate = async () => {
         await updateSarcophagus(sarcophagus, setCurrentStatus, refresh, toggle, setError)
@@ -28,7 +28,7 @@ const Sign = ({sarcophagus, setCurrentStatus, refresh, toggle, refreshTimers, se
 }
 
 const ErrorOptions = ({sarcophagus, refresh, toggle, setCurrentStatus, refreshTimers, setError}) => {
-    const { cancelSarcophagus } = useData()
+    const { cancelSarcophagus } = useSarcophagiData()
     const handleCancel = async () => {
         await cancelSarcophagus(sarcophagus, setCurrentStatus, toggle, refresh, refreshTimers)
         await setError(false)
@@ -44,7 +44,7 @@ const ErrorOptions = ({sarcophagus, refresh, toggle, setCurrentStatus, refreshTi
 }
 
 const WindowClosed = ({sarcophagus, toggle, refresh, archaeologist, setCurrentStatus, refreshTimers, setError}) => {
-    const { cleanSarcophagus } = useData()
+    const { cleanSarcophagus } = useSarcophagiData()
     const handleClean = async () => {
         await cleanSarcophagus(sarcophagus, setCurrentStatus, archaeologist, toggle, refresh, refreshTimers)
         await setError(false)

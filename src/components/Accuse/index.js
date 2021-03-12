@@ -8,8 +8,8 @@ import Tooltip from '../layout/Tooltip'
 import { initialValues } from './initialValues'
 import { validationSchema } from './validationSchema'
 import eyeOfHorus from '../../assets/images/eyeOfHorus2.svg'
-import { useData } from '../BlockChainContext'
 import { ADDRESS_PLACEHOLDER, ADDRESS_TOOLTIP, IDENTIFIER_PLACEHOLDER, IDENTIFIER_TITLE, IDENTIFIER_TOOLTIP, PAYMENT_ADDRESS_TITLE, SINGLEHASH_PLACEHOLDER, SINGLEHASH_TITLE, SINGLEHASH_TOOLTIP } from '../../constants'
+import { useSarcophagiData } from '../Context/SarcophagiContext'
 
 const TextField = ({errors, touched, handleChange, title, tooltip, ...rest}) => (
     <div className="w-128">
@@ -23,7 +23,7 @@ const TextField = ({errors, touched, handleChange, title, tooltip, ...rest}) => 
 )
 
 const AccuseArchaeologist = () => {
-    const { accuseArchaeologist } = useData()
+    const { accuseArchaeologist } = useSarcophagiData()
     return (
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={(values, {resetForm}) => accuseArchaeologist(values, resetForm)} >
             {({ values, errors, touched, handleChange, handleSubmit}) => (

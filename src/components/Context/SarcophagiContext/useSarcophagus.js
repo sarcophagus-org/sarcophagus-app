@@ -1,8 +1,8 @@
 import { BigNumber, utils } from 'ethers'
 import { toast } from 'react-toastify'
-import { ACTIONS, STATUSES } from '../../constants'
-import { formatCustomResurrectionTime } from "../../utils/datetime";
-import { initialValues } from '../Accuse/initialValues';
+import { ACTIONS, STATUSES } from '../../../constants'
+import { formatCustomResurrectionTime } from "../../../utils/datetime";
+import { initialValues } from '../../Accuse/initialValues';
 
 const useSarcophagus = (sarcophagusContract) => {
 
