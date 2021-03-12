@@ -83,14 +83,6 @@ const useUserSuppliedConnect = () => {
         })
       });
 
-      provider?.on('pending', txHash => {
-        console.info('PENDING HASH', txHash)
-      })
-      // set web3Provider
-      if(!!provider) {
-        const web3Provider = new ethers.providers.Web3Provider(provider)
-        setUserSupplied(web3Provider)
-      }
       // unsubscribe
       return () => {
         provider?.removeAllListeners()
@@ -98,7 +90,13 @@ const useUserSuppliedConnect = () => {
     
 }, [ provider ])
 
-
+useEffect(() => {
+  // set web3Provider
+  if(!!provider) {
+    const web3Provider = new ethers.providers.Web3Provider(provider)
+    setUserSupplied(web3Provider)
+  }
+}, [ provider ])
 
 return { userSupplied, connect }
 }
