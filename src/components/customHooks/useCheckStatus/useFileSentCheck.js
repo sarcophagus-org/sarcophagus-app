@@ -14,8 +14,11 @@ const useFileSentCheck = ( isSarcophagusMined, data, assetDoubleHash, setCurrent
       const fileEncoded = await btoa([].reduce.call(uint8File, function (p, c) { return p + String.fromCharCode(c) }, ''))
       const params = { method: 'POST', body: JSON.stringify({fileBytes: fileEncoded}) }
       const responseFromArch = await fetch(archEndpoint, params)
-      // TODO: set explicit error response from arch service
+      
       if (!responseFromArch.ok)  {
+        if(responseFromArch.status === 406) {
+          return {error: 'try again'}
+        }
         console.error('ResponseFromArch:', responseFromArch)
         setError(ERROR.ARCH_FILE_HANDLING_FAILED)
         return {error: responseFromArch}
@@ -23,47 +26,65 @@ const useFileSentCheck = ( isSarcophagusMined, data, assetDoubleHash, setCurrent
       const data = await responseFromArch.json()
       return data
     } catch (e) {
-      console.error(e)
+      console.error('Send Error', e)
       setError(ERROR.ARCH_CONNECTION_FAILED)
       return {error: ERROR.ARCH_CONNECTION_FAILED}
     }
   }, [])
   
   const sendFileToService = useCallback( async () => {
+    setCurrentStatus(STATUSES.ARWEAVE_STARTED)
     if(pending) return
     setPending(true)
+    let tries = 1 
     try {
       const {doubleEncryptedFile, endpoint, txReceipt, action } = data
       if(action === ACTIONS.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED) return 
-      setCurrentStatus(STATUSES.ARWEAVE_STARTED)
-      const responseFromArch = await handleSendFile(doubleEncryptedFile, endpoint, setError)
-      if(responseFromArch?.error) {
-        setCurrentStatus('')
-        toast.dark('File send unsuccessful')
-        const doubleHashUint = Buffer.from(utils.arrayify(assetDoubleHash))
-        localStorage.removeItem(doubleHashUint.toLocaleString())
-        return
-      }
-      let { NewPublicKey, AssetDoubleHash, AssetId, V, R, S } = await responseFromArch 
-      const storageObject = {
-          action: ACTIONS.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED,
-          NewPublicKey: NewPublicKey, 
-          AssetDoubleHash: AssetDoubleHash, 
-          V: V, 
-          R: R, 
-          S: S, 
-          AssetId: AssetId, 
-          doubleEncryptedFile:doubleEncryptedFile, 
-          txReceipt: txReceipt
+      const interval = setInterval( async () => {
+        const responseFromArch = await handleSendFile(doubleEncryptedFile, endpoint, setError)
+        if(responseFromArch?.error) {
+          if(responseFromArch?.error === 'try again') {
+            if(tries === 1) {
+              toast.dark('Sending file failed, trying again', {autoClose: 1500})
+              tries = 0
+              return;
+            } else {
+              setCurrentStatus('')
+              toast.dark('File send unsuccessful')
+              setError('File send unsuccessful')
+              localStorage.setItem(assetDoubleHash, JSON.stringify({action: 'delete', error: 'File send unsuccessful'}))
+              clearInterval(interval)
+            }
+          } else {
+            setCurrentStatus('')
+            toast.dark('File send unsuccessful')
+            localStorage.setItem(assetDoubleHash, JSON.stringify({action: 'delete', error: 'File send unsuccessful'}))
+            clearInterval(interval)
+            return
+          }
+        } else {
+          let { NewPublicKey, AssetDoubleHash, AssetId, V, R, S } = await responseFromArch 
+          const storageObject = {
+            action: ACTIONS.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED,
+            NewPublicKey: NewPublicKey, 
+            AssetDoubleHash: AssetDoubleHash, 
+            V: V, 
+            R: R, 
+            S: S, 
+            AssetId: AssetId, 
+            doubleEncryptedFile:doubleEncryptedFile, 
+            txReceipt: txReceipt
+          }
+          localStorage.setItem(AssetDoubleHash, JSON.stringify(storageObject))
+          setSentArchResponse(storageObject)
+          setCurrentStatus(STATUSES.ARWEAVE_PENDING)
+          clearInterval(interval)
         }
-      localStorage.setItem(AssetDoubleHash, JSON.stringify(storageObject))
-      setSentArchResponse(storageObject)
-      setCurrentStatus(STATUSES.ARWEAVE_PENDING)
-        
-      } catch(e) {
-        setError(ERROR.ARWEAVE_TRANSACTION_FAILED)
-        console.error(e)
-      }
+    }, 5000)
+    } catch(e) {
+      setError(ERROR.ARWEAVE_TRANSACTION_FAILED)
+      console.error(e)
+    }
     },[ data, assetDoubleHash, handleSendFile, setSentArchResponse, setCurrentStatus, setError, pending ])
 
   useEffect(() => {

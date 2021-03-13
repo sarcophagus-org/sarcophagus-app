@@ -22,7 +22,7 @@ const useCheckStatus = (sarcophagus, refresh) => {
   },[ error ])
 
   // check localStorage data on sarcophagus
-  const { isSarcophagusMined } = useSarcophagusCheck(data, sarcophagus.AssetDoubleHash, setCurrentStatus, error, setError, refresh)
+  const { isSarcophagusMined } = useSarcophagusCheck(data, sarcophagus.AssetDoubleHash, error, setError )
 
   // send file if not sent
   const { sentArchResponse } = useFileSentCheck(isSarcophagusMined, data, sarcophagus.AssetDoubleHash, setCurrentStatus, error, setError)
@@ -53,7 +53,7 @@ const useCheckStatus = (sarcophagus, refresh) => {
             setCurrentStatus(STATUSES.PROCESS_COMPLETE)
             return
           } else {
-            setCurrentStatus(STATUSES.TRANSACTION_MINING_IN_PROGRESS)
+            setError('here')
             return
           }
       } 
@@ -63,6 +63,9 @@ const useCheckStatus = (sarcophagus, refresh) => {
         if(parseData?.action === ACTIONS.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED ) {
           setArchResponse(parseData)
           return
+        } 
+        else if (parseData?.action === 'delete') {
+          setError(parseData.error)
         } else {
           // sets storages data to start process from start
           setData(parseData)

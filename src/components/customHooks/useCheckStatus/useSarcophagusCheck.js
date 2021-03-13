@@ -1,9 +1,9 @@
 import { useWeb3 } from "../../../web3"
 import { useCallback, useState, useEffect } from 'react'
-import { ACTIONS, ERROR, STATUSES } from "../../../constants"
+import { ACTIONS, ERROR } from "../../../constants"
 import { utils } from "ethers"
 
-const useSarcophagusCheck = ( data, assetDoubleHash, setCurrentStatus, error, setError, refresh ) => {
+const useSarcophagusCheck = ( data, assetDoubleHash, error, setError ) => {
     const { provider } = useWeb3()
     const [ isSarcophagusMined, setSarcophagusMined ] = useState(false)
   
@@ -17,13 +17,12 @@ const useSarcophagusCheck = ( data, assetDoubleHash, setCurrentStatus, error, se
             return
           }
           setSarcophagusMined(true)
-          setCurrentStatus(STATUSES.SARCOPHAGUS_SUCCESS)
         } 
       } catch (e) {
         console.error(e)
         setError(ERROR.BLOCKCHAIN_SERVER)
       }
-    },[ data, provider , setError, setCurrentStatus, assetDoubleHash])
+    },[ data, provider , setError, assetDoubleHash])
   
     // check localStorage data on sarcophagus
     useEffect(() => {

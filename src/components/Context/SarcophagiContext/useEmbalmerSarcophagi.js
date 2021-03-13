@@ -87,6 +87,10 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
           if(item?.action === ACTIONS.SARCOPHAGUS_CREATED) {
             return item
           }
+        } else {
+          if(item?.action === ACTIONS.SARCOPHAGUS_CREATED) {
+            localStorage.setItem(key, JSON.stringify({...item, action: 'sending file'}))
+          }
         }
       }
       return ""
