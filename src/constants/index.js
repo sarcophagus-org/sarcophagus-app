@@ -47,7 +47,8 @@ export const STATUSES = {
   CHECKING_STATUS: 'Checking status...',
   PROCESS_COMPLETE: 'Sarcophagus is Active',
   WINDOW_CLOSED: 'Resurrection Window is past',
-  TRANSACTION_MINING_IN_PROGRESS: 'Mining in progress'
+  TRANSACTION_MINING_IN_PROGRESS: 'Mining in progress',
+  UNWRAPPING: 'UnWrapping in progress'
 }
 
 // Recipient Sarcophagus Statuses

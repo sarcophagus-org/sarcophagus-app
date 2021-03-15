@@ -5,7 +5,6 @@ import useFileSentCheck from "./useFileSentCheck";
 import useFileMiningCheck from "./useFileMiningCheck";
 import { isTimePast } from '../../../utils/datetime'
 import { ACTIONS, STATUSES } from '../../../constants'
-import { useWeb3 } from "../../../web3";
 import { toast } from "react-toastify";
 
 const useCheckStatus = (sarcophagus, refresh) => {
@@ -13,7 +12,6 @@ const useCheckStatus = (sarcophagus, refresh) => {
   const [ currentStatus, setCurrentStatus ] = useState(STATUSES.CHECKING_STATUS)
   const [ error, setError ] = useState(false)
   const [ archResponse, setArchResponse ] = useState(false)
-  const { provider } = useWeb3()
 
   useEffect(() => {
     if(error) {
@@ -39,6 +37,7 @@ const useCheckStatus = (sarcophagus, refresh) => {
       // if resurrection window is closed
       if(isTimePast(sarcophagus.resurrectionTime, sarcophagus.resurrectionWindow)) {
         setCurrentStatus(STATUSES.WINDOW_CLOSED)
+        refresh()
         return
       }
       // if there is no stored data then process should be finished This will probably need to more indepth check
@@ -49,10 +48,11 @@ const useCheckStatus = (sarcophagus, refresh) => {
             return
           }
           // if no assetId on sarcophagus, mark as finished
-          if(sarcophagus?.assetId) {
+          if(sarcophagus?.assetId && sarcophagus?.privateKey === "0x0000000000000000000000000000000000000000000000000000000000000000") {
             setCurrentStatus(STATUSES.PROCESS_COMPLETE)
             return
           } else {
+            setCurrentStatus('')
             return
           }
       } 
@@ -73,9 +73,14 @@ const useCheckStatus = (sarcophagus, refresh) => {
       } 
     }
     checkState()
-  }, [sarcophagus, provider, refresh])
+  }, [sarcophagus, refresh])
   
   useEffect(() => {
+    if(currentStatus === STATUSES.UNWRAPPING) {
+      setTimeout(() => {
+        refresh()
+      }, 5000)
+    }
     if(currentStatus === STATUSES.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED) {
       toast.dark(STATUSES.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED, {toastId: 'FileAccepted'})
     }
@@ -85,7 +90,7 @@ const useCheckStatus = (sarcophagus, refresh) => {
     if(error) {
       console.log('Status Error', error)
     }
-  }, [currentStatus, error])
+  }, [currentStatus, error, refresh])
 
   return { currentStatus, setCurrentStatus, error, setError }
 }

@@ -4,7 +4,7 @@ import { TIMER_DEFAULT, DEFAULT_COLOR, STATUSES } from "../../constants"
 import { getTimeRemaining } from "../../utils/datetime"
 
 
-const useResurrectionTimer = (time, resWindowTime, currentStatus) => {
+const useResurrectionTimer = (time, resWindowTime, currentStatus, setCurrentStatus) => {
     const timerID = useRef(null)
     const [ resTime, setResTime ] = useState(time.toNumber())
     const [ resWindow, setWindowTime ] = useState(resWindowTime.toNumber())
@@ -47,6 +47,7 @@ const useResurrectionTimer = (time, resWindowTime, currentStatus) => {
             return
         }
         else if(!!Math.sign(resurrectionTime - Date.now().valueOf() <= 0)) {
+            setCurrentStatus?.(STATUSES.UNWRAPPING)
             // resurrection window active
             setInWindow(true)
             setTimers(true)
@@ -84,7 +85,7 @@ const useResurrectionTimer = (time, resWindowTime, currentStatus) => {
         return () => clearInterval(timerID.current)
         }
 
-    },[ resTime, resWindow, setColors, currentStatus, resWindowTime, refreshTimers]) 
+    },[ resTime, resWindow, setColors, currentStatus, resWindowTime, refreshTimers, setCurrentStatus]) 
 
     return {timer, color, timers, refreshTimers}
 }
