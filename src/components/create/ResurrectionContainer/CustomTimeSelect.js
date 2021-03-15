@@ -22,7 +22,7 @@ const DatePickerButton = React.forwardRef(({value, onClick}, ref) => (
       const { customTime } = values
       const date = new Date()
       // Controls how far in future time must be set
-      // date.setDate(new Date().getDate() + 1)
+      date.setDate(new Date().getDate() + 1)
       return (
         <DatePickerComponent customInput={<DatePickerButton />} 
             selected={customTime ? getCustomDateUTC(customTime) : date} 
@@ -34,7 +34,7 @@ const DatePickerButton = React.forwardRef(({value, onClick}, ref) => (
                 setFieldValue("resurrectionTime", convertToUTCTime(date))
             }} 
             dateFormat="MM/dd/yyyy hh:mm" 
-            // minDate={date} 
+            minDate={date} 
             showTimeSelect
         />
     )}
