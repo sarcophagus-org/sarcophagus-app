@@ -53,7 +53,6 @@ const useCheckStatus = (sarcophagus, refresh) => {
             setCurrentStatus(STATUSES.PROCESS_COMPLETE)
             return
           } else {
-            setError('here')
             return
           }
       } 
