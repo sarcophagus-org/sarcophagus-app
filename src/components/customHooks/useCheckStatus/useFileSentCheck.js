@@ -1,4 +1,3 @@
-import { utils } from 'ethers'
 import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { ACTIONS, ERROR, STATUSES } from '../../../constants'
