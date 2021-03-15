@@ -1,3 +1,4 @@
+import { utils } from 'ethers'
 import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { ACTIONS, ERROR, STATUSES } from '../../../constants'
@@ -32,6 +33,7 @@ const useFileSentCheck = ( isSarcophagusMined, data, assetDoubleHash, setCurrent
   }, [])
   
   const sendFileToService = useCallback( async () => {
+    const arrayifyDoubleHash = Buffer.from(utils.arrayify(assetDoubleHash))
     setCurrentStatus(STATUSES.ARWEAVE_STARTED)
     if(pending) return
     setPending(true)
@@ -51,13 +53,13 @@ const useFileSentCheck = ( isSarcophagusMined, data, assetDoubleHash, setCurrent
               setCurrentStatus('')
               toast.dark('File send unsuccessful')
               setError('File send unsuccessful')
-              localStorage.setItem(assetDoubleHash, JSON.stringify({action: 'delete', error: 'File send unsuccessful'}))
+              localStorage.setItem(arrayifyDoubleHash.toLocaleString(), JSON.stringify({action: 'delete', error: 'File send unsuccessful'}))
               clearInterval(interval)
             }
           } else {
             setCurrentStatus('')
             toast.dark('File send unsuccessful')
-            localStorage.setItem(assetDoubleHash, JSON.stringify({action: 'delete', error: 'File send unsuccessful'}))
+            localStorage.setItem(arrayifyDoubleHash.toLocaleString(), JSON.stringify({action: 'delete', error: 'File send unsuccessful'}))
             clearInterval(interval)
             return
           }
