@@ -39,8 +39,11 @@ const getStorageFee = (archaeologist, file, bigNumber=false) => {
 
 
 const getCursedPercentage = (cursedBond, freeBond) => {
-  const percentBN = cursedBond.div(freeBond.add(cursedBond))
-  return getNumberalString(percentBN, 18)
+  if(cursedBond?.isZero()) return '0 %'
+  const cb = parseFloat(utils.formatEther((cursedBond)))
+  const total = parseFloat(utils.formatEther((freeBond.add(cursedBond))))
+  const percentage = (cb / total) * 100
+  return `${percentage.toFixed(9)} %`
 }
 
 export {
