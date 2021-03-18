@@ -50,7 +50,7 @@ const createWeb3Root = () => {
         setWeb3({
           name: 'Fallback provider',
           account: null,
-          chainId: fallback,
+          chainId: fallback.network.chainId,
           provider: fallback,
           signerOrProvider: fallback,
         })
