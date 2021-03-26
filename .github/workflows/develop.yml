@@ -13,12 +13,19 @@ jobs:
           persist-credentials: false
 
       - name: Edit package.json 📄
-        run: npx json -I -f package.json -e 'this.homepage="https://app.dev.sarcophagus.io"'
+        run: npx json -I -f package.json -e 'this.homepage="${{ secrets.RINKEBY_HOMEPAGE_URL }}"'
 
       - name: Install and Build 🔧
         run: |
           npm install
           npm run build
+        env:
+          REACT_APP_ALCHEMY_API_KEY: ${{ secrets.RINKEBY_REACT_APP_ALCHEMY_API_KEY }}
+          REACT_APP_CHAINID: ${{ secrets.RINKEBY_REACT_APP_CHAINID }}
+          REACT_APP_ETHERSCAN_API_KEY: ${{ secrets.RINKEBY_REACT_APP_ETHERSCAN_API_KEY }}
+          REACT_APP_INFURA_API_KEY: ${{ secrets.RINKEBY_REACT_APP_INFURA_API_KEY }}
+          REACT_APP_SARCO_CONTRACT_ADDRESS: ${{ secrets.RINKEBY_REACT_APP_SARCO_CONTRACT_ADDRESS }}
+          REACT_APP_SARCO_TOKEN_ADDRESS: ${{ secrets.RINKEBY_REACT_APP_SARCO_TOKEN_ADDRESS }}
 
       - name: Install SSH Client 🔑
         uses: webfactory/ssh-agent@v0.4.1
@@ -29,7 +36,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
           SSH: true
-          REPOSITORY_NAME: sarcophagus-org/sarcophagus-app_dev
+          REPOSITORY_NAME: ${{ secrets.RINKEBY_DEPLOY_REPO_NAME }}
           BRANCH: gh-pages
           FOLDER: build
           CLEAN: true
