@@ -73,7 +73,7 @@ export const ARCHIVED_STATUSES = {
 // Embalmer Error Messages
 // These show when status badge is 'Error' onHover
 export const ERROR = {
-  BLOCKCHAIN_SERVER: 'There was an error connection to blockchain',
+  BLOCKCHAIN_SERVER: 'There was an error connecting to blockchain',
   ARCH_CONNECTION_FAILED: 'There was a problem connecting to archaeologist',
   ARWEAVE_TRANSACTION_FAILED: 'There was a transaction error',
   ARWEAVE_FILE_ERROR: 'There was an error validating the arweave file',
@@ -95,19 +95,19 @@ export const RECIPIENT_INFO_PART_2 = 'to get your full public key.'
 
 // File upload section
 export const FILE_UPLOAD_HEADER = 'Upload your file to your sarcophagus'
-export const FILE_UPLOAD_INFO = 'Upload the file that you wish to embalm. This file will be downloaded exactly as it is after resurrection. Current alpha max file size: 2.5mb'
+export const FILE_UPLOAD_INFO = 'Upload the file that you wish to embalm. This file will be downloaded after resurrection exactly as is. Current alpha max file size: 2.5mb'
 
 // Resurrection Time section
 export const RESURRECTION_TIME_HEADER = 'Set resurrection time'
 export const RESURRECTION_INFO_P_1 = 'The resurrection time is the exact time and date that the outer layer of your sarcophagus will be decrypted by the Archaeologist.'
-export const RESURRECTION_INFO_P_2 = 'If you fail to re-wrap before this time; only the inter layer of encryption controlled by the recipient is protecting the data in your sarcophagus.'
+export const RESURRECTION_INFO_P_2 = 'If you fail to re-wrap before this time; only the inner layer of the sarcophagus controlled by the recipient is protecting the data.'
 export const RESURRECTION_INFO_P_3 = 'The further the resurrection date is into the future, the more it will cost to create your sarcophagus.'
 
 // Archaeologist section
 export const PICK_ARCHAEOLOGIST_HEADER = 'Pick an Archaeologist'
 export const FEES_INFO = 'Archaeologists are sorted by their mininum fees. When an archaeologist is selected, the mininum fees will be set to these fields. To increase fees offered to an archaeologist, enter new fees after selecting an archaeologist'
 export const BOUNTY_TOOL_TIP = "Max Bounty. Paid to the Archaeologist for a successful resurrection (keep default unless adv user)"
-export const DIGGING_FEE_TOOL_TIP = "Max Digging Fees. Your Paid to the archaeologist after re-wrap (keep default unless adv user)"
+export const DIGGING_FEE_TOOL_TIP = "Max Digging Fees. Paid to the archaeologist after re-wrap (keep default unless adv user)"
 
 
 export const TABLE_HEADER_ARCHAEOLOGISTS = 'Archaeologists'
@@ -127,7 +127,7 @@ export const CLEAN_TOOlTIP = 'Cleaning a sarcophagus, rewards embalmer with the 
 export const BURY_TOOLTIP = 'Burying a sarcophagus, releases digging fees to archaeologist and archives sarcophagus.'
 
 export const TOMB_MAIN_CONTENT_PART_1 = 'Your tomb is where you manage your sarcophagi. You will be able to see the ones you have created or received, as well as any canceled, buried, or errored out sarcophagi.' 
-export const TOMB_MAIN_CONTENT_PART_2 = 'More information on the alert statuses and different states for your sarcophagi, please visit our documentation:'
+export const TOMB_MAIN_CONTENT_PART_2 = 'For more information on the alert statuses and different states for your sarcophagi, please visit our documentation:'
 export const TOMB_MAIN_CONTENT_LINK = 'https://github.com/sarcophagus-org/sarcophagus-app/blob/develop/README.md'
 
 // Eye of Horus page
