@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { toast } from "react-toastify"
+import { CONTRACT_ERROR } from '../../../constants'
 
 const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
   const [ archaeologistsWithCounts, setArchaeologistsWithCounts ] = useState([])
@@ -10,7 +11,7 @@ const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
       const count = await sarcophagusContract.archaeologistCleanupsCount(address)
       return count
     } catch (e) {
-        toast.error('There was an error with contract')
+        toast.error(CONTRACT_ERROR)
         console.error('There was an error with contract : ArchCleanCount', e)
     }
   },[sarcophagusContract])
@@ -22,7 +23,7 @@ const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
       const identifiers = await Promise.all(arr.map(async (_, i) => await sarcophagusContract.archaeologistCleanupsIdentifier(address, i)))
       return identifiers
     } catch (e) {
-        toast.error('There was an error with contract')
+      toast.error(CONTRACT_ERROR)
         console.error('There was an error with contract : ArchCleanIdentifiers', e)
     }
   },[sarcophagusContract])
@@ -32,7 +33,7 @@ const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
       const count = await sarcophagusContract.archaeologistCancelsCount(address)
       return count
     } catch (e) {
-      toast.error('There was an error with contract')
+      toast.error(CONTRACT_ERROR)
       console.error('There was an error with contract : ArchCancelCounts', e)
     }
   },[sarcophagusContract])
@@ -44,7 +45,7 @@ const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
       const identifiers = await Promise.all(arr.map(async (_, i) => await sarcophagusContract.archaeologistCancelsIdentifier(address, i)))
       return identifiers
     } catch (e) {
-      toast.error('There was an error with contract')
+      toast.error(CONTRACT_ERROR)
       console.error('There was an error with contract : ArchCancelIdentifiers', e)
     }
   },[sarcophagusContract])
@@ -54,7 +55,7 @@ const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
       const count = await sarcophagusContract.archaeologistAccusalsCount(address)
       return count
     } catch (e) {
-      toast.error('There was an error with contract')
+      toast.error(CONTRACT_ERROR)
       console.error('There was an error with contract : ArchAccusedCount', e)
     }
   },[sarcophagusContract])
@@ -66,7 +67,7 @@ const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
       const identifiers = await Promise.all(arr.map(async (_, i) => await sarcophagusContract.archaeologistAccusalsIdentifier(address, i)))
       return identifiers
     } catch (e) {
-      toast.error('There was an error with contract')
+      toast.error(CONTRACT_ERROR)
       console.error('There was an error with contract : ArchAccusedIdentifiers', e)
     }
   },[sarcophagusContract])
@@ -76,7 +77,7 @@ const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
       const count = await sarcophagusContract.archaeologistSuccessesCount(address)
       return count
     } catch (e) {
-      toast.error('There was an error with contract')
+      toast.error(CONTRACT_ERROR)
       console.error('There was an error with contract : ArchSuccessCount', e)
     }
   },[sarcophagusContract])
@@ -88,7 +89,7 @@ const useArchaeologistsCheck = (sarcophagusContract, rawArchaeologists) => {
       const identifiers = await Promise.all(arr.map(async (_, i) => await sarcophagusContract.archaeologistSuccessesIdentifier(address, i)))
       return identifiers
     } catch (e) {
-      toast.error('There was an error with contract')
+      toast.error(CONTRACT_ERROR)
       console.error('There was an error with contract : ArchSuccessIdenifiers', e)
     }
   },[sarcophagusContract])

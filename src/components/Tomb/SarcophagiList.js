@@ -6,10 +6,10 @@ import RecipientSarcophagusWrapper from './Recipient/SarcophagusWrapper'
 import ArchivedSarcophagusWrapper from './Archived/SarcophagusWrapper'
 import MockSarcophagus from './MockSarcophagus'
 import { useWeb3 } from '../../web3'
-import { connect } from '../../web3/userSupplied'
 import PendingSarcophagus from './PendingSarcophagus'
 import { useSarcophagiData } from '../Context/SarcophagiContext'
 import { useArchData } from '../Context/ArchaeologistContext'
+import { connect } from '../../web3/useProvider'
 
 const SarcophagiList = () => {
   const match = useRouteMatch()

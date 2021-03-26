@@ -12,10 +12,10 @@ import UploadContainer from './UploadContainer'
 import ResurrectionContainer from './ResurrectionContainer'
 import ArchaeologistContainer from './ArchaeologistContainer'
 import MockSarcophagus from '../Tomb/MockSarcophagus'
-import { connect } from '../../web3/userSupplied'
 import { useWeb3 } from '../../web3'
 import { useSarcophagiData } from '../Context/SarcophagiContext'
 import { useArchData } from '../Context/ArchaeologistContext'
+import { connect } from '../../web3/useProvider'
 
 const CreateSarcophagus = () => {
   const history = useHistory()

@@ -40,6 +40,7 @@ const Resurrect = ({sarcophagus, recipientPrivateKey}) => {
             const url = window.URL.createObjectURL(blob);
 
             // start download
+            toast.dark('Downloading file')
             const a = document.createElement('a')
             a.style.display = 'none'
             a.href = url

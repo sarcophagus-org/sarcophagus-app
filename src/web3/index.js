@@ -1,76 +1,28 @@
-import { useEffect, useState, createContext, useContext } from 'react'
-import { useFallbackConnect } from './fallback'
-import { useLocalConnect } from './local'
-import { useUserSuppliedConnect } from './userSupplied'
-import { supportedChains } from './chains'
+import { createContext, useContext } from 'react'
+import { useProvider } from './useProvider.js'
 
 let context
 
-const createWeb3Root = () => {
+function createWeb3Root() {
   context = createContext()
 
   context.displayName = 'Web3 Provider'
   const Provider = context.Provider
 
-  return ({ children }) => {
-    const { userSupplied }= useUserSuppliedConnect()
-    const local = useLocalConnect(!!userSupplied)
-    const fallback = useFallbackConnect(!!local)
+  return function ({ children }) {
+    const web3Provider = useProvider()
 
-    const defaultName = 'Not connected'
-
-    const [web3, setWeb3] = useState({
-      name: defaultName,
-      account: false,
-      chainId: null,
-      provider: null,
-      signerOrProvider: null,
-    })
-
-    useEffect(() => {
-      if (userSupplied?.provider && supportedChains().includes(parseInt(userSupplied?.provider.chainId))) {
-        setWeb3({
-          name: 'Injected provider',
-          account: userSupplied.provider.selectedAddress,
-          chainId: parseInt(userSupplied.provider.chainId),
-          provider: userSupplied,
-          signerOrProvider: userSupplied.getSigner(),
-        })
-      } else if (local) {
-        local.detectNetwork().then(network => {
-          setWeb3({
-            name: 'Local provider',
-            account: false,
-            chainId: network.chainId,
-            provider: local,
-            signerOrProvider: local,
-          })
-        }).catch(e => {console.error('error detecting error', e)})
-      } else if (fallback) {
-        setWeb3({
-          name: 'Fallback provider',
-          account: null,
-          chainId: fallback.network.chainId,
-          provider: fallback,
-          signerOrProvider: fallback,
-        })
-      } else {
-        setWeb3({
-          name: defaultName,
-          account: false,
-          chainId: null,
-          provider: null,
-          signerOrProvider: null,
-        })
-      }
-    }, [userSupplied, local, fallback])
-    return <Provider value={web3}>{children}</Provider>
+    return (
+      <Provider value={web3Provider}>
+        {children}
+      </Provider>
+    )
   }
 }
 
 const Web3Provider = createWeb3Root()
 
-const useWeb3 = () => {
+function useWeb3() {
   return useContext(context)
 }
 

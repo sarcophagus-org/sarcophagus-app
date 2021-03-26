@@ -1,7 +1,7 @@
 import { utils } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { ACTIONS } from '../../../constants';
+import { ACTIONS, TX_MINING_PENDING } from '../../../constants';
 import { checkTransaction } from '../../../utils/providers';
 import { useWeb3 } from '../../../web3';
 
@@ -81,8 +81,8 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
       if(item?.action === ACTIONS.TRANSACTION_MINING_IN_PROGRESS || item?.action === ACTIONS.SARCOPHAGUS_CREATED) {
         const isMined = await checkTransaction(item.txReceipt.hash, provider)
         if(!isMined) {
-          console.log('Pending Sarcophagus are being Mined...')
-          toast.dark('Transaction is being mined, please wait', { toastId: 'sarcoMining', autoClose: false })
+          console.log(TX_MINING_PENDING)
+          toast.dark(TX_MINING_PENDING, { toastId: 'sarcoMining', autoClose: false })
           count += 1
           if(item?.action === ACTIONS.SARCOPHAGUS_CREATED) {
             return item

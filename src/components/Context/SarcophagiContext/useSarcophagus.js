@@ -1,6 +1,6 @@
 import { BigNumber, utils } from 'ethers'
 import { toast } from 'react-toastify'
-import { ACTIONS, STATUSES } from '../../../constants'
+import { ACCUSAL_SUCCESSFUL, ACCUSAL_UNSUCCESSFUL, ACTIONS, SARCOPHAGUS_CREATING, STATUSES, TRANSACTION_REJECTED } from '../../../constants'
 import { formatCustomResurrectionTime } from "../../../utils/datetime";
 import { initialValues } from '../../Accuse/initialValues';
 
@@ -15,13 +15,13 @@ const useSarcophagus = (sarcophagusContract) => {
         /* Send File to Archaeologist */
         const storageObject = {action: ACTIONS.SARCOPHAGUS_CREATED, sarcophagusName: sarcophagusName, doubleEncryptedFile: doubleEncryptedFile, endpoint: archaeologist.endpoint, txReceipt: txReceipt}
         localStorage.setItem(assetDoubleHash, JSON.stringify(storageObject))
-        toast.dark('Creating Sarcophagus')
+        toast.dark(SARCOPHAGUS_CREATING)
           
         await refresh()
         await history.replace('/')
         } catch(e) {
           if(e?.code === 4001) {
-            toast.error('Transaction Rejected')
+            toast.error(TRANSACTION_REJECTED)
           }
           else if(e?.error?.code === -32603) {
             if(e?.error?.message === "execution reverted: revert resurrection time must be in the future") {
@@ -59,7 +59,7 @@ const useSarcophagus = (sarcophagusContract) => {
       await toggle()
     } catch (e) {
       if(e?.code === 4001) {
-        toast.error('Transaction Rejected')
+        toast.error(TRANSACTION_REJECTED)
       } 
       else if(e?.error?.message === "execution reverted: public key already used") {
           toast.error('Public key already used')
@@ -99,7 +99,7 @@ const useSarcophagus = (sarcophagusContract) => {
       await toggle()
     } catch (e) {
       if(e?.code === 4001) {
-        toast.error('Transaction Rejected')
+        toast.error(TRANSACTION_REJECTED)
       } 
       else if(e?.error?.code === -32603) {
         if(e?.error?.message === "execution reverted: revert resurrection time must be in the future") {
@@ -134,7 +134,7 @@ const useSarcophagus = (sarcophagusContract) => {
 
     } catch (e) {
       if(e?.code === 4001) {
-        toast.error('Transaction Rejected')
+        toast.error(TRANSACTION_REJECTED)
       }
        else {
         toast.error('There was a problem buring sarcophagus')
@@ -160,7 +160,7 @@ const useSarcophagus = (sarcophagusContract) => {
       await toggle()
     } catch (e) {
       if(e?.code === 4001) {
-        toast.error('Transaction Rejected')
+        toast.error(TRANSACTION_REJECTED)
       } else {
         toast.error('There was a problem cleaning sarcophagus')
         console.error('There was a problem cleaning sarcophagus', e)
@@ -184,7 +184,7 @@ const useSarcophagus = (sarcophagusContract) => {
       await toggle()
     } catch (e) {
       if(e?.code === 4001) {
-        toast.error('Transaction Rejected')
+        toast.error(TRANSACTION_REJECTED)
       } else {
         toast.error('There was a problem canceling sarcophagus')
         console.error('There was a problem canceling sarcophagus', e)
@@ -202,12 +202,12 @@ const useSarcophagus = (sarcophagusContract) => {
       const txReceipt = await sarcophagusContract.accuseArchaeologist(identifierUint, singleHashUint, address)
       console.info("Accuse TX HASH", txReceipt.hash)
       await resetForm(initialValues)
-      toast.error('The accusal was successful', {toastId: 'accuseFail', position: 'top-center', autoClose: 5000})
+      toast.dark(ACCUSAL_SUCCESSFUL, {toastId: 'accuseFail', position: 'top-center', autoClose: 5000})
     } catch (e) {
       if(e?.code === 4001) {
-        toast.error('Transaction Rejected')
+        toast.error(TRANSACTION_REJECTED)
       } else {
-        toast.error('The accusal was unsuccessful', {toastId: 'accuseFail', position: 'top-center', autoClose: 5000})
+        toast.error(ACCUSAL_UNSUCCESSFUL, {toastId: 'accuseFail', position: 'top-center', autoClose: 5000})
         console.error('Accused Unsuccessful: ', e)
       }
       

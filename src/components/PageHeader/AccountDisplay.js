@@ -2,7 +2,7 @@ import React from 'react'
 import { truncate } from '../../utils'
 import { useWeb3 } from '../../web3'
 import icon from '../../assets/images/icon.svg'
-import { connect } from '../../web3/userSupplied'
+import { connect } from '../../web3/useProvider'
 
 const AccountDisplay = () => {
     const { account } = useWeb3()

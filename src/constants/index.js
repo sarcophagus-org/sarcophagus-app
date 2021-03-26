@@ -1,18 +1,6 @@
 import { createLocationNumberObject } from "../utils"
 import { getUTCDate } from "../utils/datetime"
 
-// contract value types
-export const sarcophagusInitialValues = {
-  sarcophagusName: false,    // (name) string memory
-  archaeologist: false,      // address
-  resurrectionTime: false,   // uint256
-  storageFee: false,         // uint256
-  diggingFee: false,         // uint256
-  bounty: false,             // uint256
-  assetDoubleHash: false,    // bytes32
-  recipientPublicKey: "", // bytes memory
-}
-
 // internal constants not shown in UI
 export const ACTIONS = {
   SARCOPHAGUS_CREATED: 'Created',
@@ -80,7 +68,16 @@ export const ERROR = {
   ARCH_FILE_HANDLING_FAILED: 'The archaeologist had a problem handling file'
 }
 
-// Create Page content
+// Toast Messages
+export const CONTRACT_ERROR = 'There was an error comunicating with contract'
+export const TX_MINING_PENDING = 'Transaction is being mined, please wait'
+export const SARCOPHAGI_LOADING = 'Loading sarcophagi...'
+export const SARCOPHAGUS_CREATING = 'Creating Sarcophagus'
+export const FILE_MINING = 'File is being mined, please wait to update sarcophagus'
+export const TRANSACTION_REJECTED = 'Transaction Rejected'
+export const ACCUSAL_SUCCESSFUL = 'The accusal was successful'
+export const ACCUSAL_UNSUCCESSFUL = 'The accusal was unsuccessful'
+// *----- Create Page content *------ //
 
 // Page Header
 export const CREATE_MAIN_CONTENT = 'Use this page to create a sarcophagus, this process is called “embalming”. You will need to name your sarcophagus, paste in the full public key of the recipient, and upload the file you wish to embalm.'

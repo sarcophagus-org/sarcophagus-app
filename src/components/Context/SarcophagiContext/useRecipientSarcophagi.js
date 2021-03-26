@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useWeb3 } from '../../../web3';
 import { utils } from 'ethers';
+import { toast } from 'react-toastify';
+import { SARCOPHAGI_LOADING } from '../../../constants';
 
 const useRecipientSarcophagi = (sarcophagusContract, address=false, waitForAddress=false) => {
+  if(address) toast.dark(SARCOPHAGI_LOADING, { autoClose: false, toastId: 'loading-sarcophagi'})
   const [ recipientAllSarcophagi, setAllSarcophagi ] = useState([])
   const [ recipientSarcophagi, setSarcophagi ] = useState(false)
   const { account } = useWeb3()
@@ -40,7 +43,6 @@ const useRecipientSarcophagi = (sarcophagusContract, address=false, waitForAddre
   },[sarcophagusContract])
 
   const getRecipientSarcophagi = useCallback(() => {
-    if(!account) return
      // get count
      getSarcophagiCount(account).then((count) => {
       if(count?.isZero()) return
@@ -52,6 +54,7 @@ const useRecipientSarcophagi = (sarcophagusContract, address=false, waitForAddre
           if(!sarcophagi?.length) return 
           setSarcophagi(sarcophagi.filter(v => v.state === 1 || (v.state === 2 && v.privateKey !== "0x0000000000000000000000000000000000000000000000000000000000000000")))
           setAllSarcophagi(sarcophagi)
+          toast.dismiss('loading-sarcophagi')
         }).catch(e => console.error('Sarcophagus Info', e))
       }).catch(e => console.error('Sarcophagus Identifiers', e))
     }).catch(e => console.error('Sarcophagus Count', e))

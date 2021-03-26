@@ -4,7 +4,7 @@ import useSarcophagusCheck from "./useSarcophagusCheck";
 import useFileSentCheck from "./useFileSentCheck";
 import useFileMiningCheck from "./useFileMiningCheck";
 import { isTimePast } from '../../../utils/datetime'
-import { ACTIONS, STATUSES } from '../../../constants'
+import { ACTIONS, FILE_MINING, STATUSES } from '../../../constants'
 import { toast } from "react-toastify";
 
 const useCheckStatus = (sarcophagus, refresh) => {
@@ -81,11 +81,12 @@ const useCheckStatus = (sarcophagus, refresh) => {
         refresh()
       }, 5000)
     }
-    if(currentStatus === STATUSES.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED) {
-      toast.dark(STATUSES.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED, {toastId: 'FileAccepted'})
+    if(currentStatus === STATUSES.ARWEAVE_PENDING) {
+      toast.dark(FILE_MINING, {toastId: 'fileMining', autoClose: false})
     }
     if(currentStatus === STATUSES.SARCOPHAGUS_AWAIT_SIGN){
       toast.dark(STATUSES.SARCOPHAGUS_AWAIT_SIGN, {toastId: 'SigningNeeded'})
+      toast.dismiss('fileMining')
     }
     if(error) {
       console.log('Status Error', error)
