@@ -69,7 +69,7 @@ function getFallbackProvider() {
   if (process.env.REACT_APP_ALCHEMY_API_KEY) providerKeys.alchemy = process.env.REACT_APP_ALCHEMY_API_KEY
   if (process.env.REACT_APP_ETHERSCAN_API_KEY) providerKeys.etherscan = process.env.REACT_APP_ETHERSCAN_API_KEY
 
-  const defaultProvider = getDefaultProvider(parseInt(process.env.REACT_APP_CHAIN_ID, 10), providerKeys)
+  const defaultProvider = getDefaultProvider(parseInt(process.env.REACT_APP_CHAINID, 10), providerKeys)
 
   return {
     name: 'fallback provider',
