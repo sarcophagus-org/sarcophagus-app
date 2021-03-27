@@ -25,7 +25,6 @@ jobs:
           REACT_APP_ETHERSCAN_API_KEY: ${{ secrets.RINKEBY_REACT_APP_ETHERSCAN_API_KEY }}
           REACT_APP_INFURA_API_KEY: ${{ secrets.RINKEBY_REACT_APP_INFURA_API_KEY }}
           REACT_APP_SARCO_CONTRACT_ADDRESS: ${{ secrets.RINKEBY_REACT_APP_SARCO_CONTRACT_ADDRESS }}
-          REACT_APP_SARCO_TOKEN_ADDRESS: ${{ secrets.RINKEBY_REACT_APP_SARCO_TOKEN_ADDRESS }}
 
       - name: Install SSH Client 🔑
         uses: webfactory/ssh-agent@v0.4.1

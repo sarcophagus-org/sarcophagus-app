@@ -12,12 +12,10 @@ const useAddresses = chainId => {
     if (chainId === parseInt(process.env.REACT_APP_LOCAL_CHAINID, 10)) {
       setAddresses({
         sarcophagus: process.env.REACT_APP_LOCAL_SARCOPHAGUS_ADDRESS,
-        sarcophagusToken: process.env.REACT_APP_LOCAL_SARCOPHAGUS_TOKEN_ADDRESS
       })
     } else if (chainId === parseInt(process.env.REACT_APP_CHAINID, 10)) {
       setAddresses({
         sarcophagus: process.env.REACT_APP_SARCO_CONTRACT_ADDRESS,
-        sarcophagusToken: process.env.REACT_APP_SARCO_TOKEN_ADDRESS
       })
     }
   }, [chainId])

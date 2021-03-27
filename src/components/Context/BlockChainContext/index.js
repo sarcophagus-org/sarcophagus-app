@@ -13,7 +13,7 @@ const createDataRoot = () => {
   
   return ({ children }) => {
     const sarcophagusContract = useSarcophagusContract()
-    const sarcophagusTokenContract = useSarcophagusTokenContract()
+    const sarcophagusTokenContract = useSarcophagusTokenContract(sarcophagusContract)
 
     const { currentBlock } = useCurrentBlock()
     
