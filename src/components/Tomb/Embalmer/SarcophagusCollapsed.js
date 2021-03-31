@@ -13,7 +13,7 @@ const pointer = "cursor-pointer"
 
 
 const SarcophagusCollapsed = ({ sarcophagus : { name }, currentStatus, error, toggle, collapsed, expandedOption=false, timer, color, timers }) => {
-    return (
+	return (
         <div className={!expandedOption ? classnames(base) : classnames(base, pointer)} onClick={!expandedOption ? () => null : () => toggle()} style={{height: '4.375rem'}}>
             <div>
             {name.length > 30
@@ -30,13 +30,13 @@ const SarcophagusCollapsed = ({ sarcophagus : { name }, currentStatus, error, to
             <div className="flex flex-col">
                 {expandedOption && (
                     <div className="flex cursor-pointer">
-                        {!collapsed && <img alt="" src={arrowDown} className="mr-2"/>}
-                        {collapsed && <img alt="" src={arrowRight} className="mr-2"/>}
+                        {!collapsed && currentStatus !== STATUSES.TRANSACTION_MINING_IN_PROGRESS && <img alt="" src={arrowDown} className="mr-2"/>}
+                        {collapsed && currentStatus !== STATUSES.TRANSACTION_MINING_IN_PROGRESS && <img alt="" src={arrowRight} className="mr-2"/>}
                         <span>
                             { 
                                 !!error 
-                                ? "Details" 
-                                : currentStatus === STATUSES.PROCESS_COMPLETE 
+                                ? "Details"
+                                : currentStatus === STATUSES.ACTIVE 
                                 ? 'Rewrap' 
                                 : currentStatus === STATUSES.SARCOPHAGUS_AWAIT_SIGN 
                                 ? STATUSES.SARCOPHAGUS_AWAIT_SIGN 
@@ -47,7 +47,7 @@ const SarcophagusCollapsed = ({ sarcophagus : { name }, currentStatus, error, to
                         </span>
                     </div>
                 )}
-                <StatusBadge status={error || currentStatus} error={!!error || currentStatus === STATUSES.WINDOW_CLOSED} isActive={currentStatus === STATUSES.PROCESS_COMPLETE} />
+                <StatusBadge status={error || currentStatus} error={!!error || currentStatus === STATUSES.WINDOW_CLOSED} isActive={currentStatus === STATUSES.ACTIVE} />
             </div>
         </div>
     )

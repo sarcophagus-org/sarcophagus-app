@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import { utils } from "ethers";
-import useSarcophagusCheck from "./useSarcophagusCheck";
 import useFileSentCheck from "./useFileSentCheck";
 import useFileMiningCheck from "./useFileMiningCheck";
 import { isTimePast } from '../../../utils/datetime'
@@ -19,11 +18,8 @@ const useCheckStatus = (sarcophagus, refresh) => {
     }
   },[ error ])
 
-  // check localStorage data on sarcophagus
-  const { isSarcophagusMined } = useSarcophagusCheck(data, sarcophagus.AssetDoubleHash, error, setError )
-
   // send file if not sent
-  const { sentArchResponse } = useFileSentCheck(isSarcophagusMined, data, sarcophagus.AssetDoubleHash, setCurrentStatus, error, setError)
+  const { sentArchResponse } = useFileSentCheck(data, sarcophagus.AssetDoubleHash, setCurrentStatus, error, setError)
 
   // check file mining status
   useFileMiningCheck(sentArchResponse || archResponse, setCurrentStatus, error, setError, sarcophagus.name)
@@ -49,15 +45,19 @@ const useCheckStatus = (sarcophagus, refresh) => {
           }
           // if no assetId on sarcophagus, mark as finished
           if(sarcophagus?.assetId && sarcophagus?.privateKey === "0x0000000000000000000000000000000000000000000000000000000000000000") {
-            setCurrentStatus(STATUSES.PROCESS_COMPLETE)
+            setError(false)
+            setCurrentStatus(STATUSES.ACTIVE)
             return
           } else {
-            setCurrentStatus('')
-            return
+            setError('There was an unknown error')
           }
       } 
       else {
         // check action
+        // Check if sarcophagus has been updated
+        if(sarcophagus?.assetId && sarcophagus?.privateKey === "0x0000000000000000000000000000000000000000000000000000000000000000") {
+          localStorage.removeItem(doubleHashUint.toLocaleString())
+        }
         // if there is an AssetId skip to checking mining status
         if(parseData?.action === ACTIONS.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED ) {
           setArchResponse(parseData)
@@ -70,10 +70,10 @@ const useCheckStatus = (sarcophagus, refresh) => {
           setData(parseData)
           return
         }
-      } 
+      }
     }
     checkState()
-  }, [sarcophagus, refresh])
+  }, [ sarcophagus, refresh ])
   
   useEffect(() => {
     if(currentStatus === STATUSES.UNWRAPPING) {
@@ -85,10 +85,10 @@ const useCheckStatus = (sarcophagus, refresh) => {
       toast.dark(FILE_MINING, {toastId: 'fileMining', autoClose: false})
     }
     if(currentStatus === STATUSES.SARCOPHAGUS_AWAIT_SIGN){
-      toast.dark(STATUSES.SARCOPHAGUS_AWAIT_SIGN, {toastId: 'SigningNeeded'})
       toast.dismiss('fileMining')
     }
     if(error) {
+      toast.dismiss('fileMining')
       console.log('Status Error', error)
     }
   }, [currentStatus, error, refresh])

@@ -3,8 +3,10 @@ import { toast } from 'react-toastify'
 import { ACCUSAL_SUCCESSFUL, ACCUSAL_UNSUCCESSFUL, ACTIONS, SARCOPHAGUS_CREATING, STATUSES, TRANSACTION_REJECTED } from '../../../constants'
 import { formatCustomResurrectionTime } from "../../../utils/datetime";
 import { initialValues } from '../../Accuse/initialValues';
+import { useTransaction } from '../BlockChainContext/transaction';
 
 const useSarcophagus = (sarcophagusContract) => {
+  const { contractCall } = useTransaction()
 
   const createSarcophagus = async (sarcophagusName, archaeologist, resurrectionTimeUTC, storageFeeBN, diggingFeeBN, bountyBN, assetDoubleHash, recipientPublicKeyBA, doubleEncryptedFile, history, refresh) => {
       /* Create Sarco Transaction */
@@ -38,7 +40,7 @@ const useSarcophagus = (sarcophagusContract) => {
         }
   }
 
-  const updateSarcophagus = async (sarcophagus, setCurrentStatus, refresh, toggle, setError) => {
+  const updateSarcophagus = (sarcophagus, setCurrentStatus, refresh, toggle, setError) => {
     try {
 
       const doubleHashUint = Buffer.from(utils.arrayify(sarcophagus.AssetDoubleHash))
@@ -47,16 +49,23 @@ const useSarcophagus = (sarcophagusContract) => {
 
       let { NewPublicKey, AssetDoubleHash, AssetId, V, R, S } = parsedStorage
       NewPublicKey = Buffer.from(NewPublicKey, 'base64')
-      const txReceipt = await sarcophagusContract.updateSarcophagus(NewPublicKey, AssetDoubleHash, AssetId, V, R, S)
-      console.info("UPDATE TX HASH", txReceipt.hash)
-      // Mine Transaction
 
-      const storageObject = { action: ACTIONS.TRANSACTION_MINING_IN_PROGRESS, txReceipt: txReceipt }
-      const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
-      localStorage.setItem(arrayifyDoubleHash, JSON.stringify(storageObject))
-      setCurrentStatus(STATUSES.TRANSACTION_MINING_IN_PROGRESS)
-      refresh()
-      await toggle()
+      const pendingCallback = () => {
+        setCurrentStatus(STATUSES.TRANSACTION_MINING_IN_PROGRESS)
+        toggle()
+      }
+
+      const successCallback = ({transactionHash}) => {
+        console.info("UPDATE TX HASH", transactionHash)
+        refresh()
+      }
+
+      contractCall(sarcophagusContract.updateSarcophagus, 
+        [ NewPublicKey, AssetDoubleHash, AssetId, V, R, S ], 
+        STATUSES.TRANSACTION_MINING_IN_PROGRESS,
+        pendingCallback,
+         'Transaction failed...', 'Transaction successful',
+        successCallback)
     } catch (e) {
       if(e?.code === 4001) {
         toast.error(TRANSACTION_REJECTED)
@@ -73,30 +82,36 @@ const useSarcophagus = (sarcophagusContract) => {
     }
   }
 
-  const rewrapSarcophagus = async (sarcophagus, values, refresh, toggle, setCurrentStatus, refreshTimers) => {
+  const rewrapSarcophagus = (sarcophagus, values, refresh, toggle, setCurrentStatus, refreshTimers) => {
     try {
       const { AssetDoubleHash } = sarcophagus
       const { bounty, diggingFee, resurrectionTime, custom } = values
 
       const doubleHashUint = Buffer.from(utils.arrayify(AssetDoubleHash))
 
-      let resurrectionTimeUTC = custom ?
-        formatCustomResurrectionTime(resurrectionTime) :
-        BigNumber.from(resurrectionTime / 1000)
+      let resurrectionTimeUTC = custom ? formatCustomResurrectionTime(resurrectionTime) : BigNumber.from(resurrectionTime / 1000)
 
       const diggingFeeBN = utils.parseEther(diggingFee.toString())
       const bountyBN = utils.parseEther(bounty.toString())
 
-      const txReceipt = await sarcophagusContract.rewrapSarcophagus(doubleHashUint, resurrectionTimeUTC, diggingFeeBN, bountyBN)
-      console.info("REWRAP TX HASH", txReceipt.hash)
-      // create storage object for rewraping
-      const storageObject = { action: ACTIONS.TRANSACTION_MINING_IN_PROGRESS, txReceipt: txReceipt }
-      const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
-      localStorage.setItem(arrayifyDoubleHash, JSON.stringify(storageObject))
+      const pendingCallback = () => {
+        setCurrentStatus(STATUSES.TRANSACTION_MINING_IN_PROGRESS)
+        toggle()
+      }
+
+      const successCallback = ({transactionHash}) => {
+        console.info("REWRAP TX HASH", transactionHash)
+        refresh()
+        refreshTimers()
+      }
       setCurrentStatus(STATUSES.TRANSACTION_MINING_IN_PROGRESS)
-      refreshTimers()
-      refresh()
-      await toggle()
+      contractCall(sarcophagusContract.rewrapSarcophagus, 
+        [ doubleHashUint, resurrectionTimeUTC, diggingFeeBN, bountyBN ], 
+        STATUSES.TRANSACTION_MINING_IN_PROGRESS,
+        pendingCallback,
+         'Transaction failed...', 'Transaction successful',
+        successCallback)
+
     } catch (e) {
       if(e?.code === 4001) {
         toast.error(TRANSACTION_REJECTED)
@@ -114,24 +129,32 @@ const useSarcophagus = (sarcophagusContract) => {
         console.error('There was a problem rewrapping sarcophagus', e)
       }
     }
-
   }
 
   const burySarcophagus = async (sarcophagus, setCurrentStatus, refresh, toggle, refreshTimers) => {
     try {
       const { AssetDoubleHash } = sarcophagus
       const doubleHashUint = Buffer.from(utils.arrayify(AssetDoubleHash))
-      const txReceipt = await sarcophagusContract.burySarcophagus(doubleHashUint)
-      console.info("BURY TX HASH", txReceipt.hash)
 
-      const storageObject = { action: ACTIONS.TRANSACTION_MINING_IN_PROGRESS, txReceipt: txReceipt }
-      const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
-      localStorage.setItem(arrayifyDoubleHash, JSON.stringify(storageObject))
-      setCurrentStatus(STATUSES.TRANSACTION_MINING_IN_PROGRESS)
-      refreshTimers()
-      refresh()
-      await toggle()
 
+      const pendingCallback = () => {
+        toggle()
+        setCurrentStatus(STATUSES.TRANSACTION_MINING_IN_PROGRESS)
+      }
+
+      const successCallback = ({transactionHash}) => {
+        console.info("BURY TX HASH", transactionHash)
+        localStorage.removeItem(doubleHashUint.toLocaleString())
+        refresh()
+        refreshTimers()
+      }
+
+      contractCall(sarcophagusContract.burySarcophagus, 
+        [ doubleHashUint ], 
+        STATUSES.TRANSACTION_MINING_IN_PROGRESS,
+        pendingCallback,
+         'Transaction failed...', 'Transaction successful',
+        successCallback)
     } catch (e) {
       if(e?.code === 4001) {
         toast.error(TRANSACTION_REJECTED)
@@ -148,16 +171,26 @@ const useSarcophagus = (sarcophagusContract) => {
       const { AssetDoubleHash } = sarcophagus
       const { address } = archaeologist
       const doubleHashUint = Buffer.from(utils.arrayify(AssetDoubleHash))
-      const txReceipt = await sarcophagusContract.cleanUpSarcophagus(doubleHashUint, address)
-      console.info("CLEAN TX HASH", txReceipt.hash)
 
-      const storageObject = { action: ACTIONS.TRANSACTION_MINING_IN_PROGRESS, txReceipt: txReceipt }
-      const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
-      localStorage.setItem(arrayifyDoubleHash, JSON.stringify(storageObject))
-      setCurrentStatus(STATUSES.TRANSACTION_MINING_IN_PROGRESS)
-      refreshTimers()
-      refresh()
-      await toggle()
+      const pendingCallback = () => {
+        setCurrentStatus(STATUSES.TRANSACTION_MINING_IN_PROGRESS)
+        toggle()
+      }
+
+      const successCallback = ({transactionHash}) => {
+        console.info("CLEAN TX HASH", transactionHash)
+        localStorage.removeItem(doubleHashUint.toLocaleString())
+        refresh()
+        refreshTimers()
+      }
+
+      contractCall(sarcophagusContract.cleanUpSarcophagus, 
+        [ doubleHashUint, address], 
+        STATUSES.TRANSACTION_MINING_IN_PROGRESS,
+        pendingCallback,
+         'Transaction failed...', 'Transaction successful',
+        successCallback)
+
     } catch (e) {
       if(e?.code === 4001) {
         toast.error(TRANSACTION_REJECTED)
@@ -172,16 +205,24 @@ const useSarcophagus = (sarcophagusContract) => {
     try {
       const { AssetDoubleHash } = sarcophagus
       const doubleHashUint = Buffer.from(utils.arrayify(AssetDoubleHash))
-      const txReceipt = await sarcophagusContract.cancelSarcophagus(doubleHashUint)
-      console.info("CANCEL TX HASH", txReceipt.hash)
+      const pendingCallback = () => {
+        setCurrentStatus(STATUSES.TRANSACTION_MINING_IN_PROGRESS)
+        toggle()
+      }
 
-      const storageObject = { action: ACTIONS.TRANSACTION_MINING_IN_PROGRESS, txReceipt: txReceipt }
-      const arrayifyDoubleHash = utils.arrayify(AssetDoubleHash)
-      localStorage.setItem(arrayifyDoubleHash, JSON.stringify(storageObject))
-      setCurrentStatus(STATUSES.TRANSACTION_MINING_IN_PROGRESS)
-      refreshTimers()
-      refresh()
-      await toggle()
+      const successCallback = ({transactionHash}) => {
+        console.info("CANCEL TX HASH", transactionHash)
+        localStorage.removeItem(doubleHashUint.toLocaleString())
+        refresh()
+        refreshTimers()
+      }
+
+      contractCall(sarcophagusContract.cancelSarcophagus, 
+        [ doubleHashUint ], 
+        STATUSES.TRANSACTION_MINING_IN_PROGRESS,
+        pendingCallback,
+         'Transaction failed...', 'Transaction successful',
+        successCallback)
     } catch (e) {
       if(e?.code === 4001) {
         toast.error(TRANSACTION_REJECTED)
@@ -199,15 +240,26 @@ const useSarcophagus = (sarcophagusContract) => {
       const { singleHash, identifier, address } = values
       const identifierUint = Buffer.from(utils.arrayify(identifier))
       const singleHashUint = Buffer.from(utils.arrayify(singleHash))
-      const txReceipt = await sarcophagusContract.accuseArchaeologist(identifierUint, singleHashUint, address)
-      console.info("Accuse TX HASH", txReceipt.hash)
-      await resetForm(initialValues)
-      toast.dark(ACCUSAL_SUCCESSFUL, {toastId: 'accuseFail', position: 'top-center', autoClose: 5000})
+
+      const pendingCallback = () => {
+        toast.dark('Checking accusal', {toastId: 'accusalPending'})
+      }
+
+      const successCallback = ({transactionHash}) => {
+        console.info("Accuse TX HASH", transactionHash)
+        resetForm(initialValues)
+      }
+
+      contractCall(sarcophagusContract.accuseArchaeologist, 
+        [ identifierUint, singleHashUint, address ], 
+        'Checking accusal',
+        pendingCallback,
+        ACCUSAL_UNSUCCESSFUL, ACCUSAL_SUCCESSFUL,
+        successCallback)
     } catch (e) {
       if(e?.code === 4001) {
         toast.error(TRANSACTION_REJECTED)
       } else {
-        toast.error(ACCUSAL_UNSUCCESSFUL, {toastId: 'accuseFail', position: 'top-center', autoClose: 5000})
         console.error('Accused Unsuccessful: ', e)
       }
       

@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { ACTIONS, ERROR, STATUSES } from '../../../constants'
 
-const useFileSentCheck = ( isSarcophagusMined, data, assetDoubleHash, setCurrentStatus, error, setError ) => {
+const useFileSentCheck = ( data, assetDoubleHash, setCurrentStatus, error, setError ) => {
   const [ sentArchResponse, setSentArchResponse ] = useState(false)
   const [ pending, setPending ] = useState(false)
   
@@ -89,10 +89,10 @@ const useFileSentCheck = ( isSarcophagusMined, data, assetDoubleHash, setCurrent
     },[ data, assetDoubleHash, handleSendFile, setSentArchResponse, setCurrentStatus, setError, pending ])
 
   useEffect(() => {
-    if(!isSarcophagusMined) return
+    if(data.action !== 'sending file') return
     if(error) return
     sendFileToService()
-  },[sendFileToService, isSarcophagusMined, error])
+  },[sendFileToService, error, data.action])
 
   return { sentArchResponse }
 }

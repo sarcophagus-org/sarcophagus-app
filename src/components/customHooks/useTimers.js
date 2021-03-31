@@ -42,11 +42,7 @@ const useResurrectionTimer = (time, resWindowTime, currentStatus, setCurrentStat
         if(!resTime) return setTimers(false)
         const resurrectionTime = resTime * 1000
         const windowTime = (resTime + resWindow) * 1000
-        if(currentStatus === STATUSES.TRANSACTION_MINING_IN_PROGRESS) {
-            refreshTimers()
-            return
-        }
-        else if(!!Math.sign(resurrectionTime - Date.now().valueOf() <= 0)) {
+        if(!!Math.sign(resurrectionTime - Date.now().valueOf() <= 0)) {
             setCurrentStatus?.(STATUSES.UNWRAPPING)
             // resurrection window active
             setInWindow(true)
