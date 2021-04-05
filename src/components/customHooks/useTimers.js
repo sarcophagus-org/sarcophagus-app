@@ -42,7 +42,11 @@ const useResurrectionTimer = (time, resWindowTime, currentStatus, setCurrentStat
         if(!resTime) return setTimers(false)
         const resurrectionTime = resTime * 1000
         const windowTime = (resTime + resWindow) * 1000
-        if(!!Math.sign(resurrectionTime - Date.now().valueOf() <= 0)) {
+        if(!!Math.sign(windowTime - Date.now().valueOf() <= 0)) {
+            // no timers active
+            setTimers(false)
+            setInWindow(false)
+        } else if(!!Math.sign(resurrectionTime - Date.now().valueOf() <= 0)) {
             setCurrentStatus?.(STATUSES.UNWRAPPING)
             // resurrection window active
             setInWindow(true)
@@ -59,10 +63,6 @@ const useResurrectionTimer = (time, resWindowTime, currentStatus, setCurrentStat
                 }
             }, 1000)
             return () => clearInterval(timerID.current)
-        } else if(!!Math.sign(windowTime - Date.now().valueOf() <= 0)) {
-            // no timers active
-            setTimers(false)
-            setInWindow(false)
         } else {
             // resurrection timer active
             setInWindow(false)

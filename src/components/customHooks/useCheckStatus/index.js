@@ -33,7 +33,6 @@ const useCheckStatus = (sarcophagus, refresh) => {
       // if resurrection window is closed
       if(isTimePast(sarcophagus.resurrectionTime, sarcophagus.resurrectionWindow)) {
         setCurrentStatus(STATUSES.WINDOW_CLOSED)
-        refresh()
         return
       }
       // if there is no stored data then process should be finished This will probably need to more indepth check
@@ -76,20 +75,24 @@ const useCheckStatus = (sarcophagus, refresh) => {
   }, [ sarcophagus, refresh ])
   
   useEffect(() => {
-    if(currentStatus === STATUSES.UNWRAPPING) {
-      setTimeout(() => {
-        refresh()
-      }, 5000)
-    }
     if(currentStatus === STATUSES.ARWEAVE_PENDING) {
       toast.dark(FILE_MINING, {toastId: 'fileMining', autoClose: false})
+      return
     }
     if(currentStatus === STATUSES.SARCOPHAGUS_AWAIT_SIGN){
       toast.dismiss('fileMining')
+      return
     }
     if(error) {
       toast.dismiss('fileMining')
       console.log('Status Error', error)
+      return
+    }
+    if(currentStatus === STATUSES.UNWRAPPING) {
+      setTimeout(() => {
+        refresh()
+      }, 5000)
+      return
     }
   }, [currentStatus, error, refresh])
 
