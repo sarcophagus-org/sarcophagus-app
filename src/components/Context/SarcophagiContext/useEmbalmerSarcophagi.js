@@ -101,7 +101,7 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
           checkStorage()
         }, 5000)
       }
-    })
+    }).catch((e) => console.error('storage error', e))
   }, [ provider, getEmbalmerSarcophagi ])
 
   useEffect(() => {
