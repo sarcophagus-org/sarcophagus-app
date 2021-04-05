@@ -5,12 +5,13 @@ const useTransaction = () => {
   const [pending, setPending] = useState(false)
 
   const contractCall = useCallback(
-    (contractFn, parameters, pendingMessage, failedMessage, successMessage, successCallback, completedCallback) => {
+    (contractFn, parameters, pendingMessage, pendingCallback, failedMessage, successMessage, successCallback, completedCallback) => {
       setPending(true)
       let toastId
       contractFn(...parameters)
         .then(txResponse => {
-          toastId = toast.info(pendingMessage, {
+          pendingCallback()
+          toastId = toast.dark(pendingMessage, {
             autoClose: false,
             closeOnClick: false,
             draggable: false
@@ -24,7 +25,7 @@ const useTransaction = () => {
             toast.error(failedMessage)
           } else if (txReceipt.status === 1) {
             toast.success(successMessage)
-            if (successCallback) successCallback()
+            if (successCallback) successCallback(txReceipt)
           } else {
             toast.error("Not sure what happened with that transaction")
           }
@@ -36,7 +37,7 @@ const useTransaction = () => {
           toast.dismiss(toastId)
           toast.error("There was an error! Check your browser's console logs for more details.")
         })
-    }, [])
+    }, [ ])
 
   return { contractCall, pending }
 }

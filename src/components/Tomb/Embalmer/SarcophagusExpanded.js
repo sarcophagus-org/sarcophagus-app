@@ -68,7 +68,7 @@ const SarcophagusExpanded = ({ sarcophagus, archaeologist, currentStatus, error,
             {/* If status is signing needed */}
             {currentStatus === STATUSES.SARCOPHAGUS_AWAIT_SIGN && <Sign sarcophagus={sarcophagus} setCurrentStatus={setCurrentStatus} refresh={refresh} toggle={toggle} refreshTimers={refreshTimers} setError={setError}/>}
             {/* if active then allow rewrap */}
-            {currentStatus === STATUSES.PROCESS_COMPLETE && !!archaeologist &&  <Rewrap sarcophagus={sarcophagus} archaeologist={archaeologist} refreshTimers={refreshTimers} setCurrentStatus={setCurrentStatus} toggle={toggle} refresh={refresh} />}
+            {currentStatus === STATUSES.ACTIVE && !!archaeologist &&  <Rewrap sarcophagus={sarcophagus} archaeologist={archaeologist} refreshTimers={refreshTimers} setCurrentStatus={setCurrentStatus} toggle={toggle} refresh={refresh} />}
 
         </div>
     )}

@@ -1,7 +1,7 @@
 import { utils } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { ACTIONS, TX_MINING_PENDING } from '../../../constants';
+import { ACTIONS } from '../../../constants';
 import { checkTransaction } from '../../../utils/providers';
 import { useWeb3 } from '../../../web3';
 
@@ -78,15 +78,11 @@ const useEmbalmerSarcophagi = (sarcophagusContract) => {
       if(key === 'WEB3_CONNECT_CACHED_PROVIDER') return ""
       // Sarcophagus pending mining
       const item = await JSON.parse(localStorage.getItem(key))
-      if(item?.action === ACTIONS.TRANSACTION_MINING_IN_PROGRESS || item?.action === ACTIONS.SARCOPHAGUS_CREATED) {
+      if(item?.action === ACTIONS.SARCOPHAGUS_CREATED) {
         const isMined = await checkTransaction(item.txReceipt.hash, provider)
         if(!isMined) {
-          console.log(TX_MINING_PENDING)
-          toast.dark(TX_MINING_PENDING, { toastId: 'sarcoMining', autoClose: false })
           count += 1
-          if(item?.action === ACTIONS.SARCOPHAGUS_CREATED) {
-            return item
-          }
+          return item
         } else {
           if(item?.action === ACTIONS.SARCOPHAGUS_CREATED) {
             localStorage.setItem(key, JSON.stringify({...item, action: 'sending file'}))

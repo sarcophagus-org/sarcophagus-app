@@ -8,7 +8,7 @@ import SarcophagusExpanded from './SarcophagusExpanded'
 const SarcophagusContainer = ({ sarcophagus, currentStatus, setError, setCurrentStatus, error, archaeologist , refresh}) => {
     const { timer, color, timers, refreshTimers } = useResurrectionTimer(sarcophagus.resurrectionTime, sarcophagus.resurrectionWindow, currentStatus, setCurrentStatus)
     const { collapsed, toggle } = useCollapse(true, true)
-    const isExpanded = () => currentStatus === STATUSES.TRANSACTION_MINING_IN_PROGRESS ? false : currentStatus === STATUSES.SARCOPHAGUS_AWAIT_SIGN ? true : currentStatus === STATUSES.PROCESS_COMPLETE ? true : !!error ? true : !timers ? true : false
+    const isExpanded = () => !!error ? true : currentStatus === STATUSES.SARCOPHAGUS_AWAIT_SIGN ? true : currentStatus === STATUSES.ACTIVE ? true : false
     return (
         <div className="border border-gray-500 px-4 my-8 pt-3 ">
 

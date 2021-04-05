@@ -33,7 +33,7 @@ export const STATUSES = {
   ARWEAVE_PENDING: 'File is being mined on arweave',
   SARCOPHAGUS_AWAIT_SIGN: 'Signing needed',
   CHECKING_STATUS: 'Checking status...',
-  PROCESS_COMPLETE: 'Sarcophagus is Active',
+  ACTIVE: 'Sarcophagus is Active',
   WINDOW_CLOSED: 'Resurrection Window is past',
   TRANSACTION_MINING_IN_PROGRESS: 'Mining in progress',
   UNWRAPPING: 'UnWrapping in progress'
@@ -88,7 +88,7 @@ export const NAME_AND_RECIPIENT_HEADER = 'Name Sarcophagus and add your recipien
 export const NAME_INFO_CONTENT = 'Enter a name for your sarcophagus, this will be public on the blockchain.'
 export const RECIPIENT_INFO_PART_1 = 'Paste your recipient’s full Ethereum public key here, this is not the same as a public address. You can visit'
 export const RECIPIENT_INFO_LINK = 'Get Public Key'
-export const RECIPIENT_INFO_PART_2 = 'to get your full public key.'
+export const RECIPIENT_INFO_PART_2 = 'to get your full public key. The recipient will need to input the private key of their Ethereum public key when resurrecting the Sarcophagus. The recipient may generate a fresh Ethereum public key if concerned with private key exposure'
 
 // File upload section
 export const FILE_UPLOAD_HEADER = 'Upload your file to your sarcophagus'

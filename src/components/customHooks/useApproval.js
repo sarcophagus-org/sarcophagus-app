@@ -7,11 +7,6 @@ const useApproval = () => {
     const { allowance, balance, sarcophagusContract, sarcophagusTokenContract } = useData()
     const [ approved, setApproved ] = useState(false)
 
-    const successCallback = useCallback((txReceipt) => {
-        console.info("Approval TX HASH", txReceipt.hash)
-        setApproved(true)
-    },[])
-
     const approveTransaction = useCallback(async () => {
         let toastId
         sarcophagusTokenContract.approve(sarcophagusContract?.address, BigNumber.from(2).pow(BigNumber.from(256)).sub(BigNumber.from(1)))
@@ -29,9 +24,8 @@ const useApproval = () => {
                     toast.error("SARCO approval failed!")
                 } else if (txReceipt.status === 1) {
                     toast.success("SARCO approval made!")
-                    if (successCallback) {
-                        successCallback(txReceipt)
-                    }
+                    console.info("Approval TX HASH", txReceipt.transactionHash)
+                    setApproved(true)
                 } else {
                     toast.error("Not sure what happened with that transaction")
                 }
@@ -41,7 +35,7 @@ const useApproval = () => {
                 toast.dismiss(toastId)
                 toast.error("There was an error! Check your browser's console logs for more details.")
             })
-        }, [sarcophagusContract?.address, sarcophagusTokenContract, successCallback])
+        }, [sarcophagusContract?.address, sarcophagusTokenContract])
 
     useEffect(() => {
         if(allowance.lt(balance)) {
