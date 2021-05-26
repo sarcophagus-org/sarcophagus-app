@@ -32,7 +32,19 @@ const useArcheologists = (sarcophagusContract) => {
       let archaeologists = await Promise.all(arcAddresses.map( async (address) => await sarcophagusContract.archaeologists(address) ))
       archaeologists = archaeologists.map((arch, index) => ({...arch, address: arcAddresses[index]}) )
       const filteredArchaeologists = archaeologists.filter(v => !v.freeBond.isZero())
-      setArchaeologists(filteredArchaeologists)
+      Promise.all(filteredArchaeologists.map(async (arch) => {
+        try {
+          const response = await fetch(arch.endpoint + "/ping")
+          if(response.ok) return arch
+          else return 'fail'
+        } catch {
+          console.log('Archaeologist not available')
+          return 'fail'
+        }
+      })).then(archaeologists => {
+        const pingedArchaeologists = archaeologists.filter(arch => arch !== 'fail')
+        setArchaeologists(pingedArchaeologists)
+      })
     } catch (error) {
       console.error(error)
     }
