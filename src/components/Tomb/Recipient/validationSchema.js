@@ -11,7 +11,7 @@ export const validationSchema = (hasKeys) => {
         (value) => !!value)
       .test(
         'validDataHextString',
-        'Please enter a valid public key',
+        'Please enter a valid private key',
         (value) => {
           let testValue
           const str = value?.substr?.(0, 2)

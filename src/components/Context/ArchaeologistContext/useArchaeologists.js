@@ -38,7 +38,7 @@ const useArcheologists = (sarcophagusContract) => {
           if(response.ok) return arch
           else return 'fail'
         } catch {
-          console.log('Archaeologist not available')
+          console.error('Archaeologist unavailable -','Address:', arch.address, ' Endpoint:', arch.endpoint)
           return 'fail'
         }
       })).then(archaeologists => {

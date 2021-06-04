@@ -3,6 +3,7 @@ import { useWeb3 } from '../../../web3';
 import { utils } from 'ethers';
 import { toast } from 'react-toastify';
 import { SARCOPHAGI_LOADING } from '../../../constants';
+import { checkReceivedStatus } from '../../../utils';
 
 const useRecipientSarcophagi = (sarcophagusContract, address=false, waitForAddress=false) => {
   if(address) toast.dark(SARCOPHAGI_LOADING, { autoClose: false, toastId: 'loading-sarcophagi'})
@@ -52,11 +53,10 @@ const useRecipientSarcophagi = (sarcophagusContract, address=false, waitForAddre
         // get info
         getSarcophagiInfo(identifiers).then(sarcophagi => {
           if(!sarcophagi?.length) return 
+          
           setSarcophagi(sarcophagi.filter((sarcophagus) => {
-            const resurrectionTimePlusWindow = (sarcophagus.resurrectionTime.toNumber() + sarcophagus.resurrectionWindow.toNumber()) * 1000
-            const isUnwrapped = sarcophagus.state === 2 && sarcophagus.privateKey !== "0x0000000000000000000000000000000000000000000000000000000000000000"
-            const isActive = sarcophagus.state === 1 && resurrectionTimePlusWindow >= Date.now().valueOf() 
-            return (isActive || isUnwrapped)
+          const { isVisible } = checkReceivedStatus(sarcophagus.resurrectionTime, sarcophagus.resurrectionWindow, sarcophagus.privateKey, sarcophagus.state)
+          return isVisible
           }))
           setAllSarcophagi(sarcophagi)
           toast.dismiss('loading-sarcophagi')
