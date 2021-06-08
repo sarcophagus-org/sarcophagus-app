@@ -8,7 +8,7 @@ import Tooltip from '../layout/Tooltip'
 import { initialValues } from './initialValues'
 import { validationSchema } from './validationSchema'
 import eyeOfHorus from '../../assets/images/eyeOfHorus2.svg'
-import { ADDRESS_PLACEHOLDER, ADDRESS_TOOLTIP, HORUS_MAIN_CONTENT_PART_1, HORUS_MAIN_CONTENT_PART_2, IDENTIFIER_PLACEHOLDER, IDENTIFIER_TITLE, IDENTIFIER_TOOLTIP, PAYMENT_ADDRESS_TITLE, SINGLEHASH_PLACEHOLDER, SINGLEHASH_TITLE, SINGLEHASH_TOOLTIP } from '../../constants'
+import { ADDRESS_PLACEHOLDER, ADDRESS_TOOLTIP, HORUS_MAIN_CONTENT_PART_1, HORUS_MAIN_CONTENT_PART_2, HORUS_MAIN_CONTENT_PART_3, IDENTIFIER_PLACEHOLDER, IDENTIFIER_TITLE, IDENTIFIER_TOOLTIP, PAYMENT_ADDRESS_TITLE, SINGLEHASH_PLACEHOLDER, SINGLEHASH_TITLE, SINGLEHASH_TOOLTIP } from '../../constants'
 import { useSarcophagiData } from '../Context/SarcophagiContext'
 
 const TextField = ({errors, touched, handleChange, title, tooltip, ...rest}) => (
@@ -30,9 +30,10 @@ const AccuseArchaeologist = () => {
             <form onSubmit={handleSubmit} className="px-2 flex flex-wrap md:flex-nowrap justify-center">
                 <div className="mr-4 mt-2 w-104 md:w-128">
                     <Title type="subOne" icon={eyeOfHorus} title="Eye of Horus" />
-                    <div className="mt-8 text-md text-white" style={{lineHeight: '1.4375rem'}}>
+                    <div className="mt-8 text-md text-white pr-8" style={{lineHeight: '1.4375rem'}}>
                         <div>{HORUS_MAIN_CONTENT_PART_1}</div>
                         <div className="mt-4">{HORUS_MAIN_CONTENT_PART_2}</div>
+                        <div className="mt-4">{HORUS_MAIN_CONTENT_PART_3}</div>
                     </div>
                 </div>
                 <div className="mt-8 md:mt-16">

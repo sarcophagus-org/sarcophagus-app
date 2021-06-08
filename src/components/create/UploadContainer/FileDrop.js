@@ -6,7 +6,7 @@ import SectionContainer from '../../layout/SectionContainer'
 import Title from '../../layout/Title'
 import TwoColumnContainer from '../../layout/TwoColumnContainer'
 import arrowDown from '../../../assets/images/arrowDown.svg'
-import { FILE_UPLOAD_INFO } from '../../../constants'
+import { FILE_UPLOAD_INFO_1, FILE_UPLOAD_INFO_2 } from '../../../constants'
 
 const FileDrop = ({handleFile, file, setFieldValue, errors, touched, icon, toggle, title}) => {
   useEffect(() => {
@@ -27,7 +27,8 @@ const FileDrop = ({handleFile, file, setFieldValue, errors, touched, icon, toggl
         <TwoColumnContainer>
           <FileDropzone errors={errors.fileUploaded && touched.fileUploaded} handleFile={handleFile} style={{height: '10.625rem'}} file={file}/>
           <InfoBox margin="-mt-1">
-            {FILE_UPLOAD_INFO}
+            <div className="leading-5">{FILE_UPLOAD_INFO_1}</div>
+            <div className="leading-5 my-4">{FILE_UPLOAD_INFO_2}</div>
           </InfoBox>
         </TwoColumnContainer>
       </div>

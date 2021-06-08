@@ -3,6 +3,7 @@ import { useWeb3 } from '../../../web3';
 import { utils } from 'ethers';
 import { toast } from 'react-toastify';
 import { SARCOPHAGI_LOADING } from '../../../constants';
+import { checkReceivedStatus } from '../../../utils';
 
 const useRecipientSarcophagi = (sarcophagusContract, address=false, waitForAddress=false) => {
   if(address) toast.dark(SARCOPHAGI_LOADING, { autoClose: false, toastId: 'loading-sarcophagi'})
@@ -45,14 +46,18 @@ const useRecipientSarcophagi = (sarcophagusContract, address=false, waitForAddre
   const getRecipientSarcophagi = useCallback(() => {
      // get count
      getSarcophagiCount(account).then((count) => {
-      if(count?.isZero()) return
+      if(count?.isZero() || !count) return
       // get identifiers
       getSarcophagiDoubleHashes(account, count).then((identifiers) => {
         if(!identifiers?.length) return
         // get info
         getSarcophagiInfo(identifiers).then(sarcophagi => {
           if(!sarcophagi?.length) return 
-          setSarcophagi(sarcophagi.filter(v => v.state === 1 || (v.state === 2 && v.privateKey !== "0x0000000000000000000000000000000000000000000000000000000000000000")))
+          
+          setSarcophagi(sarcophagi.filter((sarcophagus) => {
+          const { isVisible } = checkReceivedStatus(sarcophagus.resurrectionTime, sarcophagus.resurrectionWindow, sarcophagus.privateKey, sarcophagus.state)
+          return isVisible
+          }))
           setAllSarcophagi(sarcophagi)
           toast.dismiss('loading-sarcophagi')
         }).catch(e => console.error('Sarcophagus Info', e))
