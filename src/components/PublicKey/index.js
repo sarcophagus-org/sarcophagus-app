@@ -35,9 +35,9 @@ const PublicKey = () => {
   return (
     <div className="p-4 flex gap-4 flex-wrap md:flex-nowrap justify-center md:justify-start">
       <div className="mr-4 mt-2 text-base w-104 md:w-128">
-        <div>To receive and decrypt a Sarcophagus after it's been resurrected, the embalmber needs your public key</div>
-        <div className="mt-4">1. Log with account that will receive Sarcophagus</div>
-        <div className="mt-4">2. Click the button to retreive your public key</div>
+        <div>To receive and decrypt a Sarcophagus after resurrection, the embalmer needs your public key.</div>
+        <div className="mt-4">1. Log in with the account that will receive Sarcophagus</div>
+        <div className="mt-4">2. Click below to retrieve your public key</div>
         <div className="mt-4">2. Give your public key to the embalmer</div>
         <Button isDisabled={!account} _classnames="mt-4" type="button" onClick={getPublicKey} label="Get Public Key"/>
       </div>
