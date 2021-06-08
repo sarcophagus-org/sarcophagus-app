@@ -80,29 +80,30 @@ export const ACCUSAL_UNSUCCESSFUL = 'The accusal was unsuccessful'
 // *----- Create Page content *------ //
 
 // Page Header
-export const CREATE_MAIN_CONTENT = 'Use this page to create a sarcophagus, this process is called “embalming”. You will need to name your sarcophagus, paste in the full public key of the recipient, and upload the file you wish to embalm.'
-export const CREATE_MAIN_HEADER = 'Create a Sarcophagus'
+export const CREATE_MAIN_CONTENT = 'This is where you create a Sarcophagus, a process we call “embalming.” Name your Sarcophagus, paste the full public key of the recipient and upload the file you wish to embalm.'
+export const CREATE_MAIN_HEADER = 'Create Sarcophagus'
 
 // Name and recipient section
-export const NAME_AND_RECIPIENT_HEADER = 'Name Sarcophagus and add your recipient'
-export const NAME_INFO_CONTENT = 'Enter a name for your sarcophagus, this will be public on the blockchain.'
-export const RECIPIENT_INFO_PART_1 = 'Paste your recipient’s full Ethereum public key here, this is not the same as a public address. You can visit'
-export const RECIPIENT_INFO_LINK = 'Get Public Key'
-export const RECIPIENT_INFO_PART_2 = 'to get your full public key. The recipient will need to input the private key of their Ethereum public key when resurrecting the Sarcophagus. The recipient may generate a fresh Ethereum public key if concerned with private key exposure'
+export const NAME_AND_RECIPIENT_HEADER = 'Name Sarcophagus and add recipient'
+export const NAME_INFO_CONTENT = 'The name you choose will be public on the blockchain.'
+export const RECIPIENT_INFO_LINK = 'Click here'
+export const RECIPIENT_INFO_PART_1 = 'to get your recipient’s full Ethereum public key. (This is not the same as a public address.) '
+export const RECIPIENT_INFO_PART_2 = 'When resurrecting the Sarcophagus, the recipient will need to input the private key of their Ethereum public key. They can generate a fresh Ethereum public key if concerned with private key exposure.'
 
 // File upload section
 export const FILE_UPLOAD_HEADER = 'Upload your file to your sarcophagus'
-export const FILE_UPLOAD_INFO = 'Upload the file that you wish to embalm. This file will be downloaded after resurrection exactly as is. Current alpha max file size: 2.5mb'
+export const FILE_UPLOAD_INFO_1 = 'Upload a file to embalm. It will be downloaded after resurrection exactly as is.'
+export const FILE_UPLOAD_INFO_2 = 'Current alpha max file size: 2.5 MB'
 
 // Resurrection Time section
 export const RESURRECTION_TIME_HEADER = 'Set resurrection time'
-export const RESURRECTION_INFO_P_1 = 'The resurrection time is the exact time and date that the outer layer of your sarcophagus will be decrypted by the Archaeologist.'
-export const RESURRECTION_INFO_P_2 = 'If you fail to re-wrap before this time; only the inner layer of the sarcophagus controlled by the recipient is protecting the data.'
-export const RESURRECTION_INFO_P_3 = 'The further the resurrection date is into the future, the more it will cost to create your sarcophagus.'
+export const RESURRECTION_INFO_P_1 = 'The resurrection is the exact date and time that the outer layer of your Sarcophagus will be decrypted by the archaeologist.'
+export const RESURRECTION_INFO_P_2 = 'If you don’t attest before this time; only the inner layer controlled by the recipient is protecting the data. '
+export const RESURRECTION_INFO_P_3 = 'The further you set the resurrection time, the more it will cost.'
 
 // Archaeologist section
 export const PICK_ARCHAEOLOGIST_HEADER = 'Pick an Archaeologist'
-export const FEES_INFO = 'Archaeologists are sorted by their mininum fees. When an archaeologist is selected, the mininum fees will be set to these fields. To increase fees offered to an archaeologist, enter new fees after selecting an archaeologist'
+export const FEES_INFO = 'Archaeologists are sorted by their minimum fees. After you select one, that minimum fee will be set with the option to increase. '
 export const BOUNTY_TOOL_TIP = "Max Bounty. Paid to the Archaeologist for a successful resurrection (keep default unless adv user)"
 export const DIGGING_FEE_TOOL_TIP = "Max Digging Fees. Paid to the archaeologist after re-wrap (keep default unless adv user)"
 
@@ -123,21 +124,24 @@ export const CANCEL_TOOLTIP = 'Canceling a sarcophagus, transfers the bounty and
 export const CLEAN_TOOlTIP = 'Cleaning a sarcophagus, rewards embalmer with the cursed bond, and refunds the rest of the payment (bounty and digging fees) back to embalmer and archives sarcophagus.'
 export const BURY_TOOLTIP = 'Burying a sarcophagus, releases digging fees to archaeologist and archives sarcophagus.'
 
-export const TOMB_MAIN_CONTENT_PART_1 = 'Your tomb is where you manage your sarcophagi. You will be able to see the ones you have created or received, as well as any canceled, buried, or errored out sarcophagi.' 
-export const TOMB_MAIN_CONTENT_PART_2 = 'For more information on the alert statuses and different states for your sarcophagi, please visit our documentation:'
-export const TOMB_MAIN_CONTENT_LINK = 'https://github.com/sarcophagus-org/sarcophagus-app/blob/develop/README.md'
+export const TOMB_MAIN_CONTENT_PART_1 = 'This is where you manage your Sarcophagi. View the ones you created or received, including any canceled, buried, or errored out' 
+export const TOMB_MAIN_CONTENT_PART_2 = 'For more information on alert statuses and different states of your Sarcophagi,'
+export const TOMB_MAIN_CONTENT_LINK = 'see here'
+
+// Resurrection page
+export const RESURRECTION_DESCRIPTION = 'If the embalmer does not attest to their Sarcophagus, this is where the receiver will type in the private key to decrypt the inner layer and gain access to the file.'
 
 // Eye of Horus page
-// if both aren't needed we can delete the second part
-export const HORUS_MAIN_CONTENT_PART_1 = 'Ad aliqua proident adipisicing id cillum nisi cupidatat incididunt duis. Cupidatat occaecat aliquip deserunt mollit labore et occaecat ipsum veniam voluptate aliqua tempor. Deserunt esse dolore occaecat ipsum nulla nisi proident esse ipsum. Sint veniam magna pariatur amet ea ut reprehenderit velit eu magna ut cillum aute.'
-export const HORUS_MAIN_CONTENT_PART_2 = 'In deserunt sit proident eu incididunt quis veniam. Nisi nisi irure mollit aute nisi incididunt velit qui qui ex amet est. Veniam fugiat fugiat aute magna tempor velit officia nulla est eiusmod. Et incididunt eu anim in adipisicing nisi dolor.'
+export const HORUS_MAIN_CONTENT_PART_1 = 'The Eye of Horus watches over your Sarcophagi and allows network participants to prove any wrongdoing by the archaeologist at any time.'
+export const HORUS_MAIN_CONTENT_PART_2 = 'When a Sarcophagus is created, a hash for each layer is also created. The hash is used to prove the identity and integrity of the layers.'
+export const HORUS_MAIN_CONTENT_PART_3 = 'The single hash remains hidden unless the Sarcophagus is unwrapped. This can happen during the resurrection time, or if the archaeologist unwraps before then.'
 
 export const SINGLEHASH_TITLE = 'Single Hash'
-export const SINGLEHASH_TOOLTIP = 'The sarcophagus payload (file bytes) with the outer layer decrypted, hashed once'
+export const SINGLEHASH_TOOLTIP = 'The Sarcophagus payload (file bytes) with the outer layer decrypted, hashed once'
 export const SINGLEHASH_PLACEHOLDER = '0x0000000000000000000000000000000000000000000000000000000000000000'
 export const PAYMENT_ADDRESS_TITLE = 'Archaeologist Address'
-export const ADDRESS_TOOLTIP = 'Address of the Archaeologist you are accusing'
+export const ADDRESS_TOOLTIP = 'Address of the archaeologist you are accusing'
 export const ADDRESS_PLACEHOLDER = '0x0000000000000000000000000000000000000000'
 export const IDENTIFIER_TITLE = 'Sarcophagus Identifier'
-export const IDENTIFIER_TOOLTIP = 'The sarcophagus payload (file bytes) encrypted and hashed twice'
+export const IDENTIFIER_TOOLTIP = 'The Sarcophagus payload (file bytes) encrypted and hashed twice. This proves that the archaeologist uploaded the correct data to Arweave.'
 export const IDENTIFIER_PLACEHOLDER = '0x0000000000000000000000000000000000000000000000000000000000000000'

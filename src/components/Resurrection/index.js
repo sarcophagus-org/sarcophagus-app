@@ -8,6 +8,9 @@ import Button from '../layout/Button'
 import RecipientPrivateKeyField from '../Tomb/Recipient/RecipientPrivateKeyField'
 import RecipientSarcophagusWrapper from '../Tomb/Recipient/SarcophagusWrapper'
 import { validationSchema } from '../Tomb/Recipient/validationSchema'
+import icon from '../../assets/images/Resurrection.svg'
+import Title from '../layout/Title'
+import { RESURRECTION_DESCRIPTION } from '../../constants'
 
 const useQuery = () => {
     return new URLSearchParams(useLocation().search)
@@ -41,7 +44,7 @@ const Resurrection = () => {
     
     // takes private key param and converts to address
     const address = recipientPrivateKey ? utils.computeAddress(hexString(recipientPrivateKey)) : ""
-    const { recipientAllSarcophagi } = useRecipientSarcophagi(sarcophagusContract, address, true)
+    const { recipientSarcophagi } = useRecipientSarcophagi(sarcophagusContract, address, true)
 
     const initialValues = {
         recipientPrivateKey: query.get('recipientPrivateKey') || ""
@@ -53,9 +56,15 @@ const Resurrection = () => {
 
     return (
         <div className="pt-8 px-8 flex justify-center md:justify-between flex-wrap md:flex-nowrap gap-4 md:gap-8">
-            <PrivateKeyField handleQuery={handleQuery} initialValues={initialValues}/>
+            <div style={{width: '34rem'}}>
+                <Title type="main" icon={icon} title="Resurrection" />
+                <div className="text-md font-normal pl-2 pb-8">
+                    {RESURRECTION_DESCRIPTION}
+                </div>
+                <PrivateKeyField handleQuery={handleQuery} initialValues={initialValues}/>
+            </div>
             <div className="pt-2 " style={{width: '34rem'}}>
-                {recipientAllSarcophagi?.map((sarcophagus, i) => <RecipientSarcophagusWrapper key={sarcophagus.archaeologist + i.toString()} sarcophagus={sarcophagus} recipientPrivateKey={recipientPrivateKey} />)}
+                {recipientSarcophagi?.map((sarcophagus, i) => <RecipientSarcophagusWrapper key={sarcophagus.archaeologist + i.toString()} sarcophagus={sarcophagus} recipientPrivateKey={recipientPrivateKey} />)}
             </div>
         </div>
     )

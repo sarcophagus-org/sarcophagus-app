@@ -21,13 +21,13 @@ const ResurrectionTime = ({values, errors, touched, setFieldValue, title, icon, 
     <TwoColumnContainer>
       <TimeFields errors={errors} touched={touched} setFieldValue={setFieldValue} values={values} />
       <InfoBox margin="-mt-1">
-        <div className="pb-2">
+        <div className="pb-4 leading-5">
           { RESURRECTION_INFO_P_1 }
         </div>
-        <div className="pb-2">
+        <div className="pb-4 leading-5">
           { RESURRECTION_INFO_P_2 }
         </div>
-        <div>
+        <div className="leading-5">
           { RESURRECTION_INFO_P_3 }
         </div>
       </InfoBox>

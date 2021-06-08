@@ -39,9 +39,9 @@ const NameAndRecipient = ({values, errors, touched, handleChange, handleKey, tit
       </div>
       <InfoBox style={{marginTop: '1.75rem'}}>
         <div className="border-b border-gray-400 mb-4" style={{width: 'fit-content'}}>Eth public key</div>
-        <div className="text-gray-400">
+        <div className="text-gray-400 leading-5">
+         <NavLink className="cursor-pointer mr-2 underline hover:text-gray-300 text-white" to="/publicKey">{RECIPIENT_INFO_LINK}</NavLink>
           {RECIPIENT_INFO_PART_1}
-         <NavLink className="cursor-pointer mx-2 text-md underline hover:text-white" to="/publicKey">{RECIPIENT_INFO_LINK}</NavLink>
           {RECIPIENT_INFO_PART_2} 
         </div>
       </InfoBox>
