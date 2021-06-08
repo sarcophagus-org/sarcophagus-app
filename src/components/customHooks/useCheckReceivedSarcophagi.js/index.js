@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { RECIPIENT_STATUSES, STATUSES } from "../../../constants"
-import { checkReceivedStatus } from '../../../utils'
 
 
 const useCheckReceivedSarcophagi = (sarcophagus) => {
@@ -8,20 +7,16 @@ const useCheckReceivedSarcophagi = (sarcophagus) => {
     const [ error, setError ] = useState(false)
 
     useEffect(() => {
-        const { isUnwrapped, isActive } = checkReceivedStatus(sarcophagus.resurrectionTime, sarcophagus.resurrectionWindow, sarcophagus.privateKey, sarcophagus.state)
-        if (isUnwrapped) {
+        if (sarcophagus?.privateKey !== "0x0000000000000000000000000000000000000000000000000000000000000000") {
             setCurrentStatus(RECIPIENT_STATUSES.UNWRAPPED)
         }
-        else if (sarcophagus?.assetId && isActive){
+        else if (sarcophagus?.assetId){
             setCurrentStatus(RECIPIENT_STATUSES.ACTIVE)
         }
-        else if(!sarcophagus?.assetId && isActive){
+        else if(!sarcophagus?.assetId){
             setCurrentStatus(RECIPIENT_STATUSES.CREATED)
         }
-        else {
-            setCurrentStatus('Sarcophagus was not unwrapped in time')
-            setError('Sarcophagus was not unwrapped in time')
-        }
+        else {setError('There was an error checking state')}
     }, [ sarcophagus ])
 
     return { currentStatus, error }

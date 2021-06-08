@@ -1,5 +1,3 @@
-import { BigNumber } from "@ethersproject/bignumber";
-
 const truncate = (fullStr, strLen, separator, sepLength) => {
   if (fullStr.length <= strLen) return fullStr;
 
@@ -24,16 +22,8 @@ const createLocationNumberObject = (length, day = false) => {
   return object;
 };
 
-const checkReceivedStatus = (resurrectionTime, resurrectionWindow, privateKey, SarcophagusState) => {
-  const resurrectionTimePlusWindow = resurrectionTime.add(resurrectionWindow)
-  const isUnwrapped = SarcophagusState === 2 && privateKey !== "0x0000000000000000000000000000000000000000000000000000000000000000"
-  const isActive = SarcophagusState === 1 && resurrectionTimePlusWindow.gte(BigNumber.from(Number(Date.now().valueOf() / 1000).toFixed(0)))
-  const isVisible = isUnwrapped || isActive
-  return { isUnwrapped, isActive, isVisible }
-}
 
 export {
   truncate,
   createLocationNumberObject,
-  checkReceivedStatus
 }

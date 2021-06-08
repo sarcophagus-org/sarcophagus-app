@@ -10,7 +10,7 @@ const RecipientSarcophagusContainer = ({ sarcophagus, currentStatus, error, ...r
     const { collapsed, toggle } = useCollapse(true, true)
     return (
         <div className="border border-gray-500 px-4 my-8 pt-3">
-            <SarcophagusCollapsed sarcophagus={sarcophagus} toggle={toggle} collapsed={collapsed} expandedOption={currentStatus === RECIPIENT_STATUSES.UNWRAPPED} status={currentStatus} error={error} timer={timer} color={color} timers={timers}/>
+            <SarcophagusCollapsed sarcophagus={sarcophagus} toggle={toggle} collapsed={collapsed} expandedOption={currentStatus === RECIPIENT_STATUSES.UNWRAPPED || !!error} status={currentStatus} error={error} timer={timer} color={color} timers={timers}/>
             {!collapsed && (
                 <SarcophagusExpanded sarcophagus={sarcophagus} currentStatus={currentStatus} error={error} toggle={toggle} {...rest} />
             )}

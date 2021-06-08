@@ -13,7 +13,7 @@ const Tomb = () => {
           <div> { TOMB_MAIN_CONTENT_PART_1 }</div>
 
           <div className="mt-4">{ TOMB_MAIN_CONTENT_PART_2 } 
-          <a target="_blank" rel="noreferrer noopener" className="cursor-pointer text-gray-300 hover:text-white ml-2 underline" href="https://github.com/sarcophagus-org/sarcophagus-app/blob/develop/README.md">{ TOMB_MAIN_CONTENT_LINK }</a>
+          <div className="mt-4" ><a target="_blank" rel="noreferrer noopener" className="cursor-pointer hover:text-gray-300" href="https://github.com/sarcophagus-org/sarcophagus-app/blob/develop/README.md">{ TOMB_MAIN_CONTENT_LINK }</a></div>
           </div>
         </div>
       </div>
