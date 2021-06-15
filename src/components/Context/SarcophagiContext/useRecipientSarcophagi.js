@@ -8,7 +8,7 @@ import { checkReceivedStatus } from '../../../utils';
 const useRecipientSarcophagi = (sarcophagusContract, address=false, waitForAddress=false) => {
   if(address) toast.dark(SARCOPHAGI_LOADING, { autoClose: false, toastId: 'loading-sarcophagi'})
   const [ recipientAllSarcophagi, setAllSarcophagi ] = useState([])
-  const [ recipientSarcophagi, setSarcophagi ] = useState(false)
+  const [ recipientSarcophagi, setSarcophagi ] = useState([])
   const { account } = useWeb3()
   
   const getSarcophagiCount = useCallback( async (account) => {
