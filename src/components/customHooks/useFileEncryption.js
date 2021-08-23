@@ -1,86 +1,79 @@
-import { useState, useEffect, useCallback } from "react"
-import { encrypt } from 'ecies-geth'
-import { utils } from 'ethers'
-import { hexToBytes } from '../../utils/bytes'
+import { useState, useEffect, useCallback } from "react";
+import { encrypt } from "ecies-geth";
+import { utils } from "ethers";
+import { hexToBytes } from "../../utils/bytes";
 
 const useFileEncryption = () => {
-  const [ file, setFile ] = useState(false)
-  const [ recipientPublicKey, setRecipientPublicKey ] = useState(false)
-  const [ fileByteArray, setFileByteArrayArray ] = useState(false)
-  const [ fileEncryptedRecipient, setFileEncryptedRecipient ] = useState(false)
-  const [ archaeologistPublicKey, setArchaeologistAddress] = useState(false)
-  const [ doubleEncryptedFile, setDoubleEncryptedFile ] = useState(false)
-  const [ assetDoubleHash, setAssetDoubleHash ] = useState(false)
+  const [file, setFile] = useState(false);
+  const [recipientPublicKey, setRecipientPublicKey] = useState(false);
+  const [fileByteArray, setFileByteArrayArray] = useState(false);
+  const [fileEncryptedRecipient, setFileEncryptedRecipient] = useState(false);
+  const [archaeologistPublicKey, setArchaeologistAddress] = useState(false);
+  const [doubleEncryptedFile, setDoubleEncryptedFile] = useState(false);
+  const [assetDoubleHash, setAssetDoubleHash] = useState(false);
 
   useEffect(() => {
-    if(!file) return
+    if (!file) return;
     try {
-      const reader = new FileReader()
-      reader.readAsArrayBuffer(file)
+      const reader = new FileReader();
+      reader.readAsArrayBuffer(file);
       reader.onload = (e) => {
-        const result = e.target.result
-        const view = new Uint8Array(result)
-        setFileByteArrayArray(view)
-      } 
+        const result = e.target.result;
+        setFileByteArrayArray(result);
+      };
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
-  }, [file])
+  }, [file]);
 
-  const createJSONObject = useCallback(() => {
-    const jsonString = JSON.stringify({
-      type: file.type,
-      data: fileByteArray
-    })
-    const jsonBtyeArray = new Uint8Array(Buffer.from(jsonString))
-    return jsonBtyeArray
-  }, [file, fileByteArray])
-
-  const firstEncryption = useCallback( async () => {
+  const firstEncryption = useCallback(async () => {
     try {
-      const fileObject = createJSONObject()
-      let formatedPublicKey
-      if(recipientPublicKey.substr(0, 4) !== '0x04') formatedPublicKey = "0x04" + recipientPublicKey
-      const recipPubKeyBytes = hexToBytes(formatedPublicKey || recipientPublicKey, true).slice(1)
-      const encrypted = await encrypt(recipPubKeyBytes, fileObject)
-      setFileEncryptedRecipient(encrypted)
+      let formatedPublicKey;
+      if (recipientPublicKey.substr(0, 4) !== "0x04")
+        formatedPublicKey = "0x04" + recipientPublicKey;
+      const recipPubKeyBytes = hexToBytes(
+        formatedPublicKey || recipientPublicKey,
+        true
+      ).slice(1);
+      const encrypted = await encrypt(recipPubKeyBytes, fileByteArray);
+      setFileEncryptedRecipient(encrypted);
 
-      const hashedOnce = utils.keccak256(encrypted)
-      const hashedTwice = utils.keccak256(hashedOnce)
-      setAssetDoubleHash(utils.arrayify(hashedTwice))
+      const hashedOnce = utils.keccak256(encrypted);
+      const hashedTwice = utils.keccak256(hashedOnce);
+      setAssetDoubleHash(utils.arrayify(hashedTwice));
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
-  }, [createJSONObject, recipientPublicKey])
+  }, [recipientPublicKey, fileByteArray]);
 
   useEffect(() => {
-    if(!fileByteArray || !recipientPublicKey) return
-    firstEncryption()
-  }, [fileByteArray, recipientPublicKey, firstEncryption])
+    if (!fileByteArray || !recipientPublicKey) return;
+    firstEncryption();
+  }, [fileByteArray, recipientPublicKey, firstEncryption]);
 
-  const secondEncryption = useCallback( async () => {
+  const secondEncryption = useCallback(async () => {
     try {
-      const archPubKeyBytes = hexToBytes(archaeologistPublicKey, true)
-      const encrypted = await encrypt(archPubKeyBytes, fileEncryptedRecipient)
-      setDoubleEncryptedFile(encrypted)
+      const archPubKeyBytes = hexToBytes(archaeologistPublicKey, true);
+      const encrypted = await encrypt(archPubKeyBytes, fileEncryptedRecipient);
+      setDoubleEncryptedFile(encrypted);
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
-  }, [fileEncryptedRecipient, archaeologistPublicKey])
+  }, [fileEncryptedRecipient, archaeologistPublicKey]);
 
   useEffect(() => {
-    if(!fileEncryptedRecipient || !archaeologistPublicKey) return
-    secondEncryption()
-  },[fileEncryptedRecipient, archaeologistPublicKey, secondEncryption])
+    if (!fileEncryptedRecipient || !archaeologistPublicKey) return;
+    secondEncryption();
+  }, [fileEncryptedRecipient, archaeologistPublicKey, secondEncryption]);
 
-  return { 
+  return {
     file,
     setFile,
     setRecipientPublicKey,
     setArchaeologistAddress,
     doubleEncryptedFile,
-    assetDoubleHash
-  }
-}
+    assetDoubleHash,
+  };
+};
 
-export default useFileEncryption
+export default useFileEncryption;

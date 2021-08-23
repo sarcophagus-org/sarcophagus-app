@@ -20,10 +20,11 @@ const ArchaeologistsList = ({ archaeologist, file, bounty, diggingFee, selected,
       setIsDisabled(true)
       return
     }
+    const isDisabled = archaeologist?.isOffline
     const isBountyLess = archaeologist.minimumBounty.lte(utils.parseEther(bounty.toString()))
     const isDiggingFeeLess = archaeologist.minimumDiggingFee.lte(utils.parseEther(diggingFee.toString()))
     const isFreeBondGreater = archaeologist.freeBond.gte(utils.parseEther(getTotalFee(archaeologist, file).toString()))
-    if(isBountyLess && isDiggingFeeLess && isFreeBondGreater && !!file) setIsDisabled(false)
+    if(isBountyLess && isDiggingFeeLess && isFreeBondGreater && !!file && !isDisabled) setIsDisabled(false)
     else {
       
       setIsDisabled(true)
