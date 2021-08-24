@@ -38,7 +38,7 @@ const Embalmer = ({ refresh }) => {
           key={sarcophagus?.archaeologist + i.toString()}
         />
       ))}
-      {embalmerSarcophagi?.reverse().map((sarcophagus, i) => (
+      {embalmerSarcophagi?.map((sarcophagus, i) => (
         <SarcophagusWrapper
           key={sarcophagus.archaeologist + i.toString()}
           sarcophagus={sarcophagus}
