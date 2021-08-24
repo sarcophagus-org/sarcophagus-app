@@ -166,10 +166,9 @@ const useSarcophagus = (sarcophagusContract) => {
     }
   }
 
-  const cleanSarcophagus = async (sarcophagus, setCurrentStatus, archaeologist, toggle, refresh, refreshTimers) => {
+  const cleanSarcophagus = async (sarcophagus, setCurrentStatus, toggle, refresh, refreshTimers) => {
     try {
-      const { AssetDoubleHash } = sarcophagus
-      const { address } = archaeologist
+      const { AssetDoubleHash, archaeologist } = sarcophagus
       const doubleHashUint = Buffer.from(utils.arrayify(AssetDoubleHash))
 
       const pendingCallback = () => {
@@ -185,7 +184,7 @@ const useSarcophagus = (sarcophagusContract) => {
       }
 
       contractCall(sarcophagusContract.cleanUpSarcophagus, 
-        [ doubleHashUint, address], 
+        [ doubleHashUint, archaeologist ], 
         STATUSES.TRANSACTION_MINING_IN_PROGRESS,
         pendingCallback,
          'Transaction failed...', 'Transaction successful',
