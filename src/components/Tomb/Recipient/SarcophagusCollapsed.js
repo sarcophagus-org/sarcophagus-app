@@ -23,7 +23,7 @@ const SarcophagusCollapsed = ({ sarcophagus : { name, state }, error, toggle, st
                 : (
                     <div className="text-base font-bold text-white" style={{lineHeight: '1.625rem'}}>{name}</div>
             )}
-            {!error && <ResurrectionTimer state={state} timer={!timers && timer === TIMER_DEFAULT ? 'Unwrapped' : timer} color={timer === TIMER_DEFAULT ? 'text-white' : color} timers={timers}/>}
+            <ResurrectionTimer state={state} timer={!timers && timer === TIMER_DEFAULT ? 'Unwrapped' : timer} color={timer === TIMER_DEFAULT ? 'text-white' : color} timers={timers}/>
         </div>
 
         <div className="flex flex-col">

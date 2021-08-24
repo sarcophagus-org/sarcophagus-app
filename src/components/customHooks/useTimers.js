@@ -6,8 +6,8 @@ import { getTimeRemaining } from "../../utils/datetime"
 
 const useResurrectionTimer = (time, resWindowTime, currentStatus, setCurrentStatus) => {
     const timerID = useRef(null)
-    const [ resTime, setResTime ] = useState(false)
-    const [ resWindow, setWindowTime ] = useState(false)
+    const [ resTime, setResTime ] = useState(time.toNumber())
+    const [ resWindow, setWindowTime ] = useState(resWindowTime.toNumber())
     const [ inWindow, setInWindow ] = useState(false)
     const [ timer, setTime ] = useState(TIMER_DEFAULT)
     const [ timers, setTimers ] = useState(false)
@@ -33,7 +33,6 @@ const useResurrectionTimer = (time, resWindowTime, currentStatus, setCurrentStat
 
     // checks for changes
     useEffect(() => {
-        if(time._hex === "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff") return
         setResTime(time.toNumber())
         setWindowTime(resWindowTime.toNumber())
     }, [time, resWindowTime])

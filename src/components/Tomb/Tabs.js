@@ -12,7 +12,7 @@ const Tabs = ({embalmerCount, recipientCount, archivedCount}) => {
         <Tooltip content={
           <div>
             <div>Active sarcophagi</div>
-            <div>View current status and resurrected time</div>
+            <div>Current status and resurrection time will be displayed</div>
           </div>
         } />
       </NavLink>
@@ -21,7 +21,7 @@ const Tabs = ({embalmerCount, recipientCount, archivedCount}) => {
         <Tooltip content={
           <div>
             <div>Received Sarcophagi</div>
-            <div>View received Sarcophagi details</div>
+            <div>Click to view received sarcophagi details</div>
           </div>
         } />
       </NavLink>
@@ -29,7 +29,7 @@ const Tabs = ({embalmerCount, recipientCount, archivedCount}) => {
         <Title type="subOne" title={`Archived: (${archivedCount || 0})`} />
         <Tooltip content={<div>
           <div>Inactive sarcophagi</div>
-          <div>View past Sarcophagi</div>
+          <div>Click to view past sarcophagi</div>
         </div>
         } />
       </NavLink>
