@@ -14,7 +14,7 @@ const arweaveFileValid = async (arweave, transactionId, doubleEncryptedFile) => 
   try {
     const data = await arweave.transactions.getData(transactionId, {decode: true})
     const buffedData = Buffer.from(data)
-    const buffFile = Buffer.from(doubleEncryptedFile)
+    const buffFile = Buffer.from(doubleEncryptedFile.data)
     return (Buffer.compare(buffedData, buffFile) === 0)
   } catch (e) {
     console.error(e)

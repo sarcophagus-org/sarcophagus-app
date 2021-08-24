@@ -35,8 +35,8 @@ export const validationSchema = Yup.object().shape({
       )
       .test(
       'filesize',
-      'Files must not be larger than 2.8MB',
-      (value) => value ? value.size <= 2900000 : true
+      'Files must not be larger than 2.9MB',
+      (value) => value ? value.size <= 2999800 : true
     ),
     address: Yup.string().required('Please select an archaeologist')
   }).nullable()

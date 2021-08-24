@@ -1,3 +1,4 @@
+import { utils } from 'ethers'
 import { useEffect, useState } from 'react'
 
 const useArchivedSarcophagi = ( embalmerAllSarcophagi, recipientAllSarcophagi ) => {
@@ -14,6 +15,15 @@ const useArchivedSarcophagi = ( embalmerAllSarcophagi, recipientAllSarcophagi ) 
     const filteredSarcophagi = Array.from(mergedSarcophagi.reduce((acc, item) => (item && item["AssetDoubleHash"] && acc.set(item["AssetDoubleHash"], item)), new Map()).values())
     setArchivedSarcophagi(filteredSarcophagi)
   }, [ embalmerAllSarcophagi, recipientAllSarcophagi ])
+
+  useEffect(() => {
+    // catches any storage items that don't get removed
+    archivedSarcophagi?.forEach(v => {
+      const doubleHashUint = Buffer.from(utils.arrayify(v.AssetDoubleHash))
+      localStorage.removeItem(doubleHashUint.toLocaleString())
+    })
+  }, [ archivedSarcophagi ])
+
 
   return { archivedSarcophagi }
 }

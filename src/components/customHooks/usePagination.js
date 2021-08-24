@@ -8,10 +8,10 @@ const usePagination = (itemsTotal) => {
     const perPage = 5
     
     // setTotalPages
-    useEffect(() => { setTotalPages(Math.trunc(itemsTotal / perPage))}, [itemsTotal])
+    useEffect(() => { setTotalPages(Math.floor(itemsTotal / perPage))}, [itemsTotal])
     useEffect(() => { 
         let arr = []
-        for(let i = 0; i < totalPages; i++) arr.push(i)
+        for(let i = 0; i <= totalPages; i++) arr.push(i)
         setPageNumbers(arr)
     }, [totalPages])
 

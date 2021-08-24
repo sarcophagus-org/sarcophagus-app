@@ -1,113 +1,102 @@
-import { useEffect, useState } from "react";
-import { isTimePast } from "../../../utils/datetime";
-import { ERROR, FILE_MINING, STATUSES } from "../../../constants";
+import { useEffect, useState } from "react"
+import { utils } from "ethers";
+import useFileSentCheck from "./useFileSentCheck";
+import useFileMiningCheck from "./useFileMiningCheck";
+import { isTimePast } from '../../../utils/datetime'
+import { ACTIONS, FILE_MINING, STATUSES } from '../../../constants'
 import { toast } from "react-toastify";
-import { useSarcophagiData } from "../../Context/SarcophagiContext";
-import useArchFileSend, { SEND_STATUS_OPTIONS } from "./useSendFile";
 
 const useCheckStatus = (sarcophagus, refresh) => {
-  const [currentStatus, setCurrentStatus] = useState(STATUSES.CHECKING_STATUS);
-  const [error, setError] = useState(false);
-  const { createData, setCreateData } = useSarcophagiData(null);
-
-  const { sendStatus, sendFileToArchService } = useArchFileSend(
-    createData,
-    setCreateData,
-    sarcophagus
-  );
+  const [ data, setData] = useState(false)
+  const [ currentStatus, setCurrentStatus ] = useState(STATUSES.CHECKING_STATUS)
+  const [ error, setError ] = useState(false)
+  const [ archResponse, setArchResponse ] = useState(false)
 
   useEffect(() => {
-    if (error) {
-      setCurrentStatus(false);
+    if(error) {
+      setCurrentStatus(false)
     }
-  }, [error]);
+  },[ error ])
 
+  // send file if not sent
+  const { sentArchResponse } = useFileSentCheck(data, sarcophagus.AssetDoubleHash, setCurrentStatus, error, setError)
+
+  // check file mining status
+  useFileMiningCheck(sentArchResponse || archResponse, setCurrentStatus, error, setError, sarcophagus.name)
+
+  // check local storage for stored data on sarcophagi if exists
   useEffect(() => {
-    if (currentStatus === STATUSES.ARWEAVE_PENDING) {
-      window.addEventListener("beforeunload", alertUser);
-    } else {
-      window.removeEventListener("beforeunload", alertUser);
-    }
-    return () => window.removeEventListener("beforeunload", alertUser);
-  }, [currentStatus]);
-
-  const alertUser = (event) => {
-    const message =
-      "Leaving before Sarcophagus update is signed, will result in loss of sarcophagus";
-    toast.error(message, { autoClose: 2000, position: "top-center" });
-    event.preventDefault();
-    event.returnValue = message;
-    return message;
-  };
-
-  const checkStatus = async (sarcophagus) => {
-    if (currentStatus === STATUSES.TRANSACTION_MINING_IN_PROGRESS) {
-      setError(false);
-      return;
-    }
-    if (sarcophagus?.assetId) {
-      if (
-        sarcophagus.resurrectionTime.toNumber() * 1000 - Date.now().valueOf() <=
-        0
-      ) {
-        setTimeout(() => {
-          refresh();
-        }, 3000);
-        return;
+    const checkState = async () => {
+      const doubleHashUint = Buffer.from(utils.arrayify(sarcophagus.AssetDoubleHash))
+      const storedData = localStorage.getItem(doubleHashUint.toLocaleString())
+      const parseData = JSON.parse(storedData)
+      // if resurrection window is closed
+      if(isTimePast(sarcophagus.resurrectionTime, sarcophagus.resurrectionWindow)) {
+        setCurrentStatus(STATUSES.WINDOW_CLOSED)
+        return
       }
-      if (
-        isTimePast(sarcophagus.resurrectionTime, sarcophagus.resurrectionWindow)
-      ) {
-        setCurrentStatus(STATUSES.WINDOW_CLOSED);
-        return;
-      }
-      // check for state of 2 on sarcophagus for unwrapping should not be here
-      if (sarcophagus?.state === 2) {
-        console.error("Should never see this");
-        return;
-      }
-      // if no assetId on sarcophagus, mark as finished
-      if (
-        sarcophagus?.assetId &&
-        sarcophagus?.privateKey ===
-          "0x0000000000000000000000000000000000000000000000000000000000000000"
-      ) {
-        setError(false);
-        setCurrentStatus(STATUSES.ACTIVE);
-        return;
-      }
-    }
-    if (!!createData) {
-      if (currentStatus === STATUSES.ACTIVE) return;
-      switch (sendStatus) {
-        case SEND_STATUS_OPTIONS.Sending:
-          break;
-        case SEND_STATUS_OPTIONS.Success:
-          toast.dismiss("fileMining");
-          setCurrentStatus(STATUSES.SARCOPHAGUS_AWAIT_SIGN);
-          break;
-        case SEND_STATUS_OPTIONS.Mining:
-          setCurrentStatus(STATUSES.ARWEAVE_PENDING);
-          toast.dark(FILE_MINING, { toastId: "fileMining", autoClose: false });
-          break;
-        case SEND_STATUS_OPTIONS.Failed:
-          toast.dismiss("fileMining");
-          setError(ERROR.ARWEAVE_FILE_ERROR);
-          break;
-        default:
-          if (currentStatus !== STATUSES.ARWEAVE_STARTED) {
-            setCurrentStatus(STATUSES.ARWEAVE_STARTED);
-            sendFileToArchService();
+      // if there is no stored data then process should be finished This will probably need to more indepth check
+      if(!storedData) {
+          // check for state of 2 on sarcophagus for unwrapping should not be here
+          if(sarcophagus?.state === 2) {
+            console.error('Should never see this')
+            return
           }
+          // if no assetId on sarcophagus, mark as finished
+          if(sarcophagus?.assetId && sarcophagus?.privateKey === "0x0000000000000000000000000000000000000000000000000000000000000000") {
+            setError(false)
+            setCurrentStatus(STATUSES.ACTIVE)
+            return
+          } else {
+            setError('There was an unknown error')
+          }
+      } 
+      else {
+        // check action
+        // Check if sarcophagus has been updated
+        if(sarcophagus?.assetId && sarcophagus?.privateKey === "0x0000000000000000000000000000000000000000000000000000000000000000") {
+          localStorage.removeItem(doubleHashUint.toLocaleString())
+        }
+        // if there is an AssetId skip to checking mining status
+        if(parseData?.action === ACTIONS.SARCOPHAGUS_ARWEAVE_FILE_ACCEPTED ) {
+          setArchResponse(parseData)
+          return
+        } 
+        else if (parseData?.action === 'delete') {
+          setError(parseData.error)
+        } else {
+          // sets storages data to start process from start
+          setData(parseData)
+          return
+        }
       }
     }
-    if (!sarcophagus.assetId && !createData) {
-      if (currentStatus === STATUSES.TRANSACTION_MINING_IN_PROGRESS || currentStatus === STATUSES.ACTIVE) return;
-      setError("Unknown");
+    checkState()
+  }, [ sarcophagus, refresh ])
+  
+  useEffect(() => {
+    if(currentStatus === STATUSES.ARWEAVE_PENDING) {
+      toast.dark(FILE_MINING, {toastId: 'fileMining', autoClose: false})
+      return
     }
-  };
+    if(currentStatus === STATUSES.SARCOPHAGUS_AWAIT_SIGN){
+      toast.dismiss('fileMining')
+      return
+    }
+    if(error) {
+      toast.dismiss('fileMining')
+      console.log('Status Error', error)
+      return
+    }
+    if(currentStatus === STATUSES.UNWRAPPING) {
+      setTimeout(() => {
+        refresh()
+      }, 5000)
+      return
+    }
+  }, [currentStatus, error, refresh])
 
-  return { currentStatus, setCurrentStatus, error, setError, checkStatus };
-};
+  return { currentStatus, setCurrentStatus, error, setError }
+}
 
-export default useCheckStatus;
+export default useCheckStatus
