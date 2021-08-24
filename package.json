@@ -51,6 +51,9 @@
       "last 1 safari version"
     ]
   },
+  "engines": {
+    "node": "12.20.1"
+  },
   "devDependencies": {
     "@tailwindcss/postcss7-compat": "^2.0.3",
     "autoprefixer": "^9.8.6",
