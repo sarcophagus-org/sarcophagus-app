@@ -41,11 +41,21 @@ const useCheckStatus = (sarcophagus, refresh) => {
   };
 
   const checkStatus = async (sarcophagus) => {
+    // first checks mining status / removes errors for UI purposes
     if (currentStatus === STATUSES.TRANSACTION_MINING_IN_PROGRESS) {
       setError(false);
       return;
     }
+
+    // checks if window for archaeologist wrapping has passed, if so clean is shown
     if (sarcophagus?.assetId) {
+      if (
+        isTimePast(sarcophagus.resurrectionTime, sarcophagus.resurrectionWindow)
+      ) {
+        setCurrentStatus(STATUSES.WINDOW_CLOSED);
+        return;
+      }
+      // checks for archaeologist unwrapping update
       if (
         sarcophagus.resurrectionTime.toNumber() * 1000 - Date.now().valueOf() <=
         0
@@ -53,12 +63,6 @@ const useCheckStatus = (sarcophagus, refresh) => {
         setTimeout(() => {
           refresh();
         }, 3000);
-        return;
-      }
-      if (
-        isTimePast(sarcophagus.resurrectionTime, sarcophagus.resurrectionWindow)
-      ) {
-        setCurrentStatus(STATUSES.WINDOW_CLOSED);
         return;
       }
       // check for state of 2 on sarcophagus for unwrapping should not be here
