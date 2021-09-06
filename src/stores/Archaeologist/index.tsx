@@ -28,8 +28,8 @@ const createDataRoot = () => {
 
 const ArchaeologistsProvider = createDataRoot();
 
-const useSarcophagiStore = () => {
+const useArchaeologistsStore = () => {
   return useContext(context);
 };
 
-export { ArchaeologistsProvider, useSarcophagiStore };
+export { ArchaeologistsProvider, useArchaeologistsStore };

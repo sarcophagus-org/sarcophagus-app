@@ -6,7 +6,7 @@ export interface ISarcophagusStore {
   archivedSarcophagi: ISarcophagus[];
   loadRecipientSarcophagi: () => Promise<void>;
   loadEmbalmerSarcophagi: () => Promise<void>;
-  refreshSarcophagi: () => Promise<void>;
+  loadSarcophagi: () => Promise<void>;
 }
 
 export interface ISarcophagus {

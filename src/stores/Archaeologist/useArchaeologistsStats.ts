@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { IArchaeologists } from "./interfaces";
 import { ISarcophagusContract } from "../BlockChain/types/contract.interfaces";
 import { ethers } from "ethers";
+import { IArchaeologists } from "./archaeologist.interfaces";
 
 const useArchaeologistStats = (
   sarcophagusContract: ISarcophagusContract,

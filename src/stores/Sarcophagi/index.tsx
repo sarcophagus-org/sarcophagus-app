@@ -1,6 +1,5 @@
 import { Context, createContext, useContext } from "react";
 import { checkReceivedStatus } from "../../utils";
-import { useBlockChainStore } from "../BlockChain";
 import { ISarcophagus, ISarcophagusStore } from "./sarcophagi.interfaces";
 import useEmbalmer from "./useEmbalmer";
 import useRecipient from "./useRecipient";
@@ -13,9 +12,8 @@ const createDataRoot = () => {
   const Provider = context.Provider;
 
   return ({ children }: { children: JSX.Element }) => {
-    const { sarcophagusContract } = useBlockChainStore();
-    const { allEmbalmerSarcophagi, loadEmbalmerSarcophagi } = useEmbalmer(sarcophagusContract);
-    const { allRecipientSarcophagi, loadRecipientSarcophagi } = useRecipient(sarcophagusContract);
+    const { allEmbalmerSarcophagi, loadEmbalmerSarcophagi } = useEmbalmer();
+    const { allRecipientSarcophagi, loadRecipientSarcophagi } = useRecipient();
 
     // filters out only active embalmer sarcophagi
     const filterEmbalmer = (sarcophagus: ISarcophagus) => sarcophagus.state === 1;
@@ -36,6 +34,7 @@ const createDataRoot = () => {
       embalmerSarcophagi: ISarcophagus[],
       recipientSarcophagi: ISarcophagus[]
     ) => {
+      if(!embalmerSarcophagi.length && !recipientSarcophagi.length) return []
       const stateOfTwoFilter = (sarcophagus: ISarcophagus) => sarcophagus.state === 2;
       const filteredEmbalmer = embalmerSarcophagi.filter(stateOfTwoFilter);
       const filteredRecipient = recipientSarcophagi.filter(stateOfTwoFilter);
@@ -51,6 +50,11 @@ const createDataRoot = () => {
       return archivedSarcophagi;
     };
 
+    const loadSarcophagi = async () => {
+      await loadEmbalmerSarcophagi();
+      await loadRecipientSarcophagi();
+    }
+
     
     const dataContext: ISarcophagusStore = {
       embalmerSarcophagi: allEmbalmerSarcophagi.filter(filterEmbalmer),
@@ -58,10 +62,7 @@ const createDataRoot = () => {
       archivedSarcophagi: filterArchivedSarcophagi(allEmbalmerSarcophagi, allRecipientSarcophagi),
       loadRecipientSarcophagi,
       loadEmbalmerSarcophagi,
-      refreshSarcophagi: async () => {
-        await loadEmbalmerSarcophagi();
-        await loadEmbalmerSarcophagi();
-      },
+      loadSarcophagi,
     };
     return <Provider value={dataContext}>{children}</Provider>;
   };
