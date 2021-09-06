@@ -23,10 +23,10 @@ const createDataRoot = () => {
   }
 }
 
-const ArchaeologistDataProvider = createDataRoot()
+const ArchaeologistsDataProvider = createDataRoot()
 
 const useArchData = () => {
   return useContext(context)
 }
 
-export { ArchaeologistDataProvider, useArchData }
+export { ArchaeologistsDataProvider, useArchData }

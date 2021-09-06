@@ -7,20 +7,18 @@ import { Web3Provider } from './web3/index';
 import { BlockChainProvider } from './stores/BlockChain';
 import { ToastContainer } from 'react-toastify';
 import { SarcophagiProvider } from './stores/Sarcophagi';
-// import { SarcophagiDataProvider } from './components/Context/SarcophagiContext';
-// import { ArchaeologistDataProvider } from './components/Context/ArchaeologistContext';
+import { ArchaeologistsProvider } from './stores/Archaeologist';
+
 
 ReactDOM.render(
   <React.StrictMode>
     <Web3Provider>
       <BlockChainProvider>
         <SarcophagiProvider >
-          <div>
-          {/* <ArchaeologistDataProvider > */} 
+          <ArchaeologistsProvider > 
             <App />
             <ToastContainer closeButton={true} position="bottom-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
-          {/* </ArchaeologistDataProvider> */}
-          </div>
+          </ArchaeologistsProvider>
         </SarcophagiProvider>
       </BlockChainProvider>
     </Web3Provider>
