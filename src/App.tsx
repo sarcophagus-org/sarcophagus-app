@@ -8,9 +8,9 @@ const App = () => {
     <div className="container relative">
       <Router>
         <SiteHeader />
-        {/* <Switch>
+        <Switch>
         <Body />
-      </Switch> */}
+      </Switch>
         <Footer />
       </Router>
     </div>
