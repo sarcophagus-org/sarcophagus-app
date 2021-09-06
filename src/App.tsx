@@ -11,7 +11,7 @@ const App = () => {
         {/* <Switch>
         <Body />
       </Switch> */}
-        {/* <Footer /> */}
+        <Footer />
       </Router>
     </div>
   );
