@@ -1,17 +1,19 @@
-import { HashRouter as Router, Switch } from 'react-router-dom'
-import PageHeader from "./components/PageHeader";
+import { HashRouter as Router, Switch } from "react-router-dom";
 import Body from "./components/Body";
 import Footer from "./components/Footer";
+import SiteHeader from "./components/SiteHeader";
 
 const App = () => {
   return (
-    <Router>
-      {/* <PageHeader />
-      <Switch>
+    <div className="container relative">
+      <Router>
+        <SiteHeader />
+        {/* <Switch>
         <Body />
-      </Switch>
-      <Footer /> */}
-    </Router>
+      </Switch> */}
+        {/* <Footer /> */}
+      </Router>
+    </div>
   );
 };
 
