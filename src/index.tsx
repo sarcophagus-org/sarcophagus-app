@@ -4,22 +4,24 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Web3Provider } from './web3/index';
-import { DataProvider } from './components/Context/BlockChainContext';
+import { BlockChainProvider } from './stores/BlockChain';
 import { ToastContainer } from 'react-toastify';
-import { SarcophagiDataProvider } from './components/Context/SarcophagiContext';
-import { ArchaeologistDataProvider } from './components/Context/ArchaeologistContext';
+// import { SarcophagiDataProvider } from './components/Context/SarcophagiContext';
+// import { ArchaeologistDataProvider } from './components/Context/ArchaeologistContext';
 
 ReactDOM.render(
   <React.StrictMode>
     <Web3Provider>
-      <DataProvider>
-        <SarcophagiDataProvider >
-          <ArchaeologistDataProvider >
+      <BlockChainProvider>
+        <div> 
+        {/* <SarcophagiDataProvider >
+          <ArchaeologistDataProvider > */}
             <App />
             <ToastContainer closeButton={true} position="bottom-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
-          </ArchaeologistDataProvider>
-        </SarcophagiDataProvider>
-      </DataProvider>
+          {/* </ArchaeologistDataProvider>
+        </SarcophagiDataProvider> */}
+        </div>
+      </BlockChainProvider>
     </Web3Provider>
   </React.StrictMode>,
   document.getElementById('root')
