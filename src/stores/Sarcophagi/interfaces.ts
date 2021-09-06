@@ -1,7 +1,11 @@
 import { BigNumber } from "@ethersproject/bignumber";
 
+export interface ISarocphagiStore {
+  embalmber: IEmbalmerState;
+}
+
 export interface ISarcophagus {
-  state: any; // todo update to proper type
+  state: number;
   archaeologist: string;
   name: string;
   resurrectionTime: BigNumber;
@@ -13,4 +17,10 @@ export interface ISarcophagus {
   bounty: BigNumber;
   currentCursedBond: BigNumber;
   privateKey: string;
+  AssetDoubleHash: string;
+}
+
+export interface IEmbalmerState {
+  allEmbalmerSarcophagi: ISarcophagus[],
+  loadEmbalmerSarcophagi: () => void;
 }
