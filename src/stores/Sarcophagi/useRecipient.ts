@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useWeb3 } from "../../web3";
 import { ethers } from "ethers";
 import { ISarcophagusContract } from "../BlockChain/types/contract.interfaces";
-import { ISarcophagus } from "./interfaces";
+import { ISarcophagus } from "./sarcophagi.interfaces";
 
 const useRecipient = (sarcophagusContract: ISarcophagusContract, address?: string) => {
   const [allRecipientSarcophagi, setAllRecipientSarcophagi] = useState<ISarcophagus[]>([]);

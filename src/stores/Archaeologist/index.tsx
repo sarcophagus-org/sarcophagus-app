@@ -1,5 +1,6 @@
 import { Context, createContext, useContext } from "react";
 import { useBlockChainStore } from "../BlockChain";
+import { IArchaeologistsStore } from "./archaeologist.interfaces";
 import { useArcheologists } from "./useArchaeologists";
 import { useArchaeologistsFilter } from "./useArchaeologistsFilters";
 
@@ -16,7 +17,7 @@ const createDataRoot = () => {
 
     // filters archaeologists
     const {filteredArchaeologists} = useArchaeologistsFilter(archaeologists)
-    const dataContext = {
+    const dataContext: IArchaeologistsStore = {
       filteredArchaeologists,
       loadArchaeologists
     };

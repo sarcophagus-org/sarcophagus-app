@@ -1,4 +1,5 @@
 import { Context, createContext, useContext } from "react";
+import { IBlockChainStore } from "./types/contract.interfaces";
 import { useSarcoAllowance, useSarcoBalance } from "./useBalances";
 import { useCurrentBlock } from "./useBlocks";
 import { useSarcophagusContract, useSarcophagusTokenContract } from "./useContracts";
@@ -19,7 +20,7 @@ const createDataRoot = () => {
     const allowance = useSarcoAllowance(sarcophagusContract, sarcophagusTokenContract)
     const balance = useSarcoBalance(sarcophagusTokenContract, currentBlock)
 
-    const dataContext = {
+    const dataContext: IBlockChainStore = {
       sarcophagusContract,
       sarcophagusTokenContract,
       allowance,

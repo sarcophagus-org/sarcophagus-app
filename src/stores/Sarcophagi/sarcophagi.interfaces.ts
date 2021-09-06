@@ -1,7 +1,12 @@
 import { BigNumber } from "@ethersproject/bignumber";
 
-export interface ISarocphagiStore {
-  embalmber: IEmbalmerState;
+export interface ISarcophagusStore {
+  embalmerSarcophagi: ISarcophagus[];
+  recipientSarcophagi: ISarcophagus[];
+  archivedSarcophagi: ISarcophagus[];
+  loadRecipientSarcophagi: () => Promise<void>;
+  loadEmbalmerSarcophagi: () => Promise<void>;
+  refreshSarcophagi: () => Promise<void>;
 }
 
 export interface ISarcophagus {

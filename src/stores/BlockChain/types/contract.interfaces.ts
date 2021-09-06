@@ -1,7 +1,7 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { Contract } from "@ethersproject/contracts";
-import { IArchaeologists } from "../../Archaeologist/interfaces";
-import { ISarcophagus } from "../../Sarcophagi/interfaces";
+import { IArchaeologists } from "../../Archaeologist/archaeologist.interfaces";
+import { ISarcophagus } from "../../Sarcophagi/sarcophagi.interfaces";
 
 export interface ISarcophagusContract extends Contract {
   embalmerSarcophagusCount: (account: string | undefined) => Promise<BigNumber>;
@@ -12,4 +12,13 @@ export interface ISarcophagusContract extends Contract {
   archaeologistCount: () => Promise<BigNumber>;
   archaeologistAddresses: (index: number) => Promise<string>;
   archaeologists: (identifier: string) => Promise<IArchaeologists>;
+}
+
+export interface ISarcophagusTokenContract extends Contract {}
+
+export interface IBlockChainStore {
+  sarcophagusContract: ISarcophagusContract | undefined;
+  sarcophagusTokenContract: ISarcophagusTokenContract | undefined;
+  allowance: BigNumber;
+  balance: BigNumber;
 }

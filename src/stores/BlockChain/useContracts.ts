@@ -4,17 +4,18 @@ import { useWeb3 } from '../../web3'
 import { useAddresses } from '../../web3/chains'
 import SarcophagusABI from './artifacts/Sarcophagus.abi.json'
 import SarcoTokenABI from './artifacts/SarcoToken.abi.json'
+import { ISarcophagusContract, ISarcophagusTokenContract } from './types/contract.interfaces'
 
 const useSarcophagusContract = () => {
   const { chainId, signerOrProvider } = useWeb3()
   const { moduleMap } = useAddresses(chainId)
-  const [sarcophagusContract, setSarcophagusContract] = useState<Contract | undefined>(undefined)
+  const [sarcophagusContract, setSarcophagusContract] = useState<ISarcophagusContract | undefined>(undefined)
 
   useEffect(() => {
     if (!chainId || !moduleMap || !signerOrProvider) return
     try{
       const contract = new Contract(moduleMap, SarcophagusABI, signerOrProvider)
-      setSarcophagusContract(contract)
+      setSarcophagusContract(contract as ISarcophagusContract)
     } catch (e) {
       console.error('sarco contract error', e)
     }
@@ -23,9 +24,9 @@ const useSarcophagusContract = () => {
   return sarcophagusContract
 }
 
-const useSarcophagusTokenContract = (sarcophagusContract: Contract | undefined) => {
+const useSarcophagusTokenContract = (sarcophagusContract: ISarcophagusTokenContract | undefined) => {
   const { signerOrProvider } = useWeb3()
-  const [sarcophagusTokenContract, setSarcophagusTokenContract] = useState<Contract | undefined>(undefined)
+  const [sarcophagusTokenContract, setSarcophagusTokenContract] = useState<ISarcophagusTokenContract | undefined>(undefined)
 
   useEffect(() => {
     if (!sarcophagusContract || !signerOrProvider) return
@@ -33,7 +34,7 @@ const useSarcophagusTokenContract = (sarcophagusContract: Contract | undefined) 
     sarcophagusContract.sarcoToken().then((sarcoTokenAddress: string) => {
       try {
         const contract = new Contract(sarcoTokenAddress, SarcoTokenABI, signerOrProvider)
-        setSarcophagusTokenContract(contract)
+        setSarcophagusTokenContract(contract as ISarcophagusTokenContract)
       } catch (e) {
         console.error('sarco token contract error', e)
       }

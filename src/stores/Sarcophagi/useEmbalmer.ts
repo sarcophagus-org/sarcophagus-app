@@ -2,7 +2,7 @@ import {ethers} from "ethers";
 import { useState } from "react";
 import { useWeb3 } from "../../web3";
 import { ISarcophagusContract } from "../BlockChain/types/contract.interfaces";
-import { ISarcophagus } from "./interfaces";
+import { ISarcophagus } from "./sarcophagi.interfaces";
 
 const useEmbalmer = (sarcophagusContract: ISarcophagusContract) => {
   const [allEmbalmerSarcophagi, setallEmbalmerSarcophagi] = useState<ISarcophagus[]>([]);

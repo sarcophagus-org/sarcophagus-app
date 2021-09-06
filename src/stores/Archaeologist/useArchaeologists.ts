@@ -1,7 +1,7 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { useState } from "react";
 import { ISarcophagusContract } from "../BlockChain/types/contract.interfaces";
-import { IArchaeologists } from "./interfaces";
+import { IArchaeologists } from "./archaeologist.interfaces";
 
 const useArcheologists = (sarcophagusContract: ISarcophagusContract) => {
   const [archaeologists, setArchaeologists] = useState<IArchaeologists[]>([]);

@@ -1,7 +1,7 @@
 import { Context, createContext, useContext } from "react";
 import { checkReceivedStatus } from "../../utils";
 import { useBlockChainStore } from "../BlockChain";
-import { ISarcophagus } from "./interfaces";
+import { ISarcophagus, ISarcophagusStore } from "./sarcophagi.interfaces";
 import useEmbalmer from "./useEmbalmer";
 import useRecipient from "./useRecipient";
 
@@ -39,7 +39,7 @@ const createDataRoot = () => {
       const stateOfTwoFilter = (sarcophagus: ISarcophagus) => sarcophagus.state === 2;
       const filteredEmbalmer = embalmerSarcophagi.filter(stateOfTwoFilter);
       const filteredRecipient = recipientSarcophagi.filter(stateOfTwoFilter);
-      const archivedSarcophagi = Array.from(
+      const archivedSarcophagi: ISarcophagus[] = Array.from(
         [...filteredEmbalmer, ...filteredRecipient]
           .reduce(
             (acc: any, item: any) =>
@@ -52,15 +52,15 @@ const createDataRoot = () => {
     };
 
     
-    const dataContext = {
+    const dataContext: ISarcophagusStore = {
       embalmerSarcophagi: allEmbalmerSarcophagi.filter(filterEmbalmer),
       recipientSarcophagi: allRecipientSarcophagi.filter(filterRecipient),
       archivedSarcophagi: filterArchivedSarcophagi(allEmbalmerSarcophagi, allRecipientSarcophagi),
       loadRecipientSarcophagi,
       loadEmbalmerSarcophagi,
-      refreshSarcophagi: () => {
-        loadEmbalmerSarcophagi();
-        loadEmbalmerSarcophagi();
+      refreshSarcophagi: async () => {
+        await loadEmbalmerSarcophagi();
+        await loadEmbalmerSarcophagi();
       },
     };
     return <Provider value={dataContext}>{children}</Provider>;

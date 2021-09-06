@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { fetchWithTimeout } from "./archaeologist.utils";
-import { IArchaeologists } from "./interfaces";
+import { IArchaeologists } from "./archaeologist.interfaces";
 
 const useArchaeologistsFilter = (archaeologists: IArchaeologists[]) => {
   const [filteredArchaeologists, setFilteredArchaeologists] = useState<IArchaeologists[]>([]);
@@ -35,7 +35,7 @@ const useArchaeologistsFilter = (archaeologists: IArchaeologists[]) => {
   useEffect(() => {
     filterArchaeologists();
   }, [filterArchaeologists]);
-  return {filteredArchaeologists};
+  return { filteredArchaeologists };
 };
 
 export { useArchaeologistsFilter };

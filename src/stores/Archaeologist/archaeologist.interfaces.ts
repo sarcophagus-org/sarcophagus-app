@@ -23,6 +23,6 @@ export interface IArchaeologists {
 }
 
 export interface IArchaeologistsStore {
-  filteredArchaeologists: IArchaeologists;
-  loadArchaeologists: () => void;
+  filteredArchaeologists: IArchaeologists[];
+  loadArchaeologists: () => Promise<void>;
 }
