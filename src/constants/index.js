@@ -93,7 +93,7 @@ export const RECIPIENT_INFO_PART_2 = 'When resurrecting the Sarcophagus, the rec
 // File upload section
 export const FILE_UPLOAD_HEADER = 'Upload your file to your sarcophagus'
 export const FILE_UPLOAD_INFO_1 = 'Upload a file to embalm. It will be downloaded after resurrection exactly as is.'
-export const FILE_UPLOAD_INFO_2 = 'Current alpha max file size: 2.5 MB'
+export const FILE_UPLOAD_INFO_2 = 'Current alpha max file size: 2.9 MB'
 
 // Resurrection Time section
 export const RESURRECTION_TIME_HEADER = 'Set resurrection time'
