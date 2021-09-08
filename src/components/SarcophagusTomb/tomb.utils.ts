@@ -21,3 +21,16 @@ export const getExpandsionText = (status: SarcophagusStatus, error: string) => {
       return ''
   }
 }
+
+const covertToTwoDigitString = (number: number) => {
+  return number < 10 ? `0${number}` : number
+}
+
+export const getTimeRemaining = (endtime: number) => {
+  const total = endtime - Date.parse(new Date().toString());
+  const seconds = Math.floor( (total/1000) % 60 );
+  const minutes = Math.floor( (total/1000/60) % 60 );
+  const hours = Math.floor( (total/(1000*60*60)) % 24 );
+  const days = Math.floor( total/(1000*60*60*24) );
+  return `${days} days ${covertToTwoDigitString(hours)}:${covertToTwoDigitString(minutes)}:${covertToTwoDigitString(seconds)}`
+}

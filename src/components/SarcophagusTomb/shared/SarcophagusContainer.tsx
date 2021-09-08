@@ -6,6 +6,8 @@ import arrowRight from "../../../assets/images/arrowRight.svg";
 import arrowDown from "../../../assets/images/arrowDown.svg";
 import SarcophagusStatusBadge from "./SarcophagusStatusBadge";
 import Tippy from "@tippyjs/react";
+import { useResurrectionTimer } from "../hooks/useResurrectionTimers";
+import ResurrectionTimer from "./ResurrectionTimer";
 
 interface SarcophagusContainerProps {
   sarcophagus: ISarcophagus;
@@ -46,7 +48,8 @@ const ExpandButton = ({ isExpandable, isExpanded, status, error }: ExpandButtonP
   const text = getExpandsionText(status, error);
   return (
     <div className="flex cursor-pointer">
-      <img alt="" src={imageSrc} className="mr-2" /><span>{text}</span>
+      <img alt="" src={imageSrc} className="mr-2" />
+      <span>{text}</span>
     </div>
   );
 };
@@ -59,6 +62,7 @@ const SarcophagusContainer = ({
   status,
   error,
 }: SarcophagusContainerProps) => {
+  const resurrectionTimerState = useResurrectionTimer(sarcophagus);
   return (
     <div className={Styles.Wrapper}>
       <div
@@ -66,9 +70,10 @@ const SarcophagusContainer = ({
         onClick={!isExpandable ? () => null : () => toggleExpansion()}
         style={{ height: "4.375rem" }}
       >
-        <SarcophagusName sarcophagus={sarcophagus} />
-        {/* <ResurrectionTimer timer={timer} color={color} timers={timers} /> */}
-
+        <div className="flex flex-col">
+          <SarcophagusName sarcophagus={sarcophagus} />
+          <ResurrectionTimer {...resurrectionTimerState} />
+        </div>
         <div className="flex flex-col">
           <ExpandButton isExpandable={isExpandable} isExpanded={isExpanded} status={status} error={error} />
 

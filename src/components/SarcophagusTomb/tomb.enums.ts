@@ -13,3 +13,11 @@ export enum SarcophagusStatus {
   Created = 'Sarcophagus creation in progress, resurrection unavailable',
   Default = 'Checking status...',
 }
+
+export enum TimerStatus {
+  Active,
+  Close,
+  Unwrapping,
+  Off,
+  Calculating,
+}
