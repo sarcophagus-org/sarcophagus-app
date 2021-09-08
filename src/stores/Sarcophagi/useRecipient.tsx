@@ -8,7 +8,7 @@ const useRecipient = (address?: string) => {
   const { sarcophagusContract } = useBlockChainStore();
   const [allRecipientSarcophagi, setAllRecipientSarcophagi] = useState<ISarcophagus[]>([]);
   const { account } = useWeb3();
-
+  const [isRecipientSarcophagiLoaded, setRecipientSarcophagiLoaded] = useState(false);
   // given address or account address
   const accountAddress = address || account;
 
@@ -67,10 +67,13 @@ const useRecipient = (address?: string) => {
   }, [fetchRecipientCount, fetchRecipientIdentifiers, fetchRecipientData]);
 
   useEffect(() => {
-    loadRecipientSarcophagi();
+    setRecipientSarcophagiLoaded(false)
+    loadRecipientSarcophagi().finally(() => {
+      setRecipientSarcophagiLoaded(true)
+    });
   },[loadRecipientSarcophagi])
 
-  return { allRecipientSarcophagi, loadRecipientSarcophagi };
+  return { allRecipientSarcophagi, isRecipientSarcophagiLoaded, loadRecipientSarcophagi };
 };
 
 export default useRecipient;

@@ -12,9 +12,9 @@ const createDataRoot = () => {
   const Provider = context.Provider;
 
   return ({ children }: { children: JSX.Element }) => {
-    const { allEmbalmerSarcophagi, loadEmbalmerSarcophagi } = useEmbalmer();
-    const { allRecipientSarcophagi, loadRecipientSarcophagi } = useRecipient();
-
+    const { allEmbalmerSarcophagi, isEmbalmerSarcophagiLoaded, loadEmbalmerSarcophagi } = useEmbalmer();
+    const { allRecipientSarcophagi, isRecipientSarcophagiLoaded, loadRecipientSarcophagi } = useRecipient();
+    
     // filters out only active embalmer sarcophagi
     const filterEmbalmer = (sarcophagus: ISarcophagus) => sarcophagus.state === 1;
 
@@ -55,11 +55,11 @@ const createDataRoot = () => {
       await loadRecipientSarcophagi();
     }
 
-    
     const dataContext: ISarcophagusStore = {
       embalmerSarcophagi: allEmbalmerSarcophagi.filter(filterEmbalmer),
       recipientSarcophagi: allRecipientSarcophagi.filter(filterRecipient),
       archivedSarcophagi: filterArchivedSarcophagi(allEmbalmerSarcophagi, allRecipientSarcophagi),
+      isSarcophagiLoaded: isEmbalmerSarcophagiLoaded && isRecipientSarcophagiLoaded,
       loadRecipientSarcophagi,
       loadEmbalmerSarcophagi,
       loadSarcophagi,

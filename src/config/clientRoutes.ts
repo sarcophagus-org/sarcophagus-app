@@ -1,3 +1,4 @@
 export enum ClientRoutes {
-  Tomb = '/tomb'
+  Tomb = "/tomb",
+  Create = "/create",
 }

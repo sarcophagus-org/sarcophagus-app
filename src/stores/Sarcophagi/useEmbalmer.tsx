@@ -8,7 +8,7 @@ const useEmbalmer = () => {
   const { account } = useWeb3();
   const { sarcophagusContract } = useBlockChainStore();
   const [allEmbalmerSarcophagi, setallEmbalmerSarcophagi] = useState<ISarcophagus[]>([]);
-
+  const [isEmbalmerSarcophagiLoaded, setEmbalmerSarcophagiLoaded] = useState(false);
   // fetches connected user created sarcophagus count
   // @params account: address of connected web3 account
   const fetchSarcophagiCount = useCallback(
@@ -70,10 +70,13 @@ const useEmbalmer = () => {
   }, [fetchSarcophagiCount, fetchSarcophagusIdentifiers, fetchSarcophagiData, account]);
 
   useEffect(() => {
-    loadEmbalmerSarcophagi();
+    setEmbalmerSarcophagiLoaded(false)
+    loadEmbalmerSarcophagi().finally(() => {
+      setEmbalmerSarcophagiLoaded(true)
+    });
   }, [loadEmbalmerSarcophagi]);
 
-  return { allEmbalmerSarcophagi, loadEmbalmerSarcophagi };
+  return { allEmbalmerSarcophagi, isEmbalmerSarcophagiLoaded, loadEmbalmerSarcophagi };
 };
 
 export default useEmbalmer;

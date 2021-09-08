@@ -4,6 +4,7 @@ export interface ISarcophagusStore {
   embalmerSarcophagi: ISarcophagus[];
   recipientSarcophagi: ISarcophagus[];
   archivedSarcophagi: ISarcophagus[];
+  isSarcophagiLoaded: boolean;
   loadRecipientSarcophagi: () => Promise<void>;
   loadEmbalmerSarcophagi: () => Promise<void>;
   loadSarcophagi: () => Promise<void>;
