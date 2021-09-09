@@ -11,7 +11,6 @@ const EmbalmerSarcophagus = ({ sarcophagus }: { sarcophagus: ISarcophagus }) => 
   return (
     <SarcophagusContainer
       status={SarcophagusStatus.Active}
-      error={""}
       toggleExpansion={() => null}
       sarcophagus={sarcophagus}
       isExpandable={true}

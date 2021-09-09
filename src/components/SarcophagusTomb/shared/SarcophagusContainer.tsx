@@ -8,6 +8,7 @@ import SarcophagusStatusBadge from "./SarcophagusStatusBadge";
 import Tippy from "@tippyjs/react";
 import { useResurrectionTimer } from "../hooks/useResurrectionTimers";
 import ResurrectionTimer from "./ResurrectionTimer";
+import SarcophagusExpandedSection from "./SarcophagusExpandedSection";
 
 interface SarcophagusContainerProps {
   sarcophagus: ISarcophagus;
@@ -16,14 +17,12 @@ interface SarcophagusContainerProps {
   isArchived?: boolean;
   status: SarcophagusStatus;
   toggleExpansion: () => void;
-  error: string;
 }
 
 interface ExpandButtonProps {
   isExpandable?: boolean;
   isExpanded?: boolean;
   status: SarcophagusStatus;
-  error: string;
 }
 
 enum Styles {
@@ -42,10 +41,10 @@ const SarcophagusName = (props: { sarcophagus: ISarcophagus }) => {
   );
 };
 
-const ExpandButton = ({ isExpandable, isExpanded, status, error }: ExpandButtonProps) => {
+const ExpandButton = ({ isExpandable, isExpanded, status }: ExpandButtonProps) => {
   if (!isExpandable || status === SarcophagusStatus.Mining) return null;
   const imageSrc = !isExpanded ? arrowRight : arrowDown;
-  const text = getExpandsionText(status, error);
+  const text = getExpandsionText(status);
   return (
     <div className="flex cursor-pointer">
       <img alt="" src={imageSrc} className="mr-2" />
@@ -60,7 +59,6 @@ const SarcophagusContainer = ({
   toggleExpansion,
   isExpanded,
   status,
-  error,
 }: SarcophagusContainerProps) => {
   const resurrectionTimerState = useResurrectionTimer(sarcophagus);
   return (
@@ -75,16 +73,16 @@ const SarcophagusContainer = ({
           <ResurrectionTimer {...resurrectionTimerState} />
         </div>
         <div className="flex flex-col">
-          <ExpandButton isExpandable={isExpandable} isExpanded={isExpanded} status={status} error={error} />
+          <ExpandButton isExpandable={isExpandable} isExpanded={isExpanded} status={status} />
 
           <SarcophagusStatusBadge
-            status={error || status}
-            hasError={!!error || status === SarcophagusStatus.Closed}
+            status={status}
+            hasError={status === SarcophagusStatus.Error || status === SarcophagusStatus.WindowClosed}
             isActive={status === SarcophagusStatus.Active}
           />
         </div>
       </div>
-      {/* todo add expanded */}
+        <SarcophagusExpandedSection status={status} />
     </div>
   );
 };

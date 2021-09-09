@@ -53,7 +53,7 @@ const useCheckStatus = (sarcophagus: ISarcophagus) => {
     // checks if window for archaeologist wrapping has passed, if so clean is shown
     if (sarcophagus?.assetId) {
       if (isTimePast(sarcophagus.resurrectionTime, sarcophagus.resurrectionWindow)) {
-        setSarcophagusStatus(SarcophagusStatus.Closed);
+        setSarcophagusStatus(SarcophagusStatus.WindowClosed);
         return;
       }
       // checks for archaeologist unwrapping update

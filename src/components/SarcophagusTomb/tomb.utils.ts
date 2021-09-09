@@ -8,14 +8,14 @@ export const formatSarcophagusName = (sarcophagusName: string) => {
   return sarcophagusName;
 }
 
-export const getExpandsionText = (status: SarcophagusStatus, error: string) => {
-  if(error) return 'Details'
+export const getExpandsionText = (status: SarcophagusStatus) => {
   switch(status) {
     case SarcophagusStatus.Active:
       return 'Rewrap'
     case SarcophagusStatus.Signing:
       return 'Signing needed'
-    case SarcophagusStatus.Closed:
+    case SarcophagusStatus.WindowClosed:
+    case SarcophagusStatus.Error:
       return 'Details'
     default:
       return ''
