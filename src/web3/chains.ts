@@ -16,23 +16,23 @@ const useAddresses = (chainId: number | undefined) => {
       process.env.REACT_APP_LOCAL_CHAIN_ID &&
       chainId === parseInt(process.env.REACT_APP_LOCAL_CHAIN_ID, 10)
     ) {
-      if (!process.env.REACT_APP_LOCAL_MODULE_MAP_ADDRESS) {
+      if (!process.env.REACT_APP_LOCAL_CONTRACT_ADDRESS) {
         console.error("No local addresses have been set!");
         setAddresses({});
         return;
       }
 
       setAddresses({
-        moduleMap: process.env.REACT_APP_LOCAL_MODULE_MAP_ADDRESS,
+        moduleMap: process.env.REACT_APP_LOCAL_CONTRACT_ADDRESS,
       });
     } else {
-      if (!process.env.REACT_APP_MODULE_MAP_ADDRESSES) {
+      if (!process.env.REACT_APP_CONTRACT_ADDRESSES) {
         console.error("No addresses have been set!");
         setAddresses({});
         return;
       }
 
-      const networksAddresses = JSON.parse(process.env.REACT_APP_MODULE_MAP_ADDRESSES);
+      const networksAddresses = JSON.parse(process.env.REACT_APP_CONTRACT_ADDRESSES);
       const moduleMapAddress: string = networksAddresses[chainId];
 
       if (!moduleMapAddress) {
