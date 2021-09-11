@@ -1,12 +1,14 @@
 export enum SarcophagusStatus {
   // informational statuses
-  Canceled = 'Sarcophagus cancelled',
+  Accused = "Sarcophagus accused successfully",
   Buried = 'Sarcophagus buried',
-  Unwrapping = 'Unwrapping in progress',
-  Unwrapped = 'Sarcophagus unwrapped, resurrection available',
+  Canceled = 'Sarcophagus cancelled',
   Cleaned = 'Sarcophagus cleaned',
-  Default = 'Checking status...',
   Created = 'Sarcophagus creation in progress, resurrection unavailable',
+  Default = 'Checking status...',
+  Unwrapped = 'Sarcophagus unwrapped, resurrection available',
+  Unwrapping = 'Unwrapping in progress',
+  ArchivedUnwrapped = 'Sarcophagus unwrapped, resurrection available',
   // activity statuses
   Active = 'Sarcophagus is Active',
   ArweaveMining = 'File is being mined on arweave',

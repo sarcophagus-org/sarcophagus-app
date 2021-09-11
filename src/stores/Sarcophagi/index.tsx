@@ -1,6 +1,6 @@
 import { Context, createContext, useContext } from "react";
 import { checkReceivedStatus } from "../../utils";
-import { ISarcophagus, ISarcophagusStore } from "./sarcophagi.interfaces";
+import { ISarcophagus } from "./sarcophagi.interfaces";
 import useContractMethods from "./useContractMethods";
 import useEmbalmer from "./useEmbalmer";
 import useRecipient from "./useRecipient";
@@ -39,6 +39,7 @@ const createDataRoot = () => {
       const stateOfTwoFilter = (sarcophagus: ISarcophagus) => sarcophagus.state === 2;
       const filteredEmbalmer = embalmerSarcophagi.filter(stateOfTwoFilter);
       const filteredRecipient = recipientSarcophagi.filter(stateOfTwoFilter);
+      // creates a new array filtering out the duplicates
       const archivedSarcophagi: ISarcophagus[] = Array.from(
         [...filteredEmbalmer, ...filteredRecipient]
           .reduce(

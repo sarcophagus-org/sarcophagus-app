@@ -74,8 +74,10 @@ const SarcophagusExpandedSection = ({
   if (!isExpanded) return null;
 
   switch (status) {
+    case SarcophagusStatus.Accused:
     case SarcophagusStatus.ArweaveMining:
     case SarcophagusStatus.ArweaveUploading:
+    case SarcophagusStatus.ArchivedUnwrapped:
     case SarcophagusStatus.Mining:
     case SarcophagusStatus.Created:
     case SarcophagusStatus.Buried:

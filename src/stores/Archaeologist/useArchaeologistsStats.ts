@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ISarcophagusContract } from "../BlockChain/types/contract.interfaces";
 import { ethers } from "ethers";
 import { IArchaeologists } from "./archaeologist.interfaces";
@@ -9,61 +9,87 @@ const useArchaeologistStats = (
 ) => {
   const [archaeologistsWithStats, setArchaeologistsWithStats] = useState<IArchaeologists[]>([]);
 
-  const fetchCleanupCount = async (address: string) => {
-    const count = await sarcophagusContract.archaeologistCleanupsCount(address);
-    return count;
-  };
+  const fetchCleanupCount = useCallback(
+    async (address: string) => {
+      const count = await sarcophagusContract.archaeologistCleanupsCount(address);
+      return count;
+    },
+    [sarcophagusContract]
+  );
 
-  const fetchCanceledCount = async (address: string) => {
-    const count = await sarcophagusContract.archaeologistCancelsCount(address);
-    return count;
-  };
-  const fetchAccusedCount = async (address: string) => {
-    const count = await sarcophagusContract.archaeologistAccusalsCount(address);
-    return count;
-  };
-  const fetchSuccessesCount = async (address: string) => {
-    const count = await sarcophagusContract.archaeologistSuccessesCount(address);
-    return count;
-  };
+  const fetchCanceledCount = useCallback(
+    async (address: string) => {
+      const count = await sarcophagusContract.archaeologistCancelsCount(address);
+      return count;
+    },
+    [sarcophagusContract]
+  );
 
-  const fetchCleanupIdentifiers = async (identifier: string, count: ethers.BigNumber) => {
-    const arr = new Array(count.toNumber()).fill(undefined);
-    const fetchIdentifier = async (_: any, index: number) => {
-      return await sarcophagusContract.archaeologistCleanupsIdentifier(identifier, index);
-    };
-    const identifiers = await Promise.all(arr.map(fetchIdentifier));
-    return identifiers;
-  };
+  const fetchAccusedCount = useCallback(
+    async (address: string) => {
+      const count = await sarcophagusContract.archaeologistAccusalsCount(address);
+      return count;
+    },
+    [sarcophagusContract]
+  );
 
-  const fetchCanceledIdentifiers = async (identifier: string, count: ethers.BigNumber) => {
-    const arr = new Array(count.toNumber()).fill(undefined);
-    const fetchIdentifier = async (_: any, index: number) => {
-      return await sarcophagusContract.archaeologistCancelsIdentifier(identifier, index);
-    };
-    const identifiers = await Promise.all(arr.map(fetchIdentifier));
-    return identifiers;
-  };
+  const fetchSuccessesCount = useCallback(
+    async (address: string) => {
+      const count = await sarcophagusContract.archaeologistSuccessesCount(address);
+      return count;
+    },
+    [sarcophagusContract]
+  );
 
-  const fetchAccusedIdentifiers = async (identifier: string, count: ethers.BigNumber) => {
-    const arr = new Array(count.toNumber()).fill(undefined);
-    const fetchIdentifier = async (_: any, index: number) => {
-      return await sarcophagusContract.archaeologistAccusalsIdentifier(identifier, index);
-    };
-    const identifiers = await Promise.all(arr.map(fetchIdentifier));
-    return identifiers;
-  };
+  const fetchCleanupIdentifiers = useCallback(
+    async (identifier: string, count: ethers.BigNumber) => {
+      const arr = new Array(count.toNumber()).fill(undefined);
+      const fetchIdentifier = async (_: any, index: number) => {
+        return await sarcophagusContract.archaeologistCleanupsIdentifier(identifier, index);
+      };
+      const identifiers = await Promise.all(arr.map(fetchIdentifier));
+      return identifiers;
+    },
+    [sarcophagusContract]
+  );
 
-  const fetchSuccessesIdentifiers = async (identifier: string, count: ethers.BigNumber) => {
-    const arr = new Array(count.toNumber()).fill(undefined);
-    const fetchIdentifier = async (_: any, index: number) => {
-      return await sarcophagusContract.archaeologistSuccessesIdentifier(identifier, index);
-    };
-    const identifiers = await Promise.all(arr.map(fetchIdentifier));
-    return identifiers;
-  };
+  const fetchCanceledIdentifiers = useCallback(
+    async (identifier: string, count: ethers.BigNumber) => {
+      const arr = new Array(count.toNumber()).fill(undefined);
+      const fetchIdentifier = async (_: any, index: number) => {
+        return await sarcophagusContract.archaeologistCancelsIdentifier(identifier, index);
+      };
+      const identifiers = await Promise.all(arr.map(fetchIdentifier));
+      return identifiers;
+    },
+    [sarcophagusContract]
+  );
 
-  const loadArchaeologistsStats = async () => {
+  const fetchAccusedIdentifiers = useCallback(
+    async (identifier: string, count: ethers.BigNumber) => {
+      const arr = new Array(count.toNumber()).fill(undefined);
+      const fetchIdentifier = async (_: any, index: number) => {
+        return await sarcophagusContract.archaeologistAccusalsIdentifier(identifier, index);
+      };
+      const identifiers = await Promise.all(arr.map(fetchIdentifier));
+      return identifiers;
+    },
+    [sarcophagusContract]
+  );
+
+  const fetchSuccessesIdentifiers = useCallback(
+    async (identifier: string, count: ethers.BigNumber) => {
+      const arr = new Array(count.toNumber()).fill(undefined);
+      const fetchIdentifier = async (_: any, index: number) => {
+        return await sarcophagusContract.archaeologistSuccessesIdentifier(identifier, index);
+      };
+      const identifiers = await Promise.all(arr.map(fetchIdentifier));
+      return identifiers;
+    },
+    [sarcophagusContract]
+  );
+
+  const loadArchaeologistsStats = useCallback(async () => {
     const fetchArchaeologistStats = async (archaeologist: IArchaeologists) => {
       const cleanupCount = await fetchCleanupCount(archaeologist.address);
       const canceledCount = await fetchCanceledCount(archaeologist.address);
@@ -86,13 +112,27 @@ const useArchaeologistStats = (
         accusedIdentifiers,
         successesIdentifiers,
       };
-      return archaeologistWithStats
+      return archaeologistWithStats;
     };
-    const archaeologistsWithStates = await Promise.all(archaeologists.map(fetchArchaeologistStats))
-    setArchaeologistsWithStats(archaeologistsWithStates)
-  };
+    const archaeologistsWithStats = await Promise.all(archaeologists.map(fetchArchaeologistStats));
+    setArchaeologistsWithStats(archaeologistsWithStats);
+  }, [
+    archaeologists,
+    fetchCleanupCount,
+    fetchCanceledCount,
+    fetchAccusedCount,
+    fetchSuccessesCount,
+    fetchCleanupIdentifiers,
+    fetchCanceledIdentifiers,
+    fetchAccusedIdentifiers,
+    fetchSuccessesIdentifiers,
+  ]);
 
-  return { archaeologistsWithStats, loadArchaeologistsStats }
+  useEffect(() => {
+    loadArchaeologistsStats();
+  }, [loadArchaeologistsStats]);
+
+  return { archaeologistsWithStats, loadArchaeologistsStats };
 };
 
 export default useArchaeologistStats;

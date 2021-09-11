@@ -19,18 +19,48 @@ interface StatusBadgeProps {
 }
 
 const StatusText = ({ status, isActive, isArchived }: StatusBadgeProps) => {
-  if (status === SarcophagusStatus.PublicKeyUsed) {
-    return (
-      <div className="flex items-center">
-        <img alt="" src={errorIcon} className="mr-2" />
-        <div className="leading-4">Error</div>
-      </div>
-    );
+  switch (status) {
+    // archived sarcophagus status
+    case SarcophagusStatus.Buried:
+      return <div>Buried</div>;
+    case SarcophagusStatus.Canceled:
+      return <div>Canceled</div>;
+    case SarcophagusStatus.Cleaned:
+      return <div>Cleaned</div>;
+    case SarcophagusStatus.Accused:
+      return <div>Accused</div>;
+    case SarcophagusStatus.ArchivedUnwrapped:
+      return <div>Unwrapped</div>
+    // arweave statuses
+    case SarcophagusStatus.ArweaveMining:
+    case SarcophagusStatus.ArweaveUploading:
+      return <div>Arweave</div>;
+    case SarcophagusStatus.Mining:
+      return <div>Mining</div>
+    case SarcophagusStatus.Created:
+    case SarcophagusStatus.Default:
+      return <div>Pending...</div>
+    case SarcophagusStatus.Unwrapping:
+      return <div>Unwrapping</div>
+    case SarcophagusStatus.Unwrapped:
+      return <div>Unwrapped</div>
+    case SarcophagusStatus.Active:
+      return <div>Active</div>;
+    case SarcophagusStatus.Signing:
+      return <div>Signing</div>
+    case SarcophagusStatus.WindowClosed:
+    case SarcophagusStatus.Error:
+    case SarcophagusStatus.PublicKeyUsed:
+      return (
+        <div className="flex items-center">
+          <img alt="" src={errorIcon} className="mr-2" />
+          <div className="leading-4">Error</div>
+        </div>
+      );
   }
-  if (status === SarcophagusStatus.PublicKeyUsed) return <div>Error</div>;
   if (status === SarcophagusStatus.Unwrapped) return <div>Unwrapped</div>;
-  if (isActive) return <div>Active</div>;
   if (isArchived) return <div>Archived</div>;
+  if (isActive) return <div>Active</div>;
   return <div>Pending</div>;
 };
 
@@ -48,13 +78,13 @@ const SarcophagusStatusBadge = ({ status, isActive = false, isArchived = false }
           status !== SarcophagusStatus.PublicKeyUsed &&
           status !== SarcophagusStatus.Error,
         [BadgeColor.Green]: isActive,
-        [BadgeColor.Gray]: isArchived,
+        [BadgeColor.Gray]: isArchived && status !== SarcophagusStatus.Unwrapped,
         [BadgeColor.White]: status === SarcophagusStatus.Unwrapped,
         [BadgeColor.Red]: status === SarcophagusStatus.Error || status === SarcophagusStatus.PublicKeyUsed,
       })}
-      style={{ width: "fit-content" }}
+      style={{ minWidth: "4.5rem" }}
     >
-      <StatusText status={status} isActive={isActive} />
+      <StatusText status={status} isActive={isActive} isArchived={isArchived} />
     </div>
   </Tippy>
 );

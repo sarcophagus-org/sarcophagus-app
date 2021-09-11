@@ -11,8 +11,8 @@ const useResurrectionTimer = (sarcophagus: ISarcophagus): UseResurrectionTimerSt
   const [resurrectionWindow] = useState(sarcophagus.resurrectionWindow);
   const [currentTimeTillResurrection, setCurrentTimeTillResurrection] = useState<string>("");
 
-  const ResurrectionTimeUTCSeconds = resurrectionTime.toNumber();
-  const ResurrectionWindowUTCSeconds = resurrectionWindow.toNumber();
+  const ResurrectionTimeUTCSeconds = sarcophagus.state !== 2 ? resurrectionTime.toNumber() : 0;
+  const ResurrectionWindowUTCSeconds = sarcophagus.state !== 2 ? resurrectionWindow.toNumber() : 0;
   const TimePlusWindowUTCMilli = (ResurrectionTimeUTCSeconds + ResurrectionWindowUTCSeconds) * 1000;
   const isPastWindow = TimePlusWindowUTCMilli - Date.now().valueOf() <= 0;
   const isWithinWindow = TimePlusWindowUTCMilli - Date.now().valueOf() <= 0;
@@ -25,7 +25,7 @@ const useResurrectionTimer = (sarcophagus: ISarcophagus): UseResurrectionTimerSt
 
   const startTimer = useCallback(() => {
     TimerIntervalRef.current = setInterval(() => {
-      const currentWindowTime = isWithinWindow ? TimePlusWindowUTCMilli : (ResurrectionTimeUTCSeconds * 1000);
+      const currentWindowTime = isWithinWindow ? TimePlusWindowUTCMilli : ResurrectionTimeUTCSeconds * 1000;
       const remainingTime = getTimeRemaining(currentWindowTime);
       setCurrentTimeTillResurrection(remainingTime);
     }, 1000);
