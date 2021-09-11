@@ -1,8 +1,6 @@
+import { ISarcophagus } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
+import { useResurrectionTimer } from "../hooks/useResurrectionTimers";
 import { TimerStatus } from "../tomb.enums";
-interface ResurrectionTimerProps {
-  timerStatus: TimerStatus;
-  currentTimeTillResurrection: string;
-}
 
 const getTextColor = (timerStatus: TimerStatus) => {
   switch (timerStatus) {
@@ -18,12 +16,13 @@ const getTextColor = (timerStatus: TimerStatus) => {
   }
 };
 
-const ResurrectionTimer = ({ timerStatus, currentTimeTillResurrection }: ResurrectionTimerProps) => {
-  const textColor = getTextColor(timerStatus);
-  if (timerStatus === TimerStatus.Off) return null;
+const ResurrectionTimer = ({ sarcophagus }: { sarcophagus: ISarcophagus }) => {
+  const resurrectionTimerState = useResurrectionTimer(sarcophagus);
+  const textColor = getTextColor(resurrectionTimerState.timerStatus);
+  if (resurrectionTimerState.timerStatus === TimerStatus.Off) return null;
   return (
     <div className={`text-sm ${textColor}`} style={{ lineHeight: "1.0625rem" }}>
-      {`Resurrection: ${currentTimeTillResurrection}`}
+      {`Resurrection: ${resurrectionTimerState.currentTimeTillResurrection}`}
     </div>
   );
 };

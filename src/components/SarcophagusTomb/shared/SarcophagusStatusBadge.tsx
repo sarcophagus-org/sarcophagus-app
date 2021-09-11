@@ -14,13 +14,12 @@ enum BadgeColor {
 
 interface StatusBadgeProps {
   status: SarcophagusStatus | string;
-  hasError: boolean;
   isActive?: boolean;
   isArchived?: boolean;
 }
 
-const StatusText = ({ hasError, status, isActive, isArchived }: StatusBadgeProps) => {
-  if (hasError) {
+const StatusText = ({ status, isActive, isArchived }: StatusBadgeProps) => {
+  if (status === SarcophagusStatus.PublicKeyUsed) {
     return (
       <div className="flex items-center">
         <img alt="" src={errorIcon} className="mr-2" />
@@ -28,28 +27,29 @@ const StatusText = ({ hasError, status, isActive, isArchived }: StatusBadgeProps
       </div>
     );
   }
+  if (status === SarcophagusStatus.PublicKeyUsed) return <div>Error</div>;
   if (status === SarcophagusStatus.Unwrapped) return <div>UnWrapped</div>;
   if (isActive) return <div>Active</div>;
   if (isArchived) return <div>Archived</div>;
   return <div>Pending</div>;
 };
 
-const SarcophagusStatusBadge = ({ status, hasError, isActive = false, isArchived = false }: StatusBadgeProps) => (
+const SarcophagusStatusBadge = ({ status, isActive = false, isArchived = false }: StatusBadgeProps) => (
   <Tippy
     content={status}
     className="border-2 border-white rounded text-center text-xs font-normal p-2 bg-gray-900"
   >
     <div
       className={classnames(Wrapper.StatusBadge, {
-        [BadgeColor.Red]: !!hasError,
-        [BadgeColor.White]: status === SarcophagusStatus.Unwrapped,
+        [BadgeColor.Yellow]: !isActive && !isArchived && status !== SarcophagusStatus.Unwrapped && status !== SarcophagusStatus.PublicKeyUsed && status !== SarcophagusStatus.Error,
         [BadgeColor.Green]: isActive,
         [BadgeColor.Gray]: isArchived,
-        [BadgeColor.Yellow]: !hasError && !isActive && !isArchived && status !== SarcophagusStatus.Unwrapped,
+        [BadgeColor.White]: status === SarcophagusStatus.Unwrapped,
+        [BadgeColor.Red]: status === SarcophagusStatus.Error || status === SarcophagusStatus.Unwrapped || status === SarcophagusStatus.PublicKeyUsed,
       })}
       style={{ width: "fit-content" }}
     >
-      <StatusText status={status} hasError={hasError} isActive={isActive} />
+      <StatusText status={status} isActive={isActive} />
     </div>
   </Tippy>
 );

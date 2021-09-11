@@ -3,6 +3,7 @@ import { useBlockChainStore } from "../BlockChain";
 import { IArchaeologistsStore } from "./archaeologist.interfaces";
 import { useArcheologists } from "./useArchaeologists";
 import { useArchaeologistsFilter } from "./useArchaeologistsFilters";
+import useArchaeologistStats from "./useArchaeologistsStats";
 
 let context: Context<any>;
 
@@ -14,10 +15,14 @@ const createDataRoot = () => {
   return ({ children }: { children: JSX.Element[] }) => {
     const { sarcophagusContract } = useBlockChainStore();
     const {archaeologists, loadArchaeologists} = useArcheologists(sarcophagusContract)
+    // archaeologists with stats
+    const { archaeologistsWithStats } = useArchaeologistStats(sarcophagusContract, archaeologists)
 
     // filters archaeologists
     const {filteredArchaeologists} = useArchaeologistsFilter(archaeologists)
     const dataContext: IArchaeologistsStore = {
+      archaeologistsWithStats,
+      archaeologists,
       filteredArchaeologists,
       loadArchaeologists
     };

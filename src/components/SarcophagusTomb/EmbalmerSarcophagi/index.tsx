@@ -1,20 +1,27 @@
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { ClientRoutes } from "../../../config/clientRoutes";
 import { useSarcophagiStore } from "../../../stores/Sarcophagi";
 import { ISarcophagus, ISarcophagusStore } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
 import { useWeb3 } from "../../../web3";
 import { connect } from "../../../web3/providers";
+import useCheckStatus from "../hooks/useCheckStatus";
 import SarcophagusContainer from "../shared/SarcophagusContainer";
-import { SarcophagusStatus } from "../tomb.enums";
+import { getExpandsionText } from "../tomb.utils";
 
 const EmbalmerSarcophagus = ({ sarcophagus }: { sarcophagus: ISarcophagus }) => {
+  const { sarcophagusStatus, updateStatus, checkStatus } = useCheckStatus(sarcophagus)
+  const [isExpanded, setIsExpanded] = useState(false);
+  checkStatus();
+  
   return (
     <SarcophagusContainer
-      status={SarcophagusStatus.Active}
-      toggleExpansion={() => null}
+      status={sarcophagusStatus}
+      setStatus={updateStatus}
+      toggleExpansion={() => setIsExpanded((expanded: boolean) => !expanded)}
       sarcophagus={sarcophagus}
-      isExpandable={true}
-      isExpanded={false}
+      isExpandable={!!getExpandsionText(sarcophagusStatus)}
+      isExpanded={isExpanded}
     />
   );
 };

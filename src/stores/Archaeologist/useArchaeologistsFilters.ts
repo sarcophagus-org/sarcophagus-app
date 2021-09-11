@@ -8,11 +8,12 @@ const useArchaeologistsFilter = (archaeologists: IArchaeologists[]) => {
   const filterArchaeologists = useCallback(async () => {
     if (!archaeologists.length) return;
     // removes archaeologists with no free bond
-    const filterFreebond = (archaeologist: IArchaeologists) => archaeologist.freeBond.isZero();
+    const filterFreebond = (archaeologist: IArchaeologists) => !archaeologist.freeBond.isZero();
+
     // filters for inActive archaeologist
     const pingArchaeologists = async (archaeologist: IArchaeologists) => {
       try {
-        const response = await fetchWithTimeout(archaeologist.endpoint + "/ping", { timeout: 5000 });
+        const response = await fetchWithTimeout(archaeologist.endpoint + "/ping", { timeout: 3000 });
         if (response.ok) return archaeologist;
         else return { ...archaeologist, isOffline: true };
       } catch {
@@ -26,6 +27,7 @@ const useArchaeologistsFilter = (archaeologists: IArchaeologists[]) => {
         return { ...archaeologist, isOffline: true };
       }
     };
+
     const filteredArchaeologists = await Promise.all(
       archaeologists.filter(filterFreebond).map(pingArchaeologists)
     );

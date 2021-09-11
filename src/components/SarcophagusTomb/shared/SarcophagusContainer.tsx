@@ -6,14 +6,14 @@ import arrowRight from "../../../assets/images/arrowRight.svg";
 import arrowDown from "../../../assets/images/arrowDown.svg";
 import SarcophagusStatusBadge from "./SarcophagusStatusBadge";
 import Tippy from "@tippyjs/react";
-import { useResurrectionTimer } from "../hooks/useResurrectionTimers";
 import ResurrectionTimer from "./ResurrectionTimer";
 import SarcophagusExpandedSection from "./SarcophagusExpandedSection";
 
 interface SarcophagusContainerProps {
   sarcophagus: ISarcophagus;
   isExpandable?: boolean;
-  isExpanded?: boolean;
+  setStatus: (status: SarcophagusStatus) => void;
+  isExpanded: boolean;
   isArchived?: boolean;
   status: SarcophagusStatus;
   toggleExpansion: () => void;
@@ -57,10 +57,10 @@ const SarcophagusContainer = ({
   sarcophagus,
   isExpandable,
   toggleExpansion,
+  setStatus,
   isExpanded,
   status,
 }: SarcophagusContainerProps) => {
-  const resurrectionTimerState = useResurrectionTimer(sarcophagus);
   return (
     <div className={Styles.Wrapper}>
       <div
@@ -70,19 +70,24 @@ const SarcophagusContainer = ({
       >
         <div className="flex flex-col">
           <SarcophagusName sarcophagus={sarcophagus} />
-          <ResurrectionTimer {...resurrectionTimerState} />
+          <ResurrectionTimer  sarcophagus={sarcophagus}/>
         </div>
         <div className="flex flex-col">
           <ExpandButton isExpandable={isExpandable} isExpanded={isExpanded} status={status} />
 
           <SarcophagusStatusBadge
             status={status}
-            hasError={status === SarcophagusStatus.Error || status === SarcophagusStatus.WindowClosed}
             isActive={status === SarcophagusStatus.Active}
           />
         </div>
       </div>
-        <SarcophagusExpandedSection status={status} />
+      <SarcophagusExpandedSection
+        status={status}
+        isExpanded={isExpanded}
+        sarcophagus={sarcophagus}
+        setStatus={setStatus}
+        toggleExpansion={toggleExpansion}
+      />
     </div>
   );
 };

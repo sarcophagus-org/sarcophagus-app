@@ -1,6 +1,7 @@
 import { Context, createContext, useContext } from "react";
 import { checkReceivedStatus } from "../../utils";
 import { ISarcophagus, ISarcophagusStore } from "./sarcophagi.interfaces";
+import useContractMethods from "./useContractMethods";
 import useEmbalmer from "./useEmbalmer";
 import useRecipient from "./useRecipient";
 
@@ -14,7 +15,7 @@ const createDataRoot = () => {
   return ({ children }: { children: JSX.Element }) => {
     const { allEmbalmerSarcophagi, isEmbalmerSarcophagiLoaded, loadEmbalmerSarcophagi } = useEmbalmer();
     const { allRecipientSarcophagi, isRecipientSarcophagiLoaded, loadRecipientSarcophagi } = useRecipient();
-    
+    const contractMethods = useContractMethods()
     // filters out only active embalmer sarcophagi
     const filterEmbalmer = (sarcophagus: ISarcophagus) => sarcophagus.state === 1;
 
@@ -55,7 +56,8 @@ const createDataRoot = () => {
       await loadRecipientSarcophagi();
     }
 
-    const dataContext: ISarcophagusStore = {
+    const dataContext: any = {
+      ...contractMethods,
       embalmerSarcophagi: allEmbalmerSarcophagi.filter(filterEmbalmer),
       recipientSarcophagi: allRecipientSarcophagi.filter(filterRecipient),
       archivedSarcophagi: filterArchivedSarcophagi(allEmbalmerSarcophagi, allRecipientSarcophagi),

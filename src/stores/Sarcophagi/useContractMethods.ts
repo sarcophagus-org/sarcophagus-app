@@ -4,16 +4,15 @@ import { toast } from "react-toastify";
 import { useTransaction } from "../BlockChain/useTransaction";
 import { IArchaeologists } from "../Archaeologist/archaeologist.interfaces";
 import { SarcophagusStatus } from "../../components/SarcophagusTomb/tomb.enums";
-import { formatCustomResurrectionTime } from "../../utils/datetime";
 import { initialValues } from "../../components/Accuse/initialValues";
-import { ISarcophagusContract } from "../BlockChain/types/contract.interfaces";
-import { ISarcophagus } from "./sarcophagi.interfaces";
+import { IBlockChainStore } from "../BlockChain/types/contract.interfaces";
+import { CreatedSarcophagusData } from "../../components/SarcophagusTomb/tomb.interfaces";
+import { useBlockChainStore } from "../BlockChain";
 
-
-// todo this whole file needs to be reimagined
-const useContractMethods = (sarcophagusContract: ISarcophagusContract) => {
+const useContractMethods = () => {
   const { contractCall } = useTransaction();
-  const [createData, setCreateData] = useState<any>(null);
+  const { sarcophagusContract }: IBlockChainStore = useBlockChainStore();
+  const [createdSarcophagusData, setCreatedSarcophagusData] = useState<CreatedSarcophagusData | null>(null);
   const [pendingSarcophagi, setPendingSarcophagi] = useState<any[]>([]);
 
   const createSarcophagus = async (
@@ -23,13 +22,12 @@ const useContractMethods = (sarcophagusContract: ISarcophagusContract) => {
     storageFeeBN: BigNumber,
     diggingFeeBN: BigNumber,
     bountyBN: BigNumber,
-    assetDoubleHash: BigNumber,
+    assetDoubleHash: string,
     recipientPublicKeyBA: BigNumber,
-    doubleEncryptedFile: BigNumber,
-    history: any,
-    refresh: any
+    doubleEncryptedFile: Buffer
   ) => {
     try {
+      if (!sarcophagusContract) return;
       const broadcastCallback = () => {
         // saves pending data
         const sarcophagusCreateData = {
@@ -37,20 +35,17 @@ const useContractMethods = (sarcophagusContract: ISarcophagusContract) => {
           sarcophagusName,
           doubleEncryptedFile,
           endpoint: archaeologist.endpoint,
-          txReceipt: null,
         };
-        setCreateData(sarcophagusCreateData);
+        setCreatedSarcophagusData(sarcophagusCreateData);
         setPendingSarcophagi([sarcophagusCreateData]);
-        history.replace("/");
       };
 
       const successCallback = ({ transactionHash }: { transactionHash: string }) => {
         // adds completed transaction hash to create data
         // redirects back to tomb
-        setCreateData((data: any) => ({ ...data, txReceipt: transactionHash }));
+        setCreatedSarcophagusData((data: any) => ({ ...data, txReceipt: transactionHash }));
         setPendingSarcophagi([]);
         console.info("CREATE TX HASH", transactionHash);
-        refresh();
       };
 
       // make the contract call
@@ -90,25 +85,27 @@ const useContractMethods = (sarcophagusContract: ISarcophagusContract) => {
     }
   };
 
-  const updateSarcophagus = (setCurrentStatus: (v: SarcophagusStatus) => void, refresh: () => void, toggle: () => void, setError: any) => {
+  const updateSarcophagus = (
+    setStatus: (status: SarcophagusStatus) => void,
+  ) => {
     try {
-      let { NewPublicKey, AssetDoubleHash, AssetId, V, R, S } = createData;
-      NewPublicKey = Buffer.from(NewPublicKey, "base64");
+      if (!sarcophagusContract || !createdSarcophagusData) return;
+      let { newPublicKey, assetDoubleHash, assetId, V, R, S } = createdSarcophagusData;
+      const buffedNewPublicKey = Buffer.from(newPublicKey || "", "base64");
 
       const broadcastCallback = () => {
-        setCurrentStatus(SarcophagusStatus.Mining);
-        toggle();
+        setStatus(SarcophagusStatus.Mining);
       };
 
-      const successCallback = async ({ transactionHash }: {transactionHash: string}) => {
-        refresh();
+      const successCallback = async ({ transactionHash }: { transactionHash: string }) => {
         console.info("UPDATE TX HASH", transactionHash);
-        setCurrentStatus(SarcophagusStatus.Active);
-        setCreateData(null);
+        setStatus(SarcophagusStatus.Active);
+        setCreatedSarcophagusData(null);
+        return true
       };
 
       contractCall(
-        () => sarcophagusContract.updateSarcophagus(NewPublicKey, AssetDoubleHash, AssetId, V, R, S),
+        () => sarcophagusContract.updateSarcophagus(buffedNewPublicKey, assetDoubleHash, assetId, V, R, S),
         SarcophagusStatus.Mining,
         broadcastCallback,
         "Transaction failed...",
@@ -121,42 +118,54 @@ const useContractMethods = (sarcophagusContract: ISarcophagusContract) => {
         toast.error("Transaction Rejected");
       } else if (e?.error?.message === "execution reverted: public key already used") {
         toast.error("Public key already used");
-        setCurrentStatus(SarcophagusStatus.Default); // todo this needs to show an error
-        setError("Public key already used");
+        setStatus(SarcophagusStatus.PublicKeyUsed);
       } else {
         toast.error("There was a problem updating sarcophagus");
         console.error("There was a problem updating sarcophagus", e);
       }
     }
+    return false
   };
 
-  const rewrapSarcophagus = (sarcophagus: ISarcophagus, values: any, refresh: any, toggle: any, setCurrentStatus: any, refreshTimers: any) => {
+  /**
+   * @function rewrapSarcophagus
+   * @description sends transaction to rewrap sarcophagus; pushing the resurrection data by given time in the future
+   * @param buffedAssetDoubleHash AssetDoubleHash that has been buffed
+   * @param resurrectionTimeBN Resurrection time UTC (seconds) as a big number
+   * @param diggingFeeBN Digging fees of sarcophagus's archaeologist
+   * @param bountyBN Bounty fee of sarcophagus's archaeologist
+   * @param setStatus passed to allow updating the sarcophagus's status to mining state.
+   * @returns
+   */
+  const rewrapSarcophagus = (
+    buffedAssetDoubleHash: Buffer,
+    resurrectionTimeBN: BigNumber,
+    diggingFeeBN: BigNumber,
+    bountyBN: BigNumber,
+    setStatus: (status: SarcophagusStatus) => void
+  ) => {
     try {
-      const { AssetDoubleHash } = sarcophagus;
-      const { bounty, diggingFee, resurrectionTime, custom } = values;
+      if (!sarcophagusContract) return;
 
-      const doubleHashUint = Buffer.from(utils.arrayify(AssetDoubleHash));
-
-      let resurrectionTimeUTC = custom
-        ? formatCustomResurrectionTime(resurrectionTime)
-        : BigNumber.from(resurrectionTime / 1000);
-
-      const diggingFeeBN = utils.parseEther(diggingFee.toString());
-      const bountyBN = utils.parseEther(bounty.toString());
-
+      // while broadcasting
       const broadcastCallback = () => {
-        setCurrentStatus(SarcophagusStatus.Mining);
-        toggle();
+        setStatus(SarcophagusStatus.Mining);
       };
 
+      // when transaction is successfull
       const successCallback = ({ transactionHash }: any) => {
         console.info("REWRAP TX HASH", transactionHash);
-        refresh();
-        refreshTimers();
+        return true;
       };
 
       contractCall(
-        () => sarcophagusContract.rewrapSarcophagus(doubleHashUint, resurrectionTimeUTC, diggingFeeBN, bountyBN),
+        () =>
+          sarcophagusContract.rewrapSarcophagus(
+            buffedAssetDoubleHash,
+            resurrectionTimeBN,
+            diggingFeeBN,
+            bountyBN
+          ),
         SarcophagusStatus.Mining,
         broadcastCallback,
         "Transaction failed...",
@@ -178,27 +187,28 @@ const useContractMethods = (sarcophagusContract: ISarcophagusContract) => {
         toast.error("There was a problem rewrapping sarcophagus");
         console.error("There was a problem rewrapping sarcophagus", e);
       }
+      return false;
     }
   };
 
-  const burySarcophagus = async (sarcophagus: any, setCurrentStatus: any, refresh: any, toggle: any, refreshTimers: any) => {
+  const burySarcophagus = async (
+    buffedAssetDoubleHash: Buffer,
+    setStatus: (status: SarcophagusStatus) => void
+  ) => {
     try {
-      const { AssetDoubleHash } = sarcophagus;
-      const doubleHashUint = Buffer.from(utils.arrayify(AssetDoubleHash));
+      if (!sarcophagusContract) return;
 
       const broadcastCallback = () => {
-        toggle();
-        setCurrentStatus(SarcophagusStatus.Mining);
+        setStatus(SarcophagusStatus.Mining);
       };
 
       const successCallback = ({ transactionHash }: any) => {
         console.info("BURY TX HASH", transactionHash);
-        refresh();
-        refreshTimers();
+        return true;
       };
 
       contractCall(
-        () => sarcophagusContract.burySarcophagus(doubleHashUint),
+        () => sarcophagusContract.burySarcophagus(buffedAssetDoubleHash),
         SarcophagusStatus.Mining,
         broadcastCallback,
         "Transaction failed...",
@@ -213,27 +223,28 @@ const useContractMethods = (sarcophagusContract: ISarcophagusContract) => {
         toast.error("There was a problem buring sarcophagus");
         console.error("There was a problem buring sarcophagus", e);
       }
+      return false;
     }
   };
 
-  const cleanSarcophagus = async (sarcophagus: any, setCurrentStatus: any, toggle: any, refresh: any, refreshTimers: any) => {
+  const cleanSarcophagus = async (
+    buffedAssetDoubleHash: Buffer,
+    archaeologist: string,
+    setStatus: (status: SarcophagusStatus) => void
+  ) => {
     try {
-      const { AssetDoubleHash, archaeologist } = sarcophagus;
-      const doubleHashUint = Buffer.from(utils.arrayify(AssetDoubleHash));
-
+      if (!sarcophagusContract) return;
       const broadcastCallback = () => {
-        setCurrentStatus(SarcophagusStatus.Mining);
-        toggle();
+        setStatus(SarcophagusStatus.Mining);
       };
 
       const successCallback = ({ transactionHash }: any) => {
         console.info("CLEAN TX HASH", transactionHash);
-        refresh();
-        refreshTimers();
+        return true;
       };
 
       contractCall(
-        () => sarcophagusContract.cleanUpSarcophagus(doubleHashUint, archaeologist),
+        () => sarcophagusContract.cleanUpSarcophagus(buffedAssetDoubleHash, archaeologist),
         SarcophagusStatus.Mining,
         broadcastCallback,
         "Transaction failed...",
@@ -249,25 +260,26 @@ const useContractMethods = (sarcophagusContract: ISarcophagusContract) => {
         console.error("There was a problem cleaning sarcophagus", e);
       }
     }
+    return false;
   };
 
-  const cancelSarcophagus = async (sarcophagus: any, setCurrentStatus: any, toggle: any, refresh: any, refreshTimers: any) => {
+  const cancelSarcophagus = async (
+    buffedAssetDoubleHash: Buffer,
+    setStatus: (status: SarcophagusStatus) => void
+  ) => {
     try {
-      const { AssetDoubleHash } = sarcophagus;
-      const doubleHashUint = Buffer.from(utils.arrayify(AssetDoubleHash));
+      if (!sarcophagusContract) return;
       const broadcastCallback = () => {
-        setCurrentStatus(SarcophagusStatus.Mining);
-        toggle();
+        setStatus(SarcophagusStatus.Mining);
       };
 
       const successCallback = ({ transactionHash }: any) => {
         console.info("CANCEL TX HASH", transactionHash);
-        refresh();
-        refreshTimers();
+        return true;
       };
 
       contractCall(
-        () => sarcophagusContract.cancelSarcophagus(doubleHashUint),
+        () => sarcophagusContract.cancelSarcophagus(buffedAssetDoubleHash),
         SarcophagusStatus.Mining,
         broadcastCallback,
         "Transaction failed...",
@@ -283,10 +295,12 @@ const useContractMethods = (sarcophagusContract: ISarcophagusContract) => {
         console.error("There was a problem canceling sarcophagus", e);
       }
     }
+    return false;
   };
 
   const accuseArchaeologist = async (values: any, resetForm: any) => {
     try {
+      if (!sarcophagusContract) return;
       const { singleHash, identifier, address } = values;
       const identifierUint = Buffer.from(utils.arrayify(identifier));
       const singleHashUint = Buffer.from(utils.arrayify(singleHash));
@@ -304,7 +318,7 @@ const useContractMethods = (sarcophagusContract: ISarcophagusContract) => {
         () => sarcophagusContract.accuseArchaeologist(identifierUint, singleHashUint, address),
         "Checking accusal",
         broadcastCallback,
-       "The accusal was unsuccessful",
+        "The accusal was unsuccessful",
         "The accusal was successful",
         undefined,
         successCallback
@@ -326,8 +340,8 @@ const useContractMethods = (sarcophagusContract: ISarcophagusContract) => {
     burySarcophagus,
     rewrapSarcophagus,
     accuseArchaeologist,
-    createData,
-    setCreateData,
+    createdSarcophagusData,
+    setCreatedSarcophagusData,
     pendingSarcophagi,
   };
 };

@@ -9,7 +9,7 @@ export const SEND_STATUS_OPTIONS = {
   Success: "File has been mined",
 };
 
-const useArchFileSend = (createData: any, setCreateData: any, sarcophagus: any) => {
+const useArchFileSend = (createData: any, setCreatedSarcophagusData: any, sarcophagus: any) => {
   const [sendStatus, setSendStatus] = useState<any>(null);
 
   const encodeFile = (doubleEncryptedFile: any): string => {
@@ -75,7 +75,7 @@ const useArchFileSend = (createData: any, setCreateData: any, sarcophagus: any) 
         S: S,
         AssetId: AssetId,
       };
-      setCreateData(storageObject);
+      setCreatedSarcophagusData(storageObject);
       checkMiningStatus(AssetId);
       return;
     };

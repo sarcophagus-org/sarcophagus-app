@@ -1,18 +1,22 @@
 export enum SarcophagusStatus {
-  Active = 'Sarcophagus is Active',
-  ArweaveUploading = 'File is being uploaded',
-  ArweaveMining = 'File is being mined on arweave',
-  Mining = 'Mining in progress',
+  // informational statuses
   Canceled = 'Sarcophagus cancelled',
-  WindowClosed = 'Resurrection Window is past',
   Buried = 'Sarcophagus buried',
-  Cleaned = 'Sarcophagus cleaned',
-  Signing = 'Signing needed',
   Unwrapping = 'Unwrapping in progress',
   Unwrapped = 'Sarcophagus unwrapped, resurrection available',
   Created = 'Sarcophagus creation in progress, resurrection unavailable',
+  Cleaned = 'Sarcophagus cleaned',
   Default = 'Checking status...',
-  Error = 'Unknown Error'
+  // activity statuses
+  Active = 'Sarcophagus is Active',
+  ArweaveMining = 'File is being mined on arweave',
+  ArweaveUploading = 'File is being uploaded',
+  Mining = 'Mining in progress',
+  Signing = 'Signing needed',
+  // error statuses
+  Error = 'Sarcophagus Error',
+  WindowClosed = 'Resurrection Window is past',
+  PublicKeyUsed = 'Public key already used'
 }
 
 export enum TimerStatus {
