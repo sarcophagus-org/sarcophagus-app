@@ -16,7 +16,7 @@ export interface CreatedSarcophagusData {
   S?: string
 }
 
-export interface UseRessurectionTimerState {
+export interface UseResurrectionTimerState {
   timerStatus: TimerStatus;
   currentTimeTillResurrection: string;
   refreshTimers: () => void;
@@ -38,4 +38,12 @@ export interface RewrapFormErrors {
   custom?: string;
   customTime?: string;
   timeSelect?: string;
+}
+
+export interface ResurrectionFormState {
+  recipientPrivateKey: string;
+}
+
+export interface ResurrectionFormError {
+  recipientPrivateKey?: string;
 }

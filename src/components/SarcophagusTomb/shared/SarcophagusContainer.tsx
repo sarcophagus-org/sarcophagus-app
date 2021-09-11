@@ -70,15 +70,12 @@ const SarcophagusContainer = ({
       >
         <div className="flex flex-col">
           <SarcophagusName sarcophagus={sarcophagus} />
-          <ResurrectionTimer  sarcophagus={sarcophagus}/>
+          <ResurrectionTimer sarcophagus={sarcophagus} />
         </div>
         <div className="flex flex-col">
           <ExpandButton isExpandable={isExpandable} isExpanded={isExpanded} status={status} />
 
-          <SarcophagusStatusBadge
-            status={status}
-            isActive={status === SarcophagusStatus.Active}
-          />
+          <SarcophagusStatusBadge status={status} isActive={status === SarcophagusStatus.Active} />
         </div>
       </div>
       <SarcophagusExpandedSection

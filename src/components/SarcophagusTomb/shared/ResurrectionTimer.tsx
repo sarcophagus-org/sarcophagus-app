@@ -18,6 +18,10 @@ const getTextColor = (timerStatus: TimerStatus) => {
 
 const ResurrectionTimer = ({ sarcophagus }: { sarcophagus: ISarcophagus }) => {
   const resurrectionTimerState = useResurrectionTimer(sarcophagus);
+  const isUnwrapped =
+    sarcophagus.state === 2 &&
+    sarcophagus.privateKey !== "0x0000000000000000000000000000000000000000000000000000000000000000";
+  if (isUnwrapped) return null;
   const textColor = getTextColor(resurrectionTimerState.timerStatus);
   if (resurrectionTimerState.timerStatus === TimerStatus.Off) return null;
   return (

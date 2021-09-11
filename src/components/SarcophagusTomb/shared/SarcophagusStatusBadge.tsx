@@ -28,7 +28,7 @@ const StatusText = ({ status, isActive, isArchived }: StatusBadgeProps) => {
     );
   }
   if (status === SarcophagusStatus.PublicKeyUsed) return <div>Error</div>;
-  if (status === SarcophagusStatus.Unwrapped) return <div>UnWrapped</div>;
+  if (status === SarcophagusStatus.Unwrapped) return <div>Unwrapped</div>;
   if (isActive) return <div>Active</div>;
   if (isArchived) return <div>Archived</div>;
   return <div>Pending</div>;
@@ -41,11 +41,16 @@ const SarcophagusStatusBadge = ({ status, isActive = false, isArchived = false }
   >
     <div
       className={classnames(Wrapper.StatusBadge, {
-        [BadgeColor.Yellow]: !isActive && !isArchived && status !== SarcophagusStatus.Unwrapped && status !== SarcophagusStatus.PublicKeyUsed && status !== SarcophagusStatus.Error,
+        [BadgeColor.Yellow]:
+          !isActive &&
+          !isArchived &&
+          status !== SarcophagusStatus.Unwrapped &&
+          status !== SarcophagusStatus.PublicKeyUsed &&
+          status !== SarcophagusStatus.Error,
         [BadgeColor.Green]: isActive,
         [BadgeColor.Gray]: isArchived,
         [BadgeColor.White]: status === SarcophagusStatus.Unwrapped,
-        [BadgeColor.Red]: status === SarcophagusStatus.Error || status === SarcophagusStatus.Unwrapped || status === SarcophagusStatus.PublicKeyUsed,
+        [BadgeColor.Red]: status === SarcophagusStatus.Error || status === SarcophagusStatus.PublicKeyUsed,
       })}
       style={{ width: "fit-content" }}
     >

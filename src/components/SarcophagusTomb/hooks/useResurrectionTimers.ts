@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { ISarcophagus } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
 import { TimerStatus } from "../tomb.enums";
-import { UseRessurectionTimerState } from "../tomb.interfaces";
+import { UseResurrectionTimerState } from "../tomb.interfaces";
 import { getTimeRemaining } from "../tomb.utils";
 
-const useResurrectionTimer = (sarcophagus: ISarcophagus): UseRessurectionTimerState => {
+const useResurrectionTimer = (sarcophagus: ISarcophagus): UseResurrectionTimerState => {
   const TimerIntervalRef: { current: NodeJS.Timeout | null } = useRef(null);
   const [timerStatus, setTimerStatus] = useState<TimerStatus>(TimerStatus.Calculating);
   const [resurrectionTime] = useState(sarcophagus.resurrectionTime);

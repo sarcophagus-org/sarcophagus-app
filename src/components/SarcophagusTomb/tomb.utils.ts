@@ -3,6 +3,28 @@ import { ethers } from "ethers";
 import numeral, { Numeral } from 'numeral'
 import { truncate } from "../../utils"
 import { SarcophagusStatus } from "./tomb.enums";
+import Arweave from 'arweave'
+
+export const initArweave = () => {
+  return Arweave.init({
+    host: 'arweave.net',// Hostname or IP address for a Arweave host
+    port: 443,          // Port
+    protocol: 'https',  // Network protocol http or https
+    timeout: 20000,     // Network request timeouts in milliseconds
+    logging: false,     // Enable network request logging
+  })
+}
+
+export const arweaveFileValid = async (arweave: Arweave, transactionId: string, doubleEncryptedFile: string | Uint8Array) => {
+  try {
+    const data = await arweave.transactions.getData(transactionId, {decode: true})
+    const buffedData = Buffer.from(data)
+    const buffFile = Buffer.from(doubleEncryptedFile)
+    return (Buffer.compare(buffedData, buffFile) === 0)
+  } catch (e) {
+    console.error(e)
+  }
+}
 
 export const formatSarcophagusName = (sarcophagusName: string) => {
   if(sarcophagusName.length > 30) {
@@ -17,6 +39,8 @@ export const getExpandsionText = (status: SarcophagusStatus) => {
       return 'Rewrap'
     case SarcophagusStatus.Signing:
       return 'Signing needed'
+    case SarcophagusStatus.Unwrapped:
+      return 'Resurrect'
     case SarcophagusStatus.WindowClosed:
     case SarcophagusStatus.PublicKeyUsed:
     case SarcophagusStatus.Error:
@@ -25,6 +49,22 @@ export const getExpandsionText = (status: SarcophagusStatus) => {
       return ''
   }
 }
+
+export const hexToBytes = (hex: string, pad = false) => {
+  let byteArray = ethers.utils.arrayify(hex)
+  if (pad) {
+    let padByte = new Uint8Array([4])
+    return Buffer.from(new Uint8Array([...padByte, ...byteArray]))
+  } else {
+    return Buffer.from(byteArray)
+  }
+}
+
+export const hexString = (value: string) => {
+  let hexKey;
+  if (value?.substr(0, 2) !== "0x") hexKey = "0x" + value;
+  return hexKey || value;
+};
 
 const covertToTwoDigitString = (number: number) => {
   return number < 10 ? `0${number}` : number

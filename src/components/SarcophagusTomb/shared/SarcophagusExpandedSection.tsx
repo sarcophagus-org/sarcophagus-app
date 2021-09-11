@@ -4,6 +4,7 @@ import { ISarcophagus, ISarcophagusStore } from "../../../stores/Sarcophagi/sarc
 import Button from "../../layout/Button";
 import Tooltip from "../../layout/Tooltip";
 import { SarcophagusStatus } from "../tomb.enums";
+import ResurrectionForm from "./ResurrectionForm";
 import Rewrap from "./Rewrap";
 
 interface SarcophagusExpandedSectionProps {
@@ -70,7 +71,7 @@ const SarcophagusExpandedSection = ({
     }
   };
 
-  if(!isExpanded) return null
+  if (!isExpanded) return null;
 
   switch (status) {
     case SarcophagusStatus.ArweaveMining:
@@ -82,8 +83,9 @@ const SarcophagusExpandedSection = ({
     case SarcophagusStatus.Cleaned:
     case SarcophagusStatus.Default:
     case SarcophagusStatus.Unwrapping:
-    case SarcophagusStatus.Unwrapped:
       return null;
+    case SarcophagusStatus.Unwrapped:
+      return <ResurrectionForm sarcophagus={sarcophagus} />;
     case SarcophagusStatus.Active:
       // allows user to rewrap
       return <Rewrap sarcophagus={sarcophagus} setStatus={setStatus} toggleExpansion={toggleExpansion} />;

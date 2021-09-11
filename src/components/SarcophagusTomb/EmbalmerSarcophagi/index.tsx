@@ -5,7 +5,7 @@ import { useSarcophagiStore } from "../../../stores/Sarcophagi";
 import { ISarcophagus, ISarcophagusStore } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
 import { useWeb3 } from "../../../web3";
 import { connect } from "../../../web3/providers";
-import useCheckStatus from "../hooks/useCheckStatus";
+import useCheckStatus from "../hooks/useCheckEmbalmerStatus";
 import SarcophagusContainer from "../shared/SarcophagusContainer";
 import { getExpandsionText } from "../tomb.utils";
 
