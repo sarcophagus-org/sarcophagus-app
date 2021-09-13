@@ -1,12 +1,16 @@
-import { RewrapFormState } from "../../tomb.interfaces";
+import { RewrapFormState } from "../../../SarcophagusTomb/tomb.interfaces";
 import Tooltip from "../../../layout/Tooltip";
 import { InputHTMLAttributes } from "react";
-import { dateTimeString, getDateInFuture } from "../../tomb.utils";
+import { dateTimeString } from "../../../SarcophagusTomb/tomb.utils";
 import CustomTimeSelect from "./CustomTimeSelect";
+import { getDateInFuture } from '../../components.utils'
+import { SarcophagusCreateValues } from "../../../SarcophagusCreate/sarcophagusCreate.interfaces";
+import { FormikErrors } from "formik";
 
 interface ResurrectionTimeFormProps {
-  handleChange: (e: React.ChangeEvent<any>) => void;
-  values: RewrapFormState;
+  handleChange: React.ChangeEventHandler<HTMLInputElement>;
+  values: RewrapFormState | SarcophagusCreateValues;
+  errors: FormikErrors<RewrapFormState> | FormikErrors<SarcophagusCreateValues>;
   setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void;
 }
 

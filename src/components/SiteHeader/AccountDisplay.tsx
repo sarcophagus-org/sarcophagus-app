@@ -1,7 +1,7 @@
-import { truncate } from "../../utils";
 import icon from "../../assets/images/icon.svg";
 import { useWeb3 } from "../../web3";
 import { connect } from "../../web3/providers";
+import { truncate } from "../shared/components.utils";
 
 const AccountDisplay = () => {
   const { account } = useWeb3();

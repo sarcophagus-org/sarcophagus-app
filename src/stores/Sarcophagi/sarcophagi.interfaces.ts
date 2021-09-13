@@ -1,6 +1,46 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { SarcophagusStatus } from "../../components/SarcophagusTomb/tomb.enums";
 import { CreatedSarcophagusData } from "../../components/SarcophagusTomb/tomb.interfaces";
+import { Archaeologist } from "../Archaeologist/archaeologist.interfaces";
+
+type BurySarcophagus = (
+  buffedAssetDoubleHash: Buffer,
+  setStatus: (status: SarcophagusStatus) => void
+) => Promise<boolean>;
+
+type RewrapSarcophagus = (
+  buffedAssetDoubleHash: Buffer,
+  resurrectionTimeBN: BigNumber,
+  diggingFeeBN: BigNumber,
+  bountyBN: BigNumber,
+  setStatus: (status: SarcophagusStatus) => void
+) => Promise<boolean>;
+
+type CancelSarcophagus = (
+  buffedAssetDoubleHash: Buffer,
+  setStatus: (status: SarcophagusStatus) => void
+) => Promise<boolean>;
+
+type CleanSarcophagus = (
+  buffedAssetDoubleHash: Buffer,
+  archaeologist: string,
+  setStatus: (status: SarcophagusStatus) => void
+) => Promise<boolean>;
+
+type UpdateSarcophagus = (setStatus: (status: SarcophagusStatus) => void) => Promise<boolean>;
+
+type AccuseSarcophagus = () => Promise<void>;
+type CreateSarcophagus = (
+  sarcophagusName: string,
+  selectedArchaeologist: Archaeologist,
+  resurrectionTimeBN: BigNumber,
+  storageFee: number,
+  diggingFeeBN: BigNumber,
+  bountyBN: BigNumber,
+  assetDoubleHash: Uint8Array,
+  recipientPublicKeyBA: Uint8Array,
+  doubleEncryptedFile: Uint8Array
+) => Promise<void>;
 
 export interface ISarcophagusStore {
   embalmerSarcophagi: ISarcophagus[];
@@ -9,29 +49,13 @@ export interface ISarcophagusStore {
   isSarcophagiLoaded: boolean;
   createdSarcophagusData: CreatedSarcophagusData | null;
   setCreatedSarcophagusData: React.Dispatch<React.SetStateAction<CreatedSarcophagusData | null>>;
-  burySarcophagus: (
-    buffedAssetDoubleHash: Buffer,
-    setStatus: (status: SarcophagusStatus) => void
-  ) => Promise<boolean>;
-  rewrapSarcophagus: (
-    buffedAssetDoubleHash: Buffer,
-    resurrectionTimeBN: BigNumber,
-    diggingFeeBN: BigNumber,
-    bountyBN: BigNumber,
-    setStatus: (status: SarcophagusStatus) => void
-  ) => Promise<boolean>;
-  cancelSarcophagus: (
-    buffedAssetDoubleHash: Buffer,
-    setStatus: (status: SarcophagusStatus) => void
-  ) => Promise<boolean>;
-  cleanSarcophagus: (
-    buffedAssetDoubleHash: Buffer,
-    archaeologist: string,
-    setStatus: (status: SarcophagusStatus) => void
-  ) => Promise<boolean>;
-  accuseArchaeologist: () => Promise<void>;
-  createSarcophagus: () => Promise<void>;
-  updateSarcophagus: (setStatus: (status: SarcophagusStatus) => void) => Promise<boolean>;
+  burySarcophagus: BurySarcophagus;
+  rewrapSarcophagus: RewrapSarcophagus;
+  cancelSarcophagus: CancelSarcophagus;
+  cleanSarcophagus: CleanSarcophagus;
+  accuseArchaeologist: AccuseSarcophagus;
+  createSarcophagus: CreateSarcophagus;
+  updateSarcophagus: UpdateSarcophagus;
   pendingSarcophagi: ISarcophagus[];
   loadRecipientSarcophagi: () => Promise<void>;
   loadEmbalmerSarcophagi: () => Promise<void>;

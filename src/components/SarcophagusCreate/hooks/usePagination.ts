@@ -1,17 +1,21 @@
 import { useState, useEffect } from 'react'
 
 
-const usePagination = (itemsTotal) => {
+const usePagination = (itemsTotal: number) => {
     const [ page, setPage ] = useState(0)
     const [ totalPages, setTotalPages ] = useState(0)
-    const [ pageNumbers, setPageNumbers ] = useState([])
+    const [ pageNumbers, setPageNumbers ] = useState<number[]>([])
     const perPage = 5
     
     // setTotalPages
-    useEffect(() => { setTotalPages(Math.trunc(itemsTotal / perPage))}, [itemsTotal])
+    useEffect(() => { setTotalPages(itemsTotal / perPage)}, [itemsTotal])
     useEffect(() => { 
         let arr = []
-        for(let i = 0; i <= totalPages; i++) arr.push(i)
+        if(Number.isInteger(totalPages)) {
+          for(let i = 0; i <= totalPages - 1; i++) arr.push(i)
+        } else {
+          for(let i = 0; i <= totalPages; i++) arr.push(i)
+        }
         setPageNumbers(arr)
     }, [totalPages])
 
@@ -27,7 +31,7 @@ const usePagination = (itemsTotal) => {
         setPage(page => page - 1)
     }
 
-    const goToPage = (page) => {
+    const goToPage = (page: number) => {
 		setPage(page)
 	}
 

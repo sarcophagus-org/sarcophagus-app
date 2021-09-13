@@ -4,7 +4,7 @@ import { ISarcophagus, ISarcophagusStore } from "../../../stores/Sarcophagi/sarc
 import Button from "../../layout/Button";
 import Tooltip from "../../layout/Tooltip";
 import { SarcophagusStatus } from "../tomb.enums";
-import ResurrectionForm from "./ResurrectionForm";
+import ResurrectionForm from "../../shared/ResurrectionForm";
 import Rewrap from "./Rewrap";
 
 interface SarcophagusExpandedSectionProps {

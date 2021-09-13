@@ -1,7 +1,8 @@
 import Tippy from "@tippyjs/react";
 import question from "../../assets/images/question.svg";
 
-const Tooltip = ({ content }: { content: JSX.Element | string }) => {
+const Tooltip = ({ content, hideTooltip }: { content: JSX.Element | string, hideTooltip?: boolean }) => {
+  if(hideTooltip) return null;
   return (
     <Tippy
       content={content}

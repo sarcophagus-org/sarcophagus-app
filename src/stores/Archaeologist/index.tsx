@@ -15,11 +15,11 @@ const createDataRoot = () => {
   return ({ children }: { children: JSX.Element[] }) => {
     const { sarcophagusContract } = useBlockChainStore();
     const {archaeologists, loadArchaeologists} = useArcheologists(sarcophagusContract)
-    // archaeologists with stats
-    const { archaeologistsWithStats } = useArchaeologistStats(sarcophagusContract, archaeologists)
-
     // filters archaeologists
     const {filteredArchaeologists} = useArchaeologistsFilter(archaeologists)
+    // archaeologists with stats
+    const { archaeologistsWithStats } = useArchaeologistStats(sarcophagusContract, filteredArchaeologists)
+
     const dataContext: IArchaeologistsStore = {
       archaeologistsWithStats,
       archaeologists,

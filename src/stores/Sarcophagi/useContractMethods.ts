@@ -2,7 +2,7 @@ import { BigNumber, utils } from "ethers";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useTransaction } from "../BlockChain/useTransaction";
-import { IArchaeologists } from "../Archaeologist/archaeologist.interfaces";
+import { Archaeologist } from "../Archaeologist/archaeologist.interfaces";
 import { SarcophagusStatus } from "../../components/SarcophagusTomb/tomb.enums";
 import { initialValues } from "../../components/Accuse/initialValues";
 import { IBlockChainStore } from "../BlockChain/types/contract.interfaces";
@@ -17,7 +17,7 @@ const useContractMethods = () => {
 
   const createSarcophagus = async (
     sarcophagusName: string,
-    archaeologist: IArchaeologists,
+    archaeologist: Archaeologist,
     resurrectionTimeUTC: BigNumber,
     storageFeeBN: BigNumber,
     diggingFeeBN: BigNumber,

@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { ISarcophagusContract } from "../BlockChain/types/contract.interfaces";
 import { ethers } from "ethers";
-import { IArchaeologists } from "./archaeologist.interfaces";
+import { Archaeologist } from "./archaeologist.interfaces";
 
 const useArchaeologistStats = (
   sarcophagusContract: ISarcophagusContract,
-  archaeologists: IArchaeologists[]
+  archaeologists: Archaeologist[]
 ) => {
-  const [archaeologistsWithStats, setArchaeologistsWithStats] = useState<IArchaeologists[]>([]);
+  const [archaeologistsWithStats, setArchaeologistsWithStats] = useState<Archaeologist[]>([]);
 
   const fetchCleanupCount = useCallback(
     async (address: string) => {
@@ -90,7 +90,7 @@ const useArchaeologistStats = (
   );
 
   const loadArchaeologistsStats = useCallback(async () => {
-    const fetchArchaeologistStats = async (archaeologist: IArchaeologists) => {
+    const fetchArchaeologistStats = async (archaeologist: Archaeologist) => {
       const cleanupCount = await fetchCleanupCount(archaeologist.address);
       const canceledCount = await fetchCanceledCount(archaeologist.address);
       const accusedCount = await fetchAccusedCount(archaeologist.address);
@@ -114,7 +114,7 @@ const useArchaeologistStats = (
       };
       return archaeologistWithStats;
     };
-    const archaeologistsWithStats = await Promise.all(archaeologists.map(fetchArchaeologistStats));
+    const archaeologistsWithStats = await Promise.all(archaeologists.filter((archaeologist: Archaeologist) => archaeologist.isOnline).map(fetchArchaeologistStats));
     setArchaeologistsWithStats(archaeologistsWithStats);
   }, [
     archaeologists,

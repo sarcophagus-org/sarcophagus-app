@@ -1,13 +1,15 @@
 import classnames from "classnames";
-import { Wrapper } from "../../../../assets/styles/wrappers.enum";
-import ErrorText from "../../../layout/ErrorText";
-import Tooltip from "../../../layout/Tooltip";
-import { RewrapFormErrors, RewrapFormState } from "../../tomb.interfaces";
+import { FormikErrors } from "formik";
+import { Wrapper } from "../../../assets/styles/wrappers.enum";
+import ErrorText from "../../layout/ErrorText";
+import Tooltip from "../../layout/Tooltip";
+import { SarcophagusCreateValues } from "../../SarcophagusCreate/sarcophagusCreate.interfaces";
+import { RewrapFormErrors, RewrapFormState } from "../../SarcophagusTomb/tomb.interfaces";
 
 interface FeesFormProps {
   addClasses?: string;
-  values: RewrapFormState;
-  errors?: RewrapFormErrors;
+  values: RewrapFormState | SarcophagusCreateValues;
+  errors?: RewrapFormErrors | FormikErrors<SarcophagusCreateValues>;
   isDescriptionShown: boolean;
   handleChange: React.ChangeEventHandler<HTMLInputElement>;
 }
@@ -37,7 +39,7 @@ const FeeTitleAndInput = ({ value, error, name, title, toolTipContent, handleCha
       <input
         type="text"
         height="lg"
-        className="input-placeholder w-full pl-4 text-md bg-black font-normal text-white border remove-input-steps focus:outline-none border-gray-500 py-1"
+        className="input-placeholder pl-4 text-md bg-black font-normal text-white border remove-input-steps focus:outline-none border-gray-500 py-1"
         placeholder="100"
         name={name}
         value={value || ""}

@@ -2,23 +2,23 @@ import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import FeesForm from "../FeesForm";
-import useApproval from "../../hooks/useApproval";
+import FeesForm from "../../../shared/FeesForm";
+import useApproval from "../../../../stores/BlockChain/useApproval";
 import { useArchaeologistsStore } from "../../../../stores/Archaeologist";
 import Tooltip from "../../../layout/Tooltip";
 import ErrorText from "../../../layout/ErrorText";
-import { convertDataToBigNumber, getDateInFuture, getDecimalNumber } from "../../tomb.utils";
 import { useSarcophagiStore } from "../../../../stores/Sarcophagi";
 import { SarcophagusStatus } from "../../tomb.enums";
 import { Heading } from "../../../../assets/styles/headings.enum";
 import { RewrapFormErrors, RewrapFormState } from "../../tomb.interfaces";
 import { ISarcophagus, ISarcophagusStore } from "../../../../stores/Sarcophagi/sarcophagi.interfaces";
 import {
-  IArchaeologists,
+  Archaeologist,
   IArchaeologistsStore,
 } from "../../../../stores/Archaeologist/archaeologist.interfaces";
 import Button from "../../../layout/Button";
-import ResurrectionTimeForm from "../ResurrectionTimeForm";
+import ResurrectionTimeForm from "../../../shared/ResurrectionForm/ResurrectionTimeForm";
+import { convertDataToBigNumber, getDateInFuture, getDecimalNumber } from "../../../shared/components.utils";
 
 export interface RewrapProps {
   sarcophagus: ISarcophagus;
@@ -33,7 +33,7 @@ const Rewrap = ({ sarcophagus, toggleExpansion, setStatus }: RewrapProps) => {
   const [buttonText, setButtonText] = useState("");
 
   const archaeologist = archaeologistStore.filteredArchaeologists.find(
-    (archaeologist: IArchaeologists) => archaeologist.address === sarcophagus.archaeologist
+    (archaeologist: Archaeologist) => archaeologist.address === sarcophagus.archaeologist
   );
 
   useEffect(() => {
@@ -154,7 +154,7 @@ const Rewrap = ({ sarcophagus, toggleExpansion, setStatus }: RewrapProps) => {
             />
           </div>
           <ErrorText isVisible={!!errors.resurrectionTime} text={errors.resurrectionTime} addClasses="py-2" />
-          <ResurrectionTimeForm handleChange={handleChange} setFieldValue={setFieldValue} values={values} />
+          <ResurrectionTimeForm handleChange={handleChange} setFieldValue={setFieldValue} values={values} errors={errors}/>
           <div className="flex flex-col justify-center items-center mt-8 mb-12">
             <Button
               label={buttonText}

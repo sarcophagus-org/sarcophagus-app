@@ -1,7 +1,7 @@
 import { BigNumber, ethers } from "ethers";
 import { ReactText, useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useBlockChainStore } from "../../../stores/BlockChain";
+import { useBlockChainStore } from ".";
 
 const useApproval = () => {
   const { allowance, balance, sarcophagusContract, sarcophagusTokenContract } = useBlockChainStore();

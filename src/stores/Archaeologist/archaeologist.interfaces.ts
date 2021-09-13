@@ -1,10 +1,11 @@
 import { BigNumber } from "@ethersproject/bignumber";
 
-export interface IArchaeologists {
+export interface Archaeologist {
   exists: boolean;
   currentPublicKey: string;
   address: string;
   endpoint: string;
+  isOnline?: boolean;
   paymentAddress: string;
   feePerByte: BigNumber;
   minimumBounty: BigNumber;
@@ -12,7 +13,7 @@ export interface IArchaeologists {
   maximumResurrectionTime: BigNumber;
   freeBond: BigNumber;
   cursedBond: BigNumber;
-  cleanedupCount?: BigNumber;
+  cleanupCount?: BigNumber;
   canceledCount?: BigNumber;
   accusedCount?: BigNumber;
   successesCount?: BigNumber;
@@ -23,8 +24,8 @@ export interface IArchaeologists {
 }
 
 export interface IArchaeologistsStore {
-  archaeologists: IArchaeologists[];
-  archaeologistsWithStats: IArchaeologists[];
-  filteredArchaeologists: IArchaeologists[];
+  archaeologists: Archaeologist[];
+  archaeologistsWithStats: Archaeologist[];
+  filteredArchaeologists: Archaeologist[];
   loadArchaeologists: () => Promise<void>;
 }

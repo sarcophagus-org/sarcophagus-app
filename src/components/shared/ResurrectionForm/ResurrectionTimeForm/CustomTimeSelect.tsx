@@ -1,10 +1,12 @@
 import React from 'react'
 import DatePicker from 'react-datepicker'
-import { RewrapFormState } from '../../tomb.interfaces'
-import { convertToUTCTime, utcToDateObject } from '../../tomb.utils'
+import { convertToUTCTime } from '../../components.utils'
+import { RewrapFormState } from '../../../SarcophagusTomb/tomb.interfaces'
+import { utcToDateObject } from '../../../SarcophagusTomb/tomb.utils'
+import { SarcophagusCreateValues } from '../../../SarcophagusCreate/sarcophagusCreate.interfaces'
 
 interface CustomTimeSelectProps {
-  values: RewrapFormState;
+  values: RewrapFormState | SarcophagusCreateValues;
   setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void;
 }
 

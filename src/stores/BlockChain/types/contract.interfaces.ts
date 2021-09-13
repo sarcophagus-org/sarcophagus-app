@@ -1,6 +1,6 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { Contract, ContractTransaction } from "@ethersproject/contracts";
-import { IArchaeologists } from "../../Archaeologist/archaeologist.interfaces";
+import { Archaeologist } from "../../Archaeologist/archaeologist.interfaces";
 import { ISarcophagus } from "../../Sarcophagi/sarcophagi.interfaces";
 
 export interface ISarcophagusContract extends Contract {
@@ -11,7 +11,7 @@ export interface ISarcophagusContract extends Contract {
   sarcophagus: (identifier: Buffer) => Promise<ISarcophagus>;
   archaeologistCount: () => Promise<BigNumber>;
   archaeologistAddresses: (index: number) => Promise<string>;
-  archaeologists: (identifier: string) => Promise<IArchaeologists>;
+  archaeologists: (identifier: string) => Promise<Archaeologist>;
   createSarcophagus: (
     sarcophagusName: any,
     archaeologist: any,

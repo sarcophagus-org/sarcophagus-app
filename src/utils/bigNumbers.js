@@ -20,7 +20,7 @@ const getTotalFee = (archaeologist, file, bigNumber=false) => {
   const { size } = file
   if(!feePerByte || !minimumBounty || !minimumDiggingFee) return ""
   if(!size) return ""
-  const calculatedFee = feePerByte.mul(size + (ENCRYPTED_BYTE_INCREASE * 1.5)).add(minimumBounty).add(minimumDiggingFee)
+  const calculatedFee = feePerByte.mul(size + (ENCRYPTED_BYTE_INCREASE * 2)).add(minimumBounty).add(minimumDiggingFee)
   const totalFees = getNumberalString(calculatedFee, 18)
   if(!bigNumber) return totalFees
   return calculatedFee

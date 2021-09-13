@@ -1,13 +1,13 @@
-import { Heading } from "../../../../assets/styles/headings.enum";
-import ErrorText from "../../../layout/ErrorText";
-import Tooltip from "../../../layout/Tooltip";
-import { ResurrectionFormError, ResurrectionFormState } from "../../tomb.interfaces";
+import { Heading } from "../../../assets/styles/headings.enum";
+import ErrorText from "../../layout/ErrorText";
+import Tooltip from "../../layout/Tooltip";
+import { ResurrectionFormError, ResurrectionFormState } from "../../SarcophagusTomb/tomb.interfaces";
 
 interface RecipientPrivateKeyFieldProps {
   values: ResurrectionFormState;
   errors: ResurrectionFormError;
   isVisible: boolean;
-  handleChange: (e: React.ChangeEvent<any>) => void;
+  handleChange: React.ChangeEventHandler<HTMLTextAreaElement>;
 }
 const RecipientPrivateKeyField = ({
   values,
