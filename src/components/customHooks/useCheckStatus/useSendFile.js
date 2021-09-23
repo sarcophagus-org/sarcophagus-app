@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ERROR, INTERVAL_LENGTH_SECONDS } from "../../../constants";
-import { arweaveFileValid, initArweave } from "../../../utils/arweave";
+import { initArweave } from "../../../utils/arweave";
 
 export const SEND_STATUS_OPTIONS = {
   Sending: "File Sending",
@@ -54,6 +54,8 @@ const useArchFileSend = (createData, setCreateData, sarcophagus) => {
       const responseFromArch = await sendFile(doubleEncryptedFile, endpoint);
       if (responseFromArch?.error) {
         if (responseFromArch?.error === "try again" && tries) {
+          tries = 0;
+          sendFileAttempt();
           return;
         } else {
           setSendStatus(SEND_STATUS_OPTIONS.Failed);
@@ -61,18 +63,18 @@ const useArchFileSend = (createData, setCreateData, sarcophagus) => {
           return;
         }
       }
-      const { NewPublicKey, AssetDoubleHash, AssetId, V, R, S } =
-        await responseFromArch;
-      const Arweave = initArweave();
-      const fileValid = await arweaveFileValid(
-        Arweave,
-        AssetId,
-        doubleEncryptedFile
-      );
-      if (!fileValid) {
-        setSendStatus(SEND_STATUS_OPTIONS.Failed);
-        return;
-      }
+      const { NewPublicKey, AssetDoubleHash, AssetId, V, R, S } = await responseFromArch;
+      // ! Move to after mining is complete when version 2
+      // const Arweave = initArweave();
+      // const fileValid = await arweaveFileValid(
+      //   Arweave,
+      //   AssetId,
+      //   doubleEncryptedFile
+      // );
+      // if (!fileValid) {
+      //   setSendStatus(SEND_STATUS_OPTIONS.Failed);
+      //   return;
+      // }
       const storageObject = {
         NewPublicKey,
         AssetDoubleHash,
@@ -85,10 +87,7 @@ const useArchFileSend = (createData, setCreateData, sarcophagus) => {
       checkMiningStatus(AssetId);
       return;
     };
-    if (tries) {
-      sendFileAttempt();
-      tries = 0;
-    }
+    sendFileAttempt()
   };
 
   const checkMiningStatus = async (AssetId) => {
