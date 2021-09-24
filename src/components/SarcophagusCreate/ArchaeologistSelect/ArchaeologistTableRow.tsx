@@ -22,26 +22,25 @@ const SELECTED = "border border-white text-black bg-white cursor-pointer";
 
 const ArchaeolgistTableRow = ({
   archaeologist,
-  archSelected,
   file,
   setFieldValue,
   handleSelected,
   values,
 }: ArchaeologistTableRowProps) => {
   const { collapsed, toggle } = useCollapse(true, true);
-  const isSelected = archSelected === archaeologist.address;
+  const isSelected = values.address === archaeologist.address;
   const archTotal = archTotalFees(archaeologist, file).toString();
   const isBountyLess = archaeologist.minimumBounty.lte(ethers.utils.parseEther(values.bounty.toString()));
   const isDiggingFeeLess = archaeologist.minimumDiggingFee.lte(
     ethers.utils.parseEther(values.diggingFee.toString())
   );
   const isDisabled = !isBountyLess || !isDiggingFeeLess;
-  const isFreeBondGreater = archaeologist.freeBond.gte(ethers.utils.parseEther(archTotal))
+  const isFreeBondGreater = archaeologist.freeBond.gte(ethers.utils.parseEther(archTotal));
 
   const selectArchaeologist = () => {
-    setFieldValue("address", archaeologist.address);
     setFieldValue("bounty", getNumberalString(archaeologist.minimumBounty, 18));
     setFieldValue("diggingFee", getNumberalString(archaeologist.minimumDiggingFee, 18));
+    setFieldValue("address", archaeologist.address);
     handleSelected(archaeologist, archTotal);
   };
 
@@ -63,7 +62,7 @@ const ArchaeolgistTableRow = ({
         <div className="flex items-center">{truncate(archaeologist.address, 18)}</div>
         <div className="flex items-center">
           <img
-            src={archSelected === archaeologist.address ? iconDark : iconLight}
+            src={values.address === archaeologist.address ? iconDark : iconLight}
             alt=""
             className="inline-block w-4 h-auto mr-2"
           />
@@ -71,7 +70,7 @@ const ArchaeolgistTableRow = ({
         </div>
         <div className="flex items-center">
           <img
-            src={archSelected === archaeologist.address ? iconDark : iconLight}
+            src={values.address === archaeologist.address ? iconDark : iconLight}
             alt=""
             className="inline-block w-4 h-auto mr-2"
           />
@@ -79,7 +78,7 @@ const ArchaeolgistTableRow = ({
         </div>
         <div className="flex items-center">
           <img
-            src={archSelected === archaeologist.address ? iconDark : iconLight}
+            src={values.address === archaeologist.address ? iconDark : iconLight}
             alt=""
             className="inline-block w-4 h-auto mr-2"
           />

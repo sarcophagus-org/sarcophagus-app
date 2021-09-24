@@ -42,15 +42,17 @@ const SarcophagusExpandedSection = ({
   isExpanded,
 }: SarcophagusExpandedSectionProps) => {
   const sarcophagiStore: ISarcophagusStore = useSarcophagiStore();
-
+  
+  const successCallback = ({ transactionHash }: {transactionHash: string}) => {
+    console.info("TX HASH", transactionHash);
+    toggleExpansion()
+    sarcophagiStore.loadSarcophagi()
+  };
+  
   const cancelSarcophagus = async () => {
     const { AssetDoubleHash } = sarcophagus;
     const buffedAssetDoubleHash = Buffer.from(ethers.utils.arrayify(AssetDoubleHash));
-    const success = await sarcophagiStore.cancelSarcophagus(buffedAssetDoubleHash, setStatus);
-    if (success) {
-      toggleExpansion();
-      sarcophagiStore.loadSarcophagi();
-    }
+    await sarcophagiStore.cancelSarcophagus(buffedAssetDoubleHash, setStatus, successCallback);
   };
 
   const cleanSarcophagus = async () => {

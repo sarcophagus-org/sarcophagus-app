@@ -90,6 +90,9 @@ const useCheckStatus = (sarcophagus: ISarcophagus) => {
           //     }
           // }
         }
+        if (sarcophagusStatus === SarcophagusStatus.Default) {
+          setSarcophagusStatus(SarcophagusStatus.Error);
+        }
       }
     }
 
@@ -119,9 +122,9 @@ const useCheckStatus = (sarcophagus: ISarcophagus) => {
   };
 
   const updateStatus = (status: SarcophagusStatus) => {
-    setSarcophagusStatus(status)
-  }
-  return { sarcophagusStatus, updateStatus, checkStatus};
+    setSarcophagusStatus(status);
+  };
+  return { sarcophagusStatus, updateStatus, checkStatus };
 };
 
 export default useCheckStatus;

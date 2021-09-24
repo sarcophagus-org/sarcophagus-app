@@ -19,7 +19,7 @@ const getTextColor = (timerStatus: TimerStatus) => {
 const ResurrectionTimer = ({ sarcophagus }: { sarcophagus: ISarcophagus }) => {
   const resurrectionTimerState = useResurrectionTimer(sarcophagus);
   const isStateTwo = sarcophagus.state === 2;
-  if (isStateTwo) return null;
+  if (isStateTwo || !sarcophagus.resurrectionTime) return null;
   const textColor = getTextColor(resurrectionTimerState.timerStatus);
   if (resurrectionTimerState.timerStatus === TimerStatus.Off) return null;
   return (

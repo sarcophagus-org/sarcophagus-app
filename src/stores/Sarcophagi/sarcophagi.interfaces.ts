@@ -18,7 +18,8 @@ type RewrapSarcophagus = (
 
 type CancelSarcophagus = (
   buffedAssetDoubleHash: Buffer,
-  setStatus: (status: SarcophagusStatus) => void
+  setStatus: (status: SarcophagusStatus) => void,
+  successCallback?: (txRecipient: { transactionHash: string }) => void,
 ) => Promise<boolean>;
 
 type CleanSarcophagus = (
@@ -30,16 +31,18 @@ type CleanSarcophagus = (
 type UpdateSarcophagus = (setStatus: (status: SarcophagusStatus) => void) => Promise<boolean>;
 
 type AccuseSarcophagus = () => Promise<void>;
-type CreateSarcophagus = (
+export type CreateSarcophagus = (
   sarcophagusName: string,
   selectedArchaeologist: Archaeologist,
   resurrectionTimeBN: BigNumber,
-  storageFee: number,
+  storageFee: number | string | BigNumber,
   diggingFeeBN: BigNumber,
   bountyBN: BigNumber,
   assetDoubleHash: Uint8Array,
   recipientPublicKeyBA: Uint8Array,
-  doubleEncryptedFile: Uint8Array
+  doubleEncryptedFile: Uint8Array,
+  successRefresh: () => void,
+  redirect: () => void,
 ) => Promise<void>;
 
 export interface ISarcophagusStore {
@@ -70,7 +73,7 @@ export interface ISarcophagus {
   resurrectionWindow: BigNumber;
   assetId: string;
   recipientPublicKey: string;
-  storageFee: BigNumber;
+  storageFee: number | string | BigNumber;
   diggingFee: BigNumber;
   bounty: BigNumber;
   currentCursedBond: BigNumber;

@@ -16,7 +16,7 @@ export interface ISarcophagusContract extends Contract {
     sarcophagusName: any,
     archaeologist: any,
     resurrectionTime: any,
-    storageFee: BigNumber,
+    storageFee: number | string | BigNumber,
     diggingFee: BigNumber,
     bounty: BigNumber,
     assetDoubleHash: any,

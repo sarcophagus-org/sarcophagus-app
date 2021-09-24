@@ -61,12 +61,12 @@ const useArchFileSend = (createData: any, setCreatedSarcophagusData: any, sarcop
         }
       }
       const { NewPublicKey, AssetDoubleHash, AssetId, V, R, S } = await responseFromArch;
-      const Arweave = initArweave();
-      const fileValid = await arweaveFileValid(Arweave, AssetId, doubleEncryptedFile);
-      if (!fileValid) {
-        setSendStatus(SEND_STATUS_OPTIONS.Failed);
-        return;
-      }
+      // const Arweave = initArweave();
+      // const fileValid = await arweaveFileValid(Arweave, AssetId, doubleEncryptedFile);
+      // if (!fileValid) {
+      //   setSendStatus(SEND_STATUS_OPTIONS.Failed);
+      //   return;
+      // }
       const storageObject = {
         NewPublicKey,
         AssetDoubleHash,

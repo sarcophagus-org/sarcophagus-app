@@ -15,7 +15,7 @@ const createDataRoot = () => {
   return ({ children }: { children: JSX.Element }) => {
     const { allEmbalmerSarcophagi, isEmbalmerSarcophagiLoaded, loadEmbalmerSarcophagi } = useEmbalmer();
     const { allRecipientSarcophagi, isRecipientSarcophagiLoaded, loadRecipientSarcophagi } = useRecipient();
-    const contractMethods = useContractMethods()
+    const contractMethods = useContractMethods();
     // filters out only active embalmer sarcophagi
     const filterEmbalmer = (sarcophagus: ISarcophagus) => sarcophagus.state === 1;
 
@@ -35,7 +35,7 @@ const createDataRoot = () => {
       embalmerSarcophagi: ISarcophagus[],
       recipientSarcophagi: ISarcophagus[]
     ) => {
-      if(!embalmerSarcophagi.length && !recipientSarcophagi.length) return []
+      if (!embalmerSarcophagi.length && !recipientSarcophagi.length) return [];
       const stateOfTwoFilter = (sarcophagus: ISarcophagus) => sarcophagus.state === 2;
       const filteredEmbalmer = embalmerSarcophagi.filter(stateOfTwoFilter);
       const filteredRecipient = recipientSarcophagi.filter(stateOfTwoFilter);
@@ -55,7 +55,7 @@ const createDataRoot = () => {
     const loadSarcophagi = async () => {
       await loadEmbalmerSarcophagi();
       await loadRecipientSarcophagi();
-    }
+    };
 
     const dataContext: any = {
       ...contractMethods,

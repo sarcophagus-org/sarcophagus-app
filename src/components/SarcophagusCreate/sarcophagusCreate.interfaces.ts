@@ -1,3 +1,4 @@
+import { BigNumber } from "@ethersproject/bignumber";
 import { FormikErrors, FormikTouched } from "formik";
 import { Archaeologist } from "../../stores/Archaeologist/archaeologist.interfaces";
 
@@ -51,8 +52,7 @@ export interface SelectArchaeologistProps {
   values: SarcophagusCreateValues;
   errors: FormikErrors<SarcophagusCreateValues>;
   handleChange: React.ChangeEventHandler<HTMLInputElement>;
-  // handleSarcophagusCreate={handleSarcophagusCreate}
-  handleSelected: (selectedArchaeologist: Archaeologist, storageFee: number) => void
+  handleSelected: (selectedArchaeologist: Archaeologist, storageFee: number | string | BigNumber) => void
   archSelected: string;
   setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void;
 }

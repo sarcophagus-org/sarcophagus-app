@@ -2,12 +2,12 @@ import { BigNumber, utils } from "ethers";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useTransaction } from "../BlockChain/useTransaction";
-import { Archaeologist } from "../Archaeologist/archaeologist.interfaces";
 import { SarcophagusStatus } from "../../components/SarcophagusTomb/tomb.enums";
 import { initialValues } from "../../components/Accuse/initialValues";
 import { IBlockChainStore } from "../BlockChain/types/contract.interfaces";
 import { CreatedSarcophagusData } from "../../components/SarcophagusTomb/tomb.interfaces";
 import { useBlockChainStore } from "../BlockChain";
+import { CreateSarcophagus } from "./sarcophagi.interfaces";
 
 const useContractMethods = () => {
   const { contractCall } = useTransaction();
@@ -15,24 +15,27 @@ const useContractMethods = () => {
   const [createdSarcophagusData, setCreatedSarcophagusData] = useState<CreatedSarcophagusData | null>(null);
   const [pendingSarcophagi, setPendingSarcophagi] = useState<any[]>([]);
 
-  const createSarcophagus = async (
-    sarcophagusName: string,
-    archaeologist: Archaeologist,
-    resurrectionTimeUTC: BigNumber,
-    storageFeeBN: BigNumber,
-    diggingFeeBN: BigNumber,
-    bountyBN: BigNumber,
-    assetDoubleHash: string,
-    recipientPublicKeyBA: BigNumber,
-    doubleEncryptedFile: Buffer
+  const createSarcophagus: CreateSarcophagus = async (
+    name,
+    archaeologist,
+    resurrectionTimeUTC,
+    storageFee,
+    diggingFeeBN,
+    bountyBN,
+    assetDoubleHash,
+    recipientPublicKeyBA,
+    doubleEncryptedFile,
+    successRefresh,
+    redirect
   ) => {
     try {
       if (!sarcophagusContract) return;
       const broadcastCallback = () => {
+        redirect()
         // saves pending data
         const sarcophagusCreateData = {
           assetDoubleHash,
-          sarcophagusName,
+          name,
           doubleEncryptedFile,
           endpoint: archaeologist.endpoint,
         };
@@ -42,20 +45,21 @@ const useContractMethods = () => {
 
       const successCallback = ({ transactionHash }: { transactionHash: string }) => {
         // adds completed transaction hash to create data
-        // redirects back to tomb
         setCreatedSarcophagusData((data: any) => ({ ...data, txReceipt: transactionHash }));
         setPendingSarcophagi([]);
         console.info("CREATE TX HASH", transactionHash);
+        // redirects back to tomb
+        successRefresh()
       };
 
       // make the contract call
       contractCall(
         () =>
           sarcophagusContract.createSarcophagus(
-            sarcophagusName,
+            name,
             archaeologist.address,
             resurrectionTimeUTC,
-            storageFeeBN,
+            storageFee,
             diggingFeeBN,
             bountyBN,
             assetDoubleHash,
@@ -265,17 +269,13 @@ const useContractMethods = () => {
 
   const cancelSarcophagus = async (
     buffedAssetDoubleHash: Buffer,
-    setStatus: (status: SarcophagusStatus) => void
+    setStatus: (status: SarcophagusStatus) => void,
+    successCallback?: (txRecipient: { transactionHash: string }) => void,
   ) => {
     try {
       if (!sarcophagusContract) return;
       const broadcastCallback = () => {
         setStatus(SarcophagusStatus.Mining);
-      };
-
-      const successCallback = ({ transactionHash }: any) => {
-        console.info("CANCEL TX HASH", transactionHash);
-        return true;
       };
 
       contractCall(
@@ -287,6 +287,7 @@ const useContractMethods = () => {
         undefined,
         successCallback
       );
+    
     } catch (e: any) {
       if (e?.code === 4001) {
         toast.error("Transaction Rejected");

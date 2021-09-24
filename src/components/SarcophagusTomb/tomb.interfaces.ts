@@ -5,9 +5,9 @@ export interface UseCheckStatusState {
 }
 
 export interface CreatedSarcophagusData {
-  assetDoubleHash?: string;
+  assetDoubleHash?: Uint8Array;
   sarcophagusName?: string;
-  doubleEncryptedFile?: Buffer;
+  doubleEncryptedFile?: Uint8Array;
   endpoint?: string;
   newPublicKey?: string; 
   assetId?: string, 

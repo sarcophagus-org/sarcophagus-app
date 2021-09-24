@@ -1,6 +1,6 @@
-import { ethers } from 'ethers';
-import React, { useState, useCallback } from 'react';
-import { toast } from 'react-toastify';
+import { ethers } from "ethers";
+import React, { useState, useCallback } from "react";
+import { toast } from "react-toastify";
 
 interface ProviderRpcError extends Error {
   message: string;
@@ -22,29 +22,26 @@ const useTransaction = () => {
       successCallback?: (txRecipient: { transactionHash: string }) => void,
       completedCallback?: () => void
     ) => {
-      setPending(true);
       let toastId: React.ReactText;
-      toastId = toast(pendingMessage, {
-        autoClose: false,
-        closeOnClick: false,
-        draggable: false,
-        closeButton: false,
-      });
+      setPending(true);
       contractFn()
         .then((txResponse: ethers.ContractTransaction) => {
+          toastId = toast(pendingMessage, {
+            autoClose: false,
+            closeOnClick: false,
+            draggable: false,
+            closeButton: false,
+          });
           const wait =
             process.env.NODE_ENV !== "development"
               ? 0
               : process.env.REACT_APP_DEVELOPMENT_TX_WAIT_MS
-                ? parseInt(process.env.REACT_APP_DEVELOPMENT_TX_WAIT_MS)
-                : 0
+              ? parseInt(process.env.REACT_APP_DEVELOPMENT_TX_WAIT_MS)
+              : 0;
           broadcastCallback(); // -> broadcastCallback()
           return Promise.all([
-            new Promise(resolve => setTimeout(
-              () => resolve(null),
-              wait
-            )).then(() => txResponse.wait()),
-            toastId
+            new Promise((resolve) => setTimeout(() => resolve(null), wait)).then(() => txResponse.wait()),
+            toastId,
           ]);
         })
         .then(([txReceipt, toastId]) => {
@@ -73,9 +70,11 @@ const useTransaction = () => {
           }
           if (failedCallback) failedCallback();
         });
-    }, []);
+    },
+    []
+  );
 
   return { contractCall, pending };
-}
+};
 
 export { useTransaction };

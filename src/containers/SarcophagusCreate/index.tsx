@@ -25,7 +25,7 @@ import Button from "../../components/layout/Button";
 
 const CreateSarcophagus = () => {
   const [buttonText, setButtonText] = useState("");
-  const [storageFee, setStorageFee] = useState<number | null>(null);
+  const [storageFee, setStorageFee] = useState<number | string | BigNumber | null>(null);
   const [selectedArchaeologist, setSelectedArchaeologist] = useState<Archaeologist | null>(null);
   const history = useHistory();
 
@@ -43,27 +43,38 @@ const CreateSarcophagus = () => {
   const { account } = useWeb3();
   const { approved, approveTransaction } = useApproval();
 
-  const handleArchaeologistSelect = (selectedArchaeologist: Archaeologist, storageFee: number) => {
+  const handleArchaeologistSelect = (
+    selectedArchaeologist: Archaeologist,
+    storageFee: number | string | BigNumber
+  ) => {
     setStorageFee(storageFee);
     setSelectedArchaeologist(selectedArchaeologist);
     setArchaeologistAddress(selectedArchaeologist?.currentPublicKey);
   };
 
+  const successRefresh = () => {
+    sarcophagiStore.loadSarcophagi();
+    archaeologistsStore.loadArchaeologists();
+  };
+
+  const redirect = () => {
+    history.push("/tomb");
+  }
+
   const createSarcophagus = async (values: SarcophagusCreateValues) => {
     if (!selectedArchaeologist || !storageFee || !assetDoubleHash || !doubleEncryptedFile) {
-      console.log("🚀 ~ Create values not found");
+      console.error("🚀 ~ Create values not found");
       return;
     }
     try {
       const { bounty, diggingFee, recipientPublicKey, resurrectionTime, name, custom } = values;
-      console.log("🚀 ~ file: index.tsx ~ line 55 ~ createSarcophagus ~ resurrectionTime", resurrectionTime);
       let resurrectionTimeBN: BigNumber = custom
         ? convertDataToBigNumber(resurrectionTime.toString())
         : BigNumber.from(Number(resurrectionTime) / 1000);
 
       const diggingFeeBN = utils.parseEther(diggingFee.toString());
       const bountyBN = utils.parseEther(bounty.toString());
-
+      const storageFeeBN = utils.parseEther(storageFee.toString());
       let formatedPublicKey;
       if (recipientPublicKey.substr(0, 4) !== "0x04") formatedPublicKey = "0x04" + recipientPublicKey;
       const recipientPublicKeyBA = utils.arrayify(formatedPublicKey || recipientPublicKey).slice(1);
@@ -72,12 +83,14 @@ const CreateSarcophagus = () => {
         name,
         selectedArchaeologist,
         resurrectionTimeBN,
-        storageFee,
+        storageFeeBN,
         diggingFeeBN,
         bountyBN,
         assetDoubleHash,
         recipientPublicKeyBA,
-        doubleEncryptedFile
+        doubleEncryptedFile,
+        successRefresh,
+        redirect,
       );
     } catch (e) {
       console.error(e);
@@ -86,11 +99,6 @@ const CreateSarcophagus = () => {
 
   const handleKey = (publicKey: string) => {
     setRecipientPublicKey(publicKey);
-  };
-
-  const refresh = () => {
-    sarcophagiStore.loadSarcophagi();
-    archaeologistsStore.loadArchaeologists();
   };
 
   useEffect(() => {
@@ -132,7 +140,6 @@ const CreateSarcophagus = () => {
         handleChange,
         handleSubmit,
         setFieldValue,
-        validateForm,
         isValid,
       }) => (
         <form className="ml-8 px-14" onSubmit={handleSubmit}>
@@ -168,12 +175,10 @@ const CreateSarcophagus = () => {
             file={file}
             values={values}
             handleChange={handleChange}
-            // handleSarcophagusCreate={handleSarcophagusCreate}
             handleSelected={handleArchaeologistSelect}
             archSelected={selectedArchaeologist?.address || ""}
             setFieldValue={setFieldValue}
           />
-
           <Button
             label={buttonText}
             isDisabled={!isValid}
@@ -182,9 +187,8 @@ const CreateSarcophagus = () => {
             type={approved ? "submit" : "button"}
             onClick={
               approved
-                ? () => validateForm()
+                ? () => null
                 : () => {
-                    validateForm();
                     handleApproval(errors);
                   }
             }
