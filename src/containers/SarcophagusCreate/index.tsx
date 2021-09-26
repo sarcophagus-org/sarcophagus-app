@@ -59,7 +59,7 @@ const CreateSarcophagus = () => {
 
   const redirect = () => {
     history.push("/tomb");
-  }
+  };
 
   const createSarcophagus = async (values: SarcophagusCreateValues) => {
     if (!selectedArchaeologist || !storageFee || !assetDoubleHash || !doubleEncryptedFile) {
@@ -90,7 +90,7 @@ const CreateSarcophagus = () => {
         recipientPublicKeyBA,
         doubleEncryptedFile,
         successRefresh,
-        redirect,
+        redirect
       );
     } catch (e) {
       console.error(e);
@@ -132,16 +132,7 @@ const CreateSarcophagus = () => {
       onSubmit={createSarcophagus}
       validateOnMount
     >
-      {({
-        values,
-        errors,
-        touched,
-        handleBlur,
-        handleChange,
-        handleSubmit,
-        setFieldValue,
-        isValid,
-      }) => (
+      {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue, isValid }) => (
         <form className="ml-8 px-14" onSubmit={handleSubmit}>
           <CreateTitleAndDescription />
           <Settings

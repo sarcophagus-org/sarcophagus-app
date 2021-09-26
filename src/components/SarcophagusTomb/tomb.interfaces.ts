@@ -1,9 +1,5 @@
 import { TimerStatus } from "./tomb.enums";
 
-export interface UseCheckStatusState {
-
-}
-
 export interface CreatedSarcophagusData {
   assetDoubleHash?: Uint8Array;
   sarcophagusName?: string;
@@ -14,6 +10,15 @@ export interface CreatedSarcophagusData {
   V?: string,
   R?: string, 
   S?: string
+}
+
+export interface ResponseFromArch {
+  NewPublicKey: string;
+  AssetDoubleHash: Uint8Array;
+  AssetId: string, 
+  V: string,
+  R: string, 
+  S: string
 }
 
 export interface UseResurrectionTimerState {

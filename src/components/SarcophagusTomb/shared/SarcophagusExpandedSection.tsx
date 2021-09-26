@@ -114,6 +114,7 @@ const SarcophagusExpandedSection = ({
       );
     case SarcophagusStatus.Error:
     case SarcophagusStatus.PublicKeyUsed:
+    case SarcophagusStatus.ArweaveMiningError:
       // allows users to cancel
       return (
         <SectionContainer

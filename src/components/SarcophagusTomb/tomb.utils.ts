@@ -12,7 +12,10 @@ export const initArweave = () => {
   })
 }
 
-export const arweaveFileValid = async (arweave: Arweave, transactionId: string, doubleEncryptedFile: string | Uint8Array) => {
+export const arweaveFileValid = async (arweave: Arweave, transactionId?: string, doubleEncryptedFile?: string | Uint8Array) => {
+  if(!transactionId || !doubleEncryptedFile) {
+    return false
+  }
   try {
     const data = await arweave.transactions.getData(transactionId, {decode: true})
     const buffedData = Buffer.from(data)

@@ -18,7 +18,8 @@ export enum SarcophagusStatus {
   // error statuses
   Error = 'Sarcophagus Error',
   WindowClosed = 'Resurrection Window is past',
-  PublicKeyUsed = 'Public key already used'
+  PublicKeyUsed = 'Public key already used',
+  ArweaveMiningError = 'There was an error validating the arweave file',
 }
 
 export enum TimerStatus {

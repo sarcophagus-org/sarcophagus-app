@@ -23,9 +23,9 @@ export interface ISarcophagusContract extends Contract {
     recipientPublicKey: any
   ) => Promise<ContractTransaction>;
   updateSarcophagus: (
-    NewPublicKey: any,
-    AssetDoubleHash: any,
-    AssetId: any,
+    newPublicKey: any,
+    assetDoubleHash: any,
+    assetId: any,
     V: any,
     R: any,
     S: any
