@@ -1,13 +1,12 @@
-import { utils } from "ethers";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useTransaction } from "../BlockChain/useTransaction";
 import { SarcophagusStatus } from "../../components/SarcophagusTomb/tomb.enums";
-import { initialValues } from "../../components/Accuse/initialValues";
 import { IBlockChainStore } from "../BlockChain/types/contract.interfaces";
 import { CreatedSarcophagusData } from "../../components/SarcophagusTomb/tomb.interfaces";
 import { useBlockChainStore } from "../BlockChain";
 import {
+  AccuseSarcophagus,
   BurySarcophagus,
   CancelSarcophagus,
   CleanSarcophagus,
@@ -294,20 +293,12 @@ const useContractMethods = () => {
     return false;
   };
 
-  const accuseArchaeologist = async (values: any, resetForm: any) => {
+  const accuseArchaeologist: AccuseSarcophagus = (identifierUint, singleHashUint, address, successCallback) => {
     try {
       if (!sarcophagusContract) return;
-      const { singleHash, identifier, address } = values;
-      const identifierUint = Buffer.from(utils.arrayify(identifier));
-      const singleHashUint = Buffer.from(utils.arrayify(singleHash));
 
       const broadcastCallback = () => {
         toast.dark("Checking accusal", { toastId: "accusalPending" });
-      };
-
-      const successCallback = ({ transactionHash }: any) => {
-        console.info("Accuse TX HASH", transactionHash);
-        resetForm(initialValues);
       };
 
       contractCall(

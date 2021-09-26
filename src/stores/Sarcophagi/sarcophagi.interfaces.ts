@@ -36,7 +36,13 @@ export type UpdateSarcophagus = (
   successRefresh: () => void
 ) => Promise<void>;
 
-type AccuseSarcophagus = () => Promise<void>;
+export type AccuseSarcophagus = (
+  identifierUint: Uint8Array,
+  singleHashUint: Uint8Array,
+  address: string,
+  successCallback: (txRecipient: { transactionHash: string }) => void
+) => void;
+
 export type CreateSarcophagus = (
   sarcophagusName: string,
   selectedArchaeologist: Archaeologist,

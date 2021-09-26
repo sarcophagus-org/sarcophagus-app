@@ -5,7 +5,7 @@ import SarcophagusTomb from "../containers/SarcophagusTomb";
 import CreateSarcophagus from "../containers/SarcophagusCreate";
 import PublicKey from "../containers/PublicKey";
 import SarcophagusResurrection from '../containers/SarcophagusResurrection'
-// import AccuseArchaeologist from './Accuse'
+import ArchaeologistAccuse from '../containers/ArchaeologistAccuse'
 
 const Body = () => {
   return (
@@ -16,7 +16,7 @@ const Body = () => {
       <Route path={ClientRoutes.Tomb} component={SarcophagusTomb} />
       <Route path="/create" component={CreateSarcophagus} exact />
       <Route path='/resurrection' component={SarcophagusResurrection} exact />
-      {/* <Route path='/horus' component={AccuseArchaeologist} exact /> */}
+      <Route path='/horus' component={ArchaeologistAccuse} exact />
       <Route path='/publicKey' component={PublicKey} exact />
     </div>
   );
