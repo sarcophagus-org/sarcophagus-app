@@ -6,24 +6,15 @@ interface ILinkWithIconProps {
   icon: string;
 }
 
-interface INavIconProps {
-  icon?: string;
-}
-
-const Icon = ({ icon }: INavIconProps) => {
-  if (!icon) return null;
-  return <img src={icon} alt="" className="mx-1 h-4 w-4" />;
-};
-
 const LinkWithIcon = ({ title, dest, icon, ...rest }: ILinkWithIconProps) => (
   <Link
     to={dest}
-    activeClassName="border-b-2 md:border-b-4 border-white text-white pb-2"
-    className="text-sm text-gray-300 flex items-center justify-center"
+    className="text-md flex items-center justify-center hover:text-white pb-2"
+    activeClassName="border-b md:border-b-2 border-white text-white"
     {...rest}
   >
-    <Icon icon={icon} />
-    <span className="hidden md:inline-block ml-2">{title}</span>
+    <img alt="" src={icon} className="mr-2 w-5 h-5"/>
+    <span className="">{title}</span>
   </Link>
 );
 

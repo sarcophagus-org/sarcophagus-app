@@ -16,14 +16,15 @@ const widthOptions: OptionsType = {
   default: "12.75rem",
 };
 
-const base = "text-md font-medium flex justify-center items-center focus:outline-none";
-const border = "text-white border border-white";
+const base =
+  "text-md font-medium flex justify-center items-center focus:outline-none";
+const border = "text-white border border-white transform hover:border-offWhite hover:text-offWhite active:scale-90";
 const disabled = "text-gray-400 border border-500 cursor-default";
 const error = "";
 
 interface ButtonProps {
   label: string;
-  type: 'button' | 'reset' | 'submit';
+  type: "button" | "reset" | "submit";
   isDisabled?: boolean;
   addClasses?: string;
   errors?: boolean;
@@ -56,7 +57,7 @@ const Button = ({ label, isDisabled, addClasses, errors, height, width, ...rest 
 };
 
 Button.defaultProps = {
-  isDisabled: false
-}
+  isDisabled: false,
+};
 
 export default Button;

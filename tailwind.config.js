@@ -41,6 +41,7 @@ module.exports = {
         green: '#4ECE3D',
         red: '#CA3737',
         white: '#E9E9E9',
+        offWhite: '#c4c4c4',
         yellow: '#FACA00',
       },
       width: {
@@ -73,6 +74,10 @@ module.exports = {
       }
     },
   },
-  variants: {},
+  variants: {
+    extend: {
+      scale: ['active'],
+    }
+  },
   plugins: [],
 }

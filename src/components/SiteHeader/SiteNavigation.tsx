@@ -6,17 +6,17 @@ import LinkWithIcon from "./LinkWithIcon";
 
 const SiteNavigation = () => {
   return (
-    <ul className="flex whitespace-nowrap">
-      <li className="pr-4 py-1 ">
+    <ul className="flex whitespace-nowrap items-center justify-evenly gap-8">
+      <li className="">
         <LinkWithIcon dest="/tomb" title="Tomb" icon={tombIcon} />
       </li>
-      <li className="px-4 py-1 ">
+      <li className="">
         <LinkWithIcon dest="/create" title="Create Sarcophagus" icon={sarcophagusIcon} />
       </li>
-      <li className="px-4 py-1 ">
+      <li className="">
         <LinkWithIcon dest="/resurrection" title="Resurrection" icon={resurrectionIcon} />
       </li>
-      <li className="px-4 py-1 ">
+      <li className="">
         <LinkWithIcon dest="/horus" title="Eye of Horus" icon={eyeOfHorusIcon} />
       </li>
     </ul>
