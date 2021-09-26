@@ -11,13 +11,13 @@ const useListeners = (provider: ethers.providers.Provider | undefined, web3Modal
     // subscribe to connect events
     web3Modal.on('connect', provider => {
       if (!supportedChains().includes(parseInt(provider.chainId))) {
-        toast(`Switch to a supported network: ${supportedChains().join(", ")}`, { toastId: 'switchNetwork' });
+        toast.dark(`Switch to a supported network: ${supportedChains().join(", ")}`, { toastId: 'switchNetwork' });
         web3Modal.clearCachedProvider();
         setMyProvider(null);
       } else {
         const web3Provider = new ethers.providers.Web3Provider(provider);
         setMyProvider(web3Provider);
-        toast('Connected', { toastId: 'connected' });
+        toast.dark('Connected', { toastId: 'connected' });
       }
     });
 
@@ -32,11 +32,11 @@ const useListeners = (provider: ethers.providers.Provider | undefined, web3Modal
     // subscribe to Network events
     provider.on('chainChanged', (chainId: string) => {
       if (!supportedChains().includes(parseInt(chainId))) {
-        toast(`Switch to a supported network: ${supportedChains().join(", ")}`, { toastId: 'switchNetwork' });
+        toast.dark(`Switch to a supported network: ${supportedChains().join(", ")}`, { toastId: 'switchNetwork' });
         web3Modal.clearCachedProvider();
         setMyProvider(null);
       } else {
-        toast('Network changed', { toastId: 'switchNetwork' });
+        toast.dark('Network changed', { toastId: 'switchNetwork' });
         const web3Provider = new ethers.providers.Web3Provider(provider as any);
         setMyProvider(web3Provider);
       };
@@ -45,18 +45,18 @@ const useListeners = (provider: ethers.providers.Provider | undefined, web3Modal
     // subscribe to account change events
     provider.on('accountsChanged', (accounts: string[]) => {
       if (accounts.length === 0) {
-        toast('Account disconnected', { toastId: 'disconnected' });
+        toast.dark('Account disconnected', { toastId: 'disconnected' });
         web3Modal.clearCachedProvider();
         setMyProvider(null);
       } else {
-        toast('Account changed', { toastId: 'connected' });
+        toast.dark('Account changed', { toastId: 'connected' });
         web3Modal.connect();
       }
     });
 
     // subscribe to provider disconnection
     provider.on('disconnect', () => {
-      toast('Account disconnected', { toastId: 'disconnected' });
+      toast.dark('Account disconnected', { toastId: 'disconnected' });
       web3Modal.clearCachedProvider();
       setMyProvider(null);
     });

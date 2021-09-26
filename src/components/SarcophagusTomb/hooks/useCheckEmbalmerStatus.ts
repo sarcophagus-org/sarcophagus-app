@@ -76,7 +76,6 @@ const useCheckStatus = (sarcophagus: ISarcophagus) => {
         // checks for archaeologist unwrapping update
         if (sarcophagus.resurrectionTime.toNumber() * 1000 - Date.now().valueOf() <= 0) {
           setTimeout(() => {
-            // todo update this
             sarcophagiStore.loadSarcophagi();
           }, 3000);
         }
