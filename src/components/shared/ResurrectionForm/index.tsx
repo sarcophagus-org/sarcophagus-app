@@ -41,9 +41,11 @@ const ResurrectionForm = ({ sarcophagus, recipientPrivateKey }: ResurrectionProp
       // retrieve arweave file
       const Arweave = initArweave();
       const doubleEncryptedData = await Arweave.transactions.getData(sarcophagus.assetId, { decode: true });
-      // !todo make error display when invalid
       const isValid = await arweaveFileValid(Arweave, sarcophagus.assetId, doubleEncryptedData);
-      if (!isValid) return;
+      if (!isValid) {
+        toast.error('There was an error validating file on arweave.')
+        return
+      }
 
       // decrypt with private key (NOTE this step may be done by service)
       const outerLayerDecrypted = await decrypt(
