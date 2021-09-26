@@ -140,7 +140,7 @@ const ArchaeologistAccuse = () => {
                 />
               }
             />
-            <Button addClasses="mx-auto w-full mb-4" type="submit" label="Submit" />
+            <Button addClasses="mx-auto mb-4" width="full" type="submit" label="Submit" />
           </div>
         </form>
       )}

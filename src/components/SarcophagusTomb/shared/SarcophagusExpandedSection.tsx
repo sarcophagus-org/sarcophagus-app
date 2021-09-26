@@ -41,7 +41,7 @@ const SarcophagusExpandedSection = ({
   setStatus,
   toggleExpansion,
   isExpanded,
-  recipientPrivateKey
+  recipientPrivateKey,
 }: SarcophagusExpandedSectionProps) => {
   const sarcophagiStore: ISarcophagusStore = useSarcophagiStore();
 
@@ -93,7 +93,7 @@ const SarcophagusExpandedSection = ({
     case SarcophagusStatus.Archived:
       return null;
     case SarcophagusStatus.Unwrapped:
-      return <ResurrectionForm sarcophagus={sarcophagus} recipientPrivateKey={recipientPrivateKey}/>;
+      return <ResurrectionForm sarcophagus={sarcophagus} recipientPrivateKey={recipientPrivateKey} />;
     case SarcophagusStatus.Active:
       // allows user to rewrap
       return <Rewrap sarcophagus={sarcophagus} setStatus={setStatus} toggleExpansion={toggleExpansion} />;

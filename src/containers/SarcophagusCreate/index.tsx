@@ -174,7 +174,7 @@ const CreateSarcophagus = () => {
             label={buttonText}
             isDisabled={!isValid}
             addClasses="my-8"
-            height="lg"
+            height="large"
             type={approved ? "submit" : "button"}
             onClick={
               approved

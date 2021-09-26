@@ -101,7 +101,8 @@ const ResurrectionForm = ({ sarcophagus, recipientPrivateKey }: ResurrectionProp
             handleChange={handleChange}
           />
           <Button
-            addClasses="mx-auto w-full mb-4"
+            addClasses="mx-auto mb-4"
+            width="full"
             type="submit"
             label="Resurrect File"
             isDisabled={!recipientPrivateKey && !values.recipientPrivateKey}

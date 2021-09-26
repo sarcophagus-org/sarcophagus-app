@@ -81,7 +81,7 @@ const PrivateKeyField = ({ handleQuery, initialValues }: PrivateKeyFieldProps) =
             handleChange={handleChange}
             isVisible={true}
           />
-          <Button addClasses="w-full mb-4" type="submit" label="Submit" />
+          <Button addClasses="mb-4" width="full" type="submit" label="Submit" />
         </form>
       )}
     </Formik>
