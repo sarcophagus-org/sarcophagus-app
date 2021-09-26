@@ -9,6 +9,7 @@ export enum SarcophagusStatus {
   Unwrapped = 'Sarcophagus unwrapped, resurrection available',
   Unwrapping = 'Unwrapping in progress',
   ArchivedUnwrapped = 'Sarcophagus unwrapped, resurrection available',
+  Archived = 'Archived',
   // activity statuses
   Active = 'Sarcophagus is Active',
   ArweaveMining = 'File is being mined on arweave',

@@ -31,6 +31,8 @@ const StatusText = ({ status, isActive, isArchived }: StatusBadgeProps) => {
       return <div>Accused</div>;
     case SarcophagusStatus.ArchivedUnwrapped:
       return <div>Unwrapped</div>
+    case SarcophagusStatus.Archived:
+      return <div>Archived</div>
     // arweave statuses
     case SarcophagusStatus.ArweaveMining:
     case SarcophagusStatus.ArweaveUploading:
@@ -39,7 +41,7 @@ const StatusText = ({ status, isActive, isArchived }: StatusBadgeProps) => {
       return <div>Mining</div>
     case SarcophagusStatus.Created:
     case SarcophagusStatus.Default:
-      return <div>Pending...</div>
+      return <div>Pending</div>
     case SarcophagusStatus.Unwrapping:
       return <div>Unwrapping</div>
     case SarcophagusStatus.Unwrapped:

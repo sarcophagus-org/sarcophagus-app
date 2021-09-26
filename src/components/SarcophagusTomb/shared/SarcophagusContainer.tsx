@@ -17,6 +17,7 @@ interface SarcophagusContainerProps {
   isArchived?: boolean;
   status: SarcophagusStatus;
   toggleExpansion: () => void;
+  recipientPrivateKey?: string;
 }
 
 interface ExpandButtonProps {
@@ -60,6 +61,7 @@ const SarcophagusContainer = ({
   setStatus,
   isExpanded,
   status,
+  ...rest
 }: SarcophagusContainerProps) => {
   return (
     <div className={Styles.Wrapper}>
@@ -84,6 +86,7 @@ const SarcophagusContainer = ({
         sarcophagus={sarcophagus}
         setStatus={setStatus}
         toggleExpansion={toggleExpansion}
+        {...rest}
       />
     </div>
   );

@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import { ISarcophagus } from "./sarcophagi.interfaces";
 import { useBlockChainStore } from "../BlockChain";
 
-const useRecipient = (address?: string) => {
+const useRecipient = (address?: string, waitForAddress?: boolean) => {
   const { sarcophagusContract } = useBlockChainStore();
   const [allRecipientSarcophagi, setAllRecipientSarcophagi] = useState<ISarcophagus[]>([]);
   const { account } = useWeb3();
@@ -67,11 +67,12 @@ const useRecipient = (address?: string) => {
   }, [fetchRecipientCount, fetchRecipientIdentifiers, fetchRecipientData]);
 
   useEffect(() => {
+    if(waitForAddress && !address) return
     setRecipientSarcophagiLoaded(false)
     loadRecipientSarcophagi().finally(() => {
       setRecipientSarcophagiLoaded(true)
     });
-  },[loadRecipientSarcophagi])
+  },[loadRecipientSarcophagi, waitForAddress, address])
 
   return { allRecipientSarcophagi, isRecipientSarcophagiLoaded, loadRecipientSarcophagi };
 };

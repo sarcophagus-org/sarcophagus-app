@@ -31,6 +31,9 @@ const useCheckRecipientSarcophagi = (sarcophagus: ISarcophagus) => {
         else if(!sarcophagus?.assetId && isActive){
           setSarcophagusStatus(SarcophagusStatus.Created)
         }
+        else if(sarcophagus.state === 2) {
+          setSarcophagusStatus(SarcophagusStatus.Archived)
+        }
         else {
           // should not see this
           setSarcophagusStatus(SarcophagusStatus.Error)
