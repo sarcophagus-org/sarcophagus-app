@@ -79,7 +79,7 @@ const CreateSarcophagus = () => {
       if (recipientPublicKey.substr(0, 4) !== "0x04") formatedPublicKey = "0x04" + recipientPublicKey;
       const recipientPublicKeyBA = utils.arrayify(formatedPublicKey || recipientPublicKey).slice(1);
 
-      await sarcophagiStore.createSarcophagus(
+      sarcophagiStore.createSarcophagus(
         name,
         selectedArchaeologist,
         resurrectionTimeBN,

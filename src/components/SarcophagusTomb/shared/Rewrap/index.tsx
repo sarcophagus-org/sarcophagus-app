@@ -58,27 +58,28 @@ const Rewrap = ({ sarcophagus, toggleExpansion, setStatus }: RewrapProps) => {
     const diggingFeeBN = ethers.utils.parseEther(diggingFee.toString());
     const bountyBN = ethers.utils.parseEther(bounty.toString());
 
-    const success = await sarcophagiStore.rewrapSarcophagus(
+    const successRefresh = () => {
+      sarcophagiStore.loadSarcophagi();
+      toggleExpansion();
+    };
+    sarcophagiStore.rewrapSarcophagus(
       buffedAssetDoubleHash,
       resurrectionTimeBN,
       diggingFeeBN,
       bountyBN,
-      setStatus
+      setStatus,
+      successRefresh
     );
-    if (success) {
-      sarcophagiStore.loadSarcophagi();
-      toggleExpansion();
-    }
   };
 
-  const burySarcophagus = async () => {
+  const burySarcophagus = () => {
     const { AssetDoubleHash } = sarcophagus;
     const buffedAssetDoubleHash = Buffer.from(ethers.utils.arrayify(AssetDoubleHash));
-    const success = await sarcophagiStore.burySarcophagus(buffedAssetDoubleHash, setStatus);
-    if (success) {
+    const successRefresh = () => {
       sarcophagiStore.loadSarcophagi();
       toggleExpansion();
-    }
+    };
+    sarcophagiStore.burySarcophagus(buffedAssetDoubleHash, setStatus, successRefresh);
   };
 
   const initialValues: RewrapFormState = {
@@ -87,7 +88,7 @@ const Rewrap = ({ sarcophagus, toggleExpansion, setStatus }: RewrapProps) => {
     diggingFee: getDecimalNumber(archaeologist?.minimumDiggingFee || ethers.BigNumber.from(0), 18) || 0,
     custom: false,
     customTime: "",
-    timeSelect: "week"
+    timeSelect: "week",
   };
 
   const validationSchema = Yup.object()
@@ -113,7 +114,7 @@ const Rewrap = ({ sarcophagus, toggleExpansion, setStatus }: RewrapProps) => {
     })
     .nullable();
 
-  if(!archaeologist) return null
+  if (!archaeologist) return null;
   return (
     <Formik
       initialValues={initialValues}
@@ -154,13 +155,25 @@ const Rewrap = ({ sarcophagus, toggleExpansion, setStatus }: RewrapProps) => {
             />
           </div>
           <ErrorText isVisible={!!errors.resurrectionTime} text={errors.resurrectionTime} addClasses="py-2" />
-          <ResurrectionTimeForm handleChange={handleChange} setFieldValue={setFieldValue} values={values} errors={errors}/>
+          <ResurrectionTimeForm
+            handleChange={handleChange}
+            setFieldValue={setFieldValue}
+            values={values}
+            errors={errors}
+          />
           <div className="flex flex-col justify-center items-center mt-8 mb-12">
             <Button
               label={buttonText}
               isDisabled={!isValid}
               type={approved ? "submit" : "button"}
-              onClick={approved ? () => null : () => {validateForm(); handleApproval(errors)}}
+              onClick={
+                approved
+                  ? () => null
+                  : () => {
+                      validateForm();
+                      handleApproval(errors);
+                    }
+              }
             />
             <div
               className="whitespace-nowrap flex mt-8 underline justify-center items-center"

@@ -3,32 +3,38 @@ import { SarcophagusStatus } from "../../components/SarcophagusTomb/tomb.enums";
 import { CreatedSarcophagusData } from "../../components/SarcophagusTomb/tomb.interfaces";
 import { Archaeologist } from "../Archaeologist/archaeologist.interfaces";
 
-type BurySarcophagus = (
+export type BurySarcophagus = (
   buffedAssetDoubleHash: Buffer,
-  setStatus: (status: SarcophagusStatus) => void
-) => Promise<boolean>;
+  setStatus: (status: SarcophagusStatus) => void,
+  successRefresh: () => void
+) => void;
 
-type RewrapSarcophagus = (
+export type RewrapSarcophagus = (
   buffedAssetDoubleHash: Buffer,
   resurrectionTimeBN: BigNumber,
   diggingFeeBN: BigNumber,
   bountyBN: BigNumber,
-  setStatus: (status: SarcophagusStatus) => void
-) => Promise<boolean>;
+  setStatus: (status: SarcophagusStatus) => void,
+  successRefresh: () => void
+) => void;
 
-type CancelSarcophagus = (
+export type CancelSarcophagus = (
   buffedAssetDoubleHash: Buffer,
   setStatus: (status: SarcophagusStatus) => void,
-  successCallback?: (txRecipient: { transactionHash: string }) => void,
-) => Promise<boolean>;
+  successCallback?: (txRecipient: { transactionHash: string }) => void
+) => void;
 
-type CleanSarcophagus = (
+export type CleanSarcophagus = (
   buffedAssetDoubleHash: Buffer,
   archaeologist: string,
-  setStatus: (status: SarcophagusStatus) => void
-) => Promise<boolean>;
+  setStatus: (status: SarcophagusStatus) => void,
+  successRefresh: () => void
+) => void;
 
-type UpdateSarcophagus = (setStatus: (status: SarcophagusStatus) => void) => Promise<boolean>;
+export type UpdateSarcophagus = (
+  setStatus: (status: SarcophagusStatus) => void,
+  successRefresh: () => void
+) => Promise<void>;
 
 type AccuseSarcophagus = () => Promise<void>;
 export type CreateSarcophagus = (
@@ -42,8 +48,8 @@ export type CreateSarcophagus = (
   recipientPublicKeyBA: Uint8Array,
   doubleEncryptedFile: Uint8Array,
   successRefresh: () => void,
-  redirect: () => void,
-) => Promise<void>;
+  redirect: () => void
+) => void;
 
 export interface ISarcophagusStore {
   embalmerSarcophagi: ISarcophagus[];

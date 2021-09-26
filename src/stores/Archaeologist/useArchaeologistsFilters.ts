@@ -17,7 +17,7 @@ const useArchaeologistsFilter = (archaeologists: Archaeologist[]) => {
         if (response.ok) return { ...archaeologist, isOnline: true };
         else return { ...archaeologist, isOnline: false };
       } catch {
-        console.error(
+        console.warn(
           "Archaeologist unavailable -",
           "Address:",
           archaeologist.address,

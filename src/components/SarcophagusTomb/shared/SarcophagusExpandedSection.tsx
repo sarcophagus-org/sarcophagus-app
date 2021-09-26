@@ -42,35 +42,36 @@ const SarcophagusExpandedSection = ({
   isExpanded,
 }: SarcophagusExpandedSectionProps) => {
   const sarcophagiStore: ISarcophagusStore = useSarcophagiStore();
-  
-  const successCallback = ({ transactionHash }: {transactionHash: string}) => {
-    console.info("TX HASH", transactionHash);
-    toggleExpansion()
-    sarcophagiStore.loadSarcophagi()
-  };
-  
-  const cancelSarcophagus = async () => {
+
+  const cancelSarcophagus = () => {
     const { AssetDoubleHash } = sarcophagus;
     const buffedAssetDoubleHash = Buffer.from(ethers.utils.arrayify(AssetDoubleHash));
-    await sarcophagiStore.cancelSarcophagus(buffedAssetDoubleHash, setStatus, successCallback);
+
+    const successRefresh = ({ transactionHash }: { transactionHash: string }) => {
+      console.info("Cancel transaction hash:", transactionHash);
+      toggleExpansion();
+      sarcophagiStore.loadSarcophagi();
+    };
+
+    sarcophagiStore.cancelSarcophagus(buffedAssetDoubleHash, setStatus, successRefresh);
   };
 
-  const cleanSarcophagus = async () => {
+  const cleanSarcophagus = () => {
     const { AssetDoubleHash, archaeologist } = sarcophagus;
     const buffedAssetDoubleHash = Buffer.from(ethers.utils.arrayify(AssetDoubleHash));
-    const success = await sarcophagiStore.cleanSarcophagus(buffedAssetDoubleHash, archaeologist, setStatus);
-    if (success) {
+    const successRefresh = () => {
       toggleExpansion();
       sarcophagiStore.loadSarcophagi();
-    }
+    };
+    sarcophagiStore.cleanSarcophagus(buffedAssetDoubleHash, archaeologist, setStatus, successRefresh);
   };
 
-  const updateSarcophagus = async () => {
-    const success = await sarcophagiStore.updateSarcophagus(setStatus);
-    if (success) {
+  const updateSarcophagus = () => {
+    const successRefresh = () => {
       toggleExpansion();
       sarcophagiStore.loadSarcophagi();
-    }
+    };
+    sarcophagiStore.updateSarcophagus(setStatus, successRefresh);
   };
 
   if (!isExpanded) return null;

@@ -1,4 +1,4 @@
-import { BigNumber, utils } from "ethers";
+import { utils } from "ethers";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useTransaction } from "../BlockChain/useTransaction";
@@ -7,7 +7,14 @@ import { initialValues } from "../../components/Accuse/initialValues";
 import { IBlockChainStore } from "../BlockChain/types/contract.interfaces";
 import { CreatedSarcophagusData } from "../../components/SarcophagusTomb/tomb.interfaces";
 import { useBlockChainStore } from "../BlockChain";
-import { CreateSarcophagus } from "./sarcophagi.interfaces";
+import {
+  BurySarcophagus,
+  CancelSarcophagus,
+  CleanSarcophagus,
+  CreateSarcophagus,
+  RewrapSarcophagus,
+  UpdateSarcophagus,
+} from "./sarcophagi.interfaces";
 
 const useContractMethods = () => {
   const { contractCall } = useTransaction();
@@ -15,7 +22,7 @@ const useContractMethods = () => {
   const [createdSarcophagusData, setCreatedSarcophagusData] = useState<CreatedSarcophagusData | null>(null);
   const [pendingSarcophagi, setPendingSarcophagi] = useState<any[]>([]);
 
-  const createSarcophagus: CreateSarcophagus = async (
+  const createSarcophagus: CreateSarcophagus = (
     name,
     archaeologist,
     resurrectionTimeUTC,
@@ -31,7 +38,7 @@ const useContractMethods = () => {
     try {
       if (!sarcophagusContract) return;
       const broadcastCallback = () => {
-        redirect()
+        redirect();
         // saves pending data
         const sarcophagusCreateData = {
           assetDoubleHash,
@@ -49,7 +56,7 @@ const useContractMethods = () => {
         setPendingSarcophagi([]);
         console.info("CREATE TX HASH", transactionHash);
         // redirects back to tomb
-        successRefresh()
+        successRefresh();
       };
 
       // make the contract call
@@ -89,9 +96,7 @@ const useContractMethods = () => {
     }
   };
 
-  const updateSarcophagus = (
-    setStatus: (status: SarcophagusStatus) => void,
-  ) => {
+  const updateSarcophagus: UpdateSarcophagus = async (setStatus, successRefresh) => {
     try {
       if (!sarcophagusContract || !createdSarcophagusData) return;
       let { newPublicKey, assetDoubleHash, assetId, V, R, S } = createdSarcophagusData;
@@ -105,7 +110,7 @@ const useContractMethods = () => {
         console.info("UPDATE TX HASH", transactionHash);
         setStatus(SarcophagusStatus.Active);
         setCreatedSarcophagusData(null);
-        return true
+        successRefresh();
       };
 
       contractCall(
@@ -128,7 +133,6 @@ const useContractMethods = () => {
         console.error("There was a problem updating sarcophagus", e);
       }
     }
-    return false
   };
 
   /**
@@ -141,12 +145,13 @@ const useContractMethods = () => {
    * @param setStatus passed to allow updating the sarcophagus's status to mining state.
    * @returns
    */
-  const rewrapSarcophagus = (
-    buffedAssetDoubleHash: Buffer,
-    resurrectionTimeBN: BigNumber,
-    diggingFeeBN: BigNumber,
-    bountyBN: BigNumber,
-    setStatus: (status: SarcophagusStatus) => void
+  const rewrapSarcophagus: RewrapSarcophagus = (
+    buffedAssetDoubleHash,
+    resurrectionTimeBN,
+    diggingFeeBN,
+    bountyBN,
+    setStatus,
+    successRefresh
   ) => {
     try {
       if (!sarcophagusContract) return;
@@ -159,7 +164,7 @@ const useContractMethods = () => {
       // when transaction is successfull
       const successCallback = ({ transactionHash }: any) => {
         console.info("REWRAP TX HASH", transactionHash);
-        return true;
+        successRefresh();
       };
 
       contractCall(
@@ -191,14 +196,10 @@ const useContractMethods = () => {
         toast.error("There was a problem rewrapping sarcophagus");
         console.error("There was a problem rewrapping sarcophagus", e);
       }
-      return false;
     }
   };
 
-  const burySarcophagus = async (
-    buffedAssetDoubleHash: Buffer,
-    setStatus: (status: SarcophagusStatus) => void
-  ) => {
+  const burySarcophagus: BurySarcophagus = (buffedAssetDoubleHash, setStatus, successRefresh) => {
     try {
       if (!sarcophagusContract) return;
 
@@ -208,7 +209,7 @@ const useContractMethods = () => {
 
       const successCallback = ({ transactionHash }: any) => {
         console.info("BURY TX HASH", transactionHash);
-        return true;
+        successRefresh();
       };
 
       contractCall(
@@ -227,14 +228,14 @@ const useContractMethods = () => {
         toast.error("There was a problem buring sarcophagus");
         console.error("There was a problem buring sarcophagus", e);
       }
-      return false;
     }
   };
 
-  const cleanSarcophagus = async (
-    buffedAssetDoubleHash: Buffer,
-    archaeologist: string,
-    setStatus: (status: SarcophagusStatus) => void
+  const cleanSarcophagus: CleanSarcophagus = (
+    buffedAssetDoubleHash,
+    archaeologist,
+    setStatus,
+    successRefresh
   ) => {
     try {
       if (!sarcophagusContract) return;
@@ -244,7 +245,7 @@ const useContractMethods = () => {
 
       const successCallback = ({ transactionHash }: any) => {
         console.info("CLEAN TX HASH", transactionHash);
-        return true;
+        successRefresh();
       };
 
       contractCall(
@@ -264,14 +265,9 @@ const useContractMethods = () => {
         console.error("There was a problem cleaning sarcophagus", e);
       }
     }
-    return false;
   };
 
-  const cancelSarcophagus = async (
-    buffedAssetDoubleHash: Buffer,
-    setStatus: (status: SarcophagusStatus) => void,
-    successCallback?: (txRecipient: { transactionHash: string }) => void,
-  ) => {
+  const cancelSarcophagus: CancelSarcophagus = (buffedAssetDoubleHash, setStatus, successCallback) => {
     try {
       if (!sarcophagusContract) return;
       const broadcastCallback = () => {
@@ -287,7 +283,6 @@ const useContractMethods = () => {
         undefined,
         successCallback
       );
-    
     } catch (e: any) {
       if (e?.code === 4001) {
         toast.error("Transaction Rejected");

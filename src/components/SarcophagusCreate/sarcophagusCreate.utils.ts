@@ -15,7 +15,7 @@ export const createInitialValues: SarcophagusCreateValues = {
   daysDisplayed: 0,
   custom: false,
   customTime: "",
-  timeSelect: "week",
+  timeSelect: null,
 };
 
 export const archaeologistsTableHeaders = (archaeologistsWithStats: Archaeologist[]) => [
