@@ -8,7 +8,7 @@ export enum SarcophagusStatus {
   Default = 'Checking status...',
   Unwrapped = 'Sarcophagus unwrapped, resurrection available',
   Unwrapping = 'Unwrapping in progress',
-  ArchivedUnwrapped = 'Sarcophagus unwrapped, resurrection available',
+  ArchivedUnwrapped = 'resurrection available',
   Archived = 'Archived',
   // activity statuses
   Active = 'Sarcophagus is Active',

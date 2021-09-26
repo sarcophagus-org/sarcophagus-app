@@ -93,12 +93,11 @@ const ResurrectionForm = ({ sarcophagus, recipientPrivateKey }: ResurrectionProp
       {({ values, errors, handleChange, handleSubmit }) => (
         <form onSubmit={handleSubmit} className="px-2">
           <RecipientPrivateKeyField
-            isVisible={!!recipientPrivateKey}
+            isVisible={!recipientPrivateKey}
             values={values}
             errors={errors}
             handleChange={handleChange}
           />
-
           <Button
             addClasses="mx-auto w-full mb-4"
             type="submit"
