@@ -1,7 +1,5 @@
 import { useEffect } from "react";
-import InfoBox from "../../layout/InfoBox";
 import arrowDown from "../../../assets/images/arrowDown.svg";
-import { FILE_UPLOAD_INFO_1, FILE_UPLOAD_INFO_2 } from "../../../constants";
 import { UploadSarcophagusFileProps } from "../sarcophagusCreate.interfaces";
 import upload from "../../../assets/images/upload.svg";
 import SectionContainer from "../shared/SectionContainer";
@@ -40,15 +38,13 @@ const SarcophagusFileUpload = ({
           <ErrorText isVisible={!!errors.fileUploaded && !!touched.fileUploaded} text={errors.fileUploaded} />
         </div>
         <div className="md:grid md:grid-cols-2 mt-8 md:gap-6">
-          <FileDropzone
-            handleFile={handleFile}
-            file={file}
-            handleBlur={handleBlur}
-          />
-          <InfoBox margin="-mt-1">
-            <div className="leading-5">{FILE_UPLOAD_INFO_1}</div>
-            <div className="leading-5 my-4">{FILE_UPLOAD_INFO_2}</div>
-          </InfoBox>
+          <FileDropzone handleFile={handleFile} file={file} handleBlur={handleBlur} />
+          <div className="text-gray-400 text-2xs -mt-1">
+            <div className="leading-5">
+              Upload a file to embalm. It will be downloaded after resurrection exactly as is.
+            </div>
+            <div className="leading-5 my-4">Current alpha max file size: 2.9 MB</div>
+          </div>
         </div>
       </div>
     </SectionContainer>

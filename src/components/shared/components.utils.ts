@@ -51,7 +51,7 @@ export const convertToUTCTime = (date: Date): number => {
   );
 };
 
-const makeNumeral = (bigNumber: BigNumber, decimals: number): Numeral => {
+export const makeNumeral = (bigNumber: BigNumber, decimals: number): Numeral => {
   return numeral(utils.formatUnits(bigNumber, decimals));
 };
 
@@ -101,4 +101,16 @@ export const getDatefromBigNumber = (UtcBN: BigNumber) => {
   const timeZoneOffset = dateFromUTC.getTimezoneOffset();
   dateFromUTC.setMinutes(dateFromUTC.getMinutes() + timeZoneOffset);
   return `${dateFromUTC.toLocaleDateString()} ${dateFromUTC.toLocaleTimeString()}`;
+};
+
+export const checkReceivedStatus = (resurrectionTime: BigNumber, resurrectionWindow: BigNumber, privateKey: string, SarcophagusState: number) => {
+  const resurrectionTimePlusWindow = resurrectionTime.add(resurrectionWindow);
+  const isUnwrapped =
+    SarcophagusState === 2 &&
+    privateKey !== "0x0000000000000000000000000000000000000000000000000000000000000000";
+  const isActive =
+    SarcophagusState === 1 &&
+    resurrectionTimePlusWindow.gte(BigNumber.from(Number(Date.now().valueOf() / 1000).toFixed(0)));
+  const isVisible = isUnwrapped || isActive;
+  return { isUnwrapped, isActive, isVisible };
 };

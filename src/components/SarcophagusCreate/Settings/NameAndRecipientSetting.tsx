@@ -34,7 +34,7 @@ const NameAndRecipientSettings = ({
           <ErrorText isVisible={!!errors.name && !!touched.name} text={errors.name} addClasses="text-2xs" />
         </div>
         <input
-          className="w-full pl-4 text-md bg-black font-normal text-white border remove-input-steps focus:outline-none border border-gray-500"
+          className="w-full pl-4 text-md bg-black font-normal text-white remove-input-steps focus:outline-none border border-gray-500"
           type="text"
           style={{ height: "2.625rem" }}
           placeholder=""

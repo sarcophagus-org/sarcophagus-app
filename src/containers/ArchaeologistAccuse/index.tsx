@@ -99,7 +99,7 @@ const ArchaeologistAccuse = () => {
               InputElement={
                 <input
                   type="text"
-                  className="w-full mt-4 pl-4 text-md bg-black font-normal text-white border remove-input-steps focus:outline-none border border-gray-500"
+                  className="w-full mt-4 pl-4 text-md bg-black font-normal text-white remove-input-steps focus:outline-none border-gray-500"
                   style={{ height: "2.625rem" }}
                   value={values.address}
                   onChange={handleChange}

@@ -1,8 +1,6 @@
 import { useState } from "react";
-import { INTERVAL_LENGTH_SECONDS } from "../../../constants";
-import { initArweave } from "../../../utils/arweave";
 import { CreatedSarcophagusData, ResponseFromArch } from "../tomb.interfaces";
-import { arweaveFileValid } from "../tomb.utils";
+import { arweaveFileValid, initArweave } from "../tomb.utils";
 
 export enum ServiceStatus {
   Sending = "File Sending",
@@ -10,6 +8,8 @@ export enum ServiceStatus {
   Mining = "File is Mining",
   Success = "File has been mined",
 }
+
+const INTERVAL_LENGTH_SECONDS = 5
 
 const useArchaeologistService = (
   createdSarcophagusData: CreatedSarcophagusData | null,

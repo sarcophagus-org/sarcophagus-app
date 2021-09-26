@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import useCollapse from "../../customHooks/useCollapse";
 import pickaxe from "../../../assets/images/pickaxe.svg";
 import arrowRight from "../../../assets/images/arrowRight.svg";
 import SectionContainer from "../shared/SectionContainer";
 import FeesForm from "../../shared/FeesForm";
 import { SelectArchaeologistProps } from "../sarcophagusCreate.interfaces";
 import ArchaeologistSelect from "../ArchaeologistSelect";
+import useCollapse from "../hooks/useCollapsed";
 
 const ArchaeologistSelectForm = ({ values, errors, ...rest }: SelectArchaeologistProps) => {
   const { collapsed, toggle, open } = useCollapse();

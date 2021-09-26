@@ -1,6 +1,7 @@
 import { SarcophagusStatus } from "./tomb.enums";
 import Arweave from 'arweave'
-import { truncate } from "../shared/components.utils";
+import { makeNumeral, truncate } from "../shared/components.utils";
+import { BigNumber } from "@ethersproject/bignumber";
 
 export const initArweave = () => {
   return Arweave.init({
@@ -78,4 +79,10 @@ export const dateTimeString = (dateAsUTC: string | number): string => {
 export const utcToDateObject = (dateAsUTC: string | number) => {
   const date = new Date(dateAsUTC)
   return date
+}
+
+export const isTimePast = (time: BigNumber, window: BigNumber) => {
+  const UTCTime = makeNumeral(time, 0).value() || 0
+  const UTCWindow = makeNumeral(window, 0).value() || 0
+  return ((UTCTime  + UTCWindow) * 1000 ) - Date.now().valueOf() <= 0
 }

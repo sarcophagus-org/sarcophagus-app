@@ -15,7 +15,7 @@ const SiteHeader = () => {
         </div>
         <SiteNavigation />
       </div>
-      <div className="flex items-center">
+      <div className="flex items-center pb-1">
         <div>
           <img src={wallet} alt="wallet" className="" />
         </div>

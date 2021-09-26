@@ -8,9 +8,9 @@ const AccountDisplay = () => {
 
   if (account) {
     return (
-      <div className="flex justify-center items-center ml-3">
+      <div className="flex justify-center items-center ml-2 text-gray-300">
         {truncate(account, 19, "...", 7)}
-        <img src={icon} alt="" className="ml-6" />
+        <img src={icon} alt="" className="ml-4 w-4 h-4" />
       </div>
     );
   }

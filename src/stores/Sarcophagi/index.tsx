@@ -1,5 +1,5 @@
 import { Context, createContext, useContext } from "react";
-import { checkReceivedStatus } from "../../utils";
+import { checkReceivedStatus } from "../../components/shared/components.utils";
 import { ISarcophagus } from "./sarcophagi.interfaces";
 import useContractMethods from "./useContractMethods";
 import useEmbalmer from "./useEmbalmer";
