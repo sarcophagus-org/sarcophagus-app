@@ -6,25 +6,20 @@ import SiteNavigation from "./SiteNavigation";
 
 const SiteHeader = () => {
   return (
-    <div className="flex items-center justify-between my-12" style={{ height: "4rem" }}>
+    <div className="flex justify-between my-12 text-sm text-gray-300 " style={{ height: "4rem" }}>
       <div className="flex items-center">
-        <div className="w-24 mr-8">
+        <div className="mr-8">
           <NavLink to="/tomb">
-            <img src={logo} alt="logo" />
+            <img src={logo} alt="logo" className="w-20" />
           </NavLink>
         </div>
-
-        <div className="flex items-center justify-center">
-          <SiteNavigation />
-        </div>
+        <SiteNavigation />
       </div>
-      <div className="flex items-center justify-center">
+      <div className="flex items-center -mt-2">
         <div>
           <img src={wallet} alt="wallet" className="" />
         </div>
-        <div className="ml-3 text-sm text-gray-300 ">
-          <AccountDisplay />
-        </div>
+        <AccountDisplay />
       </div>
     </div>
   );

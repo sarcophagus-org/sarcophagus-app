@@ -8,14 +8,14 @@ const AccountDisplay = () => {
 
   if (account) {
     return (
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center ml-3">
         {truncate(account, 19, "...", 7)}
         <img src={icon} alt="" className="ml-6" />
       </div>
     );
   }
   return (
-    <button className="underline text-center" onClick={() => connect()}>
+    <button className="underline text-center ml-3" onClick={() => connect()}>
       Connect Web3 Account
     </button>
   );
