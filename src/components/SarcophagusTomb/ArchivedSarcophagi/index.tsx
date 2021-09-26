@@ -1,5 +1,6 @@
 import { useSarcophagiStore } from "../../../stores/Sarcophagi";
 import { ISarcophagus, ISarcophagusStore } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
+import Loader from "../../shared/Loader";
 import { useCheckArchivedStatus } from "../hooks/useArchivedStatus";
 import SarcophagusContainer from "../shared/SarcophagusContainer";
 
@@ -19,7 +20,9 @@ const ArchivedSarcophagus = ({ sarcophagus }: { sarcophagus: ISarcophagus }) => 
 
 const ArchivedSarcophagi = () => {
   const sarcophagiStore: ISarcophagusStore = useSarcophagiStore();
-  if (!sarcophagiStore.isSarcophagiLoaded) return null;
+  if (!sarcophagiStore.isSarcophagiLoaded) {
+    return <Loader />;
+  };
   return (
     <div>
       {sarcophagiStore.archivedSarcophagi.map((sarcophagus: ISarcophagus, index: number) => (

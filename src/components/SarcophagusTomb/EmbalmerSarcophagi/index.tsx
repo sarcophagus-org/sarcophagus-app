@@ -5,6 +5,7 @@ import { useSarcophagiStore } from "../../../stores/Sarcophagi";
 import { ISarcophagus, ISarcophagusStore } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
 import { useWeb3 } from "../../../web3";
 import { connect } from "../../../web3/providers";
+import Loader from "../../shared/Loader";
 import useCheckStatus from "../hooks/useCheckEmbalmerStatus";
 import SarcophagusContainer from "../shared/SarcophagusContainer";
 import { SarcophagusStatus } from "../tomb.enums";
@@ -48,7 +49,7 @@ const EmbalmerSarcophagi = () => {
     !!account && !sarcophagiStore.embalmerSarcophagi.length && !sarcophagiStore.pendingSarcophagi.length;
 
   if (!sarcophagiStore.isSarcophagiLoaded) {
-    return <div>...</div>;
+    return <Loader />;
   }
 
   if (!account) {

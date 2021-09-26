@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSarcophagiStore } from "../../../stores/Sarcophagi";
 import { ISarcophagus, ISarcophagusStore } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
+import Loader from "../../shared/Loader";
 import useCheckRecipientSarcophagi from "../hooks/useCheckRecipientStatus";
 import SarcophagusContainer from "../shared/SarcophagusContainer";
 import { SarcophagusStatus } from "../tomb.enums";
@@ -23,7 +24,9 @@ const RecipientSarcophagus = ({ sarcophagus }: { sarcophagus: ISarcophagus }) =>
 
 const RecipientSarcophagi = () => {
   const sarcophagiStore: ISarcophagusStore = useSarcophagiStore();
-  if (!sarcophagiStore.isSarcophagiLoaded) return null;
+  if (!sarcophagiStore.isSarcophagiLoaded) {
+    return <Loader />;
+  }
   return (
     <div>
       {sarcophagiStore.recipientSarcophagi.map((sarcophagus: ISarcophagus, index: number) => (
