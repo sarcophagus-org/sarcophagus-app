@@ -24,7 +24,7 @@ const ArchaeologistTableHeaderCell = ({ title, tooltipContent }: ArchaeologistTa
 
 const ArchaeologistSelect = ({ errors, touched, ...rest }: SelectArchaeologistProps) => {
   const archaeologistsStore: IArchaeologistsStore = useArchaeologistsStore();
-  const pagination = usePagination(22);
+  const pagination = usePagination(archaeologistsStore.archaeologistsWithStats.length);
   if (!archaeologistsStore.archaeologistsWithStats.length) return null;
 
   return (
