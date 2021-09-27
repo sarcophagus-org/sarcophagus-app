@@ -1,19 +1,23 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { ISarcophagus } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
+import { Sarcophagus } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
 import { TimerStatus } from "../tomb.enums";
 import { UseResurrectionTimerState } from "../tomb.interfaces";
 import { getTimeRemaining } from "../tomb.utils";
 
-const useResurrectionTimer = (sarcophagus: ISarcophagus): UseResurrectionTimerState => {
+const useResurrectionTimer = (sarcophagus: Sarcophagus): UseResurrectionTimerState => {
   const TimerIntervalRef: { current: NodeJS.Timeout | null } = useRef(null);
   const [timerStatus, setTimerStatus] = useState<TimerStatus>(TimerStatus.Calculating);
   const [resurrectionTime] = useState(sarcophagus.resurrectionTime);
   const [resurrectionWindow] = useState(sarcophagus.resurrectionWindow);
   const [currentTimeTillResurrection, setCurrentTimeTillResurrection] = useState<string>("");
+
+  // returns resurrection time as UTC number in seconds
   const ResurrectionTimeUTCSeconds =
-    sarcophagus.state !== 2 && sarcophagus.resurrectionTime ? resurrectionTime.toNumber() : 0;
+  sarcophagus.state !== 2 && sarcophagus.resurrectionTime ? resurrectionTime.toNumber() : 0;
+  // returns resurrection window as UTC number in seconds
   const ResurrectionWindowUTCSeconds =
     sarcophagus.state !== 2 && sarcophagus.resurrectionWindow ? resurrectionWindow.toNumber() : 0;
+  // calculates total time until resurrection is complete in milli seconds
   const TimePlusWindowUTCMilli = (ResurrectionTimeUTCSeconds + ResurrectionWindowUTCSeconds) * 1000;
   const isPastWindow = TimePlusWindowUTCMilli - Date.now().valueOf() <= 0;
   const isWithinWindow = TimePlusWindowUTCMilli - Date.now().valueOf() <= 0;
@@ -26,6 +30,7 @@ const useResurrectionTimer = (sarcophagus: ISarcophagus): UseResurrectionTimerSt
 
   const startTimer = useCallback(() => {
     TimerIntervalRef.current = setInterval(() => {
+      // decides which timer to set
       const currentWindowTime = isWithinWindow ? TimePlusWindowUTCMilli : ResurrectionTimeUTCSeconds * 1000;
       const remainingTime = getTimeRemaining(currentWindowTime);
       setCurrentTimeTillResurrection(remainingTime);

@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { ISarcophagus, ISarcophagusStore } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
-import { SarcophagusStatus } from "../tomb.enums";
 import { useSarcophagiStore } from "../../../stores/Sarcophagi";
-import useArchaeologistService, { ServiceStatus } from "./useArchaeologistService";
+import { SarcophagusStatus } from "../tomb.enums";
 import { isTimePast } from "../tomb.utils";
+import { Sarcophagus, SarcophagusStore } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
+import useArchaeologistService, { ServiceStatus } from "./useArchaeologistService";
 
 const PRIVATE_KEY_DEFAULT = "0x0000000000000000000000000000000000000000000000000000000000000000";
 
-const useCheckStatus = (sarcophagus: ISarcophagus) => {
+const useCheckStatus = (sarcophagus: Sarcophagus) => {
   const [sarcophagusStatus, setSarcophagusStatus] = useState<SarcophagusStatus>(SarcophagusStatus.Default);
   const [stopChecking, setStopChecking] = useState(false);
   const { createdSarcophagusData, setCreatedSarcophagusData } = useSarcophagiStore();
-  const sarcophagiStore: ISarcophagusStore = useSarcophagiStore();
+  const sarcophagiStore: SarcophagusStore = useSarcophagiStore();
 
   const { sendStatus, sendFileToArchService, setSendStatus } = useArchaeologistService(
     createdSarcophagusData,

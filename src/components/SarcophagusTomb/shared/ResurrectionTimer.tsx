@@ -1,4 +1,4 @@
-import { ISarcophagus } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
+import { Sarcophagus } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
 import { useResurrectionTimer } from "../hooks/useResurrectionTimers";
 import { TimerStatus } from "../tomb.enums";
 
@@ -16,10 +16,13 @@ const getTextColor = (timerStatus: TimerStatus) => {
   }
 };
 
-const ResurrectionTimer = ({ sarcophagus }: { sarcophagus: ISarcophagus }) => {
+const ResurrectionTimer = ({ sarcophagus }: { sarcophagus: Sarcophagus }) => {
   const resurrectionTimerState = useResurrectionTimer(sarcophagus);
   const isStateTwo = sarcophagus.state === 2;
+
+  // if sarcophagus is state of 2 or time is provided remove timer
   if (isStateTwo || !sarcophagus.resurrectionTime) return null;
+  // decides text color of timer
   const textColor = getTextColor(resurrectionTimerState.timerStatus);
   if (resurrectionTimerState.timerStatus === TimerStatus.Off) return null;
   return (

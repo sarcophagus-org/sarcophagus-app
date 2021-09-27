@@ -6,10 +6,10 @@ import {
   createValidationSchema,
 } from "../../components/SarcophagusCreate/sarcophagusCreate.utils";
 import { useArchaeologistsStore } from "../../stores/Archaeologist";
-import { Archaeologist, IArchaeologistsStore } from "../../stores/Archaeologist/archaeologist.interfaces";
+import { Archaeologist, ArchaeologistsStore } from "../../stores/Archaeologist/archaeologist.interfaces";
 import useApproval from "../../stores/BlockChain/useApproval";
 import { useSarcophagiStore } from "../../stores/Sarcophagi";
-import { ISarcophagusStore } from "../../stores/Sarcophagi/sarcophagi.interfaces";
+import { SarcophagusStore } from "../../stores/Sarcophagi/sarcophagi.interfaces";
 import { useWeb3 } from "../../web3";
 import useFileEncryption from "../../components/SarcophagusCreate/hooks/useFileEncryption";
 import { convertDataToBigNumber } from "../../components/shared/components.utils";
@@ -38,8 +38,8 @@ const CreateSarcophagus = () => {
     assetDoubleHash,
   } = useFileEncryption();
 
-  const sarcophagiStore: ISarcophagusStore = useSarcophagiStore();
-  const archaeologistsStore: IArchaeologistsStore = useArchaeologistsStore();
+  const sarcophagiStore: SarcophagusStore = useSarcophagiStore();
+  const archaeologistsStore: ArchaeologistsStore = useArchaeologistsStore();
   const { account } = useWeb3();
   const { approved, approveTransaction } = useApproval();
 

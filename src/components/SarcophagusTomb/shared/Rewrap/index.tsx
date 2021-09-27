@@ -11,24 +11,24 @@ import { useSarcophagiStore } from "../../../../stores/Sarcophagi";
 import { SarcophagusStatus } from "../../tomb.enums";
 import { Heading } from "../../../../assets/styles/headings.enum";
 import { RewrapFormErrors, RewrapFormState } from "../../tomb.interfaces";
-import { ISarcophagus, ISarcophagusStore } from "../../../../stores/Sarcophagi/sarcophagi.interfaces";
+import { Sarcophagus, SarcophagusStore } from "../../../../stores/Sarcophagi/sarcophagi.interfaces";
 import {
   Archaeologist,
-  IArchaeologistsStore,
+  ArchaeologistsStore,
 } from "../../../../stores/Archaeologist/archaeologist.interfaces";
 import Button from "../../../layout/Button";
 import ResurrectionTimeForm from "../../../shared/ResurrectionForm/ResurrectionTimeForm";
 import { convertDataToBigNumber, getDateInFuture, getDecimalNumber } from "../../../shared/components.utils";
 
 export interface RewrapProps {
-  sarcophagus: ISarcophagus;
+  sarcophagus: Sarcophagus;
   toggleExpansion: () => void;
   setStatus: (status: SarcophagusStatus) => void;
 }
 
 const Rewrap = ({ sarcophagus, toggleExpansion, setStatus }: RewrapProps) => {
-  const sarcophagiStore: ISarcophagusStore = useSarcophagiStore();
-  const archaeologistStore: IArchaeologistsStore = useArchaeologistsStore();
+  const sarcophagiStore: SarcophagusStore = useSarcophagiStore();
+  const archaeologistStore: ArchaeologistsStore = useArchaeologistsStore();
   const { approved, approveTransaction } = useApproval();
   const [buttonText, setButtonText] = useState("");
 
@@ -115,6 +115,7 @@ const Rewrap = ({ sarcophagus, toggleExpansion, setStatus }: RewrapProps) => {
     .nullable();
 
   if (!archaeologist) return null;
+
   return (
     <Formik
       initialValues={initialValues}
@@ -122,17 +123,7 @@ const Rewrap = ({ sarcophagus, toggleExpansion, setStatus }: RewrapProps) => {
       onSubmit={handleSubmit}
       validateOnMount
     >
-      {({
-        values,
-        errors,
-        touched,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        setFieldValue,
-        validateForm,
-        isValid,
-      }) => (
+      {({ values, errors, handleChange, handleSubmit, setFieldValue, validateForm, isValid }) => (
         <form onSubmit={handleSubmit} className="pb-8 px-10">
           <div className="flex items-center my-4">
             <div className={Heading.PageHeading}>Fees</div>
@@ -180,11 +171,7 @@ const Rewrap = ({ sarcophagus, toggleExpansion, setStatus }: RewrapProps) => {
               onClick={burySarcophagus}
             >
               <span className="mr-2 cursor-pointer">Bury sarcophagus</span>
-              <Tooltip
-                content={
-                  "Burying a sarcophagus, releases digging fees to archaeologist and archives sarcophagus."
-                }
-              />
+              <Tooltip content="Burying a sarcophagus, releases digging fees to archaeologist and archives sarcophagus." />
             </div>
           </div>
         </form>

@@ -1,5 +1,6 @@
 import classnames from "classnames";
 import { Archaeologist } from "../../../stores/Archaeologist/archaeologist.interfaces";
+
 import {
   archTotalFees,
   getCursedPercentage,

@@ -5,20 +5,20 @@ export interface CreatedSarcophagusData {
   sarcophagusName?: string;
   doubleEncryptedFile?: Uint8Array;
   endpoint?: string;
-  newPublicKey?: string; 
-  assetId?: string, 
-  V?: string,
-  R?: string, 
-  S?: string
+  newPublicKey?: string;
+  assetId?: string;
+  V?: string;
+  R?: string;
+  S?: string;
 }
 
 export interface ResponseFromArch {
   NewPublicKey: string;
   AssetDoubleHash: Uint8Array;
-  AssetId: string, 
-  V: string,
-  R: string, 
-  S: string
+  AssetId: string;
+  V: string;
+  R: string;
+  S: string;
 }
 
 export interface UseResurrectionTimerState {

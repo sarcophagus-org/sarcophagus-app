@@ -57,10 +57,10 @@ export type CreateSarcophagus = (
   redirect: () => void
 ) => void;
 
-export interface ISarcophagusStore {
-  embalmerSarcophagi: ISarcophagus[];
-  recipientSarcophagi: ISarcophagus[];
-  archivedSarcophagi: ISarcophagus[];
+export interface SarcophagusStore {
+  embalmerSarcophagi: Sarcophagus[];
+  recipientSarcophagi: Sarcophagus[];
+  archivedSarcophagi: Sarcophagus[];
   isSarcophagiLoaded: boolean;
   createdSarcophagusData: CreatedSarcophagusData | null;
   setCreatedSarcophagusData: React.Dispatch<React.SetStateAction<CreatedSarcophagusData | null>>;
@@ -71,13 +71,13 @@ export interface ISarcophagusStore {
   accuseArchaeologist: AccuseSarcophagus;
   createSarcophagus: CreateSarcophagus;
   updateSarcophagus: UpdateSarcophagus;
-  pendingSarcophagi: ISarcophagus[];
+  pendingSarcophagi: Sarcophagus[];
   loadRecipientSarcophagi: () => Promise<void>;
   loadEmbalmerSarcophagi: () => Promise<void>;
   loadSarcophagi: () => Promise<void>;
 }
 
-export interface ISarcophagus {
+export interface Sarcophagus {
   state: number;
   archaeologist: string;
   name: string;
@@ -94,6 +94,6 @@ export interface ISarcophagus {
 }
 
 export interface IEmbalmerState {
-  allEmbalmerSarcophagi: ISarcophagus[];
+  allEmbalmerSarcophagi: Sarcophagus[];
   loadEmbalmerSarcophagi: () => void;
 }

@@ -1,20 +1,17 @@
 import { NavLink } from "react-router-dom";
 import { useRouteMatch } from "react-router-dom";
 import { Heading } from "../../../assets/styles/headings.enum";
+import { Wrapper } from "../../../assets/styles/wrappers.enum";
 import { useSarcophagiStore } from "../../../stores/Sarcophagi";
-import { ISarcophagusStore } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
+import { SarcophagusStore } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
 import Tooltip from "../../layout/Tooltip";
 
-enum Styles {
-  Wrapper = "flex items-center justify-center lg:justify-between flex-wrap md:flex-nowrap gap-4"
-}
-
 const TombNavigation = () => {
-  const sarcophagusStore: ISarcophagusStore = useSarcophagiStore();
+  const sarcophagusStore: SarcophagusStore = useSarcophagiStore();
 
   const match = useRouteMatch()
   return (
-    <div className={Styles.Wrapper}>
+    <div className={Wrapper.TombNavigation}>
       <NavLink
         activeClassName="border-b-2 border-white"
         className="px-2 pb-4 cursor-pointer whitespace-nowrap flex justif-center items-center flex-shrink-0"

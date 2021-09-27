@@ -1,6 +1,6 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { useEffect, useState } from "react";
-import { ISarcophagus } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
+import { Sarcophagus } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
 import { SarcophagusStatus } from "../tomb.enums";
 
 const checkRecipientStatus = (
@@ -9,18 +9,24 @@ const checkRecipientStatus = (
   privateKey: string,
   SarcophagusState: number
 ) => {
+  // calculates total time till resurrection is complete
   const resurrectionTimePlusWindow = resurrectionTime.add(resurrectionWindow);
+
+  // check if sarcophagus has been updated
   const isUnwrapped =
     SarcophagusState === 2 &&
     privateKey !== "0x0000000000000000000000000000000000000000000000000000000000000000";
+  // check if sarcophagus is currently active
   const isActive =
     SarcophagusState === 1 &&
     resurrectionTimePlusWindow.gte(BigNumber.from(Number(Date.now().valueOf() / 1000).toFixed(0)));
+  
+  // shows active and unwrapped sarcophagi
   const isVisible = isUnwrapped || isActive;
   return { isUnwrapped, isActive, isVisible };
 };
 
-const useCheckRecipientSarcophagi = (sarcophagus: ISarcophagus) => {
+const useCheckRecipientSarcophagi = (sarcophagus: Sarcophagus) => {
   const [sarcophagusStatus, setSarcophagusStatus] = useState<SarcophagusStatus>(SarcophagusStatus.Default);
 
   useEffect(() => {

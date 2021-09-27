@@ -4,18 +4,18 @@ import { useWeb3 } from '../../web3'
 import { useAddresses } from '../../web3/chains'
 import SarcophagusABI from './artifacts/Sarcophagus.abi.json'
 import SarcoTokenABI from './artifacts/SarcoToken.abi.json'
-import { ISarcophagusContract, ISarcophagusTokenContract } from './types/contract.interfaces'
+import { SarcophagusContract, SarcophagusTokenContract } from './types/contract.interfaces'
 
 const useSarcophagusContract = () => {
   const { chainId, signerOrProvider } = useWeb3()
   const { moduleMap } = useAddresses(chainId)
-  const [sarcophagusContract, setSarcophagusContract] = useState<ISarcophagusContract | undefined>(undefined)
+  const [sarcophagusContract, setSarcophagusContract] = useState<SarcophagusContract | undefined>(undefined)
 
   useEffect(() => {
     if (!chainId || !moduleMap || !signerOrProvider) return
     try{
       const contract = new Contract(moduleMap, SarcophagusABI, signerOrProvider)
-      setSarcophagusContract(contract as ISarcophagusContract)
+      setSarcophagusContract(contract as SarcophagusContract)
     } catch (e) {
       console.error('sarco contract error', e)
     }
@@ -24,9 +24,9 @@ const useSarcophagusContract = () => {
   return sarcophagusContract
 }
 
-const useSarcophagusTokenContract = (sarcophagusContract: ISarcophagusTokenContract | undefined) => {
+const useSarcophagusTokenContract = (sarcophagusContract: SarcophagusTokenContract | undefined) => {
   const { signerOrProvider } = useWeb3()
-  const [sarcophagusTokenContract, setSarcophagusTokenContract] = useState<ISarcophagusTokenContract | undefined>(undefined)
+  const [sarcophagusTokenContract, setSarcophagusTokenContract] = useState<SarcophagusTokenContract | undefined>(undefined)
 
   useEffect(() => {
     if (!sarcophagusContract || !signerOrProvider) return
@@ -34,7 +34,7 @@ const useSarcophagusTokenContract = (sarcophagusContract: ISarcophagusTokenContr
     sarcophagusContract.sarcoToken().then((sarcoTokenAddress: string) => {
       try {
         const contract = new Contract(sarcoTokenAddress, SarcoTokenABI, signerOrProvider)
-        setSarcophagusTokenContract(contract as ISarcophagusTokenContract)
+        setSarcophagusTokenContract(contract as SarcophagusTokenContract)
       } catch (e) {
         console.error('sarco token contract error', e)
       }

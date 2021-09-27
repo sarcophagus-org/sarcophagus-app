@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
-import { ISarcophagusContract } from "../BlockChain/types/contract.interfaces";
+import { SarcophagusContract } from "../BlockChain/types/contract.interfaces";
 import { ethers } from "ethers";
 import { Archaeologist } from "./archaeologist.interfaces";
 
 const useArchaeologistStats = (
-  sarcophagusContract: ISarcophagusContract,
+  sarcophagusContract: SarcophagusContract,
   archaeologists: Archaeologist[]
 ) => {
   const [archaeologistsWithStats, setArchaeologistsWithStats] = useState<Archaeologist[]>([]);

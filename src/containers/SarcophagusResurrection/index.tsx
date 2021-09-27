@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 import icon from "../../assets/images/Resurrection.svg";
 import SarcophagusContainer from "../../components/SarcophagusTomb/shared/SarcophagusContainer";
 import useCheckRecipientSarcophagi from "../../components/SarcophagusTomb/hooks/useCheckRecipientStatus";
-import { ISarcophagus } from "../../stores/Sarcophagi/sarcophagi.interfaces";
+import { Sarcophagus } from "../../stores/Sarcophagi/sarcophagi.interfaces";
 import { SarcophagusStatus } from "../../components/SarcophagusTomb/tomb.enums";
 import RecipientPrivateKeyField from "../../components/shared/ResurrectionForm/RecipientPrivateKeyField";
 import Button from "../../components/layout/Button";
@@ -18,7 +18,7 @@ const RecipientSarcophagus = ({
   sarcophagus,
   recipientPrivateKey,
 }: {
-  sarcophagus: ISarcophagus;
+  sarcophagus: Sarcophagus;
   recipientPrivateKey: string;
 }) => {
   const { sarcophagusStatus } = useCheckRecipientSarcophagi(sarcophagus);
@@ -122,7 +122,7 @@ const SarcophagusResurrection = () => {
         {!isRecipientSarcophagiLoaded && recipientPrivateKey ? (
           <Loader />
         ) : (
-          allRecipientSarcophagi?.map((sarcophagus: ISarcophagus, i: number) => (
+          allRecipientSarcophagi?.map((sarcophagus: Sarcophagus, i: number) => (
             <RecipientSarcophagus
               key={sarcophagus.archaeologist + i.toString()}
               sarcophagus={sarcophagus}

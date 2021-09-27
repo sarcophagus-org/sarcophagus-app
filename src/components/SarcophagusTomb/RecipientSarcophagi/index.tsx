@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useSarcophagiStore } from "../../../stores/Sarcophagi";
-import { ISarcophagus, ISarcophagusStore } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
+import { Sarcophagus, SarcophagusStore } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
 import Loader from "../../shared/Loader";
 import useCheckRecipientSarcophagi from "../hooks/useCheckRecipientStatus";
 import SarcophagusContainer from "../shared/SarcophagusContainer";
 import { SarcophagusStatus } from "../tomb.enums";
 
-const RecipientSarcophagus = ({ sarcophagus }: { sarcophagus: ISarcophagus }) => {
+const RecipientSarcophagus = ({ sarcophagus }: { sarcophagus: Sarcophagus }) => {
   const { sarcophagusStatus } = useCheckRecipientSarcophagi(sarcophagus);
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -23,13 +23,13 @@ const RecipientSarcophagus = ({ sarcophagus }: { sarcophagus: ISarcophagus }) =>
 };
 
 const RecipientSarcophagi = () => {
-  const sarcophagiStore: ISarcophagusStore = useSarcophagiStore();
+  const sarcophagiStore: SarcophagusStore = useSarcophagiStore();
   if (!sarcophagiStore.isSarcophagiLoaded) {
     return <Loader />;
   }
   return (
     <div>
-      {sarcophagiStore.recipientSarcophagi.map((sarcophagus: ISarcophagus, index: number) => (
+      {sarcophagiStore.recipientSarcophagi.map((sarcophagus: Sarcophagus, index: number) => (
         <RecipientSarcophagus key={sarcophagus.name + index} sarcophagus={sarcophagus} />
       ))}
     </div>

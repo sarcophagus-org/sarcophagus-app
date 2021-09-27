@@ -18,6 +18,11 @@ export const createInitialValues: SarcophagusCreateValues = {
   timeSelect: null,
 };
 
+/**
+ * @function archaeologistsTableHeaders creates props for header component
+ * @param archaeologistsWithStats 
+ * @returns array of title and tooltip content for headers
+ */
 export const archaeologistsTableHeaders = (archaeologistsWithStats: Archaeologist[]) => [
   {
     title: `Archaeologists (${archaeologistsWithStats.length})`,
@@ -40,6 +45,7 @@ export const archaeologistsTableHeaders = (archaeologistsWithStats: Archaeologis
     tooltipContent: "",
   },
 ];
+
 
 export const createValidationSchema = Yup.object()
   .shape({

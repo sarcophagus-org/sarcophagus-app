@@ -1,6 +1,6 @@
 import classnames from "classnames";
 import { SarcophagusStatus } from "../tomb.enums";
-import { ISarcophagus } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
+import { Sarcophagus } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
 import { formatSarcophagusName, getExpandsionText } from "../tomb.utils";
 import arrowRight from "../../../assets/images/arrowRight.svg";
 import arrowDown from "../../../assets/images/arrowDown.svg";
@@ -10,7 +10,7 @@ import ResurrectionTimer from "./ResurrectionTimer";
 import SarcophagusExpandedSection from "./SarcophagusExpandedSection";
 
 interface SarcophagusContainerProps {
-  sarcophagus: ISarcophagus;
+  sarcophagus: Sarcophagus;
   isExpandable?: boolean;
   setStatus: (status: SarcophagusStatus) => void;
   isExpanded: boolean;
@@ -32,7 +32,7 @@ enum Styles {
   Wrapper = "border border-gray-500 px-4 my-8 pt-3",
 }
 
-const SarcophagusName = (props: { sarcophagus: ISarcophagus }) => {
+const SarcophagusName = (props: { sarcophagus: Sarcophagus }) => {
   return (
     <Tippy content={props.sarcophagus.name} disabled={props.sarcophagus.name.length < 30}>
       <div className="text-base font-bold text-white" style={{ lineHeight: "1.625rem" }}>

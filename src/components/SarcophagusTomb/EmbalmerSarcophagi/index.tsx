@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { ClientRoutes } from "../../../config/clientRoutes";
 import { useSarcophagiStore } from "../../../stores/Sarcophagi";
-import { ISarcophagus, ISarcophagusStore } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
+import { Sarcophagus, SarcophagusStore } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
 import { useWeb3 } from "../../../web3";
 import { connect } from "../../../web3/providers";
 import Loader from "../../shared/Loader";
@@ -11,7 +11,7 @@ import SarcophagusContainer from "../shared/SarcophagusContainer";
 import { SarcophagusStatus } from "../tomb.enums";
 import { getExpandsionText } from "../tomb.utils";
 
-const EmbalmerSarcophagus = ({ sarcophagus }: { sarcophagus: ISarcophagus }) => {
+const EmbalmerSarcophagus = ({ sarcophagus }: { sarcophagus: Sarcophagus }) => {
   const { sarcophagusStatus, updateStatus, checkStatus } = useCheckStatus(sarcophagus);
   const [isExpanded, setIsExpanded] = useState(false);
   checkStatus();
@@ -27,8 +27,8 @@ const EmbalmerSarcophagus = ({ sarcophagus }: { sarcophagus: ISarcophagus }) => 
     />
   );
 };
-const PendingSarcophagus = ({ sarcophagus }: { sarcophagus: ISarcophagus }) => {
-  
+
+const PendingSarcophagus = ({ sarcophagus }: { sarcophagus: Sarcophagus }) => {
   return (
     <SarcophagusContainer
       status={SarcophagusStatus.Mining}
@@ -42,9 +42,10 @@ const PendingSarcophagus = ({ sarcophagus }: { sarcophagus: ISarcophagus }) => {
 };
 
 const EmbalmerSarcophagi = () => {
-  const sarcophagiStore: ISarcophagusStore = useSarcophagiStore();
+  const sarcophagiStore: SarcophagusStore = useSarcophagiStore();
   const { account } = useWeb3();
   const history = useHistory();
+
   const noSarcophagusLoaded =
     !!account && !sarcophagiStore.embalmerSarcophagi.length && !sarcophagiStore.pendingSarcophagi.length;
 
@@ -63,6 +64,7 @@ const EmbalmerSarcophagi = () => {
       </div>
     );
   }
+
   if (noSarcophagusLoaded) {
     return (
       <div
@@ -74,12 +76,14 @@ const EmbalmerSarcophagi = () => {
       </div>
     );
   }
+
+  
   return (
     <div>
-      {sarcophagiStore.pendingSarcophagi.map((sarcophagus: ISarcophagus, index: number) => (
+      {sarcophagiStore.pendingSarcophagi.map((sarcophagus: Sarcophagus, index: number) => (
         <PendingSarcophagus key={sarcophagus.name + index} sarcophagus={sarcophagus} />
       ))}
-      {sarcophagiStore.embalmerSarcophagi.map((sarcophagus: ISarcophagus, index: number) => (
+      {sarcophagiStore.embalmerSarcophagi.map((sarcophagus: Sarcophagus, index: number) => (
         <EmbalmerSarcophagus key={sarcophagus.name + index} sarcophagus={sarcophagus} />
       ))}
     </div>

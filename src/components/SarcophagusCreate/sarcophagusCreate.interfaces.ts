@@ -21,8 +21,8 @@ export interface SettingsProps {
   errors: FormikErrors<SarcophagusCreateValues>;
   touched: FormikTouched<SarcophagusCreateValues>;
   handleChange: React.ChangeEventHandler<HTMLInputElement>;
-  handleKey: any;
-  handleBlur: (e: any) => void;
+  handleKey: (publicKey: string) => void;
+  handleBlur: (e: React.FocusEvent<any>) => void;
   toggle?: () => void;
 }
 
@@ -33,8 +33,8 @@ export interface UploadSarcophagusFileProps {
   file: File | null;
   toggle?: () => void;
   handleFile: (file: File) => void;
-  handleBlur: (e: any) => void;
-  setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void;
+  handleBlur: (e: React.FocusEvent<any>) => void;
+  setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
 }
 
 export interface SelectResurrectionProps {
@@ -42,8 +42,8 @@ export interface SelectResurrectionProps {
   errors: FormikErrors<SarcophagusCreateValues>;
   touched: FormikTouched<SarcophagusCreateValues>;
   handleChange: React.ChangeEventHandler<HTMLInputElement>;
-  handleBlur: (e: any) => void;
-  setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void;
+  handleBlur: (e: React.FocusEvent<any>) => void;
+  setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
 }
 
 export interface SelectArchaeologistProps {
@@ -54,5 +54,5 @@ export interface SelectArchaeologistProps {
   handleChange: React.ChangeEventHandler<HTMLInputElement>;
   handleSelected: (selectedArchaeologist: Archaeologist, storageFee: number | string | BigNumber) => void
   archSelected: string;
-  setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void;
+  setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
 }

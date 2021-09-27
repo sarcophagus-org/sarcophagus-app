@@ -1,6 +1,6 @@
 import { Context, createContext, useContext } from "react";
 import { checkReceivedStatus } from "../../components/shared/components.utils";
-import { ISarcophagus } from "./sarcophagi.interfaces";
+import { Sarcophagus } from "./sarcophagi.interfaces";
 import useContractMethods from "./useContractMethods";
 import useEmbalmer from "./useEmbalmer";
 import useRecipient from "./useRecipient";
@@ -17,10 +17,10 @@ const createDataRoot = () => {
     const { allRecipientSarcophagi, isRecipientSarcophagiLoaded, loadRecipientSarcophagi } = useRecipient();
     const contractMethods = useContractMethods();
     // filters out only active embalmer sarcophagi
-    const filterEmbalmer = (sarcophagus: ISarcophagus) => sarcophagus.state === 1;
+    const filterEmbalmer = (sarcophagus: Sarcophagus) => sarcophagus.state === 1;
 
     // filters out active recipient sarcophagi
-    const filterRecipient = (sarcophagus: ISarcophagus) => {
+    const filterRecipient = (sarcophagus: Sarcophagus) => {
       const check = checkReceivedStatus(
         sarcophagus.resurrectionTime,
         sarcophagus.resurrectionWindow,
@@ -32,15 +32,15 @@ const createDataRoot = () => {
 
     // filters out archived sarcophagi from embalmer and recipient lists
     const filterArchivedSarcophagi = (
-      embalmerSarcophagi: ISarcophagus[],
-      recipientSarcophagi: ISarcophagus[]
+      embalmerSarcophagi: Sarcophagus[],
+      recipientSarcophagi: Sarcophagus[]
     ) => {
       if (!embalmerSarcophagi.length && !recipientSarcophagi.length) return [];
-      const stateOfTwoFilter = (sarcophagus: ISarcophagus) => sarcophagus.state === 2;
+      const stateOfTwoFilter = (sarcophagus: Sarcophagus) => sarcophagus.state === 2;
       const filteredEmbalmer = embalmerSarcophagi.filter(stateOfTwoFilter);
       const filteredRecipient = recipientSarcophagi.filter(stateOfTwoFilter);
       // creates a new array filtering out the duplicates
-      const archivedSarcophagi: ISarcophagus[] = Array.from(
+      const archivedSarcophagi: Sarcophagus[] = Array.from(
         [...filteredEmbalmer, ...filteredRecipient]
           .reduce(
             (acc: any, item: any) =>

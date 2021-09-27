@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
-import { ISarcophagus } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
-import { IArchaeologistsStore } from "../../../stores/Archaeologist/archaeologist.interfaces";
+import { Sarcophagus } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
+import { ArchaeologistsStore } from "../../../stores/Archaeologist/archaeologist.interfaces";
 import { useArchaeologistsStore } from "../../../stores/Archaeologist";
 import { SarcophagusStatus } from "../tomb.enums";
 
-const useCheckArchivedStatus = (sarcophagus: ISarcophagus) => {
-  const archaeologistStore: IArchaeologistsStore = useArchaeologistsStore();
+const useCheckArchivedStatus = (sarcophagus: Sarcophagus) => {
+  const archaeologistStore: ArchaeologistsStore = useArchaeologistsStore();
   const [sarcophagusStatus, setSarcophagusStatus] = useState(SarcophagusStatus.Default);
 
   useEffect(() => {
     if (!archaeologistStore.archaeologistsWithStats.length) return;
+
+    // loops through each archaeologists stat identifiers to find archived state
     for (let i = 0; i <= archaeologistStore.archaeologistsWithStats.length - 1; i++) {
       if (
         archaeologistStore.archaeologistsWithStats[i].accusedIdentifiers?.includes(

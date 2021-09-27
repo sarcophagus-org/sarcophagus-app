@@ -23,7 +23,7 @@ export interface Archaeologist {
   successesIdentifiers?: string[];
 }
 
-export interface IArchaeologistsStore {
+export interface ArchaeologistsStore {
   archaeologists: Archaeologist[];
   archaeologistsWithStats: Archaeologist[];
   filteredArchaeologists: Archaeologist[];

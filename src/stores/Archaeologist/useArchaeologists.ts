@@ -1,9 +1,9 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { useCallback, useEffect, useState } from "react";
-import { ISarcophagusContract } from "../BlockChain/types/contract.interfaces";
+import { SarcophagusContract } from "../BlockChain/types/contract.interfaces";
 import { Archaeologist } from "./archaeologist.interfaces";
 
-const useArcheologists = (sarcophagusContract: ISarcophagusContract) => {
+const useArcheologists = (sarcophagusContract: SarcophagusContract) => {
   const [archaeologists, setArchaeologists] = useState<Archaeologist[]>([]);
 
   const fetchArchaeologistCount = useCallback(async () => {

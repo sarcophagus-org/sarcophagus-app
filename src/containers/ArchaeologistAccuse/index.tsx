@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 import { Formik } from "formik";
 import eyeOfHorus from "../../assets/images/eyeOfHorus2.svg";
-import { ISarcophagusStore } from "../../stores/Sarcophagi/sarcophagi.interfaces";
+import { SarcophagusStore } from "../../stores/Sarcophagi/sarcophagi.interfaces";
 import { useSarcophagiStore } from "../../stores/Sarcophagi";
 import { Heading } from "../../assets/styles/headings.enum";
 import Tooltip from "../../components/layout/Tooltip";
@@ -52,7 +52,7 @@ const TextAndLabel = ({ InputElement, error, touched, title, tooltipContent }: T
 };
 
 const ArchaeologistAccuse = () => {
-  const sarcophagiStore: ISarcophagusStore = useSarcophagiStore();
+  const sarcophagiStore: SarcophagusStore = useSarcophagiStore();
 
   const submitAccusal = (values: AccessArchaeologistValues, { resetForm }: { resetForm: () => void }) => {
     const successCallback = ({ transactionHash }: any) => {

@@ -1,14 +1,14 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { Contract, ContractTransaction } from "@ethersproject/contracts";
 import { Archaeologist } from "../../Archaeologist/archaeologist.interfaces";
-import { ISarcophagus } from "../../Sarcophagi/sarcophagi.interfaces";
+import { Sarcophagus } from "../../Sarcophagi/sarcophagi.interfaces";
 
-export interface ISarcophagusContract extends Contract {
+export interface SarcophagusContract extends Contract {
   embalmerSarcophagusCount: (account: string | undefined) => Promise<BigNumber>;
   embalmerSarcophagusIdentifier: (account: string | undefined, index: number) => Promise<string>;
   recipientSarcophagusCount: (account: string | undefined) => Promise<BigNumber>;
   recipientSarcophagusIdentifier: (account: string | undefined, index: number) => Promise<string>;
-  sarcophagus: (identifier: Buffer) => Promise<ISarcophagus>;
+  sarcophagus: (identifier: Buffer) => Promise<Sarcophagus>;
   archaeologistCount: () => Promise<BigNumber>;
   archaeologistAddresses: (index: number) => Promise<string>;
   archaeologists: (identifier: string) => Promise<Archaeologist>;
@@ -42,11 +42,11 @@ export interface ISarcophagusContract extends Contract {
   accuseArchaeologist: (identifier: any, singleHashUint: any, address: any) => Promise<ContractTransaction>;
 }
 
-export interface ISarcophagusTokenContract extends Contract {}
+export interface SarcophagusTokenContract extends Contract {}
 
 export interface IBlockChainStore {
-  sarcophagusContract: ISarcophagusContract | undefined;
-  sarcophagusTokenContract: ISarcophagusTokenContract | undefined;
+  sarcophagusContract: SarcophagusContract | undefined;
+  sarcophagusTokenContract: SarcophagusTokenContract | undefined;
   allowance: BigNumber;
   balance: BigNumber;
 }

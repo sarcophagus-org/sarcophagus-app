@@ -1,24 +1,26 @@
 import classnames from "classnames";
+import { ethers } from "ethers";
 import { Archaeologist } from "../../../stores/Archaeologist/archaeologist.interfaces";
-import useCollapse from "../hooks/useCollapsed";
 import { SelectArchaeologistProps } from "../sarcophagusCreate.interfaces";
+import useCollapse from "../hooks/useCollapsed";
 import { archTotalFees, getDecimalNumber, getNumberalString, truncate } from "../../shared/components.utils";
+import ArchaeologistData from "./ArchaeologistData";
 import iconDark from "../../../assets/images/iconBlack.svg";
 import iconLight from "../../../assets/images/icon.svg";
 import arrowRightBlack from "../../../assets/images/arrowRightBlack.svg";
 import arrowRight from "../../../assets/images/arrowRight.svg";
 import arrowDown from "../../../assets/images/arrowDown.svg";
 import arrowDownBlack from "../../../assets/images/arrowDownBlack.svg";
-import { ethers } from "ethers";
-import ArchaeologistData from "./ArchaeologistData";
 
 interface ArchaeologistTableRowProps extends SelectArchaeologistProps {
   archaeologist: Archaeologist;
   file: File | null;
 }
 
-const BASE_BORDER = "border border-gray-500 text-white bg-gray-600 cursor-pointer";
-const SELECTED = "border border-white text-black bg-white cursor-pointer";
+enum TableRowStyles {
+  Default = "border border-gray-500 text-white bg-gray-600 cursor-pointer",
+  Selected = "border border-white text-black bg-white cursor-pointer",
+}
 
 const ArchaeolgistTableRow = ({
   archaeologist,
@@ -28,13 +30,17 @@ const ArchaeolgistTableRow = ({
   values,
 }: ArchaeologistTableRowProps) => {
   const { collapsed, toggle } = useCollapse(true, true);
+
   const isSelected = values.address === archaeologist.address;
+  // calculates total fees
   const archTotal = archTotalFees(archaeologist, file).toString();
+  // checks bounty and digging fee values are higher than inputed values
   const isBountyLess = archaeologist.minimumBounty.lte(ethers.utils.parseEther(values.bounty.toString()));
   const isDiggingFeeLess = archaeologist.minimumDiggingFee.lte(
     ethers.utils.parseEther(values.diggingFee.toString())
   );
   const isDisabled = !isBountyLess || !isDiggingFeeLess;
+  // checks freebond is greater
   const isFreeBondGreater = archaeologist.freeBond.gte(ethers.utils.parseEther(archTotal));
 
   const selectArchaeologist = () => {
@@ -51,8 +57,8 @@ const ArchaeolgistTableRow = ({
     <div
       className={classnames(
         "flex flex-col",
-        { [BASE_BORDER]: !isDisabled && !isSelected },
-        { [SELECTED]: isSelected },
+        { [TableRowStyles.Default]: !isDisabled && !isSelected },
+        { [TableRowStyles.Selected]: isSelected },
         { "order-12": isDisabled },
         { "order-0": !isDisabled }
       )}

@@ -2,12 +2,12 @@ import { ethers } from "ethers";
 import { useCallback, useEffect, useState } from "react";
 import { useWeb3 } from "../../web3";
 import { useBlockChainStore } from "../BlockChain";
-import { ISarcophagus } from "./sarcophagi.interfaces";
+import { Sarcophagus } from "./sarcophagi.interfaces";
 
 const useEmbalmer = () => {
   const { account } = useWeb3();
   const { sarcophagusContract } = useBlockChainStore();
-  const [allEmbalmerSarcophagi, setallEmbalmerSarcophagi] = useState<ISarcophagus[]>([]);
+  const [allEmbalmerSarcophagi, setallEmbalmerSarcophagi] = useState<Sarcophagus[]>([]);
   const [isEmbalmerSarcophagiLoaded, setEmbalmerSarcophagiLoaded] = useState(false);
   // fetches connected user created sarcophagus count
   // @params account: address of connected web3 account

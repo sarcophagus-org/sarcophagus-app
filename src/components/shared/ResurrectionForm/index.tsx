@@ -5,13 +5,13 @@ import { utils } from "ethers";
 import * as Yup from "yup";
 import { arweaveFileValid, hexString, initArweave } from "../../SarcophagusTomb/tomb.utils";
 import Button from "../../layout/Button";
-import { ISarcophagus } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
+import { Sarcophagus } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
 import { ResurrectionFormState } from "../../SarcophagusTomb/tomb.interfaces";
 import RecipientPrivateKeyField from "./RecipientPrivateKeyField";
 import { hexToBytes } from "../components.utils";
 
 interface ResurrectionProps {
-  sarcophagus: ISarcophagus;
+  sarcophagus: Sarcophagus;
   recipientPrivateKey?: string;
 }
 

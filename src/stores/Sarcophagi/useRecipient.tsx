@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 import { useWeb3 } from "../../web3";
 import { ethers } from "ethers";
-import { ISarcophagus } from "./sarcophagi.interfaces";
+import { Sarcophagus } from "./sarcophagi.interfaces";
 import { useBlockChainStore } from "../BlockChain";
 
 const useRecipient = (address?: string, waitForAddress?: boolean) => {
   const { sarcophagusContract } = useBlockChainStore();
-  const [allRecipientSarcophagi, setAllRecipientSarcophagi] = useState<ISarcophagus[]>([]);
+  const [allRecipientSarcophagi, setAllRecipientSarcophagi] = useState<Sarcophagus[]>([]);
   const { account } = useWeb3();
   const [isRecipientSarcophagiLoaded, setRecipientSarcophagiLoaded] = useState(false);
   // given address or account address

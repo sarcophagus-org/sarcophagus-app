@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import { useSarcophagiStore } from "../../../stores/Sarcophagi";
-import { ISarcophagus, ISarcophagusStore } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
+import { Sarcophagus, SarcophagusStore } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
 import Button from "../../layout/Button";
 import Tooltip from "../../layout/Tooltip";
 import { SarcophagusStatus } from "../tomb.enums";
@@ -9,7 +9,7 @@ import Rewrap from "./Rewrap";
 
 interface SarcophagusExpandedSectionProps {
   status: SarcophagusStatus;
-  sarcophagus: ISarcophagus;
+  sarcophagus: Sarcophagus;
   isExpanded: boolean;
   setStatus: (status: SarcophagusStatus) => void;
   toggleExpansion: () => void;
@@ -43,7 +43,7 @@ const SarcophagusExpandedSection = ({
   isExpanded,
   recipientPrivateKey,
 }: SarcophagusExpandedSectionProps) => {
-  const sarcophagiStore: ISarcophagusStore = useSarcophagiStore();
+  const sarcophagiStore: SarcophagusStore = useSarcophagiStore();
 
   const cancelSarcophagus = () => {
     const { AssetDoubleHash } = sarcophagus;

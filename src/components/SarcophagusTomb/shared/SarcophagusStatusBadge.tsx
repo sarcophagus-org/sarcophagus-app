@@ -56,14 +56,15 @@ const StatusText = ({ status, isActive, isArchived }: StatusBadgeProps) => {
       return (
         <div className="flex items-center">
           <img alt="" src={errorIcon} className="mr-2" />
-          <div className="leading-4">Error</div>
+          <div>Error</div>
         </div>
       );
+    default: {
+      if (isArchived) return <div>Archived</div>;
+      if (isActive) return <div>Active</div>;
+      return <div>Pending</div>;
+    }
   }
-  if (status === SarcophagusStatus.Unwrapped) return <div>Unwrapped</div>;
-  if (isArchived) return <div>Archived</div>;
-  if (isActive) return <div>Active</div>;
-  return <div>Pending</div>;
 };
 
 const SarcophagusStatusBadge = ({ status, isActive = false, isArchived = false }: StatusBadgeProps) => (
