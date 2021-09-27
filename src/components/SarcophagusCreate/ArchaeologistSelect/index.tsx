@@ -15,7 +15,6 @@ interface ArchaeologistTableHeaderCellProps {
 }
 
 const ArchaeologistTableHeaderCell = (props: ArchaeologistTableHeaderCellProps) => {
-console.log("🚀 ~ file: index.tsx ~ line 18 ~ props", props)
   return (
     <div className="flex text-md pl-1.5">
       <div className="mr-2">{props.title}</div>
