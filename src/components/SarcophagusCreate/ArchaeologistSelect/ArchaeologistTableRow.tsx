@@ -44,6 +44,12 @@ const ArchaeolgistTableRow = ({
   const isFreeBondGreater = archaeologist.freeBond.gte(ethers.utils.parseEther(archTotal));
 
   const selectArchaeologist = () => {
+    if(isSelected) {
+      setFieldValue("bounty", "1")
+      setFieldValue("diggingFee", 6)
+      setFieldValue("address", "")
+      return
+    }
     setFieldValue("bounty", getNumberalString(archaeologist.minimumBounty, 18));
     setFieldValue("diggingFee", getNumberalString(archaeologist.minimumDiggingFee, 18));
     setFieldValue("address", archaeologist.address);
@@ -57,7 +63,7 @@ const ArchaeolgistTableRow = ({
     <div
       className={classnames(
         "flex flex-col",
-        { [TableRowStyles.Default]: !isDisabled && !isSelected },
+        { [TableRowStyles.Default]: !isSelected },
         { [TableRowStyles.Selected]: isSelected },
         { "order-12": isDisabled },
         { "order-0": !isDisabled }
