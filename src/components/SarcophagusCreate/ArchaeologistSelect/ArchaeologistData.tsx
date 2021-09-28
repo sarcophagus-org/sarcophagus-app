@@ -33,9 +33,13 @@ const ArchaeologistData = ({ archaeologist, file, isSelected, open }: Archaeolog
     return null;
   return (
     <div className="border-t border-gray-500 py-4 px-8 w-full">
-      <div className="flex mb-4">
+      <div className="flex">
         <span className="text-gray-400 mr-2">Arch </span>
         <span>{archaeologist.address}</span>
+      </div>
+      <div className="flex mb-4">
+        <span className="text-gray-400 mr-2">Endpoint </span>
+        <span>{archaeologist.endpoint}</span>
       </div>
       <div className="grid grid-cols-2 text-sm gap-4">
         <div className="">
