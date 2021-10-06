@@ -33,7 +33,7 @@ const useApproval = () => {
 
   useEffect(() => {
     if(approved) return
-    if (allowance.gt(balance)) {
+    if (allowance.gte(balance)) {
       setApproved(true);
     } else {
       setApproved(false);
