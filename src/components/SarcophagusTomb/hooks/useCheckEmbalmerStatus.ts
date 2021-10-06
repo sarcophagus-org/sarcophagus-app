@@ -5,6 +5,7 @@ import { SarcophagusStatus } from "../tomb.enums";
 import { isTimePast } from "../tomb.utils";
 import { Sarcophagus, SarcophagusStore } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
 import useArchaeologistService, { ServiceStatus } from "./useArchaeologistService";
+import { ethers } from "ethers";
 
 const PRIVATE_KEY_DEFAULT = "0x0000000000000000000000000000000000000000000000000000000000000000";
 
@@ -60,7 +61,7 @@ const useCheckStatus = (sarcophagus: Sarcophagus) => {
             setSarcophagusStatus(SarcophagusStatus.Signing);
             return;
           case ServiceStatus.Mining:
-            if(sarcophagusStatus === SarcophagusStatus.ArweaveMining) return
+            if (sarcophagusStatus === SarcophagusStatus.ArweaveMining) return;
             setSarcophagusStatus(SarcophagusStatus.ArweaveMining);
             toast.dark(SarcophagusStatus.ArweaveMining, { toastId: "fileMining", autoClose: false });
             return;
@@ -90,9 +91,12 @@ const useCheckStatus = (sarcophagus: Sarcophagus) => {
           return;
         }
         // if sarcophagus creation is in process
-        if (createdSarcophagusData && !sendStatus) {
+        const isCreatedSarcophagus =
+          createdSarcophagusData?.assetDoubleHash ||
+          new Uint8Array() === Buffer.from(ethers.utils.arrayify(sarcophagus.AssetDoubleHash));
+        if (createdSarcophagusData && !sendStatus && isCreatedSarcophagus) {
           setSarcophagusStatus(SarcophagusStatus.ArweaveUploading);
-          setSendStatus(ServiceStatus.Sending)
+          setSendStatus(ServiceStatus.Sending);
           sendFileToArchService();
           return;
         }
