@@ -49,6 +49,7 @@ export const getExpandsionText = (status: SarcophagusStatus) => {
     case SarcophagusStatus.WindowClosed:
     case SarcophagusStatus.PublicKeyUsed:
     case SarcophagusStatus.Error:
+    case SarcophagusStatus.ArweaveMiningError:
       return "Details";
     default:
       return "";
