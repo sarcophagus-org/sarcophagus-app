@@ -32,13 +32,8 @@ const useApproval = () => {
   }, [sarcophagusContract?.address, sarcophagusTokenContract, contractCall]);
 
   useEffect(() => {
-    if(approved) return
-    if (allowance.gte(balance)) {
-      setApproved(true);
-    } else {
-      setApproved(false);
-    }
-  }, [balance, allowance, approved]);
+    setApproved(!allowance.isZero());
+  }, [allowance]);
 
   return { approved, approveTransaction };
 };
