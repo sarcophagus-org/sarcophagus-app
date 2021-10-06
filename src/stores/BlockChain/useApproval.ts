@@ -5,7 +5,7 @@ import { useBlockChainStore } from ".";
 import { useTransaction } from "./useTransaction";
 
 const useApproval = () => {
-  const { allowance, balance, sarcophagusContract, sarcophagusTokenContract } = useBlockChainStore();
+  const { allowance, sarcophagusContract, sarcophagusTokenContract } = useBlockChainStore();
   const { contractCall } = useTransaction();
   const [approved, setApproved] = useState(false);
 

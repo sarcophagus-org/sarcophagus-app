@@ -53,6 +53,7 @@ const StatusText = ({ status, isActive, isArchived }: StatusBadgeProps) => {
     case SarcophagusStatus.WindowClosed:
     case SarcophagusStatus.Error:
     case SarcophagusStatus.PublicKeyUsed:
+    case SarcophagusStatus.ArweaveMiningError:
       return (
         <div className="flex items-center">
           <img alt="" src={errorIcon} className="mr-2" />
@@ -79,11 +80,12 @@ const SarcophagusStatusBadge = ({ status, isActive = false, isArchived = false }
           !isArchived &&
           status !== SarcophagusStatus.Unwrapped &&
           status !== SarcophagusStatus.PublicKeyUsed &&
-          status !== SarcophagusStatus.Error,
+          status !== SarcophagusStatus.Error &&
+          status !== SarcophagusStatus.ArweaveMiningError,
         [BadgeColor.Green]: isActive,
         [BadgeColor.Gray]: isArchived && status !== SarcophagusStatus.Unwrapped,
         [BadgeColor.White]: status === SarcophagusStatus.Unwrapped,
-        [BadgeColor.Red]: status === SarcophagusStatus.Error || status === SarcophagusStatus.PublicKeyUsed,
+        [BadgeColor.Red]: status === SarcophagusStatus.Error || status === SarcophagusStatus.PublicKeyUsed || status === SarcophagusStatus.ArweaveMiningError,
       })}
       style={{ minWidth: "4.5rem" }}
     >
