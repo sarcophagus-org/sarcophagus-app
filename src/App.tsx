@@ -9,8 +9,8 @@ const App = () => {
       <Router>
         <SiteHeader />
         <Switch>
-        <Body />
-      </Switch>
+          <Body />
+        </Switch>
         <Footer />
       </Router>
     </div>
