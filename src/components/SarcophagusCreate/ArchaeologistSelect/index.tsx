@@ -8,6 +8,7 @@ import ArchaeolgistTableRow from "./ArchaeologistTableRow";
 
 import PageSelect from "../../shared/PageSelect";
 import usePagination from "../hooks/usePagination";
+const ARCHAEOLOGIST_PER_PAGE = 5
 
 interface ArchaeologistTableHeaderCellProps {
   title: string;
@@ -52,7 +53,7 @@ const ArchaeologistSelect = ({ errors, touched, ...rest }: SelectArchaeologistPr
                 {...rest}
               />
             ))}
-          {archaeologistsStore.archaeologistsWithStats.length >= 5 && <PageSelect {...pagination} />}
+          {archaeologistsStore.archaeologistsWithStats.length >= ARCHAEOLOGIST_PER_PAGE && <PageSelect {...pagination} />}
         </div>
       </div>
     </div>
