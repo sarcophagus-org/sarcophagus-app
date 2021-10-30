@@ -1,7 +1,7 @@
 import classnames from "classnames";
 import { SarcophagusStatus } from "../tomb.enums";
 import { Sarcophagus } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
-import { formatSarcophagusName, getExpandsionText } from "../tomb.utils";
+import { formatSarcophagusName, getExpansionText } from "../tomb.utils";
 import arrowRight from "../../../assets/images/arrowRight.svg";
 import arrowDown from "../../../assets/images/arrowDown.svg";
 import SarcophagusStatusBadge from "./SarcophagusStatusBadge";
@@ -45,7 +45,7 @@ const SarcophagusName = (props: { sarcophagus: Sarcophagus }) => {
 const ExpandButton = ({ isExpandable, isExpanded, status }: ExpandButtonProps) => {
   if (!isExpandable || status === SarcophagusStatus.Mining) return null;
   const imageSrc = !isExpanded ? arrowRight : arrowDown;
-  const text = getExpandsionText(status);
+  const text = getExpansionText(status);
   return (
     <div className="flex cursor-pointer">
       <img alt="" src={imageSrc} className="mr-2" />
