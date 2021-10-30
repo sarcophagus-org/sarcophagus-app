@@ -25,6 +25,7 @@ const useArchaeologistService = (
       if (!fileValid) {
         if (!tries) {
           setSendStatus(ServiceStatus.Failed);
+          return;
         }
         tries -= 1;
         await validateFileSent();
