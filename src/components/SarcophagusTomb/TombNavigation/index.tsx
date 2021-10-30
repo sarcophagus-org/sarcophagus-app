@@ -14,7 +14,7 @@ const TombNavigation = () => {
     <div className={Wrapper.TombNavigation}>
       <NavLink
         activeClassName="border-b-2 border-white"
-        className="px-2 pb-4 cursor-pointer whitespace-nowrap flex justif-center items-center flex-shrink-0"
+        className="px-2 pb-4 cursor-pointer whitespace-nowrap flex justify-center items-center flex-shrink-0"
         to={`${match.path}`}
         exact
       >
@@ -30,7 +30,7 @@ const TombNavigation = () => {
       </NavLink>
       <NavLink
         activeClassName="border-b-2 border-white"
-        className="px-2 pb-4 cursor-pointer whitespace-nowrap flex justif-center items-center flex-shrink-0"
+        className="px-2 pb-4 cursor-pointer whitespace-nowrap flex justify-center items-center flex-shrink-0"
         to={`${match.path}/resurrect`}
       >
         <div className={Heading.PageHeading}>Resurrect: ({sarcophagusStore.recipientSarcophagi.length})</div>
@@ -45,7 +45,7 @@ const TombNavigation = () => {
       </NavLink>
       <NavLink
         activeClassName="border-b-2 border-white"
-        className="px-2 pb-4 cursor-pointer whitespace-nowrap flex justif-center items-center flex-shrink-0"
+        className="px-2 pb-4 cursor-pointer whitespace-nowrap flex justify-center items-center flex-shrink-0"
         to={`${match.path}/archive`}
       >
         <div className={Heading.PageHeading}>Archived: ({sarcophagusStore.archivedSarcophagi.length})</div>
