@@ -44,9 +44,9 @@ const ArchaeologistSelect = ({ errors, touched, ...rest }: SelectArchaeologistPr
         <div className="flex flex-col">
           {archaeologistsStore.archaeologistsWithStats
             .filter(archaeologistsFilteredByPage)
-            .map((archaeologist: Archaeologist) => (
+            .map((archaeologist: Archaeologist, index: number) => (
               <ArchaeolgistTableRow
-                key={archaeologist.address}
+                key={archaeologist.address + index.toString()}
                 touched={touched}
                 errors={errors}
                 archaeologist={archaeologist}
