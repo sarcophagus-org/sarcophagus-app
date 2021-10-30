@@ -1,3 +1,4 @@
+import { ResurrectionTimeInterval } from "../SarcophagusCreate/sarcophagusCreate.interfaces";
 import { TimerStatus } from "./tomb.enums";
 
 export interface CreatedSarcophagusData {
@@ -33,7 +34,7 @@ export interface RewrapFormState {
   diggingFee: number;
   custom: boolean;
   customTime: string;
-  timeSelect: "week" | "month" | "threeMonths" | "custom" | null;
+  timeSelect: ResurrectionTimeInterval | null;
 }
 
 export interface RewrapFormErrors {

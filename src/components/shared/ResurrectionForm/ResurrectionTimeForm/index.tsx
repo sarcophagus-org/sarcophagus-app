@@ -4,7 +4,7 @@ import { InputHTMLAttributes } from "react";
 import { dateTimeString } from "../../../SarcophagusTomb/tomb.utils";
 import CustomTimeSelect from "./CustomTimeSelect";
 import { getDateInFuture } from '../../components.utils'
-import { SarcophagusCreateValues } from "../../../SarcophagusCreate/sarcophagusCreate.interfaces";
+import { ResurrectionTimeInterval, SarcophagusCreateValues } from "../../../SarcophagusCreate/sarcophagusCreate.interfaces";
 import { FormikErrors } from "formik";
 
 interface ResurrectionTimeFormProps {
@@ -45,11 +45,11 @@ const ResurrectionTimeForm = ({ values, handleChange, setFieldValue }: Resurrect
             id="timeSelect-week"
             onChange={handleChange}
             onClick={() => {
-              setFieldValue("timeSelect", "week");
+              setFieldValue("timeSelect", ResurrectionTimeInterval.Week);
               setFieldValue("resurrectionTime", weekAhead);
               setFieldValue("custom", false);
             }}
-            checked={values.timeSelect === "week"}
+            checked={values.timeSelect === ResurrectionTimeInterval.Week}
             value={weekAhead}
             >
             1 week
@@ -61,11 +61,11 @@ const ResurrectionTimeForm = ({ values, handleChange, setFieldValue }: Resurrect
             id="timeSelect-month"
             onChange={handleChange}
             onClick={() => {
-              setFieldValue("timeSelect", "month");
+              setFieldValue("timeSelect", ResurrectionTimeInterval.Month);
               setFieldValue("resurrectionTime", monthAhead);
               setFieldValue("custom", false);
             }}
-            checked={values.timeSelect === "month"}
+            checked={values.timeSelect === ResurrectionTimeInterval.Month}
             value={monthAhead}
           >
             1 month
@@ -77,11 +77,11 @@ const ResurrectionTimeForm = ({ values, handleChange, setFieldValue }: Resurrect
             id="timeSelect-three-months"
             onChange={handleChange}
             onClick={() => {
-              setFieldValue("timeSelect", "threeMonths");
+              setFieldValue("timeSelect", ResurrectionTimeInterval.ThreeMonths);
               setFieldValue("resurrectionTime", threeMonthAhead);
               setFieldValue("custom", false);
             }}
-            checked={values.timeSelect === "threeMonths"}
+            checked={values.timeSelect === ResurrectionTimeInterval.ThreeMonths}
             value={threeMonthAhead}
           >
             3 months
@@ -94,12 +94,12 @@ const ResurrectionTimeForm = ({ values, handleChange, setFieldValue }: Resurrect
             onChange={handleChange}
             onClick={() => {
               if(values.customTime) {
-                setFieldValue("timeSelect", "custom");
+                setFieldValue("timeSelect", ResurrectionTimeInterval.Custom);
                 setFieldValue("resurrectionTime", values.customTime);
                 setFieldValue("custom", true);
               }
             }}
-            checked={values.timeSelect === "custom"}
+            checked={values.timeSelect === ResurrectionTimeInterval.Custom}
             value={dateTimeString(values.resurrectionTime)}
           >
             <CustomTimeSelect values={values} setFieldValue={setFieldValue} />

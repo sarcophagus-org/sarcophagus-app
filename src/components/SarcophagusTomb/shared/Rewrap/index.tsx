@@ -19,6 +19,7 @@ import {
 import Button from "../../../layout/Button";
 import ResurrectionTimeForm from "../../../shared/ResurrectionForm/ResurrectionTimeForm";
 import { convertDataToBigNumber, getDateInFuture, getDecimalNumber } from "../../../shared/components.utils";
+import { ResurrectionTimeInterval } from "../../../SarcophagusCreate/sarcophagusCreate.interfaces";
 
 export interface RewrapProps {
   sarcophagus: Sarcophagus;
@@ -88,7 +89,7 @@ const Rewrap = ({ sarcophagus, toggleExpansion, setStatus }: RewrapProps) => {
     diggingFee: getDecimalNumber(archaeologist?.minimumDiggingFee || ethers.BigNumber.from(0), 18) || 0,
     custom: false,
     customTime: "",
-    timeSelect: "week",
+    timeSelect: ResurrectionTimeInterval.Week,
   };
 
   const validationSchema = Yup.object()
