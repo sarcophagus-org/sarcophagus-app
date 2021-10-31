@@ -38,7 +38,7 @@ const ResurrectionTimer = ({
   }, [resurrectionTimerState, status]);
 
   // if sarcophagus is state of 2 or time is provided remove timer
-  if (isStateTwo || !sarcophagus.resurrectionTime) return null;
+  if (isStateTwo || !sarcophagus.resurrectionTime || status === SarcophagusStatus.Mining) return null;
   // decides text color of timer
   const textColor = getTextColor(resurrectionTimerState.timerStatus);
   if (resurrectionTimerState.timerStatus === TimerStatus.Off) return null;

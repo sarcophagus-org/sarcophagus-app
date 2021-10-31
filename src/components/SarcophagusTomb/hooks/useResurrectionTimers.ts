@@ -24,7 +24,7 @@ const useResurrectionTimer = (sarcophagus: Sarcophagus): UseResurrectionTimerSta
 
   const refreshTimers = () => {
     setTimerStatus(TimerStatus.Calculating);
-    setCurrentTimeTillResurrection("calculating...");
+    setCurrentTimeTillResurrection("");
     clearInterval(TimerIntervalRef.current as NodeJS.Timeout);
   };
 
