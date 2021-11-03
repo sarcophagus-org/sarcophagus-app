@@ -68,7 +68,7 @@ export const createValidationSchema = Yup.object()
     custom: Yup.bool(),
     fileUploaded: Yup.mixed()
       .test("required", "Please upload a file", (value) => !!value)
-      .test("filesize", "Files must not be larger than 2.8MB", (value) =>
+      .test("filesize", "Files must not be larger than 2.9MB", (value) =>
         value ? value.size <= 2900000 : true
       ),
     address: Yup.string().required("Please select an archaeologist"),

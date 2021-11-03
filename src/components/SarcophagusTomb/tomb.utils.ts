@@ -38,7 +38,7 @@ export const formatSarcophagusName = (sarcophagusName: string) => {
   return sarcophagusName;
 };
 
-export const getExpandsionText = (status: SarcophagusStatus) => {
+export const getExpansionText = (status: SarcophagusStatus) => {
   switch (status) {
     case SarcophagusStatus.Active:
       return "Rewrap";
