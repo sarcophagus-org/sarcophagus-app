@@ -63,6 +63,7 @@ const SarcophagusContainer = ({
   status,
   ...rest
 }: SarcophagusContainerProps) => {
+  
   return (
     <div className={Styles.Wrapper}>
       <div
@@ -72,7 +73,7 @@ const SarcophagusContainer = ({
       >
         <div className="flex flex-col">
           <SarcophagusName sarcophagus={sarcophagus} />
-          <ResurrectionTimer sarcophagus={sarcophagus} />
+          <ResurrectionTimer sarcophagus={sarcophagus} status={status} />
         </div>
         <div className="flex flex-col">
           <ExpandButton isExpandable={isExpandable} isExpanded={isExpanded} status={status} />
