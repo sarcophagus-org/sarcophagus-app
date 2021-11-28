@@ -145,6 +145,7 @@ const useArchaeologistService = (
           setTimeout(() => {
             setTimeout(() => sendFileToArchService(false), MILLISECONDS_FILE_UPLOAD);
           }, 5000);
+          return
         }
         setSendStatus(ServiceStatus.Failed);
         setCreatedSarcophagusData(null);
