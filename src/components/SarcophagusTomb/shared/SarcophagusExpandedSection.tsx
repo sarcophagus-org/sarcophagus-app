@@ -6,6 +6,8 @@ import Tooltip from "../../layout/Tooltip";
 import { SarcophagusStatus } from "../tomb.enums";
 import ResurrectionForm from "../../shared/ResurrectionForm";
 import Rewrap from "./Rewrap";
+import { ArchaeologistsStore } from "../../../stores/Archaeologist/archaeologist.interfaces";
+import { useArchaeologistsStore } from "../../../stores/Archaeologist";
 
 interface SarcophagusExpandedSectionProps {
   status: SarcophagusStatus;
@@ -44,6 +46,7 @@ const SarcophagusExpandedSection = ({
   recipientPrivateKey,
 }: SarcophagusExpandedSectionProps) => {
   const sarcophagiStore: SarcophagusStore = useSarcophagiStore();
+  const archaeologistsStore: ArchaeologistsStore = useArchaeologistsStore();
 
   const cancelSarcophagus = () => {
     const { AssetDoubleHash } = sarcophagus;
@@ -53,6 +56,7 @@ const SarcophagusExpandedSection = ({
       console.info("Cancel transaction hash:", transactionHash);
       toggleExpansion();
       sarcophagiStore.loadSarcophagi();
+      archaeologistsStore.loadArchaeologists();
     };
 
     sarcophagiStore.cancelSarcophagus(buffedAssetDoubleHash, setStatus, successRefresh);
@@ -64,6 +68,7 @@ const SarcophagusExpandedSection = ({
     const successRefresh = () => {
       toggleExpansion();
       sarcophagiStore.loadSarcophagi();
+      archaeologistsStore.loadArchaeologists();
     };
     sarcophagiStore.cleanSarcophagus(buffedAssetDoubleHash, archaeologist, setStatus, successRefresh);
   };
@@ -72,6 +77,7 @@ const SarcophagusExpandedSection = ({
     const successRefresh = () => {
       toggleExpansion();
       sarcophagiStore.loadSarcophagi();
+      archaeologistsStore.loadArchaeologists();
     };
     sarcophagiStore.updateSarcophagus(setStatus, successRefresh);
   };

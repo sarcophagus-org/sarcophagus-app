@@ -41,7 +41,7 @@ const CreateSarcophagus = () => {
   const archaeologistsStore: ArchaeologistsStore = useArchaeologistsStore();
   const { account } = useWeb3();
   const { approved, approveTransaction } = useApproval();
-
+  
   const handleArchaeologistSelect = (
     selectedArchaeologist: Archaeologist,
     storageFee: number | string | BigNumber
@@ -53,7 +53,7 @@ const CreateSarcophagus = () => {
 
   const successRefresh = () => {
     sarcophagiStore.loadSarcophagi();
-    archaeologistsStore.loadArchaeologists();
+    archaeologistsStore.loadArchaeologists(); 
   };
 
   const redirect = () => {
