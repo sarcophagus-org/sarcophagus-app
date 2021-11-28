@@ -107,3 +107,7 @@ export const checkReceivedStatus = (resurrectionTime: BigNumber, resurrectionWin
   const isVisible = isUnwrapped || isActive;
   return { isUnwrapped, isActive, isVisible };
 };
+
+export const isMaxResurrectionTimeValid = (archaeologistMaxResurrectionTime: number, choosenResurrectionTime: number) => {
+  return archaeologistMaxResurrectionTime - (choosenResurrectionTime / 1000) >= 0;
+}
