@@ -26,7 +26,7 @@ const useTransaction = () => {
       setPending(true);
       contractFn()
         .then((txResponse: ethers.ContractTransaction) => {
-          toastId = toast(pendingMessage, {
+          toastId = toast.dark(pendingMessage, {
             autoClose: false,
             closeOnClick: false,
             draggable: false,
@@ -53,7 +53,7 @@ const useTransaction = () => {
             toast.error(failedMessage);
             if (failedCallback) failedCallback();
           } else if (txReceipt.status === 1) {
-            toast(successMessage);
+            toast.dark(successMessage);
             if (successCallback) successCallback(txReceipt);
           } else {
             toast.error("Not sure what happened with that transaction");
