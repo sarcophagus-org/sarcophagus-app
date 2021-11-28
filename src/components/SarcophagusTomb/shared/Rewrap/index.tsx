@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ethers } from "ethers";
+import { ethers, BigNumber } from "ethers";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import FeesForm from "../../../shared/FeesForm";
@@ -18,8 +18,8 @@ import {
 } from "../../../../stores/Archaeologist/archaeologist.interfaces";
 import Button from "../../../layout/Button";
 import ResurrectionTimeForm from "../../../shared/ResurrectionForm/ResurrectionTimeForm";
-import { convertDataToBigNumber, getDateInFuture, getDecimalNumber } from "../../../shared/components.utils";
 import { ResurrectionTimeInterval } from "../../../SarcophagusCreate/sarcophagusCreate.interfaces";
+import { getDateInFuture, getDecimalNumber } from "../../../shared/components.utils";
 
 export interface RewrapProps {
   sarcophagus: Sarcophagus;
@@ -55,13 +55,14 @@ const Rewrap = ({ sarcophagus, toggleExpansion, setStatus }: RewrapProps) => {
     const { bounty, diggingFee, resurrectionTime } = values;
 
     const buffedAssetDoubleHash = Buffer.from(ethers.utils.arrayify(AssetDoubleHash));
-    const resurrectionTimeBN = convertDataToBigNumber(resurrectionTime.toString());
+    const resurrectionTimeBN: BigNumber = BigNumber.from(Number(resurrectionTime) / 1000);
     const diggingFeeBN = ethers.utils.parseEther(diggingFee.toString());
     const bountyBN = ethers.utils.parseEther(bounty.toString());
 
     const successRefresh = () => {
-      sarcophagiStore.loadSarcophagi();
       toggleExpansion();
+      setStatus(SarcophagusStatus.Active)
+      sarcophagiStore.loadSarcophagi();
     };
     sarcophagiStore.rewrapSarcophagus(
       buffedAssetDoubleHash,
@@ -124,7 +125,7 @@ const Rewrap = ({ sarcophagus, toggleExpansion, setStatus }: RewrapProps) => {
       onSubmit={handleSubmit}
       validateOnMount
     >
-      {({ values, errors, handleChange, handleSubmit, setFieldValue, validateForm, isValid }) => (
+      {({ values, errors, handleChange, handleSubmit, setFieldValue, isValid }) => (
         <form onSubmit={handleSubmit} className="pb-8 px-10">
           <div className="flex items-center my-4">
             <div className={Heading.PageHeading}>Fees</div>
@@ -162,7 +163,6 @@ const Rewrap = ({ sarcophagus, toggleExpansion, setStatus }: RewrapProps) => {
                 approved
                   ? () => null
                   : () => {
-                      validateForm();
                       handleApproval(errors);
                     }
               }

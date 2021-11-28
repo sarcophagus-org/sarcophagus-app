@@ -43,6 +43,7 @@ const useCheckStatus = (sarcophagus: Sarcophagus) => {
       // first checks mining status / removes errors for UI purposes
       case SarcophagusStatus.Mining:
       case SarcophagusStatus.Signing:
+      case SarcophagusStatus.WindowClosed:
       case SarcophagusStatus.Error: {
         return;
       }
@@ -52,6 +53,13 @@ const useCheckStatus = (sarcophagus: Sarcophagus) => {
         // checks if window for archaeologist wrapping has passed, if so clean is shown
         if (isTimePast(sarcophagus.resurrectionTime, sarcophagus.resurrectionWindow)) {
           setSarcophagusStatus(SarcophagusStatus.WindowClosed);
+        }
+        // checks for archaeologist unwrapping update
+        if (sarcophagus.resurrectionTime.toNumber() * 1000 - Date.now().valueOf() <= 0) {
+          const reloadStoreInterval = setTimeout(() => {
+            sarcophagiStore.loadSarcophagi();
+          }, 5000);
+          return () => clearTimeout(reloadStoreInterval)
         }
         return;
       }
@@ -77,15 +85,6 @@ const useCheckStatus = (sarcophagus: Sarcophagus) => {
           default:
             return;
         }
-      }
-      case SarcophagusStatus.WindowClosed: {
-        // checks for archaeologist unwrapping update
-        if (sarcophagus.resurrectionTime.toNumber() * 1000 - Date.now().valueOf() <= 0) {
-          setTimeout(() => {
-            sarcophagiStore.loadSarcophagi();
-          }, 3000);
-        }
-        return;
       }
       // no status is set;
       default: {
