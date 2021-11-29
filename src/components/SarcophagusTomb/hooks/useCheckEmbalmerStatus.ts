@@ -14,9 +14,11 @@ const useCheckStatus = (sarcophagus: Sarcophagus) => {
   const { createdSarcophagusData, setCreatedSarcophagusData } = useSarcophagiStore();
   const sarcophagiStore: SarcophagusStore = useSarcophagiStore();
 
-  const { sendStatus, sendFileToArchService, setSendStatus } = useArchaeologistService(
+  const { sendStatus } = useArchaeologistService(
     createdSarcophagusData,
-    setCreatedSarcophagusData
+    setCreatedSarcophagusData,
+    sarcophagus,
+    setSarcophagusStatus
   );
 
   useEffect(() => {
@@ -39,14 +41,25 @@ const useCheckStatus = (sarcophagus: Sarcophagus) => {
   const checkStatus = async () => {
     switch (sarcophagusStatus) {
       // first checks mining status / removes errors for UI purposes
-      case SarcophagusStatus.Mining: {
+      case SarcophagusStatus.Mining:
+      case SarcophagusStatus.Signing:
+      case SarcophagusStatus.WindowClosed:
+      case SarcophagusStatus.Error: {
         return;
       }
+
       // watch active sarcophagus for changes
       case SarcophagusStatus.Active: {
         // checks if window for archaeologist wrapping has passed, if so clean is shown
         if (isTimePast(sarcophagus.resurrectionTime, sarcophagus.resurrectionWindow)) {
           setSarcophagusStatus(SarcophagusStatus.WindowClosed);
+        }
+        // checks for archaeologist unwrapping update
+        if (sarcophagus.resurrectionTime.toNumber() * 1000 - Date.now().valueOf() <= 0) {
+          const reloadStoreInterval = setTimeout(() => {
+            sarcophagiStore.loadSarcophagi();
+          }, 5000);
+          return () => clearTimeout(reloadStoreInterval)
         }
         return;
       }
@@ -60,26 +73,18 @@ const useCheckStatus = (sarcophagus: Sarcophagus) => {
             setSarcophagusStatus(SarcophagusStatus.Signing);
             return;
           case ServiceStatus.Mining:
-            if(sarcophagusStatus === SarcophagusStatus.ArweaveMining) return
+            if (sarcophagusStatus === SarcophagusStatus.ArweaveMining) return;
             setSarcophagusStatus(SarcophagusStatus.ArweaveMining);
             toast.dark(SarcophagusStatus.ArweaveMining, { toastId: "fileMining", autoClose: false });
             return;
           case ServiceStatus.Failed:
             toast.dismiss("fileMining");
             setSarcophagusStatus(SarcophagusStatus.ArweaveMiningError);
+            setStopChecking(true);
             return;
           default:
             return;
         }
-      }
-      case SarcophagusStatus.WindowClosed: {
-        // checks for archaeologist unwrapping update
-        if (sarcophagus.resurrectionTime.toNumber() * 1000 - Date.now().valueOf() <= 0) {
-          setTimeout(() => {
-            sarcophagiStore.loadSarcophagi();
-          }, 3000);
-        }
-        return;
       }
       // no status is set;
       default: {
@@ -87,13 +92,6 @@ const useCheckStatus = (sarcophagus: Sarcophagus) => {
         // if sarcophagus is active
         if (sarcophagus?.assetId && sarcophagus?.privateKey === PRIVATE_KEY_DEFAULT) {
           setSarcophagusStatus(SarcophagusStatus.Active);
-          return;
-        }
-        // if sarcophagus creation is in process
-        if (createdSarcophagusData && !sendStatus) {
-          setSarcophagusStatus(SarcophagusStatus.ArweaveUploading);
-          setSendStatus(ServiceStatus.Sending)
-          sendFileToArchService();
           return;
         }
         if (sarcophagusStatus === SarcophagusStatus.Default) {

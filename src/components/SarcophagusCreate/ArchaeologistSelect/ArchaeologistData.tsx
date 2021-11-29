@@ -1,3 +1,4 @@
+import { BigNumber } from "@ethersproject/bignumber";
 import classnames from "classnames";
 import { Archaeologist } from "../../../stores/Archaeologist/archaeologist.interfaces";
 
@@ -23,37 +24,46 @@ const Value = ({ value, selected }: { value: string; selected: boolean }) => (
 );
 
 const ArchaeologistData = ({ archaeologist, file, isSelected, open }: ArchaeologistDataProps) => {
-  if (
-    !open ||
-    !archaeologist.accusedCount ||
-    !archaeologist.cleanupCount ||
-    !archaeologist.canceledCount ||
-    !archaeologist.successesCount
-  )
-    return null;
+  if (!open) return null;
   return (
     <div className="border-t border-gray-500 py-4 px-8 w-full">
-      <div className="flex mb-4">
+      <div className="flex">
         <span className="text-gray-400 mr-2">Arch </span>
         <span>{archaeologist.address}</span>
+      </div>
+      <div className="flex mb-4">
+        <span className="text-gray-400 mr-2">Endpoint </span>
+        <span>{archaeologist.endpoint}</span>
       </div>
       <div className="grid grid-cols-2 text-sm gap-4">
         <div className="">
           <div className="flex">
             <Property label="Accused Sarcophagi" />
-            <Value selected={isSelected} value={getNumberalString(archaeologist.accusedCount, 0, true)} />
+            <Value
+              selected={isSelected}
+              value={getNumberalString(archaeologist.accusedCount as BigNumber, 0, true)}
+            />
           </div>
           <div className="flex">
             <Property label="Cleaned Sarcophagi" />
-            <Value selected={isSelected} value={getNumberalString(archaeologist.cleanupCount, 0, true)} />
+            <Value
+              selected={isSelected}
+              value={getNumberalString(archaeologist.cleanupCount as BigNumber, 0, true)}
+            />
           </div>
           <div className="flex">
             <Property label="Canceled Sarcophagi" />
-            <Value selected={isSelected} value={getNumberalString(archaeologist.canceledCount, 0, true)} />
+            <Value
+              selected={isSelected}
+              value={getNumberalString(archaeologist.canceledCount as BigNumber, 0, true)}
+            />
           </div>
           <div className="flex">
             <Property label="Successful Sarcophagi" />
-            <Value selected={isSelected} value={getNumberalString(archaeologist.successesCount, 0, true)} />
+            <Value
+              selected={isSelected}
+              value={getNumberalString(archaeologist.successesCount as BigNumber, 0, true)}
+            />
           </div>
           <div className="flex">
             <Property label="Percent Cursed:" />

@@ -38,7 +38,7 @@ export const formatSarcophagusName = (sarcophagusName: string) => {
   return sarcophagusName;
 };
 
-export const getExpandsionText = (status: SarcophagusStatus) => {
+export const getExpansionText = (status: SarcophagusStatus) => {
   switch (status) {
     case SarcophagusStatus.Active:
       return "Rewrap";
@@ -49,6 +49,7 @@ export const getExpandsionText = (status: SarcophagusStatus) => {
     case SarcophagusStatus.WindowClosed:
     case SarcophagusStatus.PublicKeyUsed:
     case SarcophagusStatus.Error:
+    case SarcophagusStatus.ArweaveMiningError:
       return "Details";
     default:
       return "";

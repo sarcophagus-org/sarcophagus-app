@@ -2,6 +2,7 @@ import classnames from "classnames";
 import { ethers } from "ethers";
 import { Archaeologist } from "../../../stores/Archaeologist/archaeologist.interfaces";
 import { SelectArchaeologistProps } from "../sarcophagusCreate.interfaces";
+import { isMaxResurrectionTimeValid } from '../../shared/components.utils'
 import useCollapse from "../hooks/useCollapsed";
 import { archTotalFees, getDecimalNumber, getNumberalString, truncate } from "../../shared/components.utils";
 import ArchaeologistData from "./ArchaeologistData";
@@ -20,6 +21,7 @@ interface ArchaeologistTableRowProps extends SelectArchaeologistProps {
 enum TableRowStyles {
   Default = "border border-gray-500 text-white bg-gray-600 cursor-pointer",
   Selected = "border border-white text-black bg-white cursor-pointer",
+  Disabled = "border border-gray-500 text-gray-500 cursor-default"
 }
 
 const ArchaeolgistTableRow = ({
@@ -39,10 +41,12 @@ const ArchaeolgistTableRow = ({
   const isDiggingFeeLess = archaeologist.minimumDiggingFee.lte(
     ethers.utils.parseEther(values.diggingFee.toString())
   );
-  const isDisabled = !isBountyLess || !isDiggingFeeLess;
+  const isArchaeologistMaxResValid = isMaxResurrectionTimeValid(archaeologist.maximumResurrectionTime.toNumber(), Number(values.resurrectionTime))
+
+  const isDisabled = !isBountyLess || !isDiggingFeeLess || !isArchaeologistMaxResValid;
   // checks freebond is greater
   const isFreeBondGreater = archaeologist.freeBond.gte(ethers.utils.parseEther(archTotal));
-
+  
   const selectArchaeologist = () => {
     if(isSelected) {
       setFieldValue("bounty", "1")
@@ -50,6 +54,7 @@ const ArchaeolgistTableRow = ({
       setFieldValue("address", "")
       return
     }
+    if(isDisabled) return
     setFieldValue("bounty", getNumberalString(archaeologist.minimumBounty, 18));
     setFieldValue("diggingFee", getNumberalString(archaeologist.minimumDiggingFee, 18));
     setFieldValue("address", archaeologist.address);
@@ -63,8 +68,9 @@ const ArchaeolgistTableRow = ({
     <div
       className={classnames(
         "flex flex-col",
-        { [TableRowStyles.Default]: !isSelected },
+        { [TableRowStyles.Default]: !isSelected && !isDisabled},
         { [TableRowStyles.Selected]: isSelected },
+        { [TableRowStyles.Disabled]: isDisabled},
         { "order-12": isDisabled },
         { "order-0": !isDisabled }
       )}

@@ -9,7 +9,7 @@ import Loader from "../../shared/Loader";
 import useCheckStatus from "../hooks/useCheckEmbalmerStatus";
 import SarcophagusContainer from "../shared/SarcophagusContainer";
 import { SarcophagusStatus } from "../tomb.enums";
-import { getExpandsionText } from "../tomb.utils";
+import { getExpansionText } from "../tomb.utils";
 
 const EmbalmerSarcophagus = ({ sarcophagus }: { sarcophagus: Sarcophagus }) => {
   const { sarcophagusStatus, updateStatus, checkStatus } = useCheckStatus(sarcophagus);
@@ -22,7 +22,7 @@ const EmbalmerSarcophagus = ({ sarcophagus }: { sarcophagus: Sarcophagus }) => {
       setStatus={updateStatus}
       toggleExpansion={() => setIsExpanded((expanded: boolean) => !expanded)}
       sarcophagus={sarcophagus}
-      isExpandable={!!getExpandsionText(sarcophagusStatus)}
+      isExpandable={!!getExpansionText(sarcophagusStatus)}
       isExpanded={isExpanded}
     />
   );

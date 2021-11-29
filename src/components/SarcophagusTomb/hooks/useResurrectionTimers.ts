@@ -7,8 +7,8 @@ import { getTimeRemaining } from "../tomb.utils";
 const useResurrectionTimer = (sarcophagus: Sarcophagus): UseResurrectionTimerState => {
   const TimerIntervalRef: { current: NodeJS.Timeout | null } = useRef(null);
   const [timerStatus, setTimerStatus] = useState<TimerStatus>(TimerStatus.Calculating);
-  const [resurrectionTime] = useState(sarcophagus.resurrectionTime);
-  const [resurrectionWindow] = useState(sarcophagus.resurrectionWindow);
+  const [resurrectionTime, setTime] = useState(sarcophagus.resurrectionTime);
+  const [resurrectionWindow, setWindow] = useState(sarcophagus.resurrectionWindow);
   const [currentTimeTillResurrection, setCurrentTimeTillResurrection] = useState<string>("");
 
   // returns resurrection time as UTC number in seconds
@@ -51,9 +51,11 @@ const useResurrectionTimer = (sarcophagus: Sarcophagus): UseResurrectionTimerSta
   }, [isPastWindow, isWithinWindow, startTimer]);
 
   useEffect(() => {
+    setTime(sarcophagus.resurrectionTime)
+    setWindow(sarcophagus.resurrectionWindow)
     timerInit();
     return () => clearInterval(TimerIntervalRef.current as NodeJS.Timeout);
-  }, [timerInit]);
+  }, [timerInit, sarcophagus]);
 
   return { timerStatus, currentTimeTillResurrection, refreshTimers };
 };

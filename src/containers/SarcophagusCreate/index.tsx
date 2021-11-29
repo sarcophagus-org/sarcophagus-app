@@ -12,7 +12,6 @@ import { useSarcophagiStore } from "../../stores/Sarcophagi";
 import { SarcophagusStore } from "../../stores/Sarcophagi/sarcophagi.interfaces";
 import { useWeb3 } from "../../web3";
 import useFileEncryption from "../../components/SarcophagusCreate/hooks/useFileEncryption";
-import { convertDataToBigNumber } from "../../components/shared/components.utils";
 import { BigNumber, utils } from "ethers";
 import { SarcophagusCreateValues } from "../../components/SarcophagusCreate/sarcophagusCreate.interfaces";
 import { connect } from "../../web3/providers";
@@ -42,7 +41,7 @@ const CreateSarcophagus = () => {
   const archaeologistsStore: ArchaeologistsStore = useArchaeologistsStore();
   const { account } = useWeb3();
   const { approved, approveTransaction } = useApproval();
-
+  
   const handleArchaeologistSelect = (
     selectedArchaeologist: Archaeologist,
     storageFee: number | string | BigNumber
@@ -54,7 +53,7 @@ const CreateSarcophagus = () => {
 
   const successRefresh = () => {
     sarcophagiStore.loadSarcophagi();
-    archaeologistsStore.loadArchaeologists();
+    archaeologistsStore.loadArchaeologists(); 
   };
 
   const redirect = () => {
@@ -67,11 +66,9 @@ const CreateSarcophagus = () => {
       return;
     }
     try {
-      const { bounty, diggingFee, recipientPublicKey, resurrectionTime, name, custom } = values;
-      let resurrectionTimeBN: BigNumber = custom
-        ? convertDataToBigNumber(resurrectionTime.toString())
-        : BigNumber.from(Number(resurrectionTime) / 1000);
-
+      const { bounty, diggingFee, recipientPublicKey, resurrectionTime, name } = values;
+      let resurrectionTimeBN: BigNumber = BigNumber.from(Number(resurrectionTime) / 1000);
+      
       const diggingFeeBN = utils.parseEther(diggingFee.toString());
       const bountyBN = utils.parseEther(bounty.toString());
       const storageFeeBN = utils.parseEther(storageFee.toString());

@@ -14,11 +14,11 @@ const useFileEncryption = () => {
 
   const firstEncryption = useCallback(async () => {
     try {
-      let formatedPublicKey;
+      let formattedPublicKey;
       if (recipientPublicKey?.substr(0, 4) !== "0x04") {
-        formatedPublicKey = "0x04" + recipientPublicKey;
+        formattedPublicKey = "0x04" + recipientPublicKey;
       }
-      const keyToUse = formatedPublicKey ? formatedPublicKey : recipientPublicKey ? recipientPublicKey : "";
+      const keyToUse = formattedPublicKey ? formattedPublicKey : recipientPublicKey ? recipientPublicKey : "";
       const recipPubKeyBytes = hexToBytes(keyToUse, true).slice(1);
       const encrypted = await encrypt(recipPubKeyBytes, fileByteArray as Buffer);
       setFileEncryptedRecipient(encrypted);

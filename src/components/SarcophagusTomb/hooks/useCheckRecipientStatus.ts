@@ -20,7 +20,7 @@ const checkRecipientStatus = (
   const isActive =
     SarcophagusState === 1 &&
     resurrectionTimePlusWindow.gte(BigNumber.from(Number(Date.now().valueOf() / 1000).toFixed(0)));
-  
+
   // shows active and unwrapped sarcophagi
   const isVisible = isUnwrapped || isActive;
   return { isUnwrapped, isActive, isVisible };
@@ -38,10 +38,9 @@ const useCheckRecipientSarcophagi = (sarcophagus: Sarcophagus) => {
     );
     if (isUnwrapped) {
       setSarcophagusStatus(SarcophagusStatus.Unwrapped);
-    } else if (sarcophagus?.assetId && isActive) {
-      setSarcophagusStatus(SarcophagusStatus.Active);
-    } else if (!sarcophagus?.assetId && isActive) {
-      setSarcophagusStatus(SarcophagusStatus.Created);
+    } else if (isActive) {
+      const sarcoStatus = sarcophagus?.assetId ? SarcophagusStatus.Active : SarcophagusStatus.Created;
+      setSarcophagusStatus(sarcoStatus);
     } else if (sarcophagus.state === 2) {
       setSarcophagusStatus(SarcophagusStatus.Archived);
     } else {

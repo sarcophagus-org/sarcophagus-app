@@ -26,13 +26,6 @@ export const hexToBytes = (hex: string, pad = false) => {
   }
 };
 
-export const convertDataToBigNumber = (dateString: string): BigNumber => {
-  const date = new Date(dateString);
-  const convertedUTCDate = convertToUTCTime(date);
-  const secondsUTC = convertedUTCDate / 1000;
-  return BigNumber.from(secondsUTC);
-};
-
 export const getDateInFuture = (numDays: number): number => {
   let today = new Date();
   today.setDate(today.getDate() + numDays);
@@ -114,3 +107,7 @@ export const checkReceivedStatus = (resurrectionTime: BigNumber, resurrectionWin
   const isVisible = isUnwrapped || isActive;
   return { isUnwrapped, isActive, isVisible };
 };
+
+export const isMaxResurrectionTimeValid = (archaeologistMaxResurrectionTime: number, choosenResurrectionTime: number) => {
+  return archaeologistMaxResurrectionTime - (choosenResurrectionTime / 1000) >= 0;
+}

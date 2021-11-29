@@ -2,6 +2,13 @@ import { BigNumber } from "@ethersproject/bignumber";
 import { FormikErrors, FormikTouched } from "formik";
 import { Archaeologist } from "../../stores/Archaeologist/archaeologist.interfaces";
 
+export enum ResurrectionTimeInterval {
+  Week,
+  Month,
+  ThreeMonths,
+  Custom
+}
+
 export interface SarcophagusCreateValues {
   recipientPublicKey: string;
   name: string;
@@ -13,7 +20,7 @@ export interface SarcophagusCreateValues {
   daysDisplayed: number;
   custom: boolean;
   customTime: string;
-  timeSelect: "week" | "month" | "threeMonths" | "custom" | null;
+  timeSelect: ResurrectionTimeInterval | null;
 }
 
 export interface SettingsProps {
