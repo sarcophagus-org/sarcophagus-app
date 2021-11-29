@@ -220,7 +220,7 @@ textarea {
 }
 
 .arch-table-row > div:nth-child(3) {
-  margin-left: -1rem;
+  margin-left: 1rem;
 }
 .arch-table-row > div:last-child {
   width: fit-content;
