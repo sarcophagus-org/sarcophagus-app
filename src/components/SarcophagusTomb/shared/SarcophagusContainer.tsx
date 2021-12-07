@@ -68,14 +68,14 @@ const SarcophagusContainer = ({
     <div className={Styles.Wrapper}>
       <div
         className={classnames(Styles.Base, { [Styles.Pointer]: isExpandable })}
-        onClick={!isExpandable ? () => null : () => toggleExpansion()}
+        onClick={!isExpandable ? () => null : toggleExpansion}
         style={{ height: "4.375rem" }}
       >
         <div className="flex flex-col">
           <SarcophagusName sarcophagus={sarcophagus} />
           <ResurrectionTimer sarcophagus={sarcophagus} status={status} />
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col items-end">
           <ExpandButton isExpandable={isExpandable} isExpanded={isExpanded} status={status} />
 
           <SarcophagusStatusBadge status={status} isActive={status === SarcophagusStatus.Active} isArchived={sarcophagus.state === 2}/>
