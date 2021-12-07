@@ -7,12 +7,12 @@ import icon from "../../assets/images/Resurrection.svg";
 import SarcophagusContainer from "../../components/SarcophagusTomb/shared/SarcophagusContainer";
 import useCheckRecipientSarcophagi from "../../components/SarcophagusTomb/hooks/useCheckRecipientStatus";
 import { Sarcophagus } from "../../stores/Sarcophagi/sarcophagi.interfaces";
-import { SarcophagusStatus } from "../../components/SarcophagusTomb/tomb.enums";
 import RecipientPrivateKeyField from "../../components/shared/ResurrectionForm/RecipientPrivateKeyField";
 import Button from "../../components/layout/Button";
 import { Heading } from "../../assets/styles/headings.enum";
 import useRecipient from "../../stores/Sarcophagi/useRecipient";
 import Loader from "../../components/shared/Loader";
+import { SarcophagusStatus } from "../../types/sarcophagusTomb";
 
 const RecipientSarcophagus = ({
   sarcophagus,

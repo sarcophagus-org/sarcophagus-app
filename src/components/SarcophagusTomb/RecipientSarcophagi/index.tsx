@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useSarcophagiStore } from "../../../stores/Sarcophagi";
 import { Sarcophagus, SarcophagusStore } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
+import { SarcophagusStatus } from "../../../types/sarcophagusTomb";
 import Loader from "../../shared/Loader";
 import useCheckRecipientSarcophagi from "../hooks/useCheckRecipientStatus";
 import SarcophagusContainer from "../shared/SarcophagusContainer";
-import { SarcophagusStatus } from "../tomb.enums";
 
 const RecipientSarcophagus = ({ sarcophagus }: { sarcophagus: Sarcophagus }) => {
   const { sarcophagusStatus } = useCheckRecipientSarcophagi(sarcophagus);

@@ -6,9 +6,9 @@ import * as Yup from "yup";
 import { arweaveFileValid, hexString, initArweave } from "../../SarcophagusTomb/tomb.utils";
 import Button from "../../layout/Button";
 import { Sarcophagus } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
-import { ResurrectionFormState } from "../../SarcophagusTomb/tomb.interfaces";
 import RecipientPrivateKeyField from "./RecipientPrivateKeyField";
 import { hexToBytes } from "../components.utils";
+import { ResurrectionFormState } from "../../../types/sarcophagusTomb";
 
 interface ResurrectionProps {
   sarcophagus: Sarcophagus;

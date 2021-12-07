@@ -1,8 +1,8 @@
 import { utils } from "ethers";
 import * as Yup from "yup";
 import { Archaeologist } from "../../stores/Archaeologist/archaeologist.interfaces";
+import { SarcophagusCreateValues } from "../../types/sarcophagusCreate";
 
-import { SarcophagusCreateValues } from "./sarcophagusCreate.interfaces";
 
 export const createInitialValues: SarcophagusCreateValues = {
   recipientPublicKey: "",

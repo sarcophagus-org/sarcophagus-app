@@ -3,9 +3,9 @@ import pickaxe from "../../../assets/images/pickaxe.svg";
 import arrowRight from "../../../assets/images/arrowRight.svg";
 import SectionContainer from "../shared/SectionContainer";
 import FeesForm from "../../shared/FeesForm";
-import { SelectArchaeologistProps } from "../sarcophagusCreate.interfaces";
 import ArchaeologistSelect from "../ArchaeologistSelect";
 import useCollapse from "../hooks/useCollapsed";
+import { SelectArchaeologistProps } from "../../../types/sarcophagusCreate";
 
 const ArchaeologistSelectForm = ({ values, errors, ...rest }: SelectArchaeologistProps) => {
   const { collapsed, toggle, open } = useCollapse();

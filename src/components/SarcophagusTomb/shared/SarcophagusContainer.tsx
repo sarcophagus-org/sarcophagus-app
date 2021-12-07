@@ -1,5 +1,4 @@
 import classnames from "classnames";
-import { SarcophagusStatus } from "../tomb.enums";
 import { Sarcophagus } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
 import { formatSarcophagusName, getExpansionText } from "../tomb.utils";
 import arrowRight from "../../../assets/images/arrowRight.svg";
@@ -8,6 +7,7 @@ import SarcophagusStatusBadge from "./SarcophagusStatusBadge";
 import Tippy from "@tippyjs/react";
 import ResurrectionTimer from "./ResurrectionTimer";
 import SarcophagusExpandedSection from "./SarcophagusExpandedSection";
+import { SarcophagusStatus } from "../../../types/sarcophagusTomb";
 
 interface SarcophagusContainerProps {
   sarcophagus: Sarcophagus;

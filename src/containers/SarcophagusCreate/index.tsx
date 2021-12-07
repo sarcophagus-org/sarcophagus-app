@@ -13,7 +13,6 @@ import { SarcophagusStore } from "../../stores/Sarcophagi/sarcophagi.interfaces"
 import { useWeb3 } from "../../web3";
 import useFileEncryption from "../../components/SarcophagusCreate/hooks/useFileEncryption";
 import { BigNumber, utils } from "ethers";
-import { SarcophagusCreateValues } from "../../components/SarcophagusCreate/sarcophagusCreate.interfaces";
 import { connect } from "../../web3/providers";
 import CreateTitleAndDescription from "../../components/SarcophagusCreate/CreateTitleAndDescription";
 import Settings from "../../components/SarcophagusCreate/Settings";
@@ -21,6 +20,7 @@ import UploadSarcophagusFile from "../../components/SarcophagusCreate/UploadSarc
 import SelectResurrectionTime from "../../components/SarcophagusCreate/SelectResurrectionTime";
 import ArchaeologistSelectForm from "../../components/SarcophagusCreate/SelectArchaeologistForm";
 import Button from "../../components/layout/Button";
+import { SarcophagusCreateValues } from "../../types/sarcophagusCreate";
 
 const CreateSarcophagus = () => {
   const [buttonText, setButtonText] = useState("");

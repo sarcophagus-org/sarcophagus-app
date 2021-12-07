@@ -1,6 +1,5 @@
 import { BigNumber } from "@ethersproject/bignumber";
-import { SarcophagusStatus } from "../../components/SarcophagusTomb/tomb.enums";
-import { CreatedSarcophagusData } from "../../components/SarcophagusTomb/tomb.interfaces";
+import { CreatedSarcophagusData, SarcophagusStatus } from "../../types/sarcophagusTomb";
 import { Archaeologist } from "../Archaeologist/archaeologist.interfaces";
 
 export type BurySarcophagus = (

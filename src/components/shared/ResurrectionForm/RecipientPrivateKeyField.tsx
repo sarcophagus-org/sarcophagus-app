@@ -1,11 +1,12 @@
+import { FormikErrors } from "formik";
 import { Heading } from "../../../assets/styles/headings.enum";
+import { ResurrectionFormState } from "../../../types/sarcophagusTomb";
 import ErrorText from "../../layout/ErrorText";
 import Tooltip from "../../layout/Tooltip";
-import { ResurrectionFormError, ResurrectionFormState } from "../../SarcophagusTomb/tomb.interfaces";
 
 interface RecipientPrivateKeyFieldProps {
   values: ResurrectionFormState;
-  errors: ResurrectionFormError;
+  errors: FormikErrors<ResurrectionFormState>;
   isVisible: boolean;
   handleChange: React.ChangeEventHandler<HTMLTextAreaElement>;
 }

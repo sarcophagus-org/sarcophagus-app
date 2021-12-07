@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Sarcophagus } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
 import { ArchaeologistsStore } from "../../../stores/Archaeologist/archaeologist.interfaces";
 import { useArchaeologistsStore } from "../../../stores/Archaeologist";
-import { SarcophagusStatus } from "../tomb.enums";
+import { SarcophagusStatus } from "../../../types/sarcophagusTomb";
 
 const useCheckArchivedStatus = (sarcophagus: Sarcophagus) => {
   const archaeologistStore: ArchaeologistsStore = useArchaeologistsStore();

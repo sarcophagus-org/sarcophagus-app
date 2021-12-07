@@ -1,7 +1,6 @@
 import classnames from "classnames";
 import { ethers } from "ethers";
 import { Archaeologist } from "../../../stores/Archaeologist/archaeologist.interfaces";
-import { SelectArchaeologistProps } from "../sarcophagusCreate.interfaces";
 import { isMaxResurrectionTimeValid } from '../../shared/components.utils'
 import useCollapse from "../hooks/useCollapsed";
 import { archTotalFees, getDecimalNumber, getNumberalString, truncate } from "../../shared/components.utils";
@@ -12,6 +11,7 @@ import arrowRightBlack from "../../../assets/images/arrowRightBlack.svg";
 import arrowRight from "../../../assets/images/arrowRight.svg";
 import arrowDown from "../../../assets/images/arrowDown.svg";
 import arrowDownBlack from "../../../assets/images/arrowDownBlack.svg";
+import { SelectArchaeologistProps } from "../../../types/sarcophagusCreate";
 
 interface ArchaeologistTableRowProps extends SelectArchaeologistProps {
   archaeologist: Archaeologist;

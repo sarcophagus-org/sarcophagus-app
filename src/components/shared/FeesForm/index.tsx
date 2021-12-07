@@ -1,15 +1,15 @@
 import classnames from "classnames";
 import { FormikErrors } from "formik";
 import { Wrapper } from "../../../assets/styles/wrappers.enum";
+import { SarcophagusCreateValues } from "../../../types/sarcophagusCreate";
+import { RewrapFormState } from "../../../types/sarcophagusTomb";
 import ErrorText from "../../layout/ErrorText";
 import Tooltip from "../../layout/Tooltip";
-import { SarcophagusCreateValues } from "../../SarcophagusCreate/sarcophagusCreate.interfaces";
-import { RewrapFormErrors, RewrapFormState } from "../../SarcophagusTomb/tomb.interfaces";
 
 interface FeesFormProps {
   addClasses?: string;
   values: RewrapFormState | SarcophagusCreateValues;
-  errors?: RewrapFormErrors | FormikErrors<SarcophagusCreateValues>;
+  errors?: FormikErrors<RewrapFormState> | FormikErrors<SarcophagusCreateValues>;
   isDescriptionShown: boolean;
   handleChange: React.ChangeEventHandler<HTMLInputElement>;
 }

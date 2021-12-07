@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { Sarcophagus } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
-import { TimerStatus } from "../tomb.enums";
-import { UseResurrectionTimerState } from "../tomb.interfaces";
+import { TimerStatus, UseResurrectionTimerState } from "../../../types/sarcophagusTomb";
 import { getTimeRemaining } from "../tomb.utils";
 
 const useResurrectionTimer = (sarcophagus: Sarcophagus): UseResurrectionTimerState => {

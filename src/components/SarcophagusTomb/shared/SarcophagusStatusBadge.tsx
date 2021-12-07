@@ -2,7 +2,7 @@ import Tippy from "@tippyjs/react";
 import errorIcon from "../../../assets/images/error.svg";
 import classnames from "classnames";
 import { Wrapper } from "../../../assets/styles/wrappers.enum";
-import { SarcophagusStatus } from "../tomb.enums";
+import { SarcophagusStatus } from "../../../types/sarcophagusTomb";
 
 enum BadgeColor {
   Red = "bg-red",

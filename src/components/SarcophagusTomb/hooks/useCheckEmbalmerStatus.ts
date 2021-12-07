@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useSarcophagiStore } from "../../../stores/Sarcophagi";
-import { SarcophagusStatus } from "../tomb.enums";
 import { isTimePast } from "../tomb.utils";
 import { Sarcophagus, SarcophagusStore } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
-import useArchaeologistService, { ServiceStatus } from "./useArchaeologistService";
+import useArchaeologistService from "./useArchaeologistService";
+import { SarcophagusStatus, ServiceStatus } from "../../../types/sarcophagusTomb";
 
 const PRIVATE_KEY_DEFAULT = "0x0000000000000000000000000000000000000000000000000000000000000000";
 

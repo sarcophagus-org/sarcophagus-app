@@ -1,47 +1,47 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { FormikErrors, FormikTouched } from "formik";
-import { Archaeologist } from "../../stores/Archaeologist/archaeologist.interfaces";
+import { Archaeologist } from "../stores/Archaeologist/archaeologist.interfaces";
 
-export enum ResurrectionTimeInterval {
-  Week,
+export enum ResurrectionTimes {
+  Custom,
   Month,
   ThreeMonths,
-  Custom
+  Week,
 }
 
 export interface SarcophagusCreateValues {
-  recipientPublicKey: string;
-  name: string;
-  resurrectionTime: number | string;
-  bounty: number;
-  diggingFee: number;
-  fileUploaded: boolean;
   address: string;
-  daysDisplayed: number;
+  bounty: number;
   custom: boolean;
   customTime: string;
-  timeSelect: ResurrectionTimeInterval | null;
+  daysDisplayed: number;
+  diggingFee: number;
+  fileUploaded: boolean;
+  name: string;
+  recipientPublicKey: string;
+  resurrectionTime: number | string;
+  timeSelect: ResurrectionTimes | null;
 }
 
 export interface SettingsProps {
-  values: SarcophagusCreateValues;
   errors: FormikErrors<SarcophagusCreateValues>;
   touched: FormikTouched<SarcophagusCreateValues>;
+  values: SarcophagusCreateValues;
+  handleBlur: (e: React.FocusEvent<any>) => void;
   handleChange: React.ChangeEventHandler<HTMLInputElement>;
   handleKey: (publicKey: string) => void;
-  handleBlur: (e: React.FocusEvent<any>) => void;
   toggle?: () => void;
 }
 
 export interface UploadSarcophagusFileProps {
-  values: SarcophagusCreateValues;
   errors: FormikErrors<SarcophagusCreateValues>;
-  touched: FormikTouched<SarcophagusCreateValues>;
   file: File | null;
-  toggle?: () => void;
-  handleFile: (file: File) => void;
+  touched: FormikTouched<SarcophagusCreateValues>;
+  values: SarcophagusCreateValues;
   handleBlur: (e: React.FocusEvent<any>) => void;
+  handleFile: (file: File) => void;
   setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
+  toggle?: () => void;
 }
 
 export interface SelectResurrectionProps {
@@ -54,12 +54,12 @@ export interface SelectResurrectionProps {
 }
 
 export interface SelectArchaeologistProps {
-  touched: FormikTouched<SarcophagusCreateValues>;
-  file: File | null;
-  values: SarcophagusCreateValues;
-  errors: FormikErrors<SarcophagusCreateValues>;
-  handleChange: React.ChangeEventHandler<HTMLInputElement>;
-  handleSelected: (selectedArchaeologist: Archaeologist, storageFee: number | string | BigNumber) => void
   archSelected: string;
+  errors: FormikErrors<SarcophagusCreateValues>;
+  file: File | null;
+  touched: FormikTouched<SarcophagusCreateValues>;
+  values: SarcophagusCreateValues;
+  handleChange: React.ChangeEventHandler<HTMLInputElement>;
+  handleSelected: (selectedArchaeologist: Archaeologist, storageFee: number | string | BigNumber) => void;
   setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
 }

@@ -1,16 +1,8 @@
 import { ethers } from "ethers";
 import { useCallback, useEffect, useState } from "react";
 import { Sarcophagus } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
-import { SarcophagusStatus } from "../tomb.enums";
-import { CreatedSarcophagusData, ResponseFromArch } from "../tomb.interfaces";
+import { CreatedSarcophagusData, ResponseFromArch, SarcophagusStatus, ServiceStatus } from "../../../types/sarcophagusTomb";
 import { arweaveFileValid, initArweave } from "../tomb.utils";
-
-export enum ServiceStatus {
-  Sending = "File Sending",
-  Failed = "There was a error sending file",
-  Mining = "File is Mining",
-  Success = "File has been mined",
-}
 
 const MINING_RETRIES = 5;
 const VALIDATION_RETRIES = 50;
