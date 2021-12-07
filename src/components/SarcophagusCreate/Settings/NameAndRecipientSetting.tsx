@@ -3,7 +3,7 @@ import arrowDown from "../../../assets/images/arrowDown.svg";
 import icon from "../../../assets/images/name.svg";
 import SectionContainer from "../shared/SectionContainer";
 import ErrorText from "../../layout/ErrorText";
-import { SettingsProps } from "../sarcophagusCreate.interfaces";
+import { SettingsProps } from "../../../types/sarcophagusCreate";
 
 const NameAndRecipientSettings = ({
   values,

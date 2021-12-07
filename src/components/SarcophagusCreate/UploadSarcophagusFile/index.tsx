@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import upload from "../../../assets/images/upload.svg";
 import arrowRight from "../../../assets/images/arrowRight.svg";
 import SarcophagusFileUpload from "./SarcophagusFileUpload";
-import { UploadSarcophagusFileProps } from "../sarcophagusCreate.interfaces";
 import SectionContainer from "../shared/SectionContainer";
 import useCollapse from "../hooks/useCollapsed";
+import { UploadSarcophagusFileProps } from "../../../types/sarcophagusCreate";
 
 const UploadSarcophagusFile = ({ values, errors, ...rest }: UploadSarcophagusFileProps) => {
   const { collapsed, toggle, open } = useCollapse();

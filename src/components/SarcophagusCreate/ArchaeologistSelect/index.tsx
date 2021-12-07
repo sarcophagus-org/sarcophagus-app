@@ -1,13 +1,13 @@
 import ErrorText from "../../layout/ErrorText";
 import Tooltip from "../../layout/Tooltip";
 import { useArchaeologistsStore } from "../../../stores/Archaeologist";
-import { SelectArchaeologistProps } from "../sarcophagusCreate.interfaces";
 import { Archaeologist, ArchaeologistsStore } from "../../../stores/Archaeologist/archaeologist.interfaces";
 import { archaeologistsTableHeaders } from "../sarcophagusCreate.utils";
 import ArchaeolgistTableRow from "./ArchaeologistTableRow";
 
 import PageSelect from "../../shared/PageSelect";
 import usePagination from "../hooks/usePagination";
+import { SelectArchaeologistProps } from "../../../types/sarcophagusCreate";
 const ARCHAEOLOGIST_PER_PAGE = 5
 
 interface ArchaeologistTableHeaderCellProps {

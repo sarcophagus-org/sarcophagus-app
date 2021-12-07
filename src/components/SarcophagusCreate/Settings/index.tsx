@@ -1,9 +1,9 @@
 import icon from "../../../assets/images/name.svg";
 import arrowRight from "../../../assets/images/arrowRight.svg";
 import SectionContainer from "../shared/SectionContainer";
-import { SettingsProps } from "../sarcophagusCreate.interfaces";
 import NameAndRecipientSettings from "./NameAndRecipientSetting";
 import useCollapse from "../hooks/useCollapsed";
+import { SettingsProps } from "../../../types/sarcophagusCreate";
 
 
 const Settings = (props: SettingsProps) => {

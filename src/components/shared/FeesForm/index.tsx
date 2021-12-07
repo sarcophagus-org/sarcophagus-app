@@ -1,9 +1,9 @@
 import classnames from "classnames";
 import { FormikErrors } from "formik";
 import { Wrapper } from "../../../assets/styles/wrappers.enum";
+import { SarcophagusCreateValues } from "../../../types/sarcophagusCreate";
 import ErrorText from "../../layout/ErrorText";
 import Tooltip from "../../layout/Tooltip";
-import { SarcophagusCreateValues } from "../../SarcophagusCreate/sarcophagusCreate.interfaces";
 import { RewrapFormErrors, RewrapFormState } from "../../SarcophagusTomb/tomb.interfaces";
 
 interface FeesFormProps {

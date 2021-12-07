@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ethers, BigNumber } from "ethers";
-import { Formik } from "formik";
+import { Formik, FormikErrors } from "formik";
 import * as Yup from "yup";
 import FeesForm from "../../../shared/FeesForm";
 import useApproval from "../../../../stores/BlockChain/useApproval";
@@ -10,7 +10,7 @@ import ErrorText from "../../../layout/ErrorText";
 import { useSarcophagiStore } from "../../../../stores/Sarcophagi";
 import { SarcophagusStatus } from "../../tomb.enums";
 import { Heading } from "../../../../assets/styles/headings.enum";
-import { RewrapFormErrors, RewrapFormState } from "../../tomb.interfaces";
+import { RewrapFormState } from "../../tomb.interfaces";
 import { Sarcophagus, SarcophagusStore } from "../../../../stores/Sarcophagi/sarcophagi.interfaces";
 import {
   Archaeologist,
@@ -18,8 +18,8 @@ import {
 } from "../../../../stores/Archaeologist/archaeologist.interfaces";
 import Button from "../../../layout/Button";
 import ResurrectionTimeForm from "../../../shared/ResurrectionForm/ResurrectionTimeForm";
-import { ResurrectionTimeInterval } from "../../../SarcophagusCreate/sarcophagusCreate.interfaces";
 import { getDateInFuture, getDecimalNumber } from "../../../shared/components.utils";
+import { ResurrectionTimes } from "../../../../types/sarcophagusCreate";
 
 export interface RewrapProps {
   sarcophagus: Sarcophagus;
@@ -45,7 +45,7 @@ const Rewrap = ({ sarcophagus, toggleExpansion, setStatus }: RewrapProps) => {
     }
   }, [approved]);
 
-  const handleApproval = (errors: RewrapFormErrors) => {
+  const handleApproval = (errors: FormikErrors<RewrapFormState>) => {
     if (!!Object.keys(errors).length) return;
     approveTransaction();
   };
@@ -61,7 +61,7 @@ const Rewrap = ({ sarcophagus, toggleExpansion, setStatus }: RewrapProps) => {
 
     const successRefresh = () => {
       toggleExpansion();
-      setStatus(SarcophagusStatus.Active)
+      setStatus(SarcophagusStatus.Active);
       sarcophagiStore.loadSarcophagi();
     };
     sarcophagiStore.rewrapSarcophagus(
@@ -90,7 +90,7 @@ const Rewrap = ({ sarcophagus, toggleExpansion, setStatus }: RewrapProps) => {
     diggingFee: getDecimalNumber(archaeologist?.minimumDiggingFee || ethers.BigNumber.from(0), 18) || 0,
     custom: false,
     customTime: "",
-    timeSelect: ResurrectionTimeInterval.Week,
+    timeSelect: ResurrectionTimes.Week,
   };
 
   const validationSchema = Yup.object()

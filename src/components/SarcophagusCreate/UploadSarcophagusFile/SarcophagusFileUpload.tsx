@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import arrowDown from "../../../assets/images/arrowDown.svg";
-import { UploadSarcophagusFileProps } from "../sarcophagusCreate.interfaces";
 import upload from "../../../assets/images/upload.svg";
 import SectionContainer from "../shared/SectionContainer";
 import ErrorText from "../../layout/ErrorText";
 import FileDropzone from "./FileDropZone";
+import { UploadSarcophagusFileProps } from "../../../types/sarcophagusCreate";
 
 const SarcophagusFileUpload = ({
   handleFile,

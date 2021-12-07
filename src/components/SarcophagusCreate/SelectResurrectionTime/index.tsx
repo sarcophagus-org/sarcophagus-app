@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import useCollapse from "../hooks/useCollapsed";
-import { SelectResurrectionProps } from "../sarcophagusCreate.interfaces";
 import SectionContainer from "../shared/SectionContainer";
 import clock from "../../../assets/images/clock.svg";
 import arrowRight from "../../../assets/images/arrowRight.svg";
 import arrowDown from "../../../assets/images/arrowDown.svg";
 import ResurrectionTimeForm from "../../shared/ResurrectionForm/ResurrectionTimeForm";
+import { SelectResurrectionProps } from "../../../types/sarcophagusCreate";
 
 const SelectResurrectionTime = ({ values, errors, ...rest }: SelectResurrectionProps) => {
   const { collapsed, toggle, open } = useCollapse();

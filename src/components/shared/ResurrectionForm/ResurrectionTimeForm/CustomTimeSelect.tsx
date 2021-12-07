@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker'
 import { convertToUTCTime } from '../../components.utils'
 import { RewrapFormState } from '../../../SarcophagusTomb/tomb.interfaces'
 import { utcToDateObject } from '../../../SarcophagusTomb/tomb.utils'
-import { SarcophagusCreateValues } from '../../../SarcophagusCreate/sarcophagusCreate.interfaces'
+import { SarcophagusCreateValues } from '../../../../types/sarcophagusCreate'
 
 interface CustomTimeSelectProps {
   values: RewrapFormState | SarcophagusCreateValues;
