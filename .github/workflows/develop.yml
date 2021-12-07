@@ -20,12 +20,13 @@ jobs:
           npm install
           npm run build
         env:
+          REACT_APP_WALLET_CONNECT_INFURA_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_INFURA_ID }}
+          REACT_APP_SUPPORTED_CHAIN_IDS: ${{ secrets.REACT_APP_SUPPORTED_CHAIN_IDS }}
+          REACT_APP_CONTRACT_ADDRESSES: ${{ secrets.REACT_APP_CONTRACT_ADDRESSES }}
+          REACT_APP_FALLBACK_CHAIN_ID: ${{ secrets.RINKEBY_REACT_APP_FALLBACK_CHAIN_ID }}
           REACT_APP_ALCHEMY_API_KEY: ${{ secrets.RINKEBY_REACT_APP_ALCHEMY_API_KEY }}
-          REACT_APP_CHAINID: ${{ secrets.RINKEBY_REACT_APP_CHAINID }}
           REACT_APP_ETHERSCAN_API_KEY: ${{ secrets.RINKEBY_REACT_APP_ETHERSCAN_API_KEY }}
           REACT_APP_INFURA_API_KEY: ${{ secrets.RINKEBY_REACT_APP_INFURA_API_KEY }}
-          REACT_APP_SARCO_CONTRACT_ADDRESS: ${{ secrets.RINKEBY_REACT_APP_SARCO_CONTRACT_ADDRESS }}
-
       - name: Install SSH Client 🔑
         uses: webfactory/ssh-agent@v0.4.1
         with:
