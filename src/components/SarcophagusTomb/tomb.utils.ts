@@ -1,7 +1,7 @@
-import { SarcophagusStatus } from "./tomb.enums";
 import Arweave from "arweave";
 import { makeNumeral, truncate } from "../shared/components.utils";
 import { BigNumber } from "@ethersproject/bignumber";
+import { SarcophagusStatus } from "../../types/sarcophagusTomb";
 
 export const initArweave = () => {
   return Arweave.init({

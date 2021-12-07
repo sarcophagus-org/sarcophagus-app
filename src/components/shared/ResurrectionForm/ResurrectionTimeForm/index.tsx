@@ -1,4 +1,3 @@
-import { RewrapFormState } from "../../../SarcophagusTomb/tomb.interfaces";
 import Tooltip from "../../../layout/Tooltip";
 import { InputHTMLAttributes } from "react";
 import { dateTimeString } from "../../../SarcophagusTomb/tomb.utils";
@@ -6,6 +5,7 @@ import CustomTimeSelect from "./CustomTimeSelect";
 import { getDateInFuture } from '../../components.utils'
 import { FormikErrors } from "formik";
 import { ResurrectionTimes, SarcophagusCreateValues } from "../../../../types/sarcophagusCreate";
+import { RewrapFormState } from "../../../../types/sarcophagusTomb";
 
 interface ResurrectionTimeFormProps {
   handleChange: React.ChangeEventHandler<HTMLInputElement>;

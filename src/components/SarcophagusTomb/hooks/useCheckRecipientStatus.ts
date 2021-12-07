@@ -1,7 +1,7 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { useEffect, useState } from "react";
 import { Sarcophagus } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
-import { SarcophagusStatus } from "../tomb.enums";
+import { SarcophagusStatus } from "../../../types/sarcophagusTomb";
 
 const checkRecipientStatus = (
   resurrectionTime: BigNumber,

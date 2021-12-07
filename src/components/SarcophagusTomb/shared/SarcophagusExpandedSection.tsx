@@ -3,11 +3,11 @@ import { useSarcophagiStore } from "../../../stores/Sarcophagi";
 import { Sarcophagus, SarcophagusStore } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
 import Button from "../../layout/Button";
 import Tooltip from "../../layout/Tooltip";
-import { SarcophagusStatus } from "../tomb.enums";
 import ResurrectionForm from "../../shared/ResurrectionForm";
 import Rewrap from "./Rewrap";
 import { ArchaeologistsStore } from "../../../stores/Archaeologist/archaeologist.interfaces";
 import { useArchaeologistsStore } from "../../../stores/Archaeologist";
+import { SarcophagusStatus } from "../../../types/sarcophagusTomb";
 
 interface SarcophagusExpandedSectionProps {
   status: SarcophagusStatus;

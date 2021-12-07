@@ -3,12 +3,12 @@ import { useHistory } from "react-router-dom";
 import { ClientRoutes } from "../../../config/clientRoutes";
 import { useSarcophagiStore } from "../../../stores/Sarcophagi";
 import { Sarcophagus, SarcophagusStore } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
+import { SarcophagusStatus } from "../../../types/sarcophagusTomb";
 import { useWeb3 } from "../../../web3";
 import { connect } from "../../../web3/providers";
 import Loader from "../../shared/Loader";
 import useCheckStatus from "../hooks/useCheckEmbalmerStatus";
 import SarcophagusContainer from "../shared/SarcophagusContainer";
-import { SarcophagusStatus } from "../tomb.enums";
 import { getExpansionText } from "../tomb.utils";
 
 const EmbalmerSarcophagus = ({ sarcophagus }: { sarcophagus: Sarcophagus }) => {

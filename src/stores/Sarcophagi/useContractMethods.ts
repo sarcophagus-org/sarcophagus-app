@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useTransaction } from "../BlockChain/useTransaction";
-import { SarcophagusStatus } from "../../components/SarcophagusTomb/tomb.enums";
 import { IBlockChainStore } from "../BlockChain/types/contract.interfaces";
-import { CreatedSarcophagusData } from "../../components/SarcophagusTomb/tomb.interfaces";
 import { useBlockChainStore } from "../BlockChain";
 import {
   AccuseSarcophagus,
@@ -14,6 +12,7 @@ import {
   RewrapSarcophagus,
   UpdateSarcophagus,
 } from "./sarcophagi.interfaces";
+import { CreatedSarcophagusData, SarcophagusStatus } from "../../types/sarcophagusTomb";
 
 const useContractMethods = () => {
   const { contractCall } = useTransaction();

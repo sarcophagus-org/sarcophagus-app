@@ -8,9 +8,7 @@ import { useArchaeologistsStore } from "../../../../stores/Archaeologist";
 import Tooltip from "../../../layout/Tooltip";
 import ErrorText from "../../../layout/ErrorText";
 import { useSarcophagiStore } from "../../../../stores/Sarcophagi";
-import { SarcophagusStatus } from "../../tomb.enums";
 import { Heading } from "../../../../assets/styles/headings.enum";
-import { RewrapFormState } from "../../tomb.interfaces";
 import { Sarcophagus, SarcophagusStore } from "../../../../stores/Sarcophagi/sarcophagi.interfaces";
 import {
   Archaeologist,
@@ -20,8 +18,9 @@ import Button from "../../../layout/Button";
 import ResurrectionTimeForm from "../../../shared/ResurrectionForm/ResurrectionTimeForm";
 import { getDateInFuture, getDecimalNumber } from "../../../shared/components.utils";
 import { ResurrectionTimes } from "../../../../types/sarcophagusCreate";
+import { RewrapFormState, SarcophagusStatus } from "../../../../types/sarcophagusTomb";
 
-export interface RewrapProps {
+interface RewrapProps {
   sarcophagus: Sarcophagus;
   toggleExpansion: () => void;
   setStatus: (status: SarcophagusStatus) => void;

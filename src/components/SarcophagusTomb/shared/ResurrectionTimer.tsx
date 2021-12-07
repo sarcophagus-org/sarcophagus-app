@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Sarcophagus } from "../../../stores/Sarcophagi/sarcophagi.interfaces";
+import { SarcophagusStatus, TimerStatus } from "../../../types/sarcophagusTomb";
 import { useResurrectionTimer } from "../hooks/useResurrectionTimers";
-import { SarcophagusStatus, TimerStatus } from "../tomb.enums";
 
 const getTextColor = (timerStatus: TimerStatus) => {
   switch (timerStatus) {
