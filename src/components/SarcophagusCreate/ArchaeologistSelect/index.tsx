@@ -8,7 +8,7 @@ import ArchaeolgistTableRow from "./ArchaeologistTableRow";
 import PageSelect from "../../shared/PageSelect";
 import usePagination from "../hooks/usePagination";
 import { SelectArchaeologistProps } from "../../../types/sarcophagusCreate";
-const ARCHAEOLOGIST_PER_PAGE = 5
+const ARCHAEOLOGIST_PER_PAGE = 5;
 
 interface ArchaeologistTableHeaderCellProps {
   title: string;
@@ -32,18 +32,29 @@ const ArchaeologistSelect = ({ errors, touched, ...rest }: SelectArchaeologistPr
   const archaeologistsFilteredByPage = (_: Archaeologist, i: number) =>
     i >= pagination.page * pagination.perPage && i <= (pagination.page + 1) * pagination.perPage - 1;
 
+  const archaeologistsSortByFees = (x: Archaeologist, y: Archaeologist) => {
+    const totalFeesX = x.minimumDiggingFee.add(y.minimumBounty);
+    const totalFeesY = y.minimumDiggingFee.add(y.minimumBounty);
+    const isXGreeter = totalFeesX.gte(totalFeesY)
+    const isYGreeter = totalFeesY.gte(totalFeesX)
+    return isYGreeter ? -1 : isXGreeter ? 1 : 0;
+  };
+  
   return (
     <div>
       <div className="hide-scrollbar overflow-x-scroll w-full whitespace-nowrap">
         <ErrorText isVisible={!!errors.address && !!touched.address} text={errors.address} />
         <div className="flex arch-table-row">
-          {archaeologistsTableHeaders(archaeologistsStore.archaeologistsWithStats).map((props: ArchaeologistTableHeaderCellProps) => (
-            <ArchaeologistTableHeaderCell key={props.title} {...props} />
-          ))}
+          {archaeologistsTableHeaders(archaeologistsStore.archaeologistsWithStats).map(
+            (props: ArchaeologistTableHeaderCellProps) => (
+              <ArchaeologistTableHeaderCell key={props.title} {...props} />
+            )
+          )}
         </div>
         <div className="flex flex-col">
           {archaeologistsStore.archaeologistsWithStats
             .filter(archaeologistsFilteredByPage)
+            .sort(archaeologistsSortByFees)
             .map((archaeologist: Archaeologist, index: number) => (
               <ArchaeolgistTableRow
                 key={archaeologist.address + index.toString()}
@@ -53,7 +64,9 @@ const ArchaeologistSelect = ({ errors, touched, ...rest }: SelectArchaeologistPr
                 {...rest}
               />
             ))}
-          {archaeologistsStore.archaeologistsWithStats.length >= ARCHAEOLOGIST_PER_PAGE && <PageSelect {...pagination} />}
+          {archaeologistsStore.archaeologistsWithStats.length >= ARCHAEOLOGIST_PER_PAGE && (
+            <PageSelect {...pagination} />
+          )}
         </div>
       </div>
     </div>

@@ -36,14 +36,9 @@ const ArchaeolgistTableRow = ({
   const isSelected = values.address === archaeologist.address;
   // calculates total fees
   const archTotal = archTotalFees(archaeologist, file).toString();
-  // checks bounty and digging fee values are higher than inputed values
-  const isBountyLess = archaeologist.minimumBounty.lte(ethers.utils.parseEther(values.bounty.toString()));
-  const isDiggingFeeLess = archaeologist.minimumDiggingFee.lte(
-    ethers.utils.parseEther(values.diggingFee.toString())
-  );
   const isArchaeologistMaxResValid = isMaxResurrectionTimeValid(archaeologist.maximumResurrectionTime.toNumber(), Number(values.resurrectionTime))
 
-  const isDisabled = !isBountyLess || !isDiggingFeeLess || !isArchaeologistMaxResValid;
+  const isDisabled = !isArchaeologistMaxResValid;
   // checks freebond is greater
   const isFreeBondGreater = archaeologist.freeBond.gte(ethers.utils.parseEther(archTotal));
   
@@ -122,6 +117,7 @@ const ArchaeolgistTableRow = ({
         file={file}
         isSelected={isSelected}
         open={!collapsed}
+        isArchaeologistMaxResValid={isArchaeologistMaxResValid}
       />
     </div>
   );
