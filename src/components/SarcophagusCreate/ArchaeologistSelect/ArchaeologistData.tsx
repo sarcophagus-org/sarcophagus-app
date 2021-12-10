@@ -77,7 +77,7 @@ const ArchaeologistData = ({ archaeologist, file, isSelected, open, isArchaeolog
             <Property label="Max Resurrection Time:" />
             <Value
               selected={isSelected}
-              value={isArchaeologistMaxResValid ? getDatefromBigNumber(archaeologist?.maximumResurrectionTime) : 'max time exceeded'}
+              value={isArchaeologistMaxResValid ? getDatefromBigNumber(archaeologist?.maximumResurrectionTime) : 'Max Resurrection time has past'}
             />
           </div>
         </div>
