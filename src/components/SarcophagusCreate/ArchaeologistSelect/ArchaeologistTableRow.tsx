@@ -44,7 +44,7 @@ const ArchaeolgistTableRow = ({
   const isArchaeologistMaxResValid = isMaxResurrectionTimeValid(archaeologist.maximumResurrectionTime.toNumber(), Number(values.resurrectionTime))
 
   const isDisabled = !isBountyLess || !isDiggingFeeLess || !isArchaeologistMaxResValid;
-  // checks freebond is greater
+  // delete?
   const isFreeBondGreater = archaeologist.freeBond.gte(ethers.utils.parseEther(archTotal));
   
   const selectArchaeologist = () => {
@@ -61,6 +61,7 @@ const ArchaeolgistTableRow = ({
     handleSelected(archaeologist, archTotal);
   };
 
+  //TODO: delete?
   if (!archaeologist?.isOnline || !isFreeBondGreater) {
     return null;
   }
