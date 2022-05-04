@@ -11,7 +11,7 @@ const createDataRoot = () => {
   context.displayName = "Data Provider";
   const Provider = context.Provider;
 
-  return ({ children }: { children: JSX.Element }) => {
+  return ({ children }: { children: JSX.Element[] | JSX.Element }) => {
     const sarcophagusContract = useSarcophagusContract()
     const sarcophagusTokenContract = useSarcophagusTokenContract(sarcophagusContract)
 

@@ -12,7 +12,7 @@ const createDataRoot = () => {
   context.displayName = "Data Provider";
   const Provider = context.Provider;
 
-  return ({ children }: { children: JSX.Element[] }) => {
+  return ({ children }: { children: JSX.Element[] | JSX.Element }) => {
     const { sarcophagusContract } = useBlockChainStore();
     const {archaeologists, loadArchaeologists} = useArcheologists(sarcophagusContract)
     // filters archaeologists
@@ -33,8 +33,8 @@ const createDataRoot = () => {
 
 const ArchaeologistsProvider = createDataRoot();
 
-const useArchaeologistsStore = () => {
-  return useContext(context);
+const useArchaeologistsStore = (ctxt?: any) => {
+  return useContext(ctxt || context);
 };
 
-export { ArchaeologistsProvider, useArchaeologistsStore };
+export { ArchaeologistsProvider, useArchaeologistsStore, context };
