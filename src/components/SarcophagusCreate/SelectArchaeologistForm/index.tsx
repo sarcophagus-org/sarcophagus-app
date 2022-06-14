@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import pickaxe from "../../../assets/images/pickaxe.svg";
 import arrowRight from "../../../assets/images/arrowRight.svg";
+import arrowDown from "../../../assets/images/arrowDown.svg";
 import SectionContainer from "../shared/SectionContainer";
 import FeesForm from "../../shared/FeesForm";
 import ArchaeologistSelect from "../ArchaeologistSelect";
@@ -26,7 +27,7 @@ const ArchaeologistSelectForm = ({ values, errors, ...rest }: SelectArchaeologis
             <img src={pickaxe} alt="" className="mr-4" />
             <span className="text-md font-bold">Pick an Archaeologist</span>
           </div>
-          <img className="" alt="" src={arrowRight} onClick={toggle} />
+          <img className="" alt="" src={arrowDown} onClick={toggle} />
         </div>
         <FeesForm values={values} errors={errors} isDescriptionShown={true} {...rest} />
         <ArchaeologistSelect values={values} errors={errors} {...rest} />
