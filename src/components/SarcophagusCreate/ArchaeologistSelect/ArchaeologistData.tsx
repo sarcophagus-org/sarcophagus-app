@@ -15,15 +15,33 @@ interface ArchaeologistDataProps {
   file: File | null;
   isSelected: boolean;
   open: boolean;
+  isArchaeologistMaxResValid: boolean;
 }
+
+const MAX_RESURRECTION_PAST_TEXT = "Max Resurrection time has past";
 
 const Property = ({ label }: { label: string }) => <span className="text-gray-400 mr-2">{label}</span>;
 
 const Value = ({ value, selected }: { value: string; selected: boolean }) => (
-  <span className={!selected ? classnames("text-white") : classnames("text-black")}> {value}</span>
+  <span
+    className={
+      !selected
+        ? classnames("text-white", { "text-red": value === MAX_RESURRECTION_PAST_TEXT })
+        : classnames("text-black")
+    }
+  >
+    {" "}
+    {value}
+  </span>
 );
 
-const ArchaeologistData = ({ archaeologist, file, isSelected, open }: ArchaeologistDataProps) => {
+const ArchaeologistData = ({
+  archaeologist,
+  file,
+  isSelected,
+  open,
+  isArchaeologistMaxResValid,
+}: ArchaeologistDataProps) => {
   if (!open) return null;
   return (
     <div className="border-t border-gray-500 py-4 px-8 w-full">
@@ -76,7 +94,11 @@ const ArchaeologistData = ({ archaeologist, file, isSelected, open }: Archaeolog
             <Property label="Max Resurrection Time:" />
             <Value
               selected={isSelected}
-              value={getDatefromBigNumber(archaeologist?.maximumResurrectionTime)}
+              value={
+                isArchaeologistMaxResValid
+                  ? getDatefromBigNumber(archaeologist?.maximumResurrectionTime)
+                  : MAX_RESURRECTION_PAST_TEXT
+              }
             />
           </div>
         </div>
