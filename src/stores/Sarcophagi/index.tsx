@@ -12,7 +12,7 @@ const createDataRoot = () => {
   context.displayName = "Data Provider";
   const Provider = context.Provider;
 
-  return ({ children }: { children: JSX.Element }) => {
+  return ({ children }: { children: JSX.Element[] | JSX.Element }) => {
     const { allEmbalmerSarcophagi, isEmbalmerSarcophagiLoaded, loadEmbalmerSarcophagi } = useEmbalmer();
     const { allRecipientSarcophagi, isRecipientSarcophagiLoaded, loadRecipientSarcophagi } = useRecipient();
     const contractMethods = useContractMethods();

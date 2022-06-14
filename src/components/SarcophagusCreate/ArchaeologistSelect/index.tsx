@@ -8,6 +8,8 @@ import ArchaeolgistTableRow from "./ArchaeologistTableRow";
 import PageSelect from "../../shared/PageSelect";
 import usePagination from "../hooks/usePagination";
 import { SelectArchaeologistProps } from "../../../types/sarcophagusCreate";
+import { archTotalFees } from "../../shared/components.utils";
+import { ethers } from "ethers";
 const ARCHAEOLOGIST_PER_PAGE = 5
 
 interface ArchaeologistTableHeaderCellProps {
@@ -31,18 +33,25 @@ const ArchaeologistSelect = ({ errors, touched, ...rest }: SelectArchaeologistPr
 
   const archaeologistsFilteredByPage = (_: Archaeologist, i: number) =>
     i >= pagination.page * pagination.perPage && i <= (pagination.page + 1) * pagination.perPage - 1;
-
+  
+  const archaeologistsFilteredByisVisible = (_: Archaeologist, i: number) => {
+    const archTotal = archTotalFees(_, rest.file).toString();
+    const isOffline = !_.isOnline
+    const isFreeBondGreater = _.freeBond.gte(ethers.utils.parseEther(archTotal));
+    return isFreeBondGreater && !isOffline
+  }
   return (
     <div>
       <div className="hide-scrollbar overflow-x-scroll w-full whitespace-nowrap">
         <ErrorText isVisible={!!errors.address && !!touched.address} text={errors.address} />
         <div className="flex arch-table-row">
-          {archaeologistsTableHeaders(archaeologistsStore.archaeologistsWithStats).map((props: ArchaeologistTableHeaderCellProps) => (
+          {archaeologistsTableHeaders(archaeologistsStore.archaeologistsWithStats.filter(archaeologistsFilteredByisVisible)).map((props: ArchaeologistTableHeaderCellProps) => (
             <ArchaeologistTableHeaderCell key={props.title} {...props} />
           ))}
         </div>
         <div className="flex flex-col">
           {archaeologistsStore.archaeologistsWithStats
+          .filter(archaeologistsFilteredByisVisible)
             .filter(archaeologistsFilteredByPage)
             .map((archaeologist: Archaeologist, index: number) => (
               <ArchaeolgistTableRow
